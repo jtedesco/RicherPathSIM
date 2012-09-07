@@ -8,3 +8,4 @@ Dependencies
 
 Requires Python 3.2 and the following dependencies:
   * networkx 1.7 or greater
+  * numpy (for matrix representations of graph)
