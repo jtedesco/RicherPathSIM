@@ -60,9 +60,11 @@ class CoMoToDataImporterThread(Thread):
         analysis = self.connection.getAnalysis(analysisId)
 
         # Get the MOSS matches for this assignment
-        sameSemesterMatches = self.connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['same_semester_matches']
+        sameSemesterMatches =\
+            self.connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['same_semester_matches']
         solutionMatches = self.connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['solution_matches']
-        crossSemesterMatches = self.connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['cross_semester_matches']
+        crossSemesterMatches =\
+            self.connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['cross_semester_matches']
         matches = {
             'sameSemesterMatches': sameSemesterMatches,
             'solutionMatches': solutionMatches,
