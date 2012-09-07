@@ -124,6 +124,7 @@ class CoMoToDataImporterThread(Thread):
             'submissions' : submissions
         }
 
+
     def __buildGraph(self, coMoToData):
 
         graph = networkx.DiGraph()
