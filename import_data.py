@@ -1,4 +1,3 @@
-from src.importers.ArnetMinerDataImporterThread import ArnetMinerDataImporterThread
 from src.importers.CoMoToDataImporterThread import CoMoToDataImporterThread
 
 __author__ = 'jon'
@@ -12,5 +11,4 @@ if __name__ == '__main__':
 
     comotoDataImporter = CoMoToDataImporterThread('graphs/dblp-arnet-v5', netid, password)
 
-    dblpDataImporter.start()
     comotoDataImporter.start()
