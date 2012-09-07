@@ -1,5 +1,6 @@
 import xmlrpc.client
 from threading import Thread
+import networkx
 
 __author__ = 'jon'
 
@@ -45,19 +46,19 @@ class CoMoToDataImporterThread(Thread):
         """
 
         # Attempt to login & create a connection to the CoMoTo API
-        self.connection = xmlrpc.client.Server(
+        connection = xmlrpc.client.Server(
             "https://%s:%s@comoto.cs.illinois.edu/comoto/api" % (self.userName, self.password)
         )
 
         # Get the list of courses, offerings, assignments,filesets, and additional class data available from the API
-        courses = self.connection.getCourses(True)
+        courses = connection.getCourses(True)
 
         # Find CS 225, the semesters/offerings, and get the assignments
         offerings = []
         assignments = []
         for course in courses:
             if course['name'] == 'CS 225':
-                assignments = self.connection.getAssignments(course['id'])
+                assignments = connection.getAssignments(course['id'])
                 offerings = course['offerings']
 
         fileSetIdsList = []
@@ -81,7 +82,7 @@ class CoMoToDataImporterThread(Thread):
         # Get the match & submission data for each analysis
         analysisData = {}
         for analysisId, fileSetIds in zip(analysisIds, fileSetIdsList):
-            analysisData[analysisId] = self.__getMatchesAndSubmissions((analysisId, fileSetIds))
+            analysisData[analysisId] = self.__getMatchesAndSubmissions(analysisId, fileSetIds, connection)
 
         return {
             'offerings': offerings, # Offerings of the class
@@ -90,22 +91,20 @@ class CoMoToDataImporterThread(Thread):
         }
 
 
-    def __getMatchesAndSubmissions(self, data):
+    def __getMatchesAndSubmissions(self, analysisId, fileSetIds, connection):
         """
           Get the code submissions and submission matches for a particular analysis
         """
 
-        analysisId, fileSetIds = data
-
         # Get the analysis & assignment data for this id
-        analysis = self.connection.getAnalysis(analysisId)
+        analysis = connection.getAnalysis(analysisId)
 
         # Get the MOSS matches for this assignment
         sameSemesterMatches =\
-        self.connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['same_semester_matches']
-        solutionMatches = self.connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['solution_matches']
+            connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['same_semester_matches']
+        solutionMatches = connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['solution_matches']
         crossSemesterMatches =\
-        self.connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['cross_semester_matches']
+            connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['cross_semester_matches']
         matches = {
             'sameSemesterMatches': sameSemesterMatches,
             'solutionMatches': solutionMatches,
@@ -113,7 +112,7 @@ class CoMoToDataImporterThread(Thread):
         }
 
         # Get the submissions for this semester
-        fileSets = self.connection.getFileSets(fileSetIds, True)
+        fileSets = connection.getFileSets(fileSetIds, True)
         submissions = {}
         for fileSet in fileSets:
             for submission in fileSet['submissions']:
@@ -126,4 +125,6 @@ class CoMoToDataImporterThread(Thread):
         }
 
     def __buildGraph(self, coMoToData):
-        return coMoToData
+
+        graph = networkx.DiGraph()
+        return graph
