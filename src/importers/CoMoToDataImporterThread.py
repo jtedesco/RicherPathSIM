@@ -1,5 +1,4 @@
 import xmlrpc.client
-import networkx as nx
 from threading import Thread
 
 __author__ = 'jon'
@@ -127,4 +126,4 @@ class CoMoToDataImporterThread(Thread):
         }
 
     def __buildGraph(self, coMoToData):
-        return None
+        return coMoToData
