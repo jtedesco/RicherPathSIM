@@ -15,7 +15,7 @@ class Student(Node):
         """
         super(Student, self).__init__(studentId)
 
-        self.attributes['displayName'] = displayName
-        self.attributes['netId'] = netId
-        self.attributes['retake'] = retake
+        self.displayName = displayName
+        self.netId = netId
+        self.retake = retake
 

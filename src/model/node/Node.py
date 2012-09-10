@@ -13,6 +13,10 @@ class Node(object):
         """
 
         # A map of attributes to expose
-        self.attributes = {
-            'id': id
-        }
+        self.id = id
+        
+    def attributes(self):
+        """
+          Returns a dictionary containing all data for this object
+        """
+        return dict((name, getattr(self, name)) for name in dir(self) if not name.startswith('__'))

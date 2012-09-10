@@ -10,6 +10,6 @@ class Submission(Node):
     def __init__(self, submissionId, isSolution = False):
         super(Submission, self).__init__(submissionId)
 
-        self.attributes['isSolution'] = isSolution
+        self.isSolution = isSolution
 
 

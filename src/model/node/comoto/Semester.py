@@ -10,6 +10,6 @@ class Semester(Node):
     def __init__(self, semesterId, season, year):
         super(Semester, self).__init__(semesterId)
 
-        self.attributes['season'] = season
-        self.attributes['year'] = year
+        self.season = season
+        self.year = year
 
