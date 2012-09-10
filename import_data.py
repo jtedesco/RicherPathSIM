@@ -1,4 +1,4 @@
-from src.importers.CoMoToDataImporterThread import CoMoToDataImporterThread
+from src.importers.CoMoToDataImporter import CoMoToDataImporter
 
 __author__ = 'jon'
 
@@ -6,9 +6,9 @@ __author__ = 'jon'
 if __name__ == '__main__':
 
     # Get UIUC login info from user (for CoMoTo)
-    netid = input("Netid:")
-    password = input("Password:")
+    netid = raw_input("Netid:")
+    password = raw_input("Password:")
 
-    comotoDataImporter = CoMoToDataImporterThread('graphs/dblp-arnet-v5', netid, password)
+    comotoDataImporter = CoMoToDataImporter('graphs/dblp-arnet-v5', netid, password)
 
     comotoDataImporter.start()

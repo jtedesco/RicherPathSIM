@@ -1,10 +1,12 @@
-import xmlrpc.client
-from threading import Thread
+import pprint
+import xmlrpclib
 import networkx
+from threading import Thread
+
 
 __author__ = 'jon'
 
-class CoMoToDataImporterThread(Thread):
+class CoMoToDataImporter(Thread):
     """
       Imports CoMoTo CS 225 data into a python graph structure stored in NetworkX.
     """
@@ -22,7 +24,7 @@ class CoMoToDataImporterThread(Thread):
         self.userName = userName
         self.password = password
 
-        super(CoMoToDataImporterThread, self).__init__()
+        super(CoMoToDataImporter, self).__init__()
 
 
     def run(self):
@@ -36,17 +38,17 @@ class CoMoToDataImporterThread(Thread):
           </ol>
         """
 
-        coMoToData = self.__getCoMoToData()
-        graph = self.__buildGraph(coMoToData)
+        coMoToData = self.getCoMoToData()
+        graph = self.buildGraph(coMoToData)
 
 
-    def __getCoMoToData(self):
+    def getCoMoToData(self):
         """
           Gets all CoMoTo data necessary for building the graph
         """
 
         # Attempt to login & create a connection to the CoMoTo API
-        connection = xmlrpc.client.Server(
+        connection = xmlrpclib.Server(
             "https://%s:%s@comoto.cs.illinois.edu/comoto/api" % (self.userName, self.password)
         )
 
@@ -64,11 +66,10 @@ class CoMoToDataImporterThread(Thread):
         fileSetIdsList = []
         analysisIds = []
         for assignment in assignments:
-            if not len(analysisIds): # TODO: Remove this to collect more than one assignment
-                fileSetIdsList.append(assignment['fileset_ids'])
-                analysisId = assignment['analysis_id']
-                if analysisId > 0:
-                    analysisIds.append(analysisId)
+            fileSetIdsList.append(assignment['fileset_ids'])
+            analysisId = assignment['analysis_id']
+            if analysisId > 0:
+                analysisIds.append(analysisId)
 
         # Associate offerings with analyses (bypass fileset ids)
         fileSetAnalysisMap = {}
@@ -76,8 +77,9 @@ class CoMoToDataImporterThread(Thread):
             for fileSetId in fileSetIds:
                 fileSetAnalysisMap[fileSetId] = analysisId
         for offering in offerings:
-            aFileSetId = offering['fileset_ids'][0]
-            offering['analysis_id'] = fileSetAnalysisMap[aFileSetId]
+            if len(offering['fileset_ids']):
+                aFileSetId = offering['fileset_ids'][0]
+                offering['analysis_id'] = fileSetAnalysisMap[aFileSetId]
 
         # Get the match & submission data for each analysis
         analysisData = {}
@@ -87,7 +89,7 @@ class CoMoToDataImporterThread(Thread):
         return {
             'offerings': offerings, # Offerings of the class
             'assignments': assignments, # Assignments (in a particular semester, associated with individual analyses)
-            'analysisData': analysisData # Contains submissions & student data
+            'analysis_data': analysisData # Contains submissions & student data
         }
 
 
@@ -106,9 +108,9 @@ class CoMoToDataImporterThread(Thread):
         crossSemesterMatches =\
             connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['cross_semester_matches']
         matches = {
-            'sameSemesterMatches': sameSemesterMatches,
-            'solutionMatches': solutionMatches,
-            'crossSemesterMatches': crossSemesterMatches
+            'same_semester_matches': sameSemesterMatches,
+            'solution_matches': solutionMatches,
+            'cross_semester_matches': crossSemesterMatches
         }
 
         # Get the submissions for this semester
@@ -125,7 +127,7 @@ class CoMoToDataImporterThread(Thread):
         }
 
 
-    def __buildGraph(self, coMoToData):
+    def buildGraph(self, coMoToData):
 
         graph = networkx.DiGraph()
         return graph

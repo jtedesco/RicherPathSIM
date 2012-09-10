@@ -7,13 +7,13 @@ class Student(Node):
       Represents a particular student from CoMoTo (separate from a particular assignment or semester)
     """
 
-    def __init__(self, studentId, displayName, netId, retake):
+    def __init__(self, studentId, displayName, netId, retake = False):
         """
           Creates a new student
 
             @param  retake      Whether or not this student is retaking the class
         """
-        super().__init__(studentId)
+        super(Student, self).__init__(studentId)
 
         self.attributes['displayName'] = displayName
         self.attributes['netId'] = netId

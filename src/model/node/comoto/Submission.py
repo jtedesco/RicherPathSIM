@@ -7,8 +7,8 @@ class Submission(Node):
       Represents a particular student's submission for an assignment
     """
 
-    def __init__(self, submissionId, isSolution):
-        super().__init__(submissionId)
+    def __init__(self, submissionId, isSolution = False):
+        super(Submission, self).__init__(submissionId)
 
         self.attributes['isSolution'] = isSolution
 

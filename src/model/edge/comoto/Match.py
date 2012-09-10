@@ -8,6 +8,6 @@ class Match(Edge):
     """
 
     def __init__(self, matchId, percent):
-        super().__init__(matchId)
+        super(Match, self).__init__(matchId)
 
         self.attributes['percent'] = percent
