@@ -1,4 +1,3 @@
-import pprint
 import xmlrpclib
 import networkx
 from threading import Thread
@@ -93,6 +92,12 @@ class CoMoToDataImporter(Thread):
         }
 
 
+    def buildGraph(self, coMoToData):
+
+        graph = networkx.DiGraph()
+        return graph
+
+
     def __getMatchesAndSubmissions(self, analysisId, fileSetIds, connection):
         """
           Get the code submissions and submission matches for a particular analysis
@@ -103,10 +108,10 @@ class CoMoToDataImporter(Thread):
 
         # Get the MOSS matches for this assignment
         sameSemesterMatches =\
-            connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['same_semester_matches']
+        connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['same_semester_matches']
         solutionMatches = connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['solution_matches']
         crossSemesterMatches =\
-            connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['cross_semester_matches']
+        connection.getMossAnalysis(analysis['moss_analysis_id'], True, 0)['cross_semester_matches']
         matches = {
             'same_semester_matches': sameSemesterMatches,
             'solution_matches': solutionMatches,
@@ -125,9 +130,3 @@ class CoMoToDataImporter(Thread):
             'matches' : matches,
             'submissions' : submissions
         }
-
-
-    def buildGraph(self, coMoToData):
-
-        graph = networkx.DiGraph()
-        return graph
