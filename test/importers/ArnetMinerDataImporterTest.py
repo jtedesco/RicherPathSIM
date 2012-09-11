@@ -20,7 +20,7 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
 
         papersWithoutCitationsInput = """
             #*Some paper title
-            #@Author One
+            #@Author One,Author Two
             #year1995
             #confModern Database Systems
             #citation-1
@@ -41,7 +41,7 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
             0: {
                 'id': 0,
                 'arnetid': 1,
-                'author': 'Author One',
+                'authors': ['Author One', 'Author Two'],
                 'conference': 'Modern Database Systems',
                 'references': [],
                 'title': 'Some paper title',
@@ -50,7 +50,7 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
             1: {
                 'id': 1,
                 'arnetid': 2,
-                'author': 'Author Two',
+                'authors': ['Author Two'],
                 'conference': 'Modern Database Systems',
                 'references': [],
                 'title': 'Some other paper title',
@@ -99,7 +99,7 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
             0: {
                 'id': 0,
                 'arnetid': 1,
-                'author': 'Author One',
+                'authors': ['Author One'],
                 'conference': 'Modern Database Systems',
                 'references': [1],
                 'title': 'Some paper title',
@@ -108,7 +108,7 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
             1: {
                 'id': 1,
                 'arnetid': 2,
-                'author': 'Author Two',
+                'authors': ['Author Two'],
                 'conference': 'Modern Database Systems',
                 'references': [],
                 'title': 'Some other paper title',
@@ -117,7 +117,7 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
             2: {
                 'id': 2,
                 'arnetid': 3,
-                'author': 'Author Three',
+                'authors': ['Author Three'],
                 'conference': 'Data Mining',
                 'references': [0,1],
                 'title': 'Yet another paper title',
