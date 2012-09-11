@@ -181,3 +181,35 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
             self.fail("Should have failed to parse input with missing attributes")
         except ArnetParseError:
             pass
+
+
+    def testSeparatePapersAuthorsVenuesSharedTopicGraph(self):
+        pass
+
+
+    def testSeparatePapersAuthorsTopicSharedVenueGraph(self):
+        pass
+
+
+    def testSeparatePapersAuthorsSharedVenueTopicGraph(self):
+        pass
+
+
+    def testCoAuthorsGraph(self):
+        pass
+
+
+    def testCitationFromSameConferenceGraph(self):
+        pass
+
+
+    def testCitationFromDifferentConferenceGraph(self):
+        pass
+
+
+    def testMutualCitationGraph(self):
+        pass
+
+
+    def testSelfCitationGraph(self):
+        pass
