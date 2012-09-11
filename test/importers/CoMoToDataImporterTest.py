@@ -5,7 +5,7 @@ from src.importers.CoMoToDataImporter import CoMoToDataImporter
 from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
 from src.model.edge.comoto.Author import Author
 from src.model.edge.comoto.Enrollment import Enrollment
-from src.model.edge.comoto.Match import Match
+from src.model.edge.comoto.matches.SameSemesterMatch import SameSemesterMatch
 from src.model.edge.comoto.SemesterAssignment import SemesterAssignment
 from src.model.node.comoto.Assignment import Assignment
 from src.model.node.comoto.Semester import Semester
@@ -142,7 +142,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
         self.__addEdges(expectedGraph, student1, semester, Enrollment())
         self.__addEdges(expectedGraph, student2, semester, Enrollment())
         self.__addEdges(expectedGraph, student3, semester, Enrollment())
-        self.__addEdges(expectedGraph, submission1, submission3, Match(72, 5000))
+        self.__addEdges(expectedGraph, submission1, submission3, SameSemesterMatch(72, 5000))
         self.__addEdges(expectedGraph, semester, assignment, SemesterAssignment())
 
         actualGraph = self.dataImporter.buildGraph(analysisData)
