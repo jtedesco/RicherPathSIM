@@ -25,7 +25,7 @@ class ArnetMinerDataImporter(Thread):
 
     def parseInputContent(self, inputContent):
         """
-          Parses the input file contentinto basic data structures as an intermediate form before inserting into the graph.
+          Parses the input file content into basic data structures as an intermediate form before inserting into the graph.
         """
         pass
 
