@@ -1,4 +1,4 @@
-from src.importers.CoMoToDataImporter import CoMoToDataImporter
+from src.importer.CoMoToDataImporter import CoMoToDataImporter
 
 __author__ = 'jon'
 

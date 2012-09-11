@@ -1,6 +1,6 @@
 import unittest
 import networkx
-from src.importers.CoMoToDataImporter import CoMoToDataImporter
+from src.importer.CoMoToDataImporter import CoMoToDataImporter
 from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
 from src.model.edge.comoto.Author import Author
 from src.model.edge.comoto.Enrollment import Enrollment
