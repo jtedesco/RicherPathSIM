@@ -6,6 +6,6 @@ Repository for research on an improvement for PathSIM with heterogeneous graph m
 Dependencies
 =============
 
-Requires Python 3.2 and the following dependencies:
+Requires Python 2.7 and the following dependencies:
   * networkx 1.7 or greater
   * numpy 1.6.2 or greater (for matrix representations of graph)
