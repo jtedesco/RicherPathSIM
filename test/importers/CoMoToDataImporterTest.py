@@ -805,8 +805,6 @@ class CoMoToDataImporterTest(unittest.TestCase):
         expectedGraph.add_node(semester1)
         expectedGraph.add_node(semester2)
 
-        # Every type of edge should be symmetric, except for the cross-semester match (since current submissions can
-        # match past submissions, but not vice versa)
         addEdgesToGraph(expectedGraph, submission1, assignment1, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission2, assignment1, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission3, assignment1, AssignmentSubmission())
@@ -819,11 +817,15 @@ class CoMoToDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, student2, semester1, Enrollment())
         addEdgesToGraph(expectedGraph, student3, semester1, Enrollment())
         addEdgesToGraph(expectedGraph, student4, semester2, Enrollment())
-        expectedGraph.add_edge(expectedGraph, submission1, submission4, CrossSemesterMatch(72, 5000))
         addEdgesToGraph(expectedGraph, semester1, assignment1, SemesterAssignment())
         addEdgesToGraph(expectedGraph, semester2, assignment2, SemesterAssignment())
 
-        # Test
+        # Every type of edge should be symmetric, except for the cross-semester match (since current submissions can
+        # match past submissions, but not vice versa)
+        expectedGraph.add_edge(expectedGraph, submission1, submission4, CrossSemesterMatch(72, 5000))
+
+
+    # Test
         actualGraph = self.dataImporter.buildGraph(analysisData)
 
         # Verify
