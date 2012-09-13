@@ -822,7 +822,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
 
         # Every type of edge should be symmetric, except for the cross-semester match (since current submissions can
         # match past submissions, but not vice versa)
-        expectedGraph.add_edge(expectedGraph, submission1, submission4, CrossSemesterMatch(72, 5000))
+        expectedGraph.add_edge(submission1, submission4, CrossSemesterMatch(72, 5000).attributes())
 
 
     # Test
