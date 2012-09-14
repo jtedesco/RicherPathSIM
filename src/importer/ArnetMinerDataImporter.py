@@ -1,6 +1,16 @@
 from copy import deepcopy
 from threading import Thread
+import webbrowser
+import networkx
 from src.importer.error.ArnetParseError import ArnetParseError
+from src.model.edge.dblp.Authorship import Authorship
+from src.model.edge.dblp.Citation import Citation
+from src.model.edge.dblp.Mention import Mention
+from src.model.edge.dblp.Publication import Publication
+from src.model.node.dblp.Author import Author
+from src.model.node.dblp.Paper import Paper
+from src.model.node.dblp.Topic import Topic
+from src.model.node.dblp.Venue import Venue
 
 __author__ = 'jon'
 
@@ -74,8 +84,8 @@ class ArnetMinerDataImporter(Thread):
 
                 # Ignore other input lines
 
-            except KeyError, e:
-                raise ArnetParseError('Failed to parse data, missing paper attribute "%s"' % e.message)
+            except KeyError, error:
+                raise ArnetParseError('Failed to parse data, missing paper attribute "%s"' % error.message)
 
         # Check that all citations are valid
         if referencedPaperIds.difference(paperIds) != set():
@@ -90,4 +100,69 @@ class ArnetMinerDataImporter(Thread):
         """
           Form the DBLP graph structure from the parsed data
         """
-        pass
+
+        graph = networkx.DiGraph()
+
+        # First, build the nodes for the graph
+        authors = {} # Indexed by name
+        papers = {} # Indexed by paper id
+        topics = {} # Indexed by keyword
+        venues = {} # Indexed by name
+        citationMap = {} # Map of paper id to referenced paper ids
+
+        # Construct everything except reference edges
+        for paperId in parsedData:
+            paperData = parsedData[paperId]
+
+            paper = Paper(paperId, paperData['title'])
+            citationMap[paperId] = paperData['references']
+
+            conferenceName = paperData['conference']
+            if conferenceName not in venues:
+                conference = Venue(len(venues), conferenceName)
+                venues[conferenceName] = conference
+                graph.add_node(conference)
+            else:
+                conference = venues[conferenceName]
+
+            paperAuthors = []
+            for authorName in paperData['authors']:
+                if authorName not in authors:
+                    author = Author(len(authors), authorName)
+                    authors[authorName] = author
+                    graph.add_node(author)
+                else:
+                    author = authors[authorName]
+                paperAuthors.append(author)
+
+            # TODO: Use topic analysis on title to generate topics
+            topicName = paperData['title'].lower()
+            if topicName not in topics:
+                topic = Topic(len(topics), paperData['title'].lower().split())
+                topics[topicName] = topic
+                graph.add_node(topic)
+            else:
+                topic = topics[topicName]
+
+            # Add new paper to the graph
+            papers[paperId] = paper
+            graph.add_node(paper)
+
+            # Add corresponding edges in the graph
+            for author in paperAuthors:
+                graph.add_edge(paper, author, Authorship().toDict())
+                graph.add_edge(author, paper, Authorship().toDict())
+            graph.add_edge(topic, paper, Mention().toDict())
+            graph.add_edge(paper, topic, Mention().toDict())
+            graph.add_edge(paper, conference, Publication().toDict())
+            graph.add_edge(conference, paper, Publication().toDict())
+
+        # Add citations to the graph
+        for paperId in citationMap:
+            references = citationMap[paperId]
+            paper = papers[paperId]
+            for citedPaperId in references:
+                citedPaper = papers[citedPaperId]
+                graph.add_edge(paper, citedPaper, Citation().toDict())
+
+        return graph

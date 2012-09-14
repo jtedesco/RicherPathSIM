@@ -246,7 +246,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
-        self.assertEqual(actualGraph, expectedGraph)
+        self.assertGraphsEqual(actualGraph, expectedGraph)
 
 
     def testSeparatePapersAuthorsTopicSharedVenueGraph(self):
@@ -300,7 +300,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
-        self.assertEqual(actualGraph, expectedGraph)
+        self.assertGraphsEqual(actualGraph, expectedGraph)
 
 
     def testSeparatePapersAuthorsSharedVenueTopicGraph(self):
@@ -352,7 +352,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
-        self.assertEqual(actualGraph, expectedGraph)
+        self.assertGraphsEqual(actualGraph, expectedGraph)
 
 
     def testCoAuthorsGraph(self):
@@ -412,7 +412,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
-        self.assertEqual(actualGraph, expectedGraph)
+        self.assertGraphsEqual(actualGraph, expectedGraph)
 
 
     def testCitationFromSameConferenceGraph(self):
@@ -467,7 +467,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
-        self.assertEqual(actualGraph, expectedGraph)
+        self.assertGraphsEqual(actualGraph, expectedGraph)
 
 
     def testCitationFromDifferentConferenceGraph(self):
@@ -524,7 +524,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
-        self.assertEqual(actualGraph, expectedGraph)
+        self.assertGraphsEqual(actualGraph, expectedGraph)
 
 
     def testMutualCitationGraph(self):
@@ -581,7 +581,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
-        self.assertEqual(actualGraph, expectedGraph)
+        self.assertGraphsEqual(actualGraph, expectedGraph)
 
 
     def testSelfCitationGraph(self):
@@ -636,4 +636,4 @@ class ArnetMinerDataImporterTest(ImporterTest):
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
-        self.assertEqual(actualGraph, expectedGraph)
+        self.assertGraphsEqual(actualGraph, expectedGraph)
