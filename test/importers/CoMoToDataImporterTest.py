@@ -690,9 +690,9 @@ class CoMoToDataImporterTest(ImporterTest):
         student1 = Student(10001, 'Smith, John', 'johnsmith')
         student2 = Student(10002, 'Doe, Jane', 'janedoe')
         student3 = Student(10003, 'Smith, Joe', 'joesmith')
-        submission1 = Submission(5001)
+        submission1 = Submission(5001, {5003})
         submission2 = Submission(5002)
-        submission3 = Submission(5003)
+        submission3 = Submission(5003, {5001})
         assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 
@@ -742,7 +742,7 @@ class CoMoToDataImporterTest(ImporterTest):
         submission1 = Submission(5001)
         submission2 = Submission(5002)
         submission3 = Submission(5003)
-        solutionSubmission = Submission(5004, True)
+        solutionSubmission = Submission(5004, None, True)
         assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 

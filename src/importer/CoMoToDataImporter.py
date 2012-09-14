@@ -9,6 +9,7 @@ from src.model.edge.comoto.SemesterAssignment import SemesterAssignment
 from src.model.edge.comoto.matches.SameSemesterMatch import SameSemesterMatch
 from src.model.edge.comoto.matches.CrossSemesterMatch import CrossSemesterMatch
 from src.model.edge.comoto.matches.SolutionMatch import SolutionMatch
+from src.model.edge.comoto.matches.PartnerMatch import PartnerMatch
 from src.model.node.comoto.Assignment import Assignment
 from src.model.node.comoto.Semester import Semester
 from src.model.node.comoto.Student import Student
@@ -156,7 +157,8 @@ class CoMoToDataImporter(Thread):
                 # Get submission data & add to graph
                 submissionData = analysisData['submissions'][submissionId]
                 isSolution = (submissionData['type'] == 'solutionsubmission')
-                submission = Submission(submissionId, isSolution)
+                partnerIds = None if isSolution else set(submissionData['partner_ids'])
+                submission = Submission(submissionId, partnerIds, isSolution)
                 submissions[submissionId] = submission
 
                 # Get semester corresponding to this submission
@@ -241,12 +243,16 @@ class CoMoToDataImporter(Thread):
             for matchType in matchTypeToClassMap.keys():
                 for matchData in analysisData['matches'][matchType]:
 
-                    if len({matchData['submission_1_id'], matchData['submission_2_id']}.intersection(submissionIdsRemoved)) != 0:
+                    # Don't add this match edge if we removed the submission cleaning retaking students before
+                    if len({matchData['submission_1_id'], matchData['submission_2_id']}.intersection(submissionIdsRemoved)) is not 0:
                         continue
 
                     submissionOne = submissions[matchData['submission_1_id']]
                     submissionTwo = submissions[matchData['submission_2_id']]
                     averageScore = (float(matchData['score1']) + float(matchData['score2'])) / 2.0
+
+                    isPartnerMatch = matchData['submission_1_id'] in submissionTwo.partnerIds \
+                        or matchData['submission_2_id'] in submissionOne.partnerIds
 
                     if submissionOne is None:
                         raise CoMoToParseError('Failed to find submission 1 corresponding to match')
@@ -254,14 +260,15 @@ class CoMoToDataImporter(Thread):
                         raise CoMoToParseError('Failed to find submission 2 corresponding to match')
 
                     matchClass = matchTypeToClassMap[matchType]
+                    if matchClass is SameSemesterMatch and isPartnerMatch:
+                        matchClass = PartnerMatch
+
                     matchEdge = matchClass(matchData['id'], averageScore)
                     graph.add_edge(submissionOne, submissionTwo, matchEdge.toDict())
 
                     # If this is a cross semester match, don't make it bidirectional
                     if matchType != 'cross_semester_matches':
                         graph.add_edge(submissionTwo, submissionOne, matchEdge.toDict())
-
-            # TODO: Handle partner matches
 
         return graph
 
