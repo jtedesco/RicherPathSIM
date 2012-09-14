@@ -12,8 +12,8 @@ class GraphObject(object):
             @param  id  Guaranteed to be unique amongst objects of the same type
         """
 
-        # A map of attributes to expose
-        self.id = id
+        if id is not None:
+            self.id = id
 
 
     def toDict(self):
@@ -24,3 +24,6 @@ class GraphObject(object):
         dictionary = dict((name, getattr(self, name)) for name in dir(self) if not name.startswith('__'))
         dictionary['type'] = self.__class__.__name__
         return dictionary
+
+    def __eq__(self, other):
+        return self.toDict() == other.toDict()

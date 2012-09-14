@@ -7,6 +7,6 @@ class Edge(GraphObject):
       Represents a general edge for a heterogeneous graph
     """
 
-    def __init__(self, id):
+    def __init__(self, id = None):
         super(Edge, self).__init__(id)
 
