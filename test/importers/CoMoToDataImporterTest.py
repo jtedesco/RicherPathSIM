@@ -760,6 +760,7 @@ class CoMoToDataImporterTest(ImporterTest):
         self.addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
         self.addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
         self.addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, solutionSubmission, assignment, AssignmentSubmission())
         self.addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
         self.addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
         self.addEdgesToGraph(expectedGraph, submission3, student3, Authorship())

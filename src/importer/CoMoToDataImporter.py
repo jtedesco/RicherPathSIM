@@ -152,7 +152,8 @@ class CoMoToDataImporter(Thread):
 
                 # Get submission data & add to graph
                 submissionData = analysisData['submissions'][submissionId]
-                submission = Submission(submissionId)
+                isSolution = (submissionData['type'] == 'solutionsubmission')
+                submission = Submission(submissionId, isSolution)
                 submissions[submissionId] = submission
 
                 # Get semester corresponding to this submission
@@ -162,58 +163,60 @@ class CoMoToDataImporter(Thread):
 
                 graph.add_node(submission)
 
-                studentId = submissionData['student']['id']
-                addEnrollmentEdge = False
-                if studentId not in students:
+                if not isSolution:
 
-                    # Add student data to the graph if not already encountered
-                    studentData = submissionData['student']
-                    student = Student(studentId, studentData['display_name'], studentData['netid'])
-                    students[studentId] = student
+                    studentId = submissionData['student']['id']
+                    addEnrollmentEdge = False
+                    if studentId not in students:
 
-                    # We know that student is not associated with this offering yet, just add him/her & corresponding
-                    # enrollment edges to graph
-                    addEnrollmentEdge = True
+                        # Add student data to the graph if not already encountered
+                        studentData = submissionData['student']
+                        student = Student(studentId, studentData['display_name'], studentData['netid'])
+                        students[studentId] = student
 
-                else:
-
-                    # Get student encountered before
-                    student = students[studentId]
-
-                    # Check all incoming edges to student node for connections to another (different) analysis
-                    studentNodePredecessors = graph.predecessors(student)
-                    studentIsRetake = False
-                    for node in studentNodePredecessors:
-                        if isinstance(node, Semester) and node != submissionSemester:
-                            studentIsRetake = True
-
-                    # Remove all edges
-                    if studentIsRetake:
-                        student.retake = True
-
-                        # Remove old enrollments & submissions for last semester
-                        for node in studentNodePredecessors:
-                            if isinstance(node, Semester) and node != submissionSemester:
-                                graph.remove_edge(node, student)
-                                graph.remove_edge(student, node)
-                            elif isinstance(node, Submission):
-                                graph.remove_edge(node, student)
-                                graph.remove_edge(student, node)
-                                graph.remove_node(node)
-
-
+                        # We know that student is not associated with this offering yet, just add him/her & corresponding
+                        # enrollment edges to graph
                         addEnrollmentEdge = True
 
-                if addEnrollmentEdge:
-                    enrollmentEdge = Enrollment()
-                    graph.add_node(student)
-                    graph.add_edge(submissionSemester, student, enrollmentEdge.toDict())
-                    graph.add_edge(student, submissionSemester, enrollmentEdge.toDict())
+                    else:
 
-                # We know that this student has only one submission for this offering, connect them in the graph
-                authorshipEdge = Authorship()
-                graph.add_edge(student, submission, authorshipEdge.toDict())
-                graph.add_edge(submission, student, authorshipEdge.toDict())
+                        # Get student encountered before
+                        student = students[studentId]
+
+                        # Check all incoming edges to student node for connections to another (different) analysis
+                        studentNodePredecessors = graph.predecessors(student)
+                        studentIsRetake = False
+                        for node in studentNodePredecessors:
+                            if isinstance(node, Semester) and node != submissionSemester:
+                                studentIsRetake = True
+
+                        # Remove all edges
+                        if studentIsRetake:
+                            student.retake = True
+
+                            # Remove old enrollments & submissions for last semester
+                            for node in studentNodePredecessors:
+                                if isinstance(node, Semester) and node != submissionSemester:
+                                    graph.remove_edge(node, student)
+                                    graph.remove_edge(student, node)
+                                elif isinstance(node, Submission):
+                                    graph.remove_edge(node, student)
+                                    graph.remove_edge(student, node)
+                                    graph.remove_node(node)
+
+
+                            addEnrollmentEdge = True
+
+                    if addEnrollmentEdge:
+                        enrollmentEdge = Enrollment()
+                        graph.add_node(student)
+                        graph.add_edge(submissionSemester, student, enrollmentEdge.toDict())
+                        graph.add_edge(student, submissionSemester, enrollmentEdge.toDict())
+
+                    # We know that this student has only one submission for this offering, connect them in the graph
+                    authorshipEdge = Authorship()
+                    graph.add_edge(student, submission, authorshipEdge.toDict())
+                    graph.add_edge(submission, student, authorshipEdge.toDict())
 
                 # Associate submission with assignment
                 associatedAssignment = analysisIdToAssignmentMap[analysisId]
