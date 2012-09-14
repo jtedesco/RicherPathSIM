@@ -1,3 +1,5 @@
+from copy import deepcopy
+import re
 from threading import Thread
 
 __author__ = 'jon'
@@ -27,7 +29,43 @@ class ArnetMinerDataImporter(Thread):
         """
           Parses the input file content into basic data structures as an intermediate form before inserting into the graph.
         """
-        pass
+
+        arnetIdPrefix = '#arnetid'
+        authorPrefix = '#@'
+        conferencePrefix = '#conf'
+        indexPrefix = '#index'
+        titlePrefix = '#*'
+        yearPrefix = '#year'
+
+
+        templatePaper = {
+            'references': []
+        }
+        currentPaper = deepcopy(templatePaper)
+        outputData = {}
+
+        for inputLine in inputContent.split('\n'):
+            inputLine = inputLine.strip()
+
+            if inputLine.startswith(titlePrefix):
+                if currentPaper != templatePaper:
+                    outputData[currentPaper['id']] = currentPaper
+                    currentPaper = deepcopy(templatePaper)
+                currentPaper['title'] = inputLine[len(titlePrefix):]
+            elif inputLine.startswith(authorPrefix):
+                currentPaper['authors'] = inputLine[len(authorPrefix):].split(',')
+            elif inputLine.startswith(yearPrefix):
+                currentPaper['year'] = int(inputLine[len(yearPrefix):])
+            elif inputLine.startswith(conferencePrefix):
+                currentPaper['conference'] = inputLine[len(conferencePrefix):]
+            elif inputLine.startswith(indexPrefix):
+                currentPaper['id'] = int(inputLine[len(indexPrefix):])
+            elif inputLine.startswith(arnetIdPrefix):
+                currentPaper['arnetid'] = int(inputLine[len(arnetIdPrefix):])
+
+        outputData[currentPaper['id']] = currentPaper
+
+        return outputData
 
 
     def buildGraph(self, parsedData):
@@ -35,4 +73,3 @@ class ArnetMinerDataImporter(Thread):
           Form the DBLP graph structure from the parsed data
         """
         pass
-

@@ -1,3 +1,4 @@
+from pprint import pprint
 from networkx import networkx
 from src.importer.ArnetMinerDataImporter import ArnetMinerDataImporter
 from src.importer.error import ArnetParseError
@@ -68,6 +69,8 @@ class ArnetMinerDataImporterTest(ImporterTest):
         }
 
         actualParsedData = self.dataImporter.parseInputContent(papersWithoutCitationsInput)
+
+        pprint(actualParsedData)
 
         self.assertDictEqual(actualParsedData, expectedParsedData)
 
