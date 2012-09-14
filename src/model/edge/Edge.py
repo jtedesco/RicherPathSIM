@@ -1,22 +1,12 @@
+from src.model.GraphObject import GraphObject
+
 __author__ = 'jon'
 
-class Edge(object):
+class Edge(GraphObject):
     """
       Represents a general edge for a heterogeneous graph
     """
 
-    def __init__(self, id = None):
-        """
-          Creates a new edge
+    def __init__(self, id):
+        super(Edge, self).__init__(id)
 
-            @param  id  Guaranteed to be unique amongst edges of the same type
-        """
-
-        # A map of attributes to expose
-        self.id = id
-
-    def toDict(self):
-        """
-          Returns a dictionary containing all data for this object
-        """
-        return dict((name, getattr(self, name)) for name in dir(self) if not name.startswith('__'))
