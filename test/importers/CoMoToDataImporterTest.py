@@ -855,7 +855,7 @@ class CoMoToDataImporterTest(ImporterTest):
         # Setup CoMoTo data & expected graph
         analysisData = self.retakingStudentAnalysis
 
-        student1 = Student(10001, 'Smith, John', 'johnsmith')
+        student1 = Student(10001, 'Smith, John', 'johnsmith', True)
         student2 = Student(10002, 'Doe, Jane', 'janedoe')
         student3 = Student(10003, 'Smith, Joe', 'joesmith')
         student4 = Student(10004, 'Smith, Alex', 'alexsmith')

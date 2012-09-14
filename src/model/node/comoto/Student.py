@@ -18,4 +18,3 @@ class Student(Node):
         self.displayName = displayName
         self.netId = netId
         self.retake = retake
-

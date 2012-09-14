@@ -189,6 +189,7 @@ class CoMoToDataImporter(Thread):
 
                     # Remove all edges
                     if studentIsRetake:
+                        student.retake = True
 
                         # Remove old enrollments & submissions for last semester
                         for node in studentNodePredecessors:
