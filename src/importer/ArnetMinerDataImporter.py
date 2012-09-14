@@ -1,6 +1,5 @@
 from copy import deepcopy
 from threading import Thread
-import webbrowser
 import networkx
 from src.importer.error.ArnetParseError import ArnetParseError
 from src.model.edge.dblp.Authorship import Authorship
