@@ -462,7 +462,7 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, paper2, venue, Publication())
 
         # Not symmetric!
-        expectedGraph.add_edge(paper2, paper1, Citation().attributes())
+        expectedGraph.add_edge(paper2, paper1, Citation().toDict())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -519,7 +519,7 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, paper2, venue2, Publication())
 
         # Not symmetric!
-        expectedGraph.add_edge(paper2, paper1, Citation().attributes())
+        expectedGraph.add_edge(paper2, paper1, Citation().toDict())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -631,7 +631,7 @@ class ArnetMinerDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, paper2, venue2, Publication())
 
         # Not symmetric!
-        expectedGraph.add_edge(paper1, paper2, Citation().attributes())
+        expectedGraph.add_edge(paper1, paper2, Citation().toDict())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 

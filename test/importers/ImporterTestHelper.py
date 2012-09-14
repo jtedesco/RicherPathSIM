@@ -8,5 +8,5 @@ def addEdgesToGraph(graph, a, b, object):
     """
       Helper function to add bi-directional directed edges
     """
-    graph.add_edge(a, b, object.attributes())
-    graph.add_edge(b, a, object.attributes())
+    graph.add_edge(a, b, object.toDict())
+    graph.add_edge(b, a, object.toDict())

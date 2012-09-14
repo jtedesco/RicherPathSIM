@@ -15,7 +15,7 @@ class Edge(object):
         # A map of attributes to expose
         self.id = id
 
-    def attributes(self):
+    def toDict(self):
         """
           Returns a dictionary containing all data for this object
         """
