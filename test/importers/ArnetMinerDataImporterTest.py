@@ -1,4 +1,3 @@
-from pprint import pprint
 from networkx import networkx
 from src.importer.ArnetMinerDataImporter import ArnetMinerDataImporter
 from src.importer.error.ArnetParseError import ArnetParseError
@@ -69,8 +68,6 @@ class ArnetMinerDataImporterTest(ImporterTest):
         }
 
         actualParsedData = self.dataImporter.parseInputContent(papersWithoutCitationsInput)
-
-        pprint(actualParsedData)
 
         self.assertDictEqual(actualParsedData, expectedParsedData)
 
@@ -281,7 +278,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Knowledge')
         topic1 = Topic(0, ['databases'])
-        topic2 = Topic(0, ['knowledge'])
+        topic2 = Topic(1, ['knowledge'])
         venue = Venue(0, 'Conference One')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
@@ -333,7 +330,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         author1 = Author(0, 'Author One')
         author2 = Author(1, 'Author Two')
         paper1 = Paper(0, 'Databases')
-        paper2 = Paper(1, 'Knowledge')
+        paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databases'])
         venue = Venue(0, 'Conference One')
         expectedGraph.add_node(author1)
@@ -386,8 +383,8 @@ class ArnetMinerDataImporterTest(ImporterTest):
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
-        author2 = Author(1, 'Author Two')
-        author3 = Author(2, 'Author Three')
+        author2 = Author(2, 'Author Two')
+        author3 = Author(1, 'Author Three')
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databases'])
@@ -445,7 +442,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         author1 = Author(0, 'Author One')
         author2 = Author(1, 'Author Two')
         paper1 = Paper(0, 'Databases')
-        paper2 = Paper(1, 'Knowledge')
+        paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databases'])
         venue = Venue(0, 'Conference One')
         expectedGraph.add_node(author1)
