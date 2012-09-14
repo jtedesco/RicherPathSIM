@@ -1,5 +1,6 @@
 import xmlrpclib
 import networkx
+import cPickle
 from threading import Thread
 from src.importer.error.CoMoToParseError import CoMoToParseError
 from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
@@ -52,6 +53,8 @@ class CoMoToDataImporter(Thread):
 
         coMoToData = self.getCoMoToData()
         graph = self.buildGraph(coMoToData)
+
+        cPickle.dump(graph, open(self.outputPath, 'w'))
 
 
     def getCoMoToData(self):
