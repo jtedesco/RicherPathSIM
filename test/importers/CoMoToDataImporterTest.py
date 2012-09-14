@@ -2,7 +2,7 @@ import unittest
 import networkx
 from src.importer.CoMoToDataImporter import CoMoToDataImporter
 from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
-from src.model.edge.comoto.Author import Author
+from src.model.edge.comoto.Authorship import Authorship
 from src.model.edge.comoto.Enrollment import Enrollment
 from src.model.edge.comoto.SemesterAssignment import SemesterAssignment
 from src.model.edge.comoto.matches.CrossSemesterMatch import CrossSemesterMatch
@@ -30,9 +30,9 @@ class CoMoToDataImporterTest(unittest.TestCase):
             'analysis_data': {
                 50: {
                     'matches': {
-                        'crossSemesterMatches': [],
-                        'solutionMatches': [],
-                        'sameSemesterMatches': [
+                        'cross_semester_matches': [],
+                        'solution_matches': [],
+                        'same_semester_matches': [
                             {
                                 'id': 5000,
                                 'score1': 70,
@@ -107,9 +107,9 @@ class CoMoToDataImporterTest(unittest.TestCase):
             'analysis_data': {
                 50: {
                     'matches': {
-                        'crossSemesterMatches': [],
-                        'solutionMatches': [],
-                        'sameSemesterMatches': [
+                        'cross_semester_matches': [],
+                        'solution_matches': [],
+                        'same_semester_matches': [
                             {
                                 'id': 5000,
                                 'score1': 70,
@@ -196,9 +196,9 @@ class CoMoToDataImporterTest(unittest.TestCase):
             'analysis_data': {
                 50: {
                     'matches': {
-                        'crossSemesterMatches': [],
-                        'solutionMatches': [],
-                        'sameSemesterMatches': [
+                        'cross_semester_matches': [],
+                        'solution_matches': [],
+                        'same_semester_matches': [
                             {
                                 'id': 5000,
                                 'score1': 70,
@@ -273,8 +273,8 @@ class CoMoToDataImporterTest(unittest.TestCase):
             'analysis_data': {
                 50: {
                     'matches': {
-                        'crossSemesterMatches': [],
-                        'solutionMatches': [
+                        'cross_semester_matches': [],
+                        'solution_matches': [
                             {
                                 'id': 5000,
                                 'score1': 80,
@@ -283,7 +283,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
                                 'submission_2_id': 5004
                             }
                         ],
-                        'sameSemesterMatches': []
+                        'same_semester_matches': []
                     },
                     'submissions': {
                         5001: {
@@ -355,7 +355,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
             'analysis_data': {
                 50: {
                     'matches': {
-                        'crossSemesterMatches': [
+                        'cross_semester_matches': [
                             {
                                 'id': 5000,
                                 'score1': 70,
@@ -364,8 +364,8 @@ class CoMoToDataImporterTest(unittest.TestCase):
                                 'submission_2_id': 5004
                             }
                         ],
-                        'solutionMatches': [],
-                        'sameSemesterMatches': []
+                        'solution_matches': [],
+                        'same_semester_matches': []
                     },
                     'submissions': {
                         5001: {
@@ -461,7 +461,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
             'analysis_data': {
                 50: {
                     'matches': {
-                        'crossSemesterMatches': [
+                        'cross_semester_matches': [
                             {
                                 'id': 5000,
                                 'score1': 70,
@@ -470,8 +470,8 @@ class CoMoToDataImporterTest(unittest.TestCase):
                                 'submission_2_id': 5004
                             }
                         ],
-                        'solutionMatches': [],
-                        'sameSemesterMatches': []
+                        'solution_matches': [],
+                        'same_semester_matches': []
                     },
                     'submissions': {
                         5001: {
@@ -610,9 +610,9 @@ class CoMoToDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Author())
-        addEdgesToGraph(expectedGraph, submission2, student2, Author())
-        addEdgesToGraph(expectedGraph, submission3, student3, Author())
+        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
         addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
         addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
         addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
@@ -661,9 +661,9 @@ class CoMoToDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Author())
-        addEdgesToGraph(expectedGraph, submission2, student2, Author())
-        addEdgesToGraph(expectedGraph, submission3, student3, Author())
+        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
         addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
         addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
         addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
@@ -710,9 +710,9 @@ class CoMoToDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Author())
-        addEdgesToGraph(expectedGraph, submission2, student2, Author())
-        addEdgesToGraph(expectedGraph, submission3, student3, Author())
+        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
         addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
         addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
         addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
@@ -761,9 +761,9 @@ class CoMoToDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Author())
-        addEdgesToGraph(expectedGraph, submission2, student2, Author())
-        addEdgesToGraph(expectedGraph, submission3, student3, Author())
+        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
         addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
         addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
         addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
@@ -818,10 +818,10 @@ class CoMoToDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, submission2, assignment1, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission3, assignment1, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission4, assignment2, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Author())
-        addEdgesToGraph(expectedGraph, submission2, student2, Author())
-        addEdgesToGraph(expectedGraph, submission3, student3, Author())
-        addEdgesToGraph(expectedGraph, submission4, student4, Author())
+        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
+        addEdgesToGraph(expectedGraph, submission4, student4, Authorship())
         addEdgesToGraph(expectedGraph, student1, semester1, Enrollment())
         addEdgesToGraph(expectedGraph, student2, semester1, Enrollment())
         addEdgesToGraph(expectedGraph, student3, semester1, Enrollment())
@@ -889,11 +889,11 @@ class CoMoToDataImporterTest(unittest.TestCase):
         addEdgesToGraph(expectedGraph, submission3, assignment1, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission4, assignment2, AssignmentSubmission())
         addEdgesToGraph(expectedGraph, submission5, assignment2, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Author())
-        addEdgesToGraph(expectedGraph, submission2, student2, Author())
-        addEdgesToGraph(expectedGraph, submission3, student3, Author())
-        addEdgesToGraph(expectedGraph, submission4, student1, Author())
-        addEdgesToGraph(expectedGraph, submission5, student4, Author())
+        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
+        addEdgesToGraph(expectedGraph, submission4, student1, Authorship())
+        addEdgesToGraph(expectedGraph, submission5, student4, Authorship())
         addEdgesToGraph(expectedGraph, student1, semester1, Enrollment())
         addEdgesToGraph(expectedGraph, student1, semester2, Enrollment())
         addEdgesToGraph(expectedGraph, student2, semester1, Enrollment())
