@@ -242,6 +242,7 @@ class CoMoToDataImporter(Thread):
                 graph.add_edge(submissionOne, submissionTwo, sameSemesterMatchEdge.toDict())
                 graph.add_edge(submissionTwo, submissionOne, sameSemesterMatchEdge.toDict())
 
+            # TODO: Handle partner matches
             # TODO: Handle cross-semester matches
             # TODO: Handle solution matches
 
