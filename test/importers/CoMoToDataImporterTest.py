@@ -82,6 +82,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
             'assignments': {
                 1: {
                     'id': 1,
+                    'name': 'MP1',
                     'analysis_id': 50,
                     'moss_analysis_pruned_offering': {
                         'semester': {
@@ -159,6 +160,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
                 1: {
                     'id': 1,
                     'analysis_id': 50,
+                    'name': 'MP1',
                     'moss_analysis_pruned_offering': {
                         'semester': {
                             'id': 7
@@ -166,6 +168,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
                     }
                 },
                 -1: {
+                    'name': 'invalid assignment!',
                     'id': -1
                 }
             },
@@ -246,6 +249,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
                 1: {
                     'id': 1,
                     'analysis_id': 50,
+                    'name': 'MP1',
                     'moss_analysis_pruned_offering': {
                         'semester': {
                             'id': 7
@@ -327,6 +331,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
                 1: {
                     'id': 1,
                     'analysis_id': 50,
+                    'name': 'MP1',
                     'moss_analysis_pruned_offering': {
                         'semester': {
                             'id': 7
@@ -414,6 +419,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
                 1: {
                     'id': 1,
                     'analysis_id': 50,
+                    'name': 'MP1',
                     'moss_analysis_pruned_offering': {
                         'semester': {
                             'id': 7
@@ -423,6 +429,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
                 2: {
                     'id': 2,
                     'analysis_id': 51,
+                    'name': 'MP2',
                     'moss_analysis_pruned_offering': {
                         'semester': {
                             'id': 8
@@ -529,6 +536,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
                 1: {
                     'id': 1,
                     'analysis_id': 50,
+                    'name': 'MP1',
                     'moss_analysis_pruned_offering': {
                         'semester': {
                             'id': 7
@@ -538,6 +546,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
                 2: {
                     'id': 2,
                     'analysis_id': 51,
+                    'name': 'MP2',
                     'moss_analysis_pruned_offering': {
                         'semester': {
                             'id': 8
@@ -585,7 +594,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
         submission1 = Submission(5001)
         submission2 = Submission(5002)
         submission3 = Submission(5003)
-        assignment = Assignment(1)
+        assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 
         expectedGraph = networkx.DiGraph()
@@ -636,7 +645,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
         submission1 = Submission(5001)
         submission2 = Submission(5002)
         submission3 = Submission(5003)
-        assignment = Assignment(1)
+        assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 
         expectedGraph = networkx.DiGraph()
@@ -685,7 +694,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
         submission1 = Submission(5001)
         submission2 = Submission(5002)
         submission3 = Submission(5003)
-        assignment = Assignment(1)
+        assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 
         expectedGraph = networkx.DiGraph()
@@ -735,7 +744,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
         submission2 = Submission(5002)
         submission3 = Submission(5003)
         solutionSubmission = Submission(5004, True)
-        assignment = Assignment(1)
+        assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 
         expectedGraph = networkx.DiGraph()
@@ -776,7 +785,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
         """
 
         # Setup CoMoTo data & expected graph
-        analysisData = self.solutionMatchAnalysis
+        analysisData = self.crossSemesterMatchAnalysis
 
         student1 = Student(10001, 'Smith, John', 'johnsmith')
         student2 = Student(10002, 'Doe, Jane', 'janedoe')
@@ -786,8 +795,8 @@ class CoMoToDataImporterTest(unittest.TestCase):
         submission2 = Submission(5002)
         submission3 = Submission(5003)
         submission4 = Submission(5004)
-        assignment1 = Assignment(1)
-        assignment2 = Assignment(2)
+        assignment1 = Assignment(1, 'MP1')
+        assignment2 = Assignment(2, 'MP2')
         semester1 = Semester(7, 'Fall', 2012)
         semester2 = Semester(8, 'Spring', 2013)
 
@@ -844,7 +853,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
         """
 
         # Setup CoMoTo data & expected graph
-        analysisData = self.solutionMatchAnalysis
+        analysisData = self.retakingStudentAnalysis
 
         student1 = Student(10001, 'Smith, John', 'johnsmith')
         student2 = Student(10002, 'Doe, Jane', 'janedoe')
@@ -855,8 +864,8 @@ class CoMoToDataImporterTest(unittest.TestCase):
         submission3 = Submission(5003)
         submission4 = Submission(5004)
         submission5 = Submission(5005)
-        assignment1 = Assignment(1)
-        assignment2 = Assignment(2)
+        assignment1 = Assignment(1, 'MP1')
+        assignment2 = Assignment(2, 'MP2')
         semester1 = Semester(7, 'Fall', 2012)
         semester2 = Semester(8, 'Spring', 2013)
 
