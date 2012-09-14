@@ -148,6 +148,7 @@ class CoMoToDataImporter(Thread):
         # and students with assignments
         submissions = {}
         students = {}
+        submissionIdsRemoved = set()
         for analysisId in coMoToData['analysis_data']:
             analysisData = coMoToData['analysis_data'][analysisId]
             for submissionId in analysisData['submissions']:
@@ -198,14 +199,17 @@ class CoMoToDataImporter(Thread):
 
                             # Remove old enrollments & submissions for last semester
                             for node in studentNodePredecessors:
-                                if isinstance(node, Semester) and node != submissionSemester:
-                                    graph.remove_edge(node, student)
-                                    graph.remove_edge(student, node)
-                                elif isinstance(node, Submission):
-                                    graph.remove_edge(node, student)
-                                    graph.remove_edge(student, node)
-                                    graph.remove_node(node)
+                                isSemester = isinstance(node, Semester) and node != submissionSemester
+                                isSubmission = isinstance(node, Submission)
 
+                                if isSemester or isSubmission:
+                                    if graph.has_edge(node, student):
+                                        graph.remove_edge(node, student)
+                                    if graph.has_edge(student, node):
+                                        graph.remove_edge(student, node)
+                                if isSubmission:
+                                    submissionIdsRemoved.add(node.id)
+                                    graph.remove_node(node)
 
                             addEnrollmentEdge = True
 
@@ -235,11 +239,14 @@ class CoMoToDataImporter(Thread):
                 'solution_matches': SolutionMatch
             }
             for matchType in matchTypeToClassMap.keys():
-                for sameSemesterMatchData in analysisData['matches'][matchType]:
+                for matchData in analysisData['matches'][matchType]:
 
-                    submissionOne = submissions[sameSemesterMatchData['submission_1_id']]
-                    submissionTwo = submissions[sameSemesterMatchData['submission_2_id']]
-                    averageScore = (float(sameSemesterMatchData['score1']) + float(sameSemesterMatchData['score2'])) / 2.0
+                    if len({matchData['submission_1_id'], matchData['submission_2_id']}.intersection(submissionIdsRemoved)) != 0:
+                        continue
+
+                    submissionOne = submissions[matchData['submission_1_id']]
+                    submissionTwo = submissions[matchData['submission_2_id']]
+                    averageScore = (float(matchData['score1']) + float(matchData['score2'])) / 2.0
 
                     if submissionOne is None:
                         raise CoMoToParseError('Failed to find submission 1 corresponding to match')
@@ -247,12 +254,12 @@ class CoMoToDataImporter(Thread):
                         raise CoMoToParseError('Failed to find submission 2 corresponding to match')
 
                     matchClass = matchTypeToClassMap[matchType]
-                    sameSemesterMatchEdge = matchClass(sameSemesterMatchData['id'], averageScore)
-                    graph.add_edge(submissionOne, submissionTwo, sameSemesterMatchEdge.toDict())
+                    matchEdge = matchClass(matchData['id'], averageScore)
+                    graph.add_edge(submissionOne, submissionTwo, matchEdge.toDict())
 
                     # If this is a cross semester match, don't make it bidirectional
                     if matchType != 'cross_semester_matches':
-                        graph.add_edge(submissionTwo, submissionOne, sameSemesterMatchEdge.toDict())
+                        graph.add_edge(submissionTwo, submissionOne, matchEdge.toDict())
 
             # TODO: Handle partner matches
 
