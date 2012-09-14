@@ -773,6 +773,7 @@ class CoMoToDataImporterTest(ImporterTest):
 
         self.assertGraphsEqual(expectedGraph, actualGraph)
 
+
     def testCrossSemesterMatchAnalyses(self):
         """
           Tests that the graph is built correctly given some more complex test analysis. This
@@ -832,12 +833,12 @@ class CoMoToDataImporterTest(ImporterTest):
         # match past submissions, but not vice versa)
         expectedGraph.add_edge(submission1, submission4, CrossSemesterMatch(72, 5000).toDict())
 
-
         # Test
         actualGraph = self.dataImporter.buildGraph(analysisData)
 
         # Verify
         self.assertGraphsEqual(expectedGraph, actualGraph)
+
 
     def testRetakingStudentAnalyses(self):
         """

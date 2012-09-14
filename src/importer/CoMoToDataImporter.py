@@ -112,15 +112,23 @@ class CoMoToDataImporter(Thread):
         for offeringId in coMoToData['offerings']:
 
             semesterData = coMoToData['offerings'][offeringId]['semester']
-            semester = Semester(semesterData['id'], semesterData['season'], semesterData['year'])
-            semesterIdToSemesterMap[semesterData['id']] = semester
-            offeringIdToSemesterMap[offeringId] = semester
 
-            graph.add_node(semester)
+            # Skip invalid or dummy semesters
+            if semesterData['id'] >= 0 and semesterData['year'] >= 0:
+
+                semester = Semester(semesterData['id'], semesterData['season'], semesterData['year'])
+                semesterIdToSemesterMap[semesterData['id']] = semester
+                offeringIdToSemesterMap[offeringId] = semester
+
+                graph.add_node(semester)
 
         # Add assignments to graph & connect them to semesters
         analysisIdToAssignmentMap = {}
         for assignmentId in coMoToData['assignments']:
+
+            # Skip invalid / dummy assignments
+            if assignmentId < 0:
+                continue
 
             assignmentData = coMoToData['assignments'][assignmentId]
             assignment = Assignment(assignmentId, assignmentData['name'])
@@ -134,7 +142,8 @@ class CoMoToDataImporter(Thread):
             graph.add_edge(assignment, offeredSemester, semesterAssignmentEdge.toDict())
             graph.add_edge(offeredSemester, assignment, semesterAssignmentEdge.toDict())
 
-        # Add submissions & students to graph, connect submissions with students and assignment, and students with assignments
+        # Add submissions & students to graph, connect submissions with students and assignment,
+        # and students with assignments
         submissions = {}
         students = {}
         for analysisId in coMoToData['analysis_data']:
@@ -146,31 +155,51 @@ class CoMoToDataImporter(Thread):
                 submission = Submission(submissionId)
                 submissions[submissionId] = submission
 
+                # Get semester corresponding to this submission
+                submissionSemester = offeringIdToSemesterMap[submissionData['offering_id']]
+                if submissionSemester is None:
+                    raise CoMoToParseError('Failed to find semester corresponding to student')
+
                 graph.add_node(submission)
 
                 studentId = submissionData['student']['id']
+                addEnrollmentEdge = False
                 if studentId not in students:
 
                     # Add student data to the graph if not already encountered
                     studentData = submissionData['student']
                     student = Student(studentId, studentData['display_name'], studentData['netid'])
-                    enrolledSemester = offeringIdToSemesterMap[submissionData['offering_id']]
-                    if enrolledSemester is None:
-                        raise CoMoToParseError('Failed to find semester corresponding to student')
+                    students[studentId] = student
 
                     # We know that student is not associated with this offering yet, just add him/her & corresponding
                     # enrollment edges to graph
-                    enrollmentEdge = Enrollment()
-                    graph.add_node(student)
-                    graph.add_edge(enrolledSemester, student, enrollmentEdge.toDict())
-                    graph.add_edge(student, enrolledSemester, enrollmentEdge.toDict())
+                    addEnrollmentEdge = True
 
                 else:
 
                     # Get student encountered before
                     student = students[studentId]
 
-                    # TODO: fill out this case (differentiate retakes from multiple MPs)
+                    # Check all incoming edges to student node for connections to another (different) analysis
+                    studentNodePredecessors = graph.predecessors(student)
+                    studentIsRetake = False
+                    for node in studentNodePredecessors:
+                        if isinstance(node, Semester) and node != submissionSemester:
+                            studentIsRetake = True
+
+                    # Remove & re-add student node (since this should be like this student is being added for the first
+                    # time)
+                    if studentIsRetake:
+                        graph.remove_node(student)
+                        graph.add_node(student)
+
+                        addEnrollmentEdge = True
+
+                if addEnrollmentEdge:
+                    enrollmentEdge = Enrollment()
+                    graph.add_node(student)
+                    graph.add_edge(submissionSemester, student, enrollmentEdge.toDict())
+                    graph.add_edge(student, submissionSemester, enrollmentEdge.toDict())
 
                 # We know that this student has only one submission for this offering, connect them in the graph
                 authorshipEdge = Authorship()
