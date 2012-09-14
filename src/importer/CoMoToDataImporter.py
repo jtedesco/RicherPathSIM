@@ -1,6 +1,16 @@
 import xmlrpclib
 import networkx
 from threading import Thread
+from src.importer.error.CoMoToParseError import CoMoToParseError
+from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
+from src.model.edge.comoto.Authorship import Authorship
+from src.model.edge.comoto.Enrollment import Enrollment
+from src.model.edge.comoto.SemesterAssignment import SemesterAssignment
+from src.model.edge.comoto.matches.SameSemesterMatch import SameSemesterMatch
+from src.model.node.comoto.Assignment import Assignment
+from src.model.node.comoto.Semester import Semester
+from src.model.node.comoto.Student import Student
+from src.model.node.comoto.Submission import Submission
 
 
 __author__ = 'jon'
@@ -95,6 +105,105 @@ class CoMoToDataImporter(Thread):
     def buildGraph(self, coMoToData):
 
         graph = networkx.DiGraph()
+
+        # Add semesters to graph
+        semesterIdToSemesterMap = {}
+        offeringIdToSemesterMap = {}
+        for offeringId in coMoToData['offerings']:
+
+            semesterData = coMoToData['offerings'][offeringId]['semester']
+            semester = Semester(semesterData['id'], semesterData['season'], semesterData['year'])
+            semesterIdToSemesterMap[semesterData['id']] = semester
+            offeringIdToSemesterMap[offeringId] = semester
+
+            graph.add_node(semester)
+
+        # Add assignments to graph & connect them to semesters
+        analysisIdToAssignmentMap = {}
+        for assignmentId in coMoToData['assignments']:
+
+            assignmentData = coMoToData['assignments'][assignmentId]
+            assignment = Assignment(assignmentId, assignmentData['name'])
+            offeredSemester = semesterIdToSemesterMap[assignmentData['moss_analysis_pruned_offering']['semester']['id']]
+            if offeredSemester is None:
+                raise CoMoToParseError('Failed to find semester corresponding to assignment')
+            analysisIdToAssignmentMap[assignmentData['analysis_id']] = assignment
+
+            semesterAssignmentEdge = SemesterAssignment()
+            graph.add_node(assignment)
+            graph.add_edge(assignment, offeredSemester, semesterAssignmentEdge.toDict())
+            graph.add_edge(offeredSemester, assignment, semesterAssignmentEdge.toDict())
+
+        # Add submissions & students to graph, connect submissions with students and assignment, and students with assignments
+        submissions = {}
+        students = {}
+        for analysisId in coMoToData['analysis_data']:
+            analysisData = coMoToData['analysis_data'][analysisId]
+            for submissionId in analysisData['submissions']:
+
+                # Get submission data & add to graph
+                submissionData = analysisData['submissions'][submissionId]
+                submission = Submission(submissionId)
+                submissions[submissionId] = submission
+
+                graph.add_node(submission)
+
+                studentId = submissionData['student']['id']
+                if studentId not in students:
+
+                    # Add student data to the graph if not already encountered
+                    studentData = submissionData['student']
+                    student = Student(studentId, studentData['display_name'], studentData['netid'])
+                    enrolledSemester = offeringIdToSemesterMap[submissionData['offering_id']]
+                    if enrolledSemester is None:
+                        raise CoMoToParseError('Failed to find semester corresponding to student')
+
+                    # We know that student is not associated with this offering yet, just add him/her & corresponding
+                    # enrollment edges to graph
+                    enrollmentEdge = Enrollment()
+                    graph.add_node(student)
+                    graph.add_edge(enrolledSemester, student, enrollmentEdge.toDict())
+                    graph.add_edge(student, enrolledSemester, enrollmentEdge.toDict())
+
+                else:
+
+                    # Get student encountered before
+                    student = students[studentId]
+
+                    # TODO: fill out this case (differentiate retakes from multiple MPs)
+
+                # We know that this student has only one submission for this offering, connect them in the graph
+                authorshipEdge = Authorship()
+                graph.add_edge(student, submission, authorshipEdge.toDict())
+                graph.add_edge(submission, student, authorshipEdge.toDict())
+
+                # Associate submission with assignment
+                associatedAssignment = analysisIdToAssignmentMap[analysisId]
+                if associatedAssignment is None:
+                    raise CoMoToParseError('Failed to find assignment corresponding to submission')
+
+                assignmentSubmissionEdge = AssignmentSubmission()
+                graph.add_edge(submission, associatedAssignment, assignmentSubmissionEdge.toDict())
+                graph.add_edge(associatedAssignment, submission, assignmentSubmissionEdge.toDict())
+
+            for sameSemesterMatchData in analysisData['matches']['same_semester_matches']:
+
+                submissionOne = submissions[sameSemesterMatchData['submission_1_id']]
+                submissionTwo = submissions[sameSemesterMatchData['submission_2_id']]
+                averageScore = (float(sameSemesterMatchData['score1']) + float(sameSemesterMatchData['score2'])) / 2.0
+
+                if submissionOne is None:
+                    raise CoMoToParseError('Failed to find submission 1 corresponding to match')
+                if submissionTwo is None:
+                    raise CoMoToParseError('Failed to find submission 2 corresponding to match')
+
+                sameSemesterMatchEdge = SameSemesterMatch(sameSemesterMatchData['id'], averageScore)
+                graph.add_edge(submissionOne, submissionTwo, sameSemesterMatchEdge.toDict())
+                graph.add_edge(submissionTwo, submissionOne, sameSemesterMatchEdge.toDict())
+
+            # TODO: Handle cross-semester matches
+            # TODO: Handle solution matches
+
         return graph
 
 
