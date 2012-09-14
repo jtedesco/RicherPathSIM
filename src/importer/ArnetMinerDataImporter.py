@@ -1,6 +1,6 @@
 from copy import deepcopy
-import re
 from threading import Thread
+from src.importer.error.ArnetParseError import ArnetParseError
 
 __author__ = 'jon'
 
@@ -32,11 +32,11 @@ class ArnetMinerDataImporter(Thread):
 
         arnetIdPrefix = '#arnetid'
         authorPrefix = '#@'
+        citationPrefix = '#%'
         conferencePrefix = '#conf'
         indexPrefix = '#index'
         titlePrefix = '#*'
         yearPrefix = '#year'
-
 
         templatePaper = {
             'references': []
@@ -44,24 +44,42 @@ class ArnetMinerDataImporter(Thread):
         currentPaper = deepcopy(templatePaper)
         outputData = {}
 
+        referencedPaperIds = set()
+        paperIds = set()
+
         for inputLine in inputContent.split('\n'):
             inputLine = inputLine.strip()
 
-            if inputLine.startswith(titlePrefix):
-                if currentPaper != templatePaper:
-                    outputData[currentPaper['id']] = currentPaper
-                    currentPaper = deepcopy(templatePaper)
-                currentPaper['title'] = inputLine[len(titlePrefix):]
-            elif inputLine.startswith(authorPrefix):
-                currentPaper['authors'] = inputLine[len(authorPrefix):].split(',')
-            elif inputLine.startswith(yearPrefix):
-                currentPaper['year'] = int(inputLine[len(yearPrefix):])
-            elif inputLine.startswith(conferencePrefix):
-                currentPaper['conference'] = inputLine[len(conferencePrefix):]
-            elif inputLine.startswith(indexPrefix):
-                currentPaper['id'] = int(inputLine[len(indexPrefix):])
-            elif inputLine.startswith(arnetIdPrefix):
-                currentPaper['arnetid'] = int(inputLine[len(arnetIdPrefix):])
+            try:
+                if inputLine.startswith(titlePrefix):
+                    if currentPaper != templatePaper:
+                        outputData[currentPaper['id']] = currentPaper
+                        paperIds.add(currentPaper['id'])
+                        currentPaper = deepcopy(templatePaper)
+                    currentPaper['title'] = inputLine[len(titlePrefix):]
+                elif inputLine.startswith(authorPrefix):
+                    currentPaper['authors'] = inputLine[len(authorPrefix):].split(',')
+                elif inputLine.startswith(yearPrefix):
+                    currentPaper['year'] = int(inputLine[len(yearPrefix):])
+                elif inputLine.startswith(conferencePrefix):
+                    currentPaper['conference'] = inputLine[len(conferencePrefix):]
+                elif inputLine.startswith(indexPrefix):
+                    currentPaper['id'] = int(inputLine[len(indexPrefix):])
+                elif inputLine.startswith(arnetIdPrefix):
+                    currentPaper['arnetid'] = int(inputLine[len(arnetIdPrefix):])
+                elif inputLine.startswith(citationPrefix):
+                    referencedPaperId = int(inputLine[len(citationPrefix):])
+                    referencedPaperIds.add(referencedPaperId)
+                    currentPaper['references'].append(referencedPaperId)
+
+                # Ignore other input lines
+
+            except KeyError, e:
+                raise ArnetParseError('Failed to parse data, missing paper attribute "%s"' % e.message)
+
+        # Check that all citations are valid
+        if referencedPaperIds.difference(paperIds) != set():
+            raise ArnetParseError('Failed to parse data, invalid references in found')
 
         outputData[currentPaper['id']] = currentPaper
 
