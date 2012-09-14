@@ -7,6 +7,8 @@ from src.model.edge.comoto.Authorship import Authorship
 from src.model.edge.comoto.Enrollment import Enrollment
 from src.model.edge.comoto.SemesterAssignment import SemesterAssignment
 from src.model.edge.comoto.matches.SameSemesterMatch import SameSemesterMatch
+from src.model.edge.comoto.matches.CrossSemesterMatch import CrossSemesterMatch
+from src.model.edge.comoto.matches.SolutionMatch import SolutionMatch
 from src.model.node.comoto.Assignment import Assignment
 from src.model.node.comoto.Semester import Semester
 from src.model.node.comoto.Student import Student
@@ -227,24 +229,32 @@ class CoMoToDataImporter(Thread):
                 graph.add_edge(submission, associatedAssignment, assignmentSubmissionEdge.toDict())
                 graph.add_edge(associatedAssignment, submission, assignmentSubmissionEdge.toDict())
 
-            for sameSemesterMatchData in analysisData['matches']['same_semester_matches']:
+            matchTypeToClassMap = {
+                'same_semester_matches': SameSemesterMatch,
+                'cross_semester_matches': CrossSemesterMatch,
+                'solution_matches': SolutionMatch
+            }
+            for matchType in matchTypeToClassMap.keys():
+                for sameSemesterMatchData in analysisData['matches'][matchType]:
 
-                submissionOne = submissions[sameSemesterMatchData['submission_1_id']]
-                submissionTwo = submissions[sameSemesterMatchData['submission_2_id']]
-                averageScore = (float(sameSemesterMatchData['score1']) + float(sameSemesterMatchData['score2'])) / 2.0
+                    submissionOne = submissions[sameSemesterMatchData['submission_1_id']]
+                    submissionTwo = submissions[sameSemesterMatchData['submission_2_id']]
+                    averageScore = (float(sameSemesterMatchData['score1']) + float(sameSemesterMatchData['score2'])) / 2.0
 
-                if submissionOne is None:
-                    raise CoMoToParseError('Failed to find submission 1 corresponding to match')
-                if submissionTwo is None:
-                    raise CoMoToParseError('Failed to find submission 2 corresponding to match')
+                    if submissionOne is None:
+                        raise CoMoToParseError('Failed to find submission 1 corresponding to match')
+                    if submissionTwo is None:
+                        raise CoMoToParseError('Failed to find submission 2 corresponding to match')
 
-                sameSemesterMatchEdge = SameSemesterMatch(sameSemesterMatchData['id'], averageScore)
-                graph.add_edge(submissionOne, submissionTwo, sameSemesterMatchEdge.toDict())
-                graph.add_edge(submissionTwo, submissionOne, sameSemesterMatchEdge.toDict())
+                    matchClass = matchTypeToClassMap[matchType]
+                    sameSemesterMatchEdge = matchClass(sameSemesterMatchData['id'], averageScore)
+                    graph.add_edge(submissionOne, submissionTwo, sameSemesterMatchEdge.toDict())
+
+                    # If this is a cross semester match, don't make it bidirectional
+                    if matchType != 'cross_semester_matches':
+                        graph.add_edge(submissionTwo, submissionOne, sameSemesterMatchEdge.toDict())
 
             # TODO: Handle partner matches
-            # TODO: Handle cross-semester matches
-            # TODO: Handle solution matches
 
         return graph
 
