@@ -1,4 +1,3 @@
-import unittest
 import networkx
 from src.importer.CoMoToDataImporter import CoMoToDataImporter
 from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
@@ -13,11 +12,11 @@ from src.model.node.comoto.Assignment import Assignment
 from src.model.node.comoto.Semester import Semester
 from src.model.node.comoto.Student import Student
 from src.model.node.comoto.Submission import Submission
-from test.importers.ImporterTestHelper import addEdgesToGraph
+from test.importers.ImporterTest import ImporterTest
 
 __author__ = 'jontedesco'
 
-class CoMoToDataImporterTest(unittest.TestCase):
+class CoMoToDataImporterTest(ImporterTest):
     """
       Unit tests for the CoMoToDataImporter
     """
@@ -607,21 +606,21 @@ class CoMoToDataImporterTest(unittest.TestCase):
         expectedGraph.add_node(assignment)
         expectedGraph.add_node(semester)
 
-        addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
-        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
-        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
-        addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, submission1, submission3, SameSemesterMatch(72, 5000))
-        addEdgesToGraph(expectedGraph, semester, assignment, SemesterAssignment())
+        self.addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
+        self.addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, submission1, submission3, SameSemesterMatch(72, 5000))
+        self.addEdgesToGraph(expectedGraph, semester, assignment, SemesterAssignment())
 
         actualGraph = self.dataImporter.buildGraph(analysisData)
 
-        self.assertEqual(expectedGraph, actualGraph)
+        self.assertGraphsEqual(expectedGraph, actualGraph)
 
 
     def testInvalidSameSemesterMatchAnalysis(self):
@@ -658,21 +657,21 @@ class CoMoToDataImporterTest(unittest.TestCase):
         expectedGraph.add_node(assignment)
         expectedGraph.add_node(semester)
 
-        addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
-        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
-        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
-        addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, submission1, submission3, SameSemesterMatch(72, 5000))
-        addEdgesToGraph(expectedGraph, semester, assignment, SemesterAssignment())
+        self.addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
+        self.addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, submission1, submission3, SameSemesterMatch(72, 5000))
+        self.addEdgesToGraph(expectedGraph, semester, assignment, SemesterAssignment())
 
         actualGraph = self.dataImporter.buildGraph(analysisData)
 
-        self.assertEqual(expectedGraph, actualGraph)
+        self.assertGraphsEqual(expectedGraph, actualGraph)
 
 
     def testPartnerMatchAnalysis(self):
@@ -707,21 +706,21 @@ class CoMoToDataImporterTest(unittest.TestCase):
         expectedGraph.add_node(assignment)
         expectedGraph.add_node(semester)
 
-        addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
-        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
-        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
-        addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, submission1, submission3, PartnerMatch(72, 5000))
-        addEdgesToGraph(expectedGraph, semester, assignment, SemesterAssignment())
+        self.addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
+        self.addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, submission1, submission3, PartnerMatch(72, 5000))
+        self.addEdgesToGraph(expectedGraph, semester, assignment, SemesterAssignment())
 
         actualGraph = self.dataImporter.buildGraph(analysisData)
 
-        self.assertEqual(expectedGraph, actualGraph)
+        self.assertGraphsEqual(expectedGraph, actualGraph)
 
 
     def testSolutionMatchAnalysis(self):
@@ -758,21 +757,21 @@ class CoMoToDataImporterTest(unittest.TestCase):
         expectedGraph.add_node(assignment)
         expectedGraph.add_node(semester)
 
-        addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
-        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
-        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
-        addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
-        addEdgesToGraph(expectedGraph, submission1, solutionSubmission, SolutionMatch(80, 5000))
-        addEdgesToGraph(expectedGraph, semester, assignment, SemesterAssignment())
+        self.addEdgesToGraph(expectedGraph, submission1, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission2, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission3, assignment, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
+        self.addEdgesToGraph(expectedGraph, student1, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student2, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student3, semester, Enrollment())
+        self.addEdgesToGraph(expectedGraph, submission1, solutionSubmission, SolutionMatch(80, 5000))
+        self.addEdgesToGraph(expectedGraph, semester, assignment, SemesterAssignment())
 
         actualGraph = self.dataImporter.buildGraph(analysisData)
 
-        self.assertEqual(expectedGraph, actualGraph)
+        self.assertGraphsEqual(expectedGraph, actualGraph)
 
     def testCrossSemesterMatchAnalyses(self):
         """
@@ -814,20 +813,20 @@ class CoMoToDataImporterTest(unittest.TestCase):
         expectedGraph.add_node(semester1)
         expectedGraph.add_node(semester2)
 
-        addEdgesToGraph(expectedGraph, submission1, assignment1, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission2, assignment1, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission3, assignment1, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission4, assignment2, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
-        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
-        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
-        addEdgesToGraph(expectedGraph, submission4, student4, Authorship())
-        addEdgesToGraph(expectedGraph, student1, semester1, Enrollment())
-        addEdgesToGraph(expectedGraph, student2, semester1, Enrollment())
-        addEdgesToGraph(expectedGraph, student3, semester1, Enrollment())
-        addEdgesToGraph(expectedGraph, student4, semester2, Enrollment())
-        addEdgesToGraph(expectedGraph, semester1, assignment1, SemesterAssignment())
-        addEdgesToGraph(expectedGraph, semester2, assignment2, SemesterAssignment())
+        self.addEdgesToGraph(expectedGraph, submission1, assignment1, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission2, assignment1, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission3, assignment1, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission4, assignment2, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission4, student4, Authorship())
+        self.addEdgesToGraph(expectedGraph, student1, semester1, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student2, semester1, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student3, semester1, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student4, semester2, Enrollment())
+        self.addEdgesToGraph(expectedGraph, semester1, assignment1, SemesterAssignment())
+        self.addEdgesToGraph(expectedGraph, semester2, assignment2, SemesterAssignment())
 
         # Every type of edge should be symmetric, except for the cross-semester match (since current submissions can
         # match past submissions, but not vice versa)
@@ -838,7 +837,7 @@ class CoMoToDataImporterTest(unittest.TestCase):
         actualGraph = self.dataImporter.buildGraph(analysisData)
 
         # Verify
-        self.assertEqual(expectedGraph, actualGraph)
+        self.assertGraphsEqual(expectedGraph, actualGraph)
 
     def testRetakingStudentAnalyses(self):
         """
@@ -884,26 +883,26 @@ class CoMoToDataImporterTest(unittest.TestCase):
         expectedGraph.add_node(semester1)
         expectedGraph.add_node(semester2)
 
-        addEdgesToGraph(expectedGraph, submission1, assignment1, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission2, assignment1, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission3, assignment1, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission4, assignment2, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission5, assignment2, AssignmentSubmission())
-        addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
-        addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
-        addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
-        addEdgesToGraph(expectedGraph, submission4, student1, Authorship())
-        addEdgesToGraph(expectedGraph, submission5, student4, Authorship())
-        addEdgesToGraph(expectedGraph, student1, semester1, Enrollment())
-        addEdgesToGraph(expectedGraph, student1, semester2, Enrollment())
-        addEdgesToGraph(expectedGraph, student2, semester1, Enrollment())
-        addEdgesToGraph(expectedGraph, student3, semester1, Enrollment())
-        addEdgesToGraph(expectedGraph, student4, semester2, Enrollment())
-        addEdgesToGraph(expectedGraph, semester1, assignment1, SemesterAssignment())
-        addEdgesToGraph(expectedGraph, semester2, assignment2, SemesterAssignment())
+        self.addEdgesToGraph(expectedGraph, submission1, assignment1, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission2, assignment1, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission3, assignment1, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission4, assignment2, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission5, assignment2, AssignmentSubmission())
+        self.addEdgesToGraph(expectedGraph, submission1, student1, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission2, student2, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission3, student3, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission4, student1, Authorship())
+        self.addEdgesToGraph(expectedGraph, submission5, student4, Authorship())
+        self.addEdgesToGraph(expectedGraph, student1, semester1, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student1, semester2, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student2, semester1, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student3, semester1, Enrollment())
+        self.addEdgesToGraph(expectedGraph, student4, semester2, Enrollment())
+        self.addEdgesToGraph(expectedGraph, semester1, assignment1, SemesterAssignment())
+        self.addEdgesToGraph(expectedGraph, semester2, assignment2, SemesterAssignment())
 
         # Test
         actualGraph = self.dataImporter.buildGraph(analysisData)
 
         # Verify
-        self.assertEqual(expectedGraph, actualGraph)
+        self.assertGraphsEqual(expectedGraph, actualGraph)

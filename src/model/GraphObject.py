@@ -23,6 +23,8 @@ class GraphObject(object):
 
         dictionary = dict((name, getattr(self, name)) for name in dir(self) if not name.startswith('__'))
         dictionary['type'] = self.__class__.__name__
+        del dictionary['toDict']
+
         return dictionary
 
     def __eq__(self, other):
