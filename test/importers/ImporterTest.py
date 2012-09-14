@@ -7,6 +7,12 @@ class ImporterTest(unittest.TestCase):
       Class containing common utility functions for importer tests
     """
 
+    def __init__(self, methodName='runTest'):
+        super(ImporterTest, self).__init__(methodName)
+
+        self.maxDiff = None
+
+
     def addEdgesToGraph(self, graph, a, b, object):
         """
           Helper function to add bi-directional directed edges to directed graph

@@ -187,11 +187,19 @@ class CoMoToDataImporter(Thread):
                         if isinstance(node, Semester) and node != submissionSemester:
                             studentIsRetake = True
 
-                    # Remove & re-add student node (since this should be like this student is being added for the first
-                    # time)
+                    # Remove all edges
                     if studentIsRetake:
-                        graph.remove_node(student)
-                        graph.add_node(student)
+
+                        # Remove old enrollments & submissions for last semester
+                        for node in studentNodePredecessors:
+                            if isinstance(node, Semester) and node != submissionSemester:
+                                graph.remove_edge(node, student)
+                                graph.remove_edge(student, node)
+                            elif isinstance(node, Submission):
+                                graph.remove_edge(node, student)
+                                graph.remove_edge(student, node)
+                                graph.remove_node(node)
+
 
                         addEnrollmentEdge = True
 
