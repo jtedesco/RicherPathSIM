@@ -202,7 +202,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
                 'authors': ['Author One'],
                 'conference': 'Conference One',
                 'references': [],
-                'title': 'Databases',
+                'title': 'All Databases',
                 'year': 1995
             },
             1: {
@@ -221,9 +221,9 @@ class ArnetMinerDataImporterTest(ImporterTest):
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
         author2 = Author(1, 'Author Two')
-        paper1 = Paper(0, 'Databases')
+        paper1 = Paper(0, 'All Databases')
         paper2 = Paper(1, 'Databases')
-        topic = Topic(0, ['databases'])
+        topic = Topic(0, ['databas'])
         venue1 = Venue(0, 'Conference One')
         venue2 = Venue(1, 'Conference Two')
         expectedGraph.add_node(author1)
@@ -265,7 +265,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
                 'authors': ['Author Two'],
                 'conference': 'Conference One',
                 'references': [],
-                'title': 'Knowledge',
+                'title': 'All The Knowledge',
                 'year': 1999
             }
         }
@@ -276,9 +276,9 @@ class ArnetMinerDataImporterTest(ImporterTest):
         author1 = Author(0, 'Author One')
         author2 = Author(1, 'Author Two')
         paper1 = Paper(0, 'Databases')
-        paper2 = Paper(1, 'Knowledge')
-        topic1 = Topic(0, ['databases'])
-        topic2 = Topic(1, ['knowledge'])
+        paper2 = Paper(1, 'All The Knowledge')
+        topic1 = Topic(0, ['databas'])
+        topic2 = Topic(1, ['knowledg'])
         venue = Venue(0, 'Conference One')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
@@ -331,7 +331,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         author2 = Author(1, 'Author Two')
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
-        topic = Topic(0, ['databases'])
+        topic = Topic(0, ['databas'])
         venue = Venue(0, 'Conference One')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
@@ -387,7 +387,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         author3 = Author(1, 'Author Three')
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
-        topic = Topic(0, ['databases'])
+        topic = Topic(0, ['databas'])
         venue1 = Venue(0, 'Conference One')
         venue2 = Venue(1, 'Conference Two')
         expectedGraph.add_node(author1)
@@ -443,7 +443,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         author2 = Author(1, 'Author Two')
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
-        topic = Topic(0, ['databases'])
+        topic = Topic(0, ['databas'])
         venue = Venue(0, 'Conference One')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
@@ -498,7 +498,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         author2 = Author(1, 'Author Two')
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
-        topic = Topic(0, ['databases'])
+        topic = Topic(0, ['databas'])
         venue1 = Venue(0, 'Conference One')
         venue2 = Venue(1, 'Conference Two')
         expectedGraph.add_node(author1)
@@ -555,7 +555,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         author2 = Author(1, 'Author Two')
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
-        topic = Topic(0, ['databases'])
+        topic = Topic(0, ['databas'])
         venue1 = Venue(0, 'Conference One')
         venue2 = Venue(1, 'Conference Two')
         expectedGraph.add_node(author1)
@@ -611,7 +611,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         author = Author(0, 'Author One')
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
-        topic = Topic(0, ['databases'])
+        topic = Topic(0, ['databas'])
         venue1 = Venue(0, 'Conference One')
         venue2 = Venue(1, 'Conference Two')
         expectedGraph.add_node(author)

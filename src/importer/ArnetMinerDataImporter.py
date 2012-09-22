@@ -1,4 +1,7 @@
 from copy import deepcopy
+import json
+import os
+import Stemmer
 from threading import Thread
 import networkx
 from src.importer.error.ArnetParseError import ArnetParseError
@@ -23,6 +26,15 @@ class ArnetMinerDataImporter(Thread):
 
         self.inputPath = inputPath
         self.outputPath = outputPath
+
+        projectRoot = os.environ['PROJECT_ROOT']
+
+        # Get the stop words list / set
+        self.stopWords = None
+        with open(projectRoot + '/data/stopWords.json') as f:
+            self.stopWords = set(json.load(f))
+
+        self.stemmer = Stemmer.Stemmer('english')
 
         super(ArnetMinerDataImporter, self).__init__()
 
@@ -116,6 +128,7 @@ class ArnetMinerDataImporter(Thread):
             paper = Paper(paperId, paperData['title'])
             citationMap[paperId] = paperData['references']
 
+            # Create or get conference for this paper
             conferenceName = paperData['conference']
             if conferenceName not in venues:
                 conference = Venue(len(venues), conferenceName)
@@ -124,6 +137,7 @@ class ArnetMinerDataImporter(Thread):
             else:
                 conference = venues[conferenceName]
 
+            # Create or get authors for this paper
             paperAuthors = []
             for authorName in paperData['authors']:
                 if authorName not in authors:
@@ -134,14 +148,17 @@ class ArnetMinerDataImporter(Thread):
                     author = authors[authorName]
                 paperAuthors.append(author)
 
-            # TODO: Use topic analysis on title to generate topics
-            topicName = paperData['title'].lower()
-            if topicName not in topics:
-                topic = Topic(len(topics), paperData['title'].lower().split())
-                topics[topicName] = topic
-                graph.add_node(topic)
-            else:
-                topic = topics[topicName]
+            # Extract keywords from title, and use as topics
+            keywords = self.__extractKeywords(paperData['title'])
+            for keyword in keywords:
+                if keyword not in topics:
+                    topic = Topic(len(topics), [keyword])
+                    topics[keyword] = topic
+                    graph.add_node(topic)
+                else:
+                    topic = topics[keyword]
+                graph.add_edge(topic, paper, Mention().toDict())
+                graph.add_edge(paper, topic, Mention().toDict())
 
             # Add new paper to the graph
             papers[paperId] = paper
@@ -151,8 +168,6 @@ class ArnetMinerDataImporter(Thread):
             for author in paperAuthors:
                 graph.add_edge(paper, author, Authorship().toDict())
                 graph.add_edge(author, paper, Authorship().toDict())
-            graph.add_edge(topic, paper, Mention().toDict())
-            graph.add_edge(paper, topic, Mention().toDict())
             graph.add_edge(paper, conference, Publication().toDict())
             graph.add_edge(conference, paper, Publication().toDict())
 
@@ -165,3 +180,17 @@ class ArnetMinerDataImporter(Thread):
                 graph.add_edge(paper, citedPaper, Citation().toDict())
 
         return graph
+
+
+    def __extractKeywords(self, text):
+        """
+          Extracts topic keywords using lowercase, stemming, and a stop word list
+        """
+
+        keywords = set()
+        words = self.stemmer.stemWords(text.lower().split(' '))
+        for word in words:
+            if word not in self.stopWords:
+                keywords.add(word)
+
+        return keywords
