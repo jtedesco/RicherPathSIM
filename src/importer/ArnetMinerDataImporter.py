@@ -32,8 +32,8 @@ class ArnetMinerDataImporter(Thread):
 
         # Get the stop words list / set
         self.stopWords = None
-        with open(projectRoot + '/data/stopWords.json') as f:
-            self.stopWords = set(json.load(f))
+        with open(projectRoot + '/src/importer/stopWords.json') as stopWordsFile:
+            self.stopWords = set(json.load(stopWordsFile))
 
         self.stemmer = Stemmer.Stemmer('english')
 
