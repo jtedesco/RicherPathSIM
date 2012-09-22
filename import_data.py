@@ -1,3 +1,4 @@
+from src.importer.ArnetMinerDataImporter import ArnetMinerDataImporter
 from src.importer.CoMoToDataImporter import CoMoToDataImporter
 
 __author__ = 'jon'
@@ -10,5 +11,6 @@ if __name__ == '__main__':
     password = raw_input("Password:")
 
     comotoDataImporter = CoMoToDataImporter('graphs/dblp-arnet-v5', netid, password)
-
+    arnetMinerDataImporter = ArnetMinerDataImporter('data/DBLP-citation-Feb21.txt', 'graphs/arnetV5WithPublicationLinks')
     comotoDataImporter.start()
+    arnetMinerDataImporter.start()
