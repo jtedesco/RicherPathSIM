@@ -1,9 +1,10 @@
-from copy import deepcopy
 import json
 import os
 import Stemmer
-from threading import Thread
+import cPickle
 import networkx
+from threading import Thread
+from copy import deepcopy
 from src.importer.error.ArnetParseError import ArnetParseError
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Citation import Citation
@@ -40,10 +41,13 @@ class ArnetMinerDataImporter(Thread):
 
 
     def run(self):
-        with open(self.inputPath) as f:
-            inputContent = f.read()
+        with open(self.inputPath) as inputFile:
+            inputContent = inputFile.read()
         parsedData = self.parseInputContent(inputContent)
         graph = self.buildGraph(parsedData)
+
+        with open(self.outputPath, 'w') as outputFile:
+            cPickle.dump(outputFile, graph)
 
 
     def parseInputContent(self, inputContent):
