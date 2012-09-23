@@ -31,7 +31,7 @@ class ArnetMinerDataImporter(Thread):
         self.outputPath = outputPath
 
         logging.setLoggerClass(ColoredLogger)
-        self.logger = logging.getLogger('CoMoToDataImporter')
+        self.logger = logging.getLogger('ArnetMinerDataImporter')
 
         # Get the stop words set & stemmer for text analysis
         self.stopWords = None
