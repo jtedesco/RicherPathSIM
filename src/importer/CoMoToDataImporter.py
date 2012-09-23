@@ -55,7 +55,7 @@ class CoMoToDataImporter(Thread):
         graph = self.buildGraph(coMoToData)
 
         with open(self.outputPath, 'w') as outputFile:
-            cPickle.dump(outputFile, graph)
+            cPickle.dump(graph, outputFile)
 
 
     def getCoMoToData(self):

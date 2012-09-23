@@ -47,7 +47,7 @@ class ArnetMinerDataImporter(Thread):
         graph = self.buildGraph(parsedData)
 
         with open(self.outputPath, 'w') as outputFile:
-            cPickle.dump(outputFile, graph)
+            cPickle.dump(graph, outputFile)
 
 
     def parseInputContent(self, inputContent):
