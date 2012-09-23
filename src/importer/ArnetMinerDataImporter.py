@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import Stemmer
 import cPickle
@@ -6,6 +7,7 @@ import networkx
 from threading import Thread
 from copy import deepcopy
 from src.importer.error.ArnetParseError import ArnetParseError
+from src.logger.ColoredLogger import ColoredLogger
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Citation import Citation
 from src.model.edge.dblp.Mention import Mention
@@ -28,26 +30,39 @@ class ArnetMinerDataImporter(Thread):
         self.inputPath = inputPath
         self.outputPath = outputPath
 
-        projectRoot = os.environ['PROJECT_ROOT']
+        logging.setLoggerClass(ColoredLogger)
+        self.logger = logging.getLogger('CoMoToDataImporter')
 
-        # Get the stop words list / set
+        # Get the stop words set & stemmer for text analysis
         self.stopWords = None
-        with open(projectRoot + '/src/importer/stopWords.json') as stopWordsFile:
+        with open(os.getcwd() + '/src/importer/stopWords.json') as stopWordsFile:
             self.stopWords = set(json.load(stopWordsFile))
-
         self.stemmer = Stemmer.Stemmer('english')
 
         super(ArnetMinerDataImporter, self).__init__()
 
 
     def run(self):
-        with open(self.inputPath) as inputFile:
-            inputContent = inputFile.read()
-        parsedData = self.parseInputContent(inputContent)
-        graph = self.buildGraph(parsedData)
 
-        with open(self.outputPath, 'w') as outputFile:
-            cPickle.dump(graph, outputFile)
+        try:
+
+            self.logger.info("Reading ArnetMiner input file '%s'" % self.inputPath)
+            with open(self.inputPath) as inputFile:
+                inputContent = inputFile.read()
+
+            self.logger.info("Parsing ArnetMiner input content")
+            parsedData = self.parseInputContent(inputContent)
+
+            self.logger.info("Building ArnetMiner graph data")
+            graph = self.buildGraph(parsedData)
+
+            self.logger.info("Pickling ArnetMiner graph data to file")
+            with open(self.outputPath, 'w') as outputFile:
+                cPickle.dump(graph, outputFile)
+
+        except ArnetParseError, error:
+
+            self.logger.error(error.message)
 
 
     def parseInputContent(self, inputContent):

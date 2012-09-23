@@ -1,8 +1,10 @@
+import logging
 import xmlrpclib
 import networkx
 import cPickle
 from threading import Thread
 from src.importer.error.CoMoToParseError import CoMoToParseError
+from src.logger.ColoredLogger import ColoredLogger
 from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
 from src.model.edge.comoto.Authorship import Authorship
 from src.model.edge.comoto.Enrollment import Enrollment
@@ -37,6 +39,9 @@ class CoMoToDataImporter(Thread):
         self.userName = userName
         self.password = password
 
+        logging.setLoggerClass(ColoredLogger)
+        self.logger = logging.getLogger('CoMoToDataImporter')
+
         super(CoMoToDataImporter, self).__init__()
 
 
@@ -51,11 +56,21 @@ class CoMoToDataImporter(Thread):
           </ol>
         """
 
-        coMoToData = self.getCoMoToData()
-        graph = self.buildGraph(coMoToData)
+        try:
 
-        with open(self.outputPath, 'w') as outputFile:
-            cPickle.dump(graph, outputFile)
+            self.logger.info("Fetching CoMoTo data")
+            coMoToData = self.getCoMoToData()
+
+            self.logger.info("Building CoMoTo graph data")
+            graph = self.buildGraph(coMoToData)
+
+            self.logger.info("Pickling CoMoTo graph data to file")
+            with open(self.outputPath, 'w') as outputFile:
+                cPickle.dump(graph, outputFile)
+
+        except CoMoToParseError, error:
+
+            self.logger.error(error.message)
 
 
     def getCoMoToData(self):
