@@ -68,9 +68,9 @@ class CoMoToDataImporter(Thread):
             with open(self.outputPath, 'w') as outputFile:
                 cPickle.dump(graph, outputFile)
 
-        except CoMoToParseError, error:
+        except Exception, error:
 
-            self.logger.error(error.message)
+            self.logger.error(error.__class__.__name__ + ": " + error.message)
 
 
     def getCoMoToData(self):
