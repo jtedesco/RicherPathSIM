@@ -7,9 +7,8 @@ __author__ = 'jontedesco'
 class PageRankStrategy(SimilarityStrategy):
     """
       Implementation of personal PageRank strategy for node similarity in a homogeneous graph. Simply performs PageRank
-      on graph reachable from a given node
+      on graph reachable from a given node.
     """
-    # TODO: Research actual algorithm & setup in more detail to implement properly
 
 
     def __init__(self, graph):

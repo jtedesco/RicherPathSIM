@@ -23,7 +23,6 @@ class PageRankStrategyTest(unittest.TestCase):
         bobScore = strategy.findSimilarityScore(mike, authorMap['Bob'])
         annScore = strategy.findSimilarityScore(mike, authorMap['Ann'])
 
-        # TODO: Update to be more precise
         self.assertTrue(annScore >= maryScore)
         self.assertTrue(annScore >= jimScore)
         self.assertTrue(annScore >= bobScore)
@@ -40,5 +39,4 @@ class PageRankStrategyTest(unittest.TestCase):
         mike = authorMap['Mike']
         mostSimilarNodes = strategy.findMostSimilarNodes(mike, 1)
 
-        # TODO: Update to be more precise
         self.assertEquals([authorMap['Ann']], mostSimilarNodes)
