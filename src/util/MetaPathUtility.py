@@ -10,7 +10,7 @@ class MetaPathUtility(object):
     """
 
     @staticmethod
-    def findMetaPathNeighbors(graph, node, metaPath):
+    def findMetaPathNeighbors(graph, node, metaPath, symmetric = False):
         """
           Finds the neighbors of some node along the given meta path, i.e. nodes that are reachable from the given node
           along the given meta path.
@@ -20,6 +20,10 @@ class MetaPathUtility(object):
             @param  metaPath
         """
 
+        # TODO: Implement me!
+        if symmetric:
+            raise NotImplementedError()
+
         # Verify that the given node is a valid starting node for the given meta path
         assert(node.__class__ == metaPath.classes[0])
 
@@ -28,21 +32,20 @@ class MetaPathUtility(object):
 
 
     @staticmethod
-    def findMetaPaths(graph, startingNode, endingNode, metaPath, symmetricMetaPath = False, evenLengthPaths = False):
+    def findMetaPaths(graph, startingNode, endingNode, metaPath, symmetric = False):
         """
           Finds all paths that match the metaPath connecting the given nodes
         """
 
-        # Verify that the given nodes are valid endpoints node for the given meta path if symmetric is not turned on
+        # Check that the endpoints are of the correct types
         assert(startingNode.__class__ == metaPath.classes[0])
-        if not symmetricMetaPath:
-            assert(endingNode.__class__ == metaPath.classes[-1])
+        assert(endingNode.__class__ == metaPath.classes[-1])
 
         # Split logic based on whether or not the path should be a cycle
         if startingNode == endingNode:
-            return MetaPathUtility.__findReflexiveMetaPaths(graph, startingNode, metaPath, symmetricMetaPath, evenLengthPaths)
+            return MetaPathUtility.__findReflexiveMetaPaths(graph, startingNode, metaPath, symmetric)
         else:
-            return MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, metaPath, symmetricMetaPath, evenLengthPaths)
+            return MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, metaPath, symmetric)
 
 
     @staticmethod
@@ -102,25 +105,14 @@ class MetaPathUtility(object):
 
 
     @staticmethod
-    def __findReflexiveMetaPaths(graph, startingNode, metaPath, symmetricMetaPath, evenLengthPaths):
+    def __findReflexiveMetaPaths(graph, startingNode, metaPath, symmetric):
         """
           Helper function to find meta paths, given that we know the start and end nodes are the same
         """
 
 
-        if symmetricMetaPath:
-
-            # Concatenate the two half meta paths together (depending on whether or not it's even length)
-            metaPathClasses = metaPath.classes
-            reversedMetaPathClasses = list(metaPathClasses)[1:] # Still skip last entry
-            reversedMetaPathClasses.reverse()
-            metaPathClasses = metaPath.classes if evenLengthPaths else metaPath.classes[:-1] # Don't repeat the middle entry
-            modifiedMetaPath = MetaPath(metaPathClasses + reversedMetaPathClasses, metaPath.weight)
-
-        else:
-
-            # Create a meta path one entry shorter
-            modifiedMetaPath = MetaPath(metaPath.classes[:-1], metaPath.weight)
+        # Create a meta path one entry shorter
+        modifiedMetaPath = MetaPath(metaPath.classes[:-1], metaPath.weight)
 
         # Find reachable nodes on this shorter meta path
         reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, modifiedMetaPath)
@@ -129,7 +121,7 @@ class MetaPathUtility(object):
 
         for endingNode in reachableNodes:
             if graph.has_edge(endingNode, startingNode):
-                correctPaths = MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, False, False)
+                correctPaths = MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, symmetric)
                 for path in correctPaths:
                     paths.append(path + [startingNode])
 
@@ -137,25 +129,12 @@ class MetaPathUtility(object):
 
 
     @staticmethod
-    def __findNonReflexiveMetaPaths(graph, startingNode, endingNode, metaPath, symmetricMetaPath, evenLengthPaths):
+    def __findNonReflexiveMetaPaths(graph, startingNode, endingNode, metaPath, symmetric):
         """
           Helper function to find meta paths, given that we know the start and end nodes are not the same
         """
 
         paths = []
-
-        # Concatenate meta paths if necessary (if symmetric)
-        if symmetricMetaPath:
-
-            newTypeList = metaPath.classes
-            reversedTypeList = list(newTypeList)
-            reversedTypeList.reverse()
-
-            if evenLengthPaths:
-                metaPath = MetaPath(newTypeList + reversedTypeList, metaPath.weight)
-            else:
-                metaPath = MetaPath(newTypeList + reversedTypeList[1:], metaPath.weight)
-
 
         # Find all paths of the right length, then filter by the node types in the path
         allPathsOfCorrectOrLesserLength = networkx.all_simple_paths(graph, startingNode, endingNode, len(metaPath.classes) - 1)
@@ -175,21 +154,19 @@ class MetaPathUtility(object):
                 paths.append(path)
 
         # If these meta paths must be symmetric, skip any meta paths where edges don't go in both directions
-        return MetaPathUtility.__filterPathsForSymmetry(graph, paths, symmetricMetaPath)
+        return MetaPathUtility.__filterPathsForSymmetry(graph, paths) if symmetric else paths
 
 
     @staticmethod
-    def __filterPathsForSymmetry(graph, paths, symmetricMetaPath):
+    def __filterPathsForSymmetry(graph, paths):
         """
-          Remove any paths that or asymmetrical, if that is required
+          Remove any paths that are asymmetrical
         """
 
-        if symmetricMetaPath:
-            newMetaPaths = list(paths)
-            for path in paths:
-                for i in xrange(0, len(path) - 1):
-                    if not graph.has_edge(path[i + 1], path[i]):
-                        newMetaPaths.remove(path)
-            paths = newMetaPaths
-        return paths
+        newMetaPaths = list(paths)
+        for path in paths:
+            for i in xrange(0, len(path) - 1):
+                if not graph.has_edge(path[i + 1], path[i]):
+                    newMetaPaths.remove(path)
+        return newMetaPaths
 
