@@ -4,7 +4,8 @@ __author__ = 'jontedesco'
 
 class MetaPathUtility(object):
     """
-      Contains helper methods for dealing with meta paths
+      Contains helper methods for dealing with meta paths. Note that this utility only handles meta paths that start and
+      end at different nodes, and that never repeat nodes in the path (repeating meta path types is fine).
     """
 
     @staticmethod
