@@ -13,15 +13,6 @@ class ImporterTest(unittest.TestCase):
         self.maxDiff = None
 
 
-    def addEdgesToGraph(self, graph, a, b, object):
-        """
-          Helper function to add bi-directional directed edges to directed graph
-        """
-
-        graph.add_edge(a, b, object.toDict())
-        graph.add_edge(b, a, object.toDict())
-
-
     def assertGraphsEqual(self, expectedGraph, actualGraph):
         """
           Checks equality node by node and edge by edge
