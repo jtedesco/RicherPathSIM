@@ -1,4 +1,3 @@
-from pprint import pprint
 import unittest
 from src.model.metapath.MetaPath import MetaPath
 from src.model.node.dblp.Author import Author
@@ -24,13 +23,12 @@ class PathSimStrategyTest(unittest.TestCase):
         strategy = PathSimStrategy(graph, metaPath)
 
         mike = authorMap['Mike']
-        jimScore = strategy.findSimilarityScore(mike, authorMap['Jim'])
-        maryScore = strategy.findSimilarityScore(mike, authorMap['Mary'])
-        bobScore = strategy.findSimilarityScore(mike, authorMap['Bob'])
-        annScore = strategy.findSimilarityScore(mike, authorMap['Ann'])
+        jimScore, maryScore, bobScore, annScore = strategy.findSimilarityScores(
+            mike, [authorMap['Jim'], authorMap['Mary'], authorMap['Bob'], authorMap['Ann']]
+        )
 
-        # TODO: Enforce results from paper
-        print(jimScore, maryScore, bobScore, annScore)
+        self.assertEquals(bobScore, 1.0)
+        self.assertEquals(annScore, 0)
 
 
     def testFindAllSimilarityFromNodeOnPathSimExampleThree(self):
@@ -43,7 +41,6 @@ class PathSimStrategyTest(unittest.TestCase):
         strategy = PathSimStrategy(graph, metaPath)
 
         mike = authorMap['Mike']
-        mostSimilarNodes = strategy.findMostSimilarNodes(mike, len(graph.nodes()))
+        mostSimilarNodes = strategy.findMostSimilarNodes(mike, 5)
 
-        # TODO: Enforce results from paper
-        pprint(mostSimilarNodes[0].toDict())
+        self.assertEquals([authorMap['Bob'], authorMap['Mary'], authorMap['Jim']], mostSimilarNodes)

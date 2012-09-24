@@ -73,26 +73,6 @@ class MetaPathUtilityTest(unittest.TestCase):
         ))
 
 
-    def testFindMetaPathNeighborsLengthOne(self):
-        """
-          Tests finding neighbors along a length one meta path in template graph
-        """
-
-        # Test case with many neighbors
-        self.assertEquals({
-            self.templateGraphMap['paper1'], self.templateGraphMap['paper2'], self.templateGraphMap['paper3']
-        }, MetaPathUtility.findMetaPathNeighbors(
-            self.templateGraph, self.templateGraphMap['author'], MetaPath([Author, Paper])
-        ))
-
-        # Test case with only one neighbor
-        self.assertEquals({
-            self.templateGraphMap['author']
-        }, MetaPathUtility.findMetaPathNeighbors(
-            self.templateGraph, self.templateGraphMap['paper1'], MetaPath([Paper, Author])
-        ))
-
-
     def testFindMetaPathsLengthTwo(self):
         """
           Tests finding the meta path(s) of length two between two nodes in template graph
@@ -111,6 +91,26 @@ class MetaPathUtilityTest(unittest.TestCase):
             [self.templateGraphMap['author'], self.templateGraphMap['paper3'], self.templateGraphMap['conference2']]
         ], MetaPathUtility.findMetaPaths(
             self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['conference2'], MetaPath([Author, Paper, Conference])
+        ))
+
+
+    def testFindMetaPathNeighborsLengthOne(self):
+        """
+          Tests finding neighbors along a length one meta path in template graph
+        """
+
+        # Test case with many neighbors
+        self.assertEquals({
+            self.templateGraphMap['paper1'], self.templateGraphMap['paper2'], self.templateGraphMap['paper3']
+        }, MetaPathUtility.findMetaPathNeighbors(
+            self.templateGraph, self.templateGraphMap['author'], MetaPath([Author, Paper])
+        ))
+
+        # Test case with only one neighbor
+        self.assertEquals({
+            self.templateGraphMap['author']
+        }, MetaPathUtility.findMetaPathNeighbors(
+            self.templateGraph, self.templateGraphMap['paper1'], MetaPath([Paper, Author])
         ))
 
 

@@ -7,6 +7,7 @@ class SimilarityStrategy(object):
 
     def __init__(self, graph):
         self.graph = graph
+        self.n = len(graph.nodes())
 
 
     def findSimilarityScore(self, source, destination):
@@ -17,7 +18,7 @@ class SimilarityStrategy(object):
         raise NotImplementedError()
 
 
-    def findMostSimilarNodes(self, node, number=5):
+    def findMostSimilarNodes(self, node, number=None):
         """
           Find the most similar nodes to some given node
 
@@ -26,3 +27,16 @@ class SimilarityStrategy(object):
         """
 
         raise NotImplementedError()
+
+
+    def findSimilarityScores(self, source, destinations):
+        """
+          Find the similarity scores between a source and a list of destination, and normalize these scores by the
+          maximum score for any destination
+        """
+
+        scores = list(self.findSimilarityScore(source, destination) for destination in destinations)
+        maxScore = max(scores)
+        normalizedScores = list(score / float(maxScore) for score in scores)
+
+        return normalizedScores

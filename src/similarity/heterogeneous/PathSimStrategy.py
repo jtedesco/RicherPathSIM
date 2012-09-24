@@ -23,9 +23,9 @@ class PathSimStrategy(MetaPathSimilarityStrategy):
             return cachedScore
 
         # Get the meta paths between the source and destination
-        sourceDestinationPaths = MetaPathUtility.findMetaPaths(self.graph, source, destination, self.metaPath)
-        sourceCycles = MetaPathUtility.findMetaPaths(self.graph, source, source, self.metaPath)
-        destinationCycles = MetaPathUtility.findMetaPaths(self.graph, destination, destination, self.metaPath)
+        sourceDestinationPaths = MetaPathUtility.findMetaPaths(self.graph, source, destination, self.metaPath, True)
+        sourceCycles = MetaPathUtility.findMetaPaths(self.graph, source, source, self.metaPath, True)
+        destinationCycles = MetaPathUtility.findMetaPaths(self.graph, destination, destination, self.metaPath, True)
 
         # Compute the PathSim similarity scores of the two nodes
         similarityScore = (2.0 * len(sourceDestinationPaths)) / float(len(sourceCycles) + len(destinationCycles))

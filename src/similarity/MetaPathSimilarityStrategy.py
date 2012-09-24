@@ -32,10 +32,15 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
         self.similarityScores = {}
 
 
-    def findMostSimilarNodes(self, source, number=5):
+    def findMostSimilarNodes(self, source, number=None):
         """
-          Simple find the similarity scores between this node and all reachable nodes on this meta path
+          Simple find the similarity scores between this node and all reachable nodes on this meta path. Note that if
+          there are fewer reachable nodes than "number", the number of reachable nodes will be returned.
         """
+
+        # If no number is provided, default to the number of nodes in the graph
+        if number is None:
+            number = self.n
 
         # Get similarity scores for all entries
         reachableNodes = MetaPathUtility.findMetaPathNeighbors(self.graph, source, self.metaPath)
