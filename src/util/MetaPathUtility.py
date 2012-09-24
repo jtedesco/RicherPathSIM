@@ -1,4 +1,3 @@
-import math
 import networkx
 from src.model.metapath.MetaPath import MetaPath
 
@@ -89,28 +88,21 @@ class MetaPathUtility(object):
           Helper function to find meta paths, given that we know the start and end nodes are the same
         """
 
-        # First, find all neighbors reachable from the node on the half meta path (do nothing if we were only given half)
-        midpointIndex = int(math.ceil(len(metaPath.classes)/2.0))
-        metaPathToSearch =  metaPath if symmetricMetaPath else MetaPath(metaPath.classes[:midpointIndex+1], metaPath.weight)
-        newClassesList = list(metaPathToSearch.classes)
-        newClassesList.reverse()
-        reversedMetaPathToSearch = MetaPath(newClassesList, metaPathToSearch.weight)
+        # Create a meta path one entry shorter
+        shortenedMetaPath = MetaPath(metaPath.classes[:-1], metaPath.weight)
 
-        # Find reachable nodes on this (possibly) partial meta path
-        reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, metaPathToSearch)
+        # Find reachable nodes on this shorter meta path
+        reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, shortenedMetaPath)
 
-        metaPaths = []
+        paths = []
 
         for endingNode in reachableNodes:
-            pathsToNode = MetaPathUtility.findMetaPaths(graph, startingNode, endingNode, metaPathToSearch)
-            for pathToNode in pathsToNode:
-                pathsFromNode = MetaPathUtility.findMetaPaths(graph, endingNode, startingNode, reversedMetaPathToSearch)
-                for pathFromNode in pathsFromNode:
-                    concatenatedPath = pathToNode + pathFromNode[1:]
-                    if concatenatedPath not in metaPaths:
-                        metaPaths.append(concatenatedPath)
+            if graph.has_edge(endingNode, startingNode):
+                correctPaths = MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, shortenedMetaPath, symmetricMetaPath, evenLengthPaths)
+                for path in correctPaths:
+                    paths.append(path + [startingNode])
 
-        return list(metaPaths)
+        return paths
 
 
     @staticmethod
