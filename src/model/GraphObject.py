@@ -21,7 +21,7 @@ class GraphObject(object):
           Returns a dictionary containing all data for this object
         """
 
-        dictionary = dict((name, getattr(self, name)) for name in dir(self) if not name.startswith('__'))
+        dictionary = self.__dict__
         dictionary['type'] = self.__class__.__name__
         del dictionary['toDict']
 
