@@ -23,7 +23,6 @@ class GraphObject(object):
 
         dictionary = self.__dict__
         dictionary['type'] = self.__class__.__name__
-        del dictionary['toDict']
 
         return dictionary
 
