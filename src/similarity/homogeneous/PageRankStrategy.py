@@ -1,4 +1,5 @@
 import networkx
+import operator
 from src.similarity.SimilarityStrategy import SimilarityStrategy
 
 __author__ = 'jontedesco'
@@ -8,6 +9,8 @@ class PageRankStrategy(SimilarityStrategy):
       Implementation of personal PageRank strategy for node similarity in a homogeneous graph. Simply performs PageRank
       on graph reachable from a given node
     """
+    # TODO: Research actual algorithm & setup in more detail to implement properly
+
 
     def __init__(self, graph):
         super(PageRankStrategy, self).__init__(graph)
@@ -32,12 +35,22 @@ class PageRankStrategy(SimilarityStrategy):
         return self.__getSimilarityScore(source, destination)
 
 
-    def findMostSimilarNodes(self, node, number=5):
+    def findMostSimilarNodes(self, source, number=5):
 
-        if node not in self.similarityScores:
-            self.__computeSimilarityScores(node)
+        if source not in self.similarityScores:
+            self.__computeSimilarityScores(source)
 
-        return super(PageRankStrategy, self).findMostSimilarNodes(node, number)
+        # Sort by increasing score
+        mostSimilarNodes = sorted(self.similarityScores[source].iteritems(), key=operator.itemgetter(1))
+
+        # Remove source, nodes of different types, and reverse
+        newMostSimilarNodes = []
+        for node, score in mostSimilarNodes:
+            if node != source and node.__class__ == source.__class__:
+                newMostSimilarNodes.append(node)
+        mostSimilarNodes = newMostSimilarNodes[-1 * number:]
+
+        return mostSimilarNodes
 
 
     def __computeSimilarityScores(self, source):
@@ -47,6 +60,8 @@ class PageRankStrategy(SimilarityStrategy):
 
         subgraph = networkx.bfs_tree(self.graph, source)
         self.similarityScores[source] = networkx.pagerank_numpy(subgraph)
+
+        return self.similarityScores[source]
 
 
     def __getSimilarityScore(self, source, destination):

@@ -9,7 +9,7 @@ class PageRankStrategyTest(unittest.TestCase):
       Tests a basic PageRank strategy test
     """
 
-    def testPathSimExampleThree(self):
+    def testFindSingleSimilarityPathSimExampleThree(self):
         """
           Tests pairwise similarity for nodes, using example 3 from PathSim paper (compute similarity scores from Mike)
         """
@@ -21,7 +21,24 @@ class PageRankStrategyTest(unittest.TestCase):
         jimScore = strategy.findSimilarityScore(mike, authorMap['Jim'])
         maryScore = strategy.findSimilarityScore(mike, authorMap['Mary'])
         bobScore = strategy.findSimilarityScore(mike, authorMap['Bob'])
+        annScore = strategy.findSimilarityScore(mike, authorMap['Ann'])
 
-        # TODO: Research actual algorithm & setup in more detail to implement properly
-        self.assertTrue(jimScore >= maryScore)
-        self.assertTrue(bobScore >= maryScore)
+        # TODO: Update to be more precise
+        self.assertTrue(annScore >= maryScore)
+        self.assertTrue(annScore >= jimScore)
+        self.assertTrue(annScore >= bobScore)
+
+
+    def testFindAllSimilarityFromNodeOnPathSimExampleThree(self):
+        """
+          Tests similarity for all other nodes given a signle node, using example 3 from PathSim paper
+        """
+
+        graph, authorMap, venueMap  = SampleGraphUtility.constructPathSimExampleThree()
+        strategy = PageRankStrategy(graph)
+
+        mike = authorMap['Mike']
+        mostSimilarNodes = strategy.findMostSimilarNodes(mike, 1)
+
+        # TODO: Update to be more precise
+        self.assertEquals([authorMap['Ann']], mostSimilarNodes)
