@@ -6,7 +6,7 @@ __author__ = 'jontedesco'
 
 class PageRankStrategyTest(unittest.TestCase):
     """
-      Tests a basic PageRank strategy test
+      Tests a basic PageRank strategy
     """
 
     def testFindSingleSimilarityPathSimExampleThree(self):
