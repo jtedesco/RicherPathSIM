@@ -154,6 +154,34 @@ class MetaPathUtilityTest(unittest.TestCase):
         ))
 
 
+    def testFindOddLengthSymmetricMetaPaths(self):
+        """
+          Tests finding meta paths when the meta paths may or may not be symmetric, and we are looking for symmetric paths
+          only (still starting & ending at different points) of odd length
+        """
+
+        # Co-authorship
+        self.assertItemsEqual([
+            [self.templateGraphMap['author'], self.templateGraphMap['paper3'], self.templateGraphMap['coauthor']]
+        ], MetaPathUtility.findMetaPaths(self.templateGraph, self.templateGraphMap['author'],
+            self.templateGraphMap['coauthor'], MetaPath([Author, Paper]), True
+        ))
+
+
+    def testFindEvenLengthSymmetricMetaPaths(self):
+        """
+          Tests finding meta paths when the meta paths may or may not be symmetric, and we are looking for symmetric paths
+          only (still starting & ending at different points) of even length
+        """
+
+        # Author citation
+        self.assertItemsEqual([
+            [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['paper3'], self.templateGraphMap['coauthor']]
+        ], MetaPathUtility.findMetaPaths(
+            self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['coauthor'], MetaPath([Author, Paper]), True, True
+        ))
+
+
     def testFindLoopMetaPaths(self):
         """
           Tests finding meta paths where paths are not necessarily symmetric, but meta paths start and end at the same node,
@@ -163,17 +191,6 @@ class MetaPathUtilityTest(unittest.TestCase):
         # Self-citation
         self.assertItemsEqual([
             [self.templateGraphMap['author'], self.templateGraphMap['paper1'], self.templateGraphMap['paper2'], self.templateGraphMap['author']],
-            [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['paper1'], self.templateGraphMap['author']],
-            [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['paper3'], self.templateGraphMap['author']],
-            [self.templateGraphMap['author'], self.templateGraphMap['paper3'], self.templateGraphMap['paper2'], self.templateGraphMap['author']]
-        ], MetaPathUtility.findMetaPaths(
-            self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['author'], MetaPath([Author, Paper, Paper, Author])
-        ))
-
-        # Self-citation
-        self.assertItemsEqual([
-            [self.templateGraphMap['author'], self.templateGraphMap['paper1'], self.templateGraphMap['paper2'], self.templateGraphMap['author']],
-            [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['paper1'], self.templateGraphMap['author']],
             [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['paper3'], self.templateGraphMap['author']],
             [self.templateGraphMap['author'], self.templateGraphMap['paper3'], self.templateGraphMap['paper2'], self.templateGraphMap['author']]
         ], MetaPathUtility.findMetaPaths(
@@ -185,26 +202,28 @@ class MetaPathUtilityTest(unittest.TestCase):
             [self.templateGraphMap['author'], self.templateGraphMap['paper1'], self.templateGraphMap['venue1'], self.templateGraphMap['paper2'], self.templateGraphMap['author']],
             [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['venue1'], self.templateGraphMap['paper1'], self.templateGraphMap['author']]
         ], MetaPathUtility.findMetaPaths(
+            self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['author'], MetaPath([Author, Paper, Venue, Paper, Author])
+        ))
+
+
+    def testFindLoopMetaPathsWithSymmetry(self):
+        """
+          Tests finding meta paths where paths are symmetric (of both even & odd length), where paths are cycles
+        """
+
+        # Self-citation using symmetry
+        self.assertItemsEqual([
+            [self.templateGraphMap['author'], self.templateGraphMap['paper1'], self.templateGraphMap['paper2'], self.templateGraphMap['author']],
+            [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['paper3'], self.templateGraphMap['author']],
+            [self.templateGraphMap['author'], self.templateGraphMap['paper3'], self.templateGraphMap['paper2'], self.templateGraphMap['author']]
+        ], MetaPathUtility.findMetaPaths(
+            self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['author'], MetaPath([Author, Paper]), True, True
+        ))
+
+        # Publishing multiple papers in a single conference using symmetry
+        self.assertItemsEqual([
+            [self.templateGraphMap['author'], self.templateGraphMap['paper1'], self.templateGraphMap['venue1'], self.templateGraphMap['paper2'], self.templateGraphMap['author']],
+            [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['venue1'], self.templateGraphMap['paper1'], self.templateGraphMap['author']]
+        ], MetaPathUtility.findMetaPaths(
             self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['author'], MetaPath([Author, Paper, Venue]), True
-        ))
-
-
-    def testFindOddLengthSymmetricMetaPaths(self):
-        """
-          Tests finding meta paths when the meta paths may or may not be symmetric, and we are looking for symmetric paths
-          only (still starting & ending at different points)
-        """
-
-        # Co-authorship
-        self.assertItemsEqual([
-            [self.templateGraphMap['author'], self.templateGraphMap['paper3'], self.templateGraphMap['coauthor']]
-        ], MetaPathUtility.findMetaPaths(
-            self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['coauthor'], MetaPath([Author, Paper]), True
-        ))
-
-        # Co-author citation
-        self.assertItemsEqual([
-            [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['paper3'], self.templateGraphMap['coauthor']]
-        ], MetaPathUtility.findMetaPaths(
-            self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['coauthor'], MetaPath([Author, Paper, Paper]), True
         ))
