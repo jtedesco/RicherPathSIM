@@ -15,8 +15,5 @@ class MetaPath(object):
                                 important)
         """
 
-        # Check that the meta path starts and ends at the same type node
-        assert(classes[0] == classes[-1])
-
         self.classes = classes
         self.weight = weight
