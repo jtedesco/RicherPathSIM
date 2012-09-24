@@ -33,8 +33,9 @@ class MetaPathUtilityTest(unittest.TestCase):
         self.paper1 = Paper(0, 'paper1')
         self.paper2 = Paper(1, 'paper2')
         self.paper3 = Paper(2, 'paper3')
-        graph.add_nodes_from([self.author, self.conference1, self.conference2, self.paper1, self.paper2, self.paper3])
 
+        # Construct graph
+        graph.add_nodes_from([self.author, self.conference1, self.conference2, self.paper1, self.paper2, self.paper3])
         GraphUtility.addEdgesToGraph(graph, self.paper1, self.author, Authorship())
         GraphUtility.addEdgesToGraph(graph, self.paper2, self.author, Authorship())
         GraphUtility.addEdgesToGraph(graph, self.paper3, self.author, Authorship())
@@ -46,12 +47,6 @@ class MetaPathUtilityTest(unittest.TestCase):
         GraphUtility.addEdgesToGraph(graph, self.paper2, self.paper3, Citation().toDict())
 
         self.templateGraph = graph
-        self.templateGraphMap = {}
-        for node in graph.nodes():
-            try:
-                self.templateGraphMap[node.name] = node
-            except AttributeError:
-                self.templateGraphMap[node.title] = node
 
 
     def testFindMetaPathNeighborsLengthTwo(self):
@@ -79,6 +74,7 @@ class MetaPathUtilityTest(unittest.TestCase):
           Tests finding the meta path(s) of length two between two nodes in template graph
         """
 
+        # Author published in conference meta path
         metaPath = MetaPath([Author, Paper, Conference])
 
         # Test case with many paths
@@ -136,22 +132,18 @@ class MetaPathUtilityTest(unittest.TestCase):
           Tests finding meta paths when the meta paths are symmetric, with different source & destination nodes
         """
 
-        coAuthorMetaPath = MetaPath([Author, Paper, Author])
-        authorCitationMetaPath = MetaPath([Author, Paper, Paper, Author])
-        selfCitationMetaPath = MetaPath([Author, Paper, Paper])
-
         # Co-authorship
         self.assertItemsEqual([
             [self.author, self.paper3, self.coauthor]
         ], MetaPathUtility.findMetaPaths(
-            self.templateGraph, self.author, self.coauthor, coAuthorMetaPath
+            self.templateGraph, self.author, self.coauthor, MetaPath([Author, Paper, Author])
         ))
 
         # Author citation
         self.assertItemsEqual([
             [self.author, self.paper2, self.paper3, self.coauthor]
         ], MetaPathUtility.findMetaPaths(
-            self.templateGraph, self.author, self.coauthor, authorCitationMetaPath
+            self.templateGraph, self.author, self.coauthor, MetaPath([Author, Paper, Paper, Author])
         ))
 
         # Self-citation (asymmetric)
@@ -159,7 +151,7 @@ class MetaPathUtilityTest(unittest.TestCase):
             [self.author, self.paper1, self.paper2],
             [self.author, self.paper3, self.paper2]
         ], MetaPathUtility.findMetaPaths(
-            self.templateGraph, self.author, self.paper2, selfCitationMetaPath
+            self.templateGraph, self.author, self.paper2, MetaPath([Author, Paper, Paper])
         ))
 
 
