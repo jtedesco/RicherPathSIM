@@ -197,7 +197,7 @@ class MetaPathUtilityTest(unittest.TestCase):
           Tests neighbors via meta paths when symmetry is enforced
         """
 
-        # Should not contain paper2 in this case, since paper2 -> paper3, but not vice versa
+        # Remove paper3 authorship -- should not contain paper2 in this case, since paper2 -> paper3, but not vice versa
         self.templateGraph.remove_edge(self.author, self.paper3)
         self.templateGraph.remove_edge(self.paper3, self.author)
 
