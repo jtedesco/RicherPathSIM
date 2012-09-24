@@ -39,7 +39,8 @@ class MetaPathUtilityTest(unittest.TestCase):
         GraphUtility.addEdgesToGraph(graph, paper1, venue1, Publication())
         GraphUtility.addEdgesToGraph(graph, paper2, venue1, Publication())
         GraphUtility.addEdgesToGraph(graph, paper3, venue2, Publication())
-        GraphUtility.addEdgesToGraph(graph, paper1, paper2, Citation()) # Co-citation? Should never be traversed!
+        graph.add_edge(paper1, paper2, Citation().toDict())
+        graph.add_edge(paper2, paper3, Citation().toDict())
 
         self.templateGraph = graph
         self.templateGraphMap = {}
@@ -120,4 +121,22 @@ class MetaPathUtilityTest(unittest.TestCase):
             [self.templateGraphMap['author'], self.templateGraphMap['paper1']]
         ], MetaPathUtility.findMetaPaths(
             self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['paper1'], MetaPath([Author, Paper])
+        ))
+
+
+    def testFindSymmetricOddLengthMetaPath(self):
+        """
+          Tests finding meta paths when the meta paths are symmetric, with different source & destination nodes
+        """
+
+        self.assertItemsEqual([
+            [self.templateGraphMap['author'], self.templateGraphMap['paper3'], self.templateGraphMap['coauthor']]
+        ], MetaPathUtility.findMetaPaths(
+            self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['coauthor'], MetaPath([Author, Paper, Author])
+        ))
+
+        self.assertItemsEqual([
+            [self.templateGraphMap['author'], self.templateGraphMap['paper2'], self.templateGraphMap['paper3'], self.templateGraphMap['coauthor']]
+        ], MetaPathUtility.findMetaPaths(
+            self.templateGraph, self.templateGraphMap['author'], self.templateGraphMap['coauthor'], MetaPath([Author, Paper, Paper, Author])
         ))
