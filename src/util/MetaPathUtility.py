@@ -88,17 +88,29 @@ class MetaPathUtility(object):
           Helper function to find meta paths, given that we know the start and end nodes are the same
         """
 
-        # Create a meta path one entry shorter
-        shortenedMetaPath = MetaPath(metaPath.classes[:-1], metaPath.weight)
+
+        if symmetricMetaPath:
+
+            # Concatenate the two half meta paths together (depending on whether or not it's even length)
+            metaPathClasses = metaPath.classes
+            reversedMetaPathClasses = list(metaPathClasses)[1:] # Still skip last entry
+            reversedMetaPathClasses.reverse()
+            metaPathClasses = metaPath.classes if evenLengthPaths else metaPath.classes[:-1] # Don't repeat the middle entry
+            modifiedMetaPath = MetaPath(metaPathClasses + reversedMetaPathClasses, metaPath.weight)
+
+        else:
+
+            # Create a meta path one entry shorter
+            modifiedMetaPath = MetaPath(metaPath.classes[:-1], metaPath.weight)
 
         # Find reachable nodes on this shorter meta path
-        reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, shortenedMetaPath)
+        reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, modifiedMetaPath)
 
         paths = []
 
         for endingNode in reachableNodes:
             if graph.has_edge(endingNode, startingNode):
-                correctPaths = MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, shortenedMetaPath, symmetricMetaPath, evenLengthPaths)
+                correctPaths = MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, False, False)
                 for path in correctPaths:
                     paths.append(path + [startingNode])
 
