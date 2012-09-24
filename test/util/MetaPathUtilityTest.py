@@ -1,6 +1,7 @@
 import unittest
 import networkx
 from src.model.edge.dblp.Authorship import Authorship
+from src.model.edge.dblp.Citation import Citation
 from src.model.edge.dblp.Publication import Publication
 from src.model.metapath.MetaPath import MetaPath
 from src.model.node.dblp.Author import Author
@@ -23,6 +24,7 @@ class MetaPathUtilityTest(unittest.TestCase):
         graph = networkx.DiGraph()
 
         author = Author(0, 'author')
+        coauthor = Author(1, 'coauthor')
         venue1 = Venue(0, 'venue1')
         venue2 = Venue(1, 'venue2')
         paper1 = Paper(0, 'paper1')
@@ -33,9 +35,11 @@ class MetaPathUtilityTest(unittest.TestCase):
         GraphUtility.addEdgesToGraph(graph, paper1, author, Authorship())
         GraphUtility.addEdgesToGraph(graph, paper2, author, Authorship())
         GraphUtility.addEdgesToGraph(graph, paper3, author, Authorship())
+        GraphUtility.addEdgesToGraph(graph, paper3, coauthor, Authorship())
         GraphUtility.addEdgesToGraph(graph, paper1, venue1, Publication())
         GraphUtility.addEdgesToGraph(graph, paper2, venue1, Publication())
         GraphUtility.addEdgesToGraph(graph, paper3, venue2, Publication())
+        GraphUtility.addEdgesToGraph(graph, paper1, paper2, Citation()) # Co-citation? Should never be traversed!
 
         self.templateGraph = graph
         self.templateGraphMap = {}

@@ -21,7 +21,7 @@ class MetaPathUtility(object):
         # Verify that the given node is a valid starting node for the given meta path
         assert(node.__class__ == metaPath.classes[0])
 
-        # TODO: Improve performance if necessary
+        # Recursively traverse the graph using this type information
         return MetaPathUtility.__findMetaPathNeighborsHelper(graph, node, metaPath.classes[1:], set())
 
 
@@ -38,7 +38,6 @@ class MetaPathUtility(object):
         # Find all paths matching the given meta paths
         metaPaths = []
 
-        # TODO: Improve performance if necessary
         # Find all paths of the right length, then filter by the node types in the path
         allPathsOfCorrectLength = networkx.all_simple_paths(graph, startingNode, endingNode, len(metaPath.classes) - 1)
         for path in allPathsOfCorrectLength:
