@@ -5,12 +5,8 @@ class SimilarityStrategy(object):
       Generic class for graph node similarity
     """
 
-    def computeAllSimilarities(self):
-        """
-          Compute all pairwise similarity scores for nodes in the graph
-        """
-
-        raise NotImplementedError()
+    def __init__(self, graph):
+        self.graph = graph
 
 
     def findSimilarityScore(self, source, destination):
