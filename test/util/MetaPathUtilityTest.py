@@ -56,14 +56,14 @@ class MetaPathUtilityTest(unittest.TestCase):
 
         # Test case with many neighbors
         self.assertEquals({
-            (self.conference1), self.conference2
+            self.conference1, self.conference2
         }, MetaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.author, MetaPath([Author, Paper, Conference])
         ))
 
         # Test case with only one neighbor
         self.assertEquals({
-            (self.author)
+            self.author
         }, MetaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.conference1, MetaPath([Conference, Paper, Author])
         ))
