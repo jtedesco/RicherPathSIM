@@ -14,7 +14,7 @@ class PageRankStrategyTest(unittest.TestCase):
           Tests pairwise similarity for nodes, using example 3 from PathSim paper (compute similarity scores from Mike)
         """
 
-        graph, authorMap, venueMap  = SampleGraphUtility.constructPathSimExampleThree()
+        graph, authorMap, conferenceMap  = SampleGraphUtility.constructPathSimExampleThree()
         strategy = PageRankStrategy(graph)
 
         mike = authorMap['Mike']
@@ -33,7 +33,7 @@ class PageRankStrategyTest(unittest.TestCase):
           Tests similarity for all other nodes given a signle node, using example 3 from PathSim paper
         """
 
-        graph, authorMap, venueMap  = SampleGraphUtility.constructPathSimExampleThree()
+        graph, authorMap, conferenceMap  = SampleGraphUtility.constructPathSimExampleThree()
         strategy = PageRankStrategy(graph)
 
         mike = authorMap['Mike']

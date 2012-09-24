@@ -4,5 +4,5 @@ __author__ = 'jontedesco'
 
 class Publication(Edge):
     """
-      Edge representing the relationship between a venue and paper in the DBLP dataset
+      Edge representing the relationship between a conference and paper in the DBLP dataset
     """

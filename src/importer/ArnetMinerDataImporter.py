@@ -15,7 +15,7 @@ from src.model.edge.dblp.Publication import Publication
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Topic import Topic
-from src.model.node.dblp.Venue import Venue
+from src.model.node.dblp.Conference import Conference
 
 __author__ = 'jon'
 
@@ -137,7 +137,7 @@ class ArnetMinerDataImporter(Thread):
         authors = {} # Indexed by name
         papers = {} # Indexed by paper id
         topics = {} # Indexed by keyword
-        venues = {} # Indexed by name
+        conferences = {} # Indexed by name
         citationMap = {} # Map of paper id to referenced paper ids
 
         # Construct everything except reference edges
@@ -149,12 +149,12 @@ class ArnetMinerDataImporter(Thread):
 
             # Create or get conference for this paper
             conferenceName = paperData['conference']
-            if conferenceName not in venues:
-                conference = Venue(len(venues), conferenceName)
-                venues[conferenceName] = conference
+            if conferenceName not in conferences:
+                conference = Conference(len(conferences), conferenceName)
+                conferences[conferenceName] = conference
                 graph.add_node(conference)
             else:
-                conference = venues[conferenceName]
+                conference = conferences[conferenceName]
 
             # Create or get authors for this paper
             paperAuthors = []

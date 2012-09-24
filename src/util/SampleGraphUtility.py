@@ -3,7 +3,7 @@ from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Publication import Publication
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
-from src.model.node.dblp.Venue import Venue
+from src.model.node.dblp.Conference import Conference
 from src.util.GraphUtility import GraphUtility
 
 __author__ = 'jontedesco'
@@ -27,7 +27,7 @@ class SampleGraphUtility(object):
 
         graph = networkx.DiGraph()
         authorMap = {}
-        venueMap = {}
+        conferenceMap = {}
 
         # Add authors
         mike = Author(SampleGraphUtility.__getNextId(), 'Mike')
@@ -39,18 +39,18 @@ class SampleGraphUtility(object):
         graph.add_nodes_from(authors)
 
         # Add conferences
-        sigmod = Venue(SampleGraphUtility.__getNextId(), 'SIGMOD')
-        vldb = Venue(SampleGraphUtility.__getNextId(), 'VLDB')
-        icde = Venue(SampleGraphUtility.__getNextId(), 'ICDE')
-        kdd = Venue(SampleGraphUtility.__getNextId(), 'KDD')
-        venues = [sigmod, vldb, icde, kdd]
+        sigmod = Conference(SampleGraphUtility.__getNextId(), 'SIGMOD')
+        vldb = Conference(SampleGraphUtility.__getNextId(), 'VLDB')
+        icde = Conference(SampleGraphUtility.__getNextId(), 'ICDE')
+        kdd = Conference(SampleGraphUtility.__getNextId(), 'KDD')
+        conferences = [sigmod, vldb, icde, kdd]
         graph.add_nodes_from([sigmod, vldb, icde, kdd])
 
-        # Add author / venue index
+        # Add author / conference index
         for author in authors:
             authorMap[author.name] = author
-        for venue in venues:
-            venueMap[venue.name] = venue
+        for conference in conferences:
+            conferenceMap[conference.name] = conference
 
         # Add number of papers & edges mentioned in example
         SampleGraphUtility.__addSimilarAuthorsPapers(graph, mike, sigmod, vldb)
@@ -69,7 +69,7 @@ class SampleGraphUtility(object):
         GraphUtility.addEdgesToGraph(graph, annsPaper1, icde, Publication())
         GraphUtility.addEdgesToGraph(graph, annsPaper2, kdd, Publication())
 
-        return graph, authorMap, venueMap
+        return graph, authorMap, conferenceMap
 
 
     @staticmethod

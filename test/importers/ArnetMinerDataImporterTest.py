@@ -8,7 +8,7 @@ from src.model.edge.dblp.Publication import Publication
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Topic import Topic
-from src.model.node.dblp.Venue import Venue
+from src.model.node.dblp.Conference import Conference
 from src.util.GraphUtility import GraphUtility
 from test.importers.ImporterTest import ImporterTest
 
@@ -193,7 +193,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             pass
 
 
-    def testSeparatePapersAuthorsVenuesSharedTopicGraph(self):
+    def testSeparatePapersAuthorsConferencesSharedTopicGraph(self):
 
         # Build sample data & expected output
         parsedData = {
@@ -225,29 +225,29 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper1 = Paper(0, 'All Databases')
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databas'])
-        venue1 = Venue(0, 'Conference One')
-        venue2 = Venue(1, 'Conference Two')
+        conference1 = Conference(0, 'Conference One')
+        conference2 = Conference(1, 'Conference Two')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
         expectedGraph.add_node(paper1)
         expectedGraph.add_node(paper2)
         expectedGraph.add_node(topic)
-        expectedGraph.add_node(venue1)
-        expectedGraph.add_node(venue2)
+        expectedGraph.add_node(conference1)
+        expectedGraph.add_node(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
         GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, venue1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, venue2, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
         self.assertGraphsEqual(actualGraph, expectedGraph)
 
 
-    def testSeparatePapersAuthorsTopicSharedVenueGraph(self):
+    def testSeparatePapersAuthorsTopicSharedConferenceGraph(self):
 
         # Build sample data & expected output
         parsedData = {
@@ -280,28 +280,28 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper2 = Paper(1, 'All The Knowledge')
         topic1 = Topic(0, ['databas'])
         topic2 = Topic(1, ['knowledg'])
-        venue = Venue(0, 'Conference One')
+        conference = Conference(0, 'Conference One')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
         expectedGraph.add_node(paper1)
         expectedGraph.add_node(paper2)
         expectedGraph.add_node(topic1)
         expectedGraph.add_node(topic2)
-        expectedGraph.add_node(venue)
+        expectedGraph.add_node(conference)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic1, Mention())
         GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic2, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, venue, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, venue, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference, Publication())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
         self.assertGraphsEqual(actualGraph, expectedGraph)
 
 
-    def testSeparatePapersAuthorsSharedVenueTopicGraph(self):
+    def testSeparatePapersAuthorsSharedConferenceTopicGraph(self):
 
         # Build sample data & expected output
         parsedData = {
@@ -333,20 +333,20 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databas'])
-        venue = Venue(0, 'Conference One')
+        conference = Conference(0, 'Conference One')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
         expectedGraph.add_node(paper1)
         expectedGraph.add_node(paper2)
         expectedGraph.add_node(topic)
-        expectedGraph.add_node(venue)
+        expectedGraph.add_node(conference)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
         GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, venue, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, venue, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference, Publication())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -389,24 +389,24 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databas'])
-        venue1 = Venue(0, 'Conference One')
-        venue2 = Venue(1, 'Conference Two')
+        conference1 = Conference(0, 'Conference One')
+        conference2 = Conference(1, 'Conference Two')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
         expectedGraph.add_node(author3)
         expectedGraph.add_node(paper1)
         expectedGraph.add_node(paper2)
         expectedGraph.add_node(topic)
-        expectedGraph.add_node(venue1)
-        expectedGraph.add_node(venue2)
+        expectedGraph.add_node(conference1)
+        expectedGraph.add_node(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author3, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
         GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, venue1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, venue2, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -445,20 +445,20 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databas'])
-        venue = Venue(0, 'Conference One')
+        conference = Conference(0, 'Conference One')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
         expectedGraph.add_node(paper1)
         expectedGraph.add_node(paper2)
         expectedGraph.add_node(topic)
-        expectedGraph.add_node(venue)
+        expectedGraph.add_node(conference)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
         GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, venue, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, venue, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference, Publication())
 
         # Not symmetric!
         expectedGraph.add_edge(paper2, paper1, Citation().toDict())
@@ -500,22 +500,22 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databas'])
-        venue1 = Venue(0, 'Conference One')
-        venue2 = Venue(1, 'Conference Two')
+        conference1 = Conference(0, 'Conference One')
+        conference2 = Conference(1, 'Conference Two')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
         expectedGraph.add_node(paper1)
         expectedGraph.add_node(paper2)
         expectedGraph.add_node(topic)
-        expectedGraph.add_node(venue1)
-        expectedGraph.add_node(venue2)
+        expectedGraph.add_node(conference1)
+        expectedGraph.add_node(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
         GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, venue1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, venue2, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
 
         # Not symmetric!
         expectedGraph.add_edge(paper2, paper1, Citation().toDict())
@@ -557,22 +557,22 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databas'])
-        venue1 = Venue(0, 'Conference One')
-        venue2 = Venue(1, 'Conference Two')
+        conference1 = Conference(0, 'Conference One')
+        conference2 = Conference(1, 'Conference Two')
         expectedGraph.add_node(author1)
         expectedGraph.add_node(author2)
         expectedGraph.add_node(paper1)
         expectedGraph.add_node(paper2)
         expectedGraph.add_node(topic)
-        expectedGraph.add_node(venue1)
-        expectedGraph.add_node(venue2)
+        expectedGraph.add_node(conference1)
+        expectedGraph.add_node(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
         GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, venue1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, venue2, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
 
         # Symmetric in this case only!
         GraphUtility.addEdgesToGraph(expectedGraph, paper1, paper2, Citation())
@@ -613,21 +613,21 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper1 = Paper(0, 'Databases')
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databas'])
-        venue1 = Venue(0, 'Conference One')
-        venue2 = Venue(1, 'Conference Two')
+        conference1 = Conference(0, 'Conference One')
+        conference2 = Conference(1, 'Conference Two')
         expectedGraph.add_node(author)
         expectedGraph.add_node(paper1)
         expectedGraph.add_node(paper2)
         expectedGraph.add_node(topic)
-        expectedGraph.add_node(venue1)
-        expectedGraph.add_node(venue2)
+        expectedGraph.add_node(conference1)
+        expectedGraph.add_node(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author, paper2, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
         GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, venue1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, venue2, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
+        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
 
         # Not symmetric!
         expectedGraph.add_edge(paper1, paper2, Citation().toDict())
