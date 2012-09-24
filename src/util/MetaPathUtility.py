@@ -46,6 +46,25 @@ class MetaPathUtility(object):
 
 
     @staticmethod
+    def expandPartialMetaPath(partialMetaPath, repeatLastType = False):
+        """
+          Expands a partial meta path into a full one (i.e. ABC into ABCBA or ABCCBA)
+
+            @param  partialMetaPath The partial meta path to expand
+            @param  repeatLastType  Whether or not to repeat the last type in meta path expansion
+                                    (i.e. should the final meta path be even length?)
+        """
+
+        metaPathClasses = partialMetaPath.classes
+        reversedMetaPathClasses = list(metaPathClasses)
+        reversedMetaPathClasses.reverse()
+        metaPathClasses = partialMetaPath.classes if repeatLastType else partialMetaPath.classes[:-1] # Don't repeat the middle entry
+        modifiedMetaPath = MetaPath(metaPathClasses + reversedMetaPathClasses, partialMetaPath.weight)
+
+        return modifiedMetaPath
+
+
+    @staticmethod
     def __findMetaPathNeighborsHelper(graph, node, metaPathTypes, visitedNodes):
         """
           Recursive helper function to recurse on nodes not yet visited according to types in meta path

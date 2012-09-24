@@ -168,6 +168,51 @@ class MetaPathUtilityTest(unittest.TestCase):
         ))
 
 
+    def testExpandPartialMetaPathOddUnweighted(self):
+        """
+          Tests the helper function to expand partial meta paths on the utility class, using even length unweighted path
+        """
+
+        self.assertEquals(
+            MetaPath([Author, Paper, Author]),
+            MetaPathUtility.expandPartialMetaPath((MetaPath([Author, Paper])))
+        )
+
+
+    def testExpandPartialMetaPathEvenUnweighted(self):
+        """
+          Tests the helper function to expand partial meta paths on the utility class, using odd length unweighted path
+        """
+
+        self.assertEquals(
+            MetaPath([Author, Paper, Paper, Author]),
+            MetaPathUtility.expandPartialMetaPath((MetaPath([Author, Paper])), True)
+        )
+
+
+    def testExpandPartialMetaPathOddWeighted(self):
+        """
+          Tests the helper function to expand partial meta paths on the utility class, using even length weighted path
+        """
+
+        self.assertEquals(
+            MetaPath([Author, Paper, Author], 0.123),
+            MetaPathUtility.expandPartialMetaPath((MetaPath([Author, Paper], 0.123)))
+        )
+
+
+    def testExpandPartialMetaPathEvenWeighted(self):
+        """
+          Tests the helper function to expand partial meta paths on the utility class, using odd length weighted path
+        """
+
+        self.assertEquals(
+            MetaPath([Author, Paper, Paper, Author], 0.445),
+            MetaPathUtility.expandPartialMetaPath((MetaPath([Author, Paper], 0.445)), True)
+        )
+
+
+
     def testFindEvenLengthSymmetricMetaPaths(self):
         """
           Tests finding meta paths when the meta paths may or may not be symmetric, and we are looking for symmetric paths

@@ -17,3 +17,7 @@ class MetaPath(object):
 
         self.classes = classes
         self.weight = weight
+
+
+    def __eq__(self, other):
+        return self.classes == other.classes and self.weight == other.weight
