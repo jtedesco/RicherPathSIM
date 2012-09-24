@@ -20,15 +20,11 @@ class MetaPathUtility(object):
             @param  metaPath
         """
 
-        # TODO: Implement me!
-        if symmetric:
-            raise NotImplementedError()
-
         # Verify that the given node is a valid starting node for the given meta path
         assert(node.__class__ == metaPath.classes[0])
 
         # Recursively traverse the graph using this type information
-        return MetaPathUtility.__findMetaPathNeighborsHelper(graph, node, metaPath.classes[1:], set())
+        return MetaPathUtility.__findMetaPathNeighborsHelper(graph, node, metaPath.classes[1:], set(), symmetric)
 
 
     @staticmethod
@@ -68,7 +64,7 @@ class MetaPathUtility(object):
 
 
     @staticmethod
-    def __findMetaPathNeighborsHelper(graph, node, metaPathTypes, visitedNodes):
+    def __findMetaPathNeighborsHelper(graph, node, metaPathTypes, visitedNodes, symmetric):
         """
           Recursive helper function to recurse on nodes not yet visited according to types in meta path
         """
@@ -90,6 +86,10 @@ class MetaPathUtility(object):
             if neighbor.__class__ != metaPathTypes[0]:
                 continue
 
+            # If symmetry is enforced, skip neighbors that do not have both outgoing and incoming edges
+            if symmetric and not (graph.has_edge(neighbor, node) and graph.has_edge(node, neighbor)):
+                continue
+
             # If we're at the last node in the meta path, add it to the meta path neighbors
             if len(metaPathTypes) == 1:
                 metaPathNeighbors.add(neighbor)
@@ -97,7 +97,7 @@ class MetaPathUtility(object):
 
                 # Otherwise, recurse & take union of all recursive calls
                 neighborsFromThisNode = MetaPathUtility.__findMetaPathNeighborsHelper(
-                    graph, neighbor, metaPathTypes[1:], visitedNodes.union({neighbor})
+                    graph, neighbor, metaPathTypes[1:], visitedNodes.union({neighbor}), symmetric
                 )
                 metaPathNeighbors = metaPathNeighbors.union(neighborsFromThisNode)
 

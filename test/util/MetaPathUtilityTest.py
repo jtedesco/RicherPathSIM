@@ -127,6 +127,43 @@ class MetaPathUtilityTest(unittest.TestCase):
         ))
 
 
+    def testFindOddLengthRepeatedMetaPathNeighbors(self):
+        """
+          Tests finding the meta path neighbors when the meta paths are symmetric
+        """
+
+        # Co-authorship
+        self.assertItemsEqual([
+            self.author, self.coauthor
+        ], MetaPathUtility.findMetaPathNeighbors(
+            self.templateGraph, self.author, MetaPath([Author, Paper, Author])
+        ))
+        self.assertItemsEqual([
+            self.author, self.coauthor
+        ], MetaPathUtility.findMetaPathNeighbors(
+            self.templateGraph, self.coauthor, MetaPath([Author, Paper, Author])
+        ))
+
+        # Author citation (asymmetric)
+        self.assertItemsEqual([
+            self.author, self.coauthor
+        ], MetaPathUtility.findMetaPathNeighbors(
+            self.templateGraph, self.author, MetaPath([Author, Paper, Paper, Author])
+        ))
+        self.assertItemsEqual([
+            self.author
+        ], MetaPathUtility.findMetaPathNeighbors(
+            self.templateGraph, self.coauthor, MetaPath([Author, Paper, Paper, Author])
+        ))
+
+        # Self-citation (asymmetric)
+        self.assertItemsEqual({
+            self.paper2, self.paper3,
+        }, MetaPathUtility.findMetaPathNeighbors(
+            self.templateGraph, self.author, MetaPath([Author, Paper, Paper])
+        ))
+
+
     def testFindOddLengthRepeatedMetaPaths(self):
         """
           Tests finding meta paths when the meta paths are symmetric, with different source & destination nodes
@@ -146,12 +183,29 @@ class MetaPathUtilityTest(unittest.TestCase):
             self.templateGraph, self.author, self.coauthor, MetaPath([Author, Paper, Paper, Author])
         ))
 
-        # Self-citation (asymmetric)
+        # Citation (asymmetric)
         self.assertItemsEqual([
             [self.author, self.paper1, self.paper2],
             [self.author, self.paper3, self.paper2]
         ], MetaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.paper2, MetaPath([Author, Paper, Paper])
+        ))
+
+
+    def testFindOddLengthSymmetricMetaPathNeighbors(self):
+        """
+          Tests neighbors via meta paths when symmetry is enforced
+        """
+
+        # Should not contain paper2 in this case, since paper2 -> paper3, but not vice versa
+        self.templateGraph.remove_edge(self.author, self.paper3)
+        self.templateGraph.remove_edge(self.paper3, self.author)
+
+        # Citation
+        self.assertItemsEqual({
+            self.paper3
+        }, MetaPathUtility.findMetaPathNeighbors(
+            self.templateGraph, self.author, MetaPath([Author, Paper, Paper]), True
         ))
 
 
