@@ -4,7 +4,6 @@ from src.model.edge.dblp.Publication import Publication
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Conference import Conference
-from src.util.GraphUtility import GraphUtility
 
 __author__ = 'jontedesco'
 
@@ -58,16 +57,16 @@ class SampleGraphUtility(object):
             conference = sigmod if i < 50 else vldb
             paper = Paper(SampleGraphUtility.__getNextId(), '%s Paper %d' % (conference.name, i + 1))
             graph.addNode(paper)
-            GraphUtility.addEdgesToGraph(graph, jim, paper, Authorship())
-            GraphUtility.addEdgesToGraph(graph, paper, conference, Publication())
+            graph.addBothEdges(jim, paper, Authorship())
+            graph.addBothEdges(paper, conference, Publication())
         SampleGraphUtility.__addSimilarAuthorsPapers(graph, mary, sigmod, icde)
         SampleGraphUtility.__addSimilarAuthorsPapers(graph, bob, sigmod, vldb)
         annsPaper1 = Paper(SampleGraphUtility.__getNextId(), 'ICDE Paper')
         annsPaper2 = Paper(SampleGraphUtility.__getNextId(), 'KDD Paper')
-        GraphUtility.addEdgesToGraph(graph, ann, annsPaper1, Authorship())
-        GraphUtility.addEdgesToGraph(graph, ann, annsPaper2, Authorship())
-        GraphUtility.addEdgesToGraph(graph, annsPaper1, icde, Publication())
-        GraphUtility.addEdgesToGraph(graph, annsPaper2, kdd, Publication())
+        graph.addBothEdges(ann, annsPaper1, Authorship())
+        graph.addBothEdges(ann, annsPaper2, Authorship())
+        graph.addBothEdges(annsPaper1, icde, Publication())
+        graph.addBothEdges(annsPaper2, kdd, Publication())
 
         return graph, authorMap, conferenceMap
 
@@ -84,15 +83,15 @@ class SampleGraphUtility(object):
         graph.addNode(paper1)
         graph.addNode(paper2)
 
-        GraphUtility.addEdgesToGraph(graph, author, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(graph, author, paper2, Authorship())
-        GraphUtility.addEdgesToGraph(graph, paper1, sigmod, Publication())
-        GraphUtility.addEdgesToGraph(graph, paper2, sigmod, Publication())
+        graph.addBothEdges(author, paper1, Authorship())
+        graph.addBothEdges(author, paper2, Authorship())
+        graph.addBothEdges(paper1, sigmod, Publication())
+        graph.addBothEdges(paper2, sigmod, Publication())
 
         paper3 = Paper(SampleGraphUtility.__getNextId(), 'Third Paper')
         graph.addNode(paper3)
-        GraphUtility.addEdgesToGraph(graph, author, paper3, Authorship())
-        GraphUtility.addEdgesToGraph(graph, paper3, secondConference, Publication())
+        graph.addBothEdges(author, paper3, Authorship())
+        graph.addBothEdges(paper3, secondConference, Publication())
 
 
     @staticmethod
