@@ -3,9 +3,9 @@ import logging
 import os
 import Stemmer
 import cPickle
-import networkx
 from threading import Thread
 from copy import deepcopy
+from src.graph.GraphFacade import GraphFacade
 from src.importer.error.ArnetParseError import ArnetParseError
 from src.logger.ColoredLogger import ColoredLogger
 from src.model.edge.dblp.Authorship import Authorship
@@ -131,7 +131,7 @@ class ArnetMinerDataImporter(Thread):
           Form the DBLP graph structure from the parsed data
         """
 
-        graph = networkx.DiGraph()
+        graph = GraphFacade.getInstance()
 
         # First, build the nodes for the graph
         authors = {} # Indexed by name
@@ -152,7 +152,7 @@ class ArnetMinerDataImporter(Thread):
             if conferenceName not in conferences:
                 conference = Conference(len(conferences), conferenceName)
                 conferences[conferenceName] = conference
-                graph.add_node(conference)
+                graph.addNode(conference)
             else:
                 conference = conferences[conferenceName]
 
@@ -162,7 +162,7 @@ class ArnetMinerDataImporter(Thread):
                 if authorName not in authors:
                     author = Author(len(authors), authorName)
                     authors[authorName] = author
-                    graph.add_node(author)
+                    graph.addNode(author)
                 else:
                     author = authors[authorName]
                 paperAuthors.append(author)
@@ -173,22 +173,22 @@ class ArnetMinerDataImporter(Thread):
                 if keyword not in topics:
                     topic = Topic(len(topics), [keyword])
                     topics[keyword] = topic
-                    graph.add_node(topic)
+                    graph.addNode(topic)
                 else:
                     topic = topics[keyword]
-                graph.add_edge(topic, paper, Mention().toDict())
-                graph.add_edge(paper, topic, Mention().toDict())
+                graph.addEdge(topic, paper, Mention())
+                graph.addEdge(paper, topic, Mention())
 
             # Add new paper to the graph
             papers[paperId] = paper
-            graph.add_node(paper)
+            graph.addNode(paper)
 
             # Add corresponding edges in the graph
             for author in paperAuthors:
-                graph.add_edge(paper, author, Authorship().toDict())
-                graph.add_edge(author, paper, Authorship().toDict())
-            graph.add_edge(paper, conference, Publication().toDict())
-            graph.add_edge(conference, paper, Publication().toDict())
+                graph.addEdge(paper, author, Authorship())
+                graph.addEdge(author, paper, Authorship())
+            graph.addEdge(paper, conference, Publication())
+            graph.addEdge(conference, paper, Publication())
 
         # Add citations to the graph
         for paperId in citationMap:
@@ -196,7 +196,7 @@ class ArnetMinerDataImporter(Thread):
             paper = papers[paperId]
             for citedPaperId in references:
                 citedPaper = papers[citedPaperId]
-                graph.add_edge(paper, citedPaper, Citation().toDict())
+                graph.addEdge(paper, citedPaper, Citation())
 
         return graph
 

@@ -9,7 +9,6 @@ from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Topic import Topic
 from src.model.node.dblp.Conference import Conference
-from src.util.GraphUtility import GraphUtility
 from test.importers.ImporterTest import ImporterTest
 
 __author__ = 'jontedesco'
@@ -232,12 +231,12 @@ class ArnetMinerDataImporterTest(ImporterTest):
         expectedGraph.addNode(conference1)
         expectedGraph.addNode(conference2)
 
-        GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
+        expectedGraph.addBothEdges(author1, paper1, Authorship())
+        expectedGraph.addBothEdges(author2, paper2, Authorship())
+        expectedGraph.addBothEdges(paper1, topic, Mention())
+        expectedGraph.addBothEdges(paper2, topic, Mention())
+        expectedGraph.addBothEdges(paper1, conference1, Publication())
+        expectedGraph.addBothEdges(paper2, conference2, Publication())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -286,12 +285,12 @@ class ArnetMinerDataImporterTest(ImporterTest):
         expectedGraph.addNode(topic2)
         expectedGraph.addNode(conference)
 
-        GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic1, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic2, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference, Publication())
+        expectedGraph.addBothEdges(author1, paper1, Authorship())
+        expectedGraph.addBothEdges(author2, paper2, Authorship())
+        expectedGraph.addBothEdges(paper1, topic1, Mention())
+        expectedGraph.addBothEdges(paper2, topic2, Mention())
+        expectedGraph.addBothEdges(paper1, conference, Publication())
+        expectedGraph.addBothEdges(paper2, conference, Publication())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -338,12 +337,12 @@ class ArnetMinerDataImporterTest(ImporterTest):
         expectedGraph.addNode(topic)
         expectedGraph.addNode(conference)
 
-        GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference, Publication())
+        expectedGraph.addBothEdges(author1, paper1, Authorship())
+        expectedGraph.addBothEdges(author2, paper2, Authorship())
+        expectedGraph.addBothEdges(paper1, topic, Mention())
+        expectedGraph.addBothEdges(paper2, topic, Mention())
+        expectedGraph.addBothEdges(paper1, conference, Publication())
+        expectedGraph.addBothEdges(paper2, conference, Publication())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -397,13 +396,13 @@ class ArnetMinerDataImporterTest(ImporterTest):
         expectedGraph.addNode(conference1)
         expectedGraph.addNode(conference2)
 
-        GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, author3, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
+        expectedGraph.addBothEdges(author1, paper1, Authorship())
+        expectedGraph.addBothEdges(author3, paper1, Authorship())
+        expectedGraph.addBothEdges(author2, paper2, Authorship())
+        expectedGraph.addBothEdges(paper1, topic, Mention())
+        expectedGraph.addBothEdges(paper2, topic, Mention())
+        expectedGraph.addBothEdges(paper1, conference1, Publication())
+        expectedGraph.addBothEdges(paper2, conference2, Publication())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -450,15 +449,15 @@ class ArnetMinerDataImporterTest(ImporterTest):
         expectedGraph.addNode(topic)
         expectedGraph.addNode(conference)
 
-        GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference, Publication())
+        expectedGraph.addBothEdges(author1, paper1, Authorship())
+        expectedGraph.addBothEdges(author2, paper2, Authorship())
+        expectedGraph.addBothEdges(paper1, topic, Mention())
+        expectedGraph.addBothEdges(paper2, topic, Mention())
+        expectedGraph.addBothEdges(paper1, conference, Publication())
+        expectedGraph.addBothEdges(paper2, conference, Publication())
 
         # Not symmetric!
-        expectedGraph.add_edge(paper2, paper1, Citation().toDict())
+        expectedGraph.addEdge(paper2, paper1, Citation())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -507,12 +506,12 @@ class ArnetMinerDataImporterTest(ImporterTest):
         expectedGraph.addNode(conference1)
         expectedGraph.addNode(conference2)
 
-        GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
+        expectedGraph.addBothEdges(author1, paper1, Authorship())
+        expectedGraph.addBothEdges(author2, paper2, Authorship())
+        expectedGraph.addBothEdges(paper1, topic, Mention())
+        expectedGraph.addBothEdges(paper2, topic, Mention())
+        expectedGraph.addBothEdges(paper1, conference1, Publication())
+        expectedGraph.addBothEdges(paper2, conference2, Publication())
 
         # Not symmetric!
         expectedGraph.addEdge(paper2, paper1, Citation())
@@ -564,15 +563,15 @@ class ArnetMinerDataImporterTest(ImporterTest):
         expectedGraph.addNode(conference1)
         expectedGraph.addNode(conference2)
 
-        GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
+        expectedGraph.addBothEdges(author1, paper1, Authorship())
+        expectedGraph.addBothEdges(author2, paper2, Authorship())
+        expectedGraph.addBothEdges(paper1, topic, Mention())
+        expectedGraph.addBothEdges(paper2, topic, Mention())
+        expectedGraph.addBothEdges(paper1, conference1, Publication())
+        expectedGraph.addBothEdges(paper2, conference2, Publication())
 
         # Symmetric in this case only!
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, paper2, Citation())
+        expectedGraph.addBothEdges(paper1, paper2, Citation())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -619,15 +618,15 @@ class ArnetMinerDataImporterTest(ImporterTest):
         expectedGraph.addNode(conference1)
         expectedGraph.addNode(conference2)
 
-        GraphUtility.addEdgesToGraph(expectedGraph, author, paper1, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, author, paper2, Authorship())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, topic, Mention())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper1, conference1, Publication())
-        GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
+        expectedGraph.addBothEdges(author, paper1, Authorship())
+        expectedGraph.addBothEdges(author, paper2, Authorship())
+        expectedGraph.addBothEdges(paper1, topic, Mention())
+        expectedGraph.addBothEdges(paper2, topic, Mention())
+        expectedGraph.addBothEdges(paper1, conference1, Publication())
+        expectedGraph.addBothEdges(paper2, conference2, Publication())
 
         # Not symmetric!
-        expectedGraph.add_edge(paper1, paper2, Citation().toDict())
+        expectedGraph.addEdge(paper1, paper2, Citation())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
