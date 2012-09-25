@@ -27,8 +27,8 @@ class ImporterTest(unittest.TestCase):
         self.assertEqual(expectedGraphNodeData, actualGraphNodeData)
 
         # Check edges
-        expectedGraphEdgeData = list(expectedGraph.get_edge_data(a,b) for (a,b) in expectedGraph.getEdges())
-        actualGraphEdgeData = list(actualGraph.get_edge_data(a,b) for (a,b) in actualGraph.getEdges())
+        expectedGraphEdgeData = list(expectedGraph.getEdgeData(a,b) for (a,b) in expectedGraph.getEdges())
+        actualGraphEdgeData = list(actualGraph.getEdgeData(a,b) for (a,b) in actualGraph.getEdges())
         expectedGraphEdgeData.sort()
         actualGraphEdgeData.sort()
 

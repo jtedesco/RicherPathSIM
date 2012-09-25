@@ -29,3 +29,23 @@ class NetworkXGraph(Graph):
     def getNodes(self):
         return self.graph.nodes()
 
+    def removeEdge(self, source, destination):
+        return self.graph.has_edge(source, destination)
+
+    def removeNode(self, node):
+        return self.graph.remove_node(node)
+
+    def hasNode(self, node):
+        return self.graph.has_node(node)
+
+    def hasEdge(self, source, destination):
+        return self.graph.has_edge(source, destination)
+
+    def getEdgeData(self, source, destination):
+        return self.graph.get_edge_data(source, destination)
+
+    def getSuccessors(self, node):
+        return self.graph.successors(node)
+
+    def getPredecessors(self, node):
+        return self.graph.predecessors(node)

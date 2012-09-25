@@ -1,8 +1,8 @@
 import logging
 import xmlrpclib
-import networkx
 import cPickle
 from threading import Thread
+from src.graph.GraphFacade import GraphFacade
 from src.importer.error.CoMoToParseError import CoMoToParseError
 from src.logger.ColoredLogger import ColoredLogger
 from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
@@ -126,7 +126,7 @@ class CoMoToDataImporter(Thread):
 
     def buildGraph(self, coMoToData):
 
-        graph = networkx.DiGraph()
+        graph = GraphFacade.getInstance()
 
         # Add semesters to graph
         semesterIdToSemesterMap = {}
@@ -142,7 +142,7 @@ class CoMoToDataImporter(Thread):
                 semesterIdToSemesterMap[semesterData['id']] = semester
                 offeringIdToSemesterMap[offeringId] = semester
 
-                graph.add_node(semester)
+                graph.addNode(semester)
 
         # Add assignments to graph & connect them to semesters
         analysisIdToAssignmentMap = {}
@@ -160,9 +160,9 @@ class CoMoToDataImporter(Thread):
             analysisIdToAssignmentMap[assignmentData['analysis_id']] = assignment
 
             semesterAssignmentEdge = SemesterAssignment()
-            graph.add_node(assignment)
-            graph.add_edge(assignment, offeredSemester, semesterAssignmentEdge.toDict())
-            graph.add_edge(offeredSemester, assignment, semesterAssignmentEdge.toDict())
+            graph.addNode(assignment)
+            graph.addEdge(assignment, offeredSemester, semesterAssignmentEdge)
+            graph.addEdge(offeredSemester, assignment, semesterAssignmentEdge)
 
         # Add submissions & students to graph, connect submissions with students and assignment,
         # and students with assignments
@@ -185,7 +185,7 @@ class CoMoToDataImporter(Thread):
                 if submissionSemester is None:
                     raise CoMoToParseError('Failed to find semester corresponding to student')
 
-                graph.add_node(submission)
+                graph.addNode(submission)
 
                 if not isSolution:
 
@@ -208,7 +208,7 @@ class CoMoToDataImporter(Thread):
                         student = students[studentId]
 
                         # Check all incoming edges to student node for connections to another (different) analysis
-                        studentNodePredecessors = graph.predecessors(student)
+                        studentNodePredecessors = graph.getPredecessors(student)
                         studentIsRetake = False
                         for node in studentNodePredecessors:
                             if isinstance(node, Semester) and node != submissionSemester:
@@ -224,26 +224,26 @@ class CoMoToDataImporter(Thread):
                                 isSubmission = isinstance(node, Submission)
 
                                 if isSemester or isSubmission:
-                                    if graph.has_edge(node, student):
-                                        graph.remove_edge(node, student)
-                                    if graph.has_edge(student, node):
-                                        graph.remove_edge(student, node)
+                                    if graph.hasEdge(node, student):
+                                        graph.removeEdge(node, student)
+                                    if graph.hasEdge(student, node):
+                                        graph.removeEdge(student, node)
                                 if isSubmission:
                                     submissionIdsRemoved.add(node.id)
-                                    graph.remove_node(node)
+                                    graph.removeNode(node)
 
                             addEnrollmentEdge = True
 
                     if addEnrollmentEdge:
                         enrollmentEdge = Enrollment()
-                        graph.add_node(student)
-                        graph.add_edge(submissionSemester, student, enrollmentEdge.toDict())
-                        graph.add_edge(student, submissionSemester, enrollmentEdge.toDict())
+                        graph.addNode(student)
+                        graph.addEdge(submissionSemester, student, enrollmentEdge)
+                        graph.addEdge(student, submissionSemester, enrollmentEdge)
 
                     # We know that this student has only one submission for this offering, connect them in the graph
                     authorshipEdge = Authorship()
-                    graph.add_edge(student, submission, authorshipEdge.toDict())
-                    graph.add_edge(submission, student, authorshipEdge.toDict())
+                    graph.addEdge(student, submission, authorshipEdge)
+                    graph.addEdge(submission, student, authorshipEdge)
 
                 # Associate submission with assignment
                 associatedAssignment = analysisIdToAssignmentMap[analysisId]
@@ -251,8 +251,8 @@ class CoMoToDataImporter(Thread):
                     raise CoMoToParseError('Failed to find assignment corresponding to submission')
 
                 assignmentSubmissionEdge = AssignmentSubmission()
-                graph.add_edge(submission, associatedAssignment, assignmentSubmissionEdge.toDict())
-                graph.add_edge(associatedAssignment, submission, assignmentSubmissionEdge.toDict())
+                graph.addEdge(submission, associatedAssignment, assignmentSubmissionEdge)
+                graph.addEdge(associatedAssignment, submission, assignmentSubmissionEdge)
 
             matchTypeToClassMap = {
                 'same_semester_matches': SameSemesterMatch,
@@ -283,11 +283,11 @@ class CoMoToDataImporter(Thread):
                         matchClass = PartnerMatch
 
                     matchEdge = matchClass(matchData['id'], averageScore)
-                    graph.add_edge(submissionOne, submissionTwo, matchEdge.toDict())
+                    graph.addEdge(submissionOne, submissionTwo, matchEdge)
 
                     # If this is a cross semester match, don't make it bidirectional
                     if matchType != 'cross_semester_matches':
-                        graph.add_edge(submissionTwo, submissionOne, matchEdge.toDict())
+                        graph.addEdge(submissionTwo, submissionOne, matchEdge)
 
         return graph
 
