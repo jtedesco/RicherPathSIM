@@ -1,4 +1,3 @@
-import networkx
 import operator
 from src.similarity.SimilarityStrategy import SimilarityStrategy
 
@@ -57,8 +56,8 @@ class PageRankStrategy(SimilarityStrategy):
           Compute the similarity scores for all reachable nodes from the source node in the graph
         """
 
-        subgraph = networkx.bfs_tree(self.graph, source)
-        self.similarityScores[source] = networkx.pagerank_numpy(subgraph)
+        subgraph = self.graph.breadthFirstSearch(source)
+        self.similarityScores[source] = subgraph.pageRank()
 
         return self.similarityScores[source]
 

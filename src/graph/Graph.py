@@ -114,3 +114,17 @@ class Graph(object):
           Returns all paths between the two nodes of at most the given length
         """
         raise NotImplementedError()
+
+
+    def breadthFirstSearch(self, source):
+        """
+          Returns the tree found performing BFS from the given root
+        """
+        raise NotImplementedError()
+
+
+    def pageRank(self):
+        """
+          Computes and returns PageRank scores for the this graph
+        """
+        raise NotImplementedError()

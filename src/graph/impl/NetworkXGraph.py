@@ -52,3 +52,12 @@ class NetworkXGraph(Graph):
 
     def findAllPathsOfAtMostLength(self, source, destination, length):
         return networkx.all_simple_paths(self.graph, source, destination, length)
+
+    def breadthFirstSearch(self, source):
+        newGraph = NetworkXGraph()
+        newGraph.graph = networkx.bfs_tree(self.graph, source)
+        return newGraph
+
+    def pageRank(self):
+        return networkx.pagerank_numpy(self.graph)
+
