@@ -98,3 +98,19 @@ class Graph(object):
           Remove an edge from the graph
         """
         raise NotImplementedError()
+
+
+    def findAllPathsOfLength(self, source, destination, length):
+        """
+          Returns all paths between the two nodes of exactly the given length
+        """
+
+        pathsOfAtMostLength = self.findAllPathsOfAtMostLength(source, destination, length)
+        return [path for path in pathsOfAtMostLength if len(path) == length]
+
+
+    def findAllPathsOfAtMostLength(self, source, destination, length):
+        """
+          Returns all paths between the two nodes of at most the given length
+        """
+        raise NotImplementedError()

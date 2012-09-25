@@ -49,3 +49,6 @@ class NetworkXGraph(Graph):
 
     def getPredecessors(self, node):
         return self.graph.predecessors(node)
+
+    def findAllPathsOfAtMostLength(self, source, destination, length):
+        return networkx.all_simple_paths(self.graph, source, destination, length)

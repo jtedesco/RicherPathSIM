@@ -1,4 +1,4 @@
-import networkx
+from src.graph.GraphFactory import GraphFactory
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Publication import Publication
 from src.model.node.dblp.Author import Author
@@ -25,7 +25,7 @@ class SampleGraphUtility(object):
             @see    http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.220.2455
         """
 
-        graph = networkx.DiGraph()
+        graph = GraphFactory.createInstance()
         authorMap = {}
         conferenceMap = {}
 
@@ -36,7 +36,7 @@ class SampleGraphUtility(object):
         bob = Author(SampleGraphUtility.__getNextId(), 'Bob')
         ann = Author(SampleGraphUtility.__getNextId(), 'Ann')
         authors = [mike, jim, mary, bob, ann]
-        graph.add_nodes_from(authors)
+        graph.addNodes(authors)
 
         # Add conferences
         sigmod = Conference(SampleGraphUtility.__getNextId(), 'SIGMOD')
@@ -44,7 +44,7 @@ class SampleGraphUtility(object):
         icde = Conference(SampleGraphUtility.__getNextId(), 'ICDE')
         kdd = Conference(SampleGraphUtility.__getNextId(), 'KDD')
         conferences = [sigmod, vldb, icde, kdd]
-        graph.add_nodes_from([sigmod, vldb, icde, kdd])
+        graph.addNodes([sigmod, vldb, icde, kdd])
 
         # Add author / conference index
         for author in authors:
@@ -57,7 +57,7 @@ class SampleGraphUtility(object):
         for i in xrange(0, 70):
             conference = sigmod if i < 50 else vldb
             paper = Paper(SampleGraphUtility.__getNextId(), '%s Paper %d' % (conference.name, i + 1))
-            graph.add_node(paper)
+            graph.addNode(paper)
             GraphUtility.addEdgesToGraph(graph, jim, paper, Authorship())
             GraphUtility.addEdgesToGraph(graph, paper, conference, Publication())
         SampleGraphUtility.__addSimilarAuthorsPapers(graph, mary, sigmod, icde)
@@ -81,8 +81,8 @@ class SampleGraphUtility(object):
 
         paper1 = Paper(SampleGraphUtility.__getNextId(), 'SIGMOD Paper 1')
         paper2 = Paper(SampleGraphUtility.__getNextId(), 'SIGMOD Paper 2')
-        graph.add_node(paper1)
-        graph.add_node(paper2)
+        graph.addNode(paper1)
+        graph.addNode(paper2)
 
         GraphUtility.addEdgesToGraph(graph, author, paper1, Authorship())
         GraphUtility.addEdgesToGraph(graph, author, paper2, Authorship())
@@ -90,7 +90,7 @@ class SampleGraphUtility(object):
         GraphUtility.addEdgesToGraph(graph, paper2, sigmod, Publication())
 
         paper3 = Paper(SampleGraphUtility.__getNextId(), 'Third Paper')
-        graph.add_node(paper3)
+        graph.addNode(paper3)
         GraphUtility.addEdgesToGraph(graph, author, paper3, Authorship())
         GraphUtility.addEdgesToGraph(graph, paper3, secondConference, Publication())
 
