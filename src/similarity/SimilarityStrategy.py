@@ -7,7 +7,7 @@ class SimilarityStrategy(object):
 
     def __init__(self, graph):
         self.graph = graph
-        self.n = len(graph.nodes())
+        self.n = len(graph.getNodes())
 
 
     def findSimilarityScore(self, source, destination):
