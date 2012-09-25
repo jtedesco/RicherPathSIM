@@ -7,7 +7,6 @@ from src.model.metapath.MetaPath import MetaPath
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Conference import Conference
-from src.util.GraphUtility import GraphUtility
 from src.util.MetaPathUtility import MetaPathUtility
 
 __author__ = 'jontedesco'
@@ -36,15 +35,15 @@ class MetaPathUtilityTest(unittest.TestCase):
 
         # Construct graph
         graph.addNodes([self.author, self.conference1, self.conference2, self.paper1, self.paper2, self.paper3])
-        GraphUtility.addEdgesToGraph(graph, self.paper1, self.author, Authorship())
-        GraphUtility.addEdgesToGraph(graph, self.paper2, self.author, Authorship())
-        GraphUtility.addEdgesToGraph(graph, self.paper3, self.author, Authorship())
-        GraphUtility.addEdgesToGraph(graph, self.paper3, self.coauthor, Authorship())
-        GraphUtility.addEdgesToGraph(graph, self.paper1, self.conference1, Publication())
-        GraphUtility.addEdgesToGraph(graph, self.paper2, self.conference1, Publication())
-        GraphUtility.addEdgesToGraph(graph, self.paper3, self.conference2, Publication())
+        graph.addBothEdges(self.paper1, self.author, Authorship())
+        graph.addBothEdges(self.paper2, self.author, Authorship())
+        graph.addBothEdges(self.paper3, self.author, Authorship())
+        graph.addBothEdges(self.paper3, self.coauthor, Authorship())
+        graph.addBothEdges(self.paper1, self.conference1, Publication())
+        graph.addBothEdges(self.paper2, self.conference1, Publication())
+        graph.addBothEdges(self.paper3, self.conference2, Publication())
         graph.addEdge(self.paper1, self.paper2, Citation())
-        GraphUtility.addEdgesToGraph(graph, self.paper2, self.paper3, Citation())
+        graph.addBothEdges(self.paper2, self.paper3, Citation())
 
         self.templateGraph = graph
 
@@ -198,8 +197,8 @@ class MetaPathUtilityTest(unittest.TestCase):
         """
 
         # Remove paper3 authorship -- should not contain paper2 in this case, since paper2 -> paper3, but not vice versa
-        self.templateGraph.remove_edge(self.author, self.paper3)
-        self.templateGraph.remove_edge(self.paper3, self.author)
+        self.templateGraph.removeEdge(self.author, self.paper3)
+        self.templateGraph.removeEdge(self.paper3, self.author)
 
         # Citation
         self.assertItemsEqual({

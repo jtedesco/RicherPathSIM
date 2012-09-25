@@ -1,4 +1,3 @@
-import networkx
 from src.model.metapath.MetaPath import MetaPath
 
 __author__ = 'jontedesco'
@@ -75,7 +74,7 @@ class MetaPathUtility(object):
         if len(metaPathTypes) == 0:
             return metaPathNeighbors
 
-        neighbors = graph.neighbors(node)
+        neighbors = graph.getSuccessors(node)
         for neighbor in neighbors:
 
             # Skip visited neighbors
@@ -87,7 +86,7 @@ class MetaPathUtility(object):
                 continue
 
             # If symmetry is enforced, skip neighbors that do not have both outgoing and incoming edges
-            if symmetric and not (graph.has_edge(neighbor, node) and graph.has_edge(node, neighbor)):
+            if symmetric and not (graph.hasEdge(neighbor, node) and graph.hasEdge(node, neighbor)):
                 continue
 
             # If we're at the last node in the meta path, add it to the meta path neighbors
@@ -120,7 +119,7 @@ class MetaPathUtility(object):
         paths = []
 
         for endingNode in reachableNodes:
-            if graph.has_edge(endingNode, startingNode):
+            if graph.hasEdge(endingNode, startingNode):
                 correctPaths = MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, symmetric)
                 for path in correctPaths:
                     paths.append(path + [startingNode])
@@ -137,13 +136,9 @@ class MetaPathUtility(object):
         paths = []
 
         # Find all paths of the right length, then filter by the node types in the path
-        allPathsOfCorrectOrLesserLength = networkx.all_simple_paths(graph, startingNode, endingNode, len(metaPath.classes) - 1)
+        allPathsOfCorrectLength = graph.findAllPathsOfLength(startingNode, endingNode, len(metaPath))
 
-        for path in allPathsOfCorrectOrLesserLength:
-
-            if len(path) < len(metaPath.classes):
-                continue
-
+        for path in allPathsOfCorrectLength:
             pathMatchesMetaPath = True
             for node, type in zip(path, metaPath.classes):
                 if node.__class__ != type:
@@ -166,7 +161,6 @@ class MetaPathUtility(object):
         newMetaPaths = list(paths)
         for path in paths:
             for i in xrange(0, len(path) - 1):
-                if not graph.has_edge(path[i + 1], path[i]):
+                if not graph.hasEdge(path[i + 1], path[i]):
                     newMetaPaths.remove(path)
         return newMetaPaths
-

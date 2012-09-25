@@ -21,3 +21,6 @@ class MetaPath(object):
 
     def __eq__(self, other):
         return self.classes == other.classes and self.weight == other.weight
+
+    def __len__(self):
+        return len(self.classes)
