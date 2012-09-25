@@ -19,16 +19,16 @@ class ImporterTest(unittest.TestCase):
         """
 
         # Check nodes
-        expectedGraphNodeData = list(node.toDict() for node in expectedGraph.nodes())
-        actualGraphNodeData = list(node.toDict() for node in actualGraph.nodes())
+        expectedGraphNodeData = list(node.toDict() for node in expectedGraph.getNodes())
+        actualGraphNodeData = list(node.toDict() for node in actualGraph.getNodes())
         expectedGraphNodeData.sort()
         actualGraphNodeData.sort()
 
         self.assertEqual(expectedGraphNodeData, actualGraphNodeData)
 
         # Check edges
-        expectedGraphEdgeData = list(expectedGraph.get_edge_data(a,b) for (a,b) in expectedGraph.edges())
-        actualGraphEdgeData = list(actualGraph.get_edge_data(a,b) for (a,b) in actualGraph.edges())
+        expectedGraphEdgeData = list(expectedGraph.get_edge_data(a,b) for (a,b) in expectedGraph.getEdges())
+        actualGraphEdgeData = list(actualGraph.get_edge_data(a,b) for (a,b) in actualGraph.getEdges())
         expectedGraphEdgeData.sort()
         actualGraphEdgeData.sort()
 

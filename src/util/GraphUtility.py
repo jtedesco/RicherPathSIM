@@ -1,5 +1,3 @@
-from src.model.GraphObject import GraphObject
-
 __author__ = 'jontedesco'
 
 
@@ -14,6 +12,5 @@ class GraphUtility(object):
           Helper function to add bi-directional directed edges to directed graph
         """
 
-        attributesDictionary = object.toDict() if isinstance(object, GraphObject) else None
-        graph.add_edge(a, b, attributesDictionary)
-        graph.add_edge(b, a, attributesDictionary)
+        graph.addEdge(a, b, object)
+        graph.addEdge(b, a, object)

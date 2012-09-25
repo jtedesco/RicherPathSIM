@@ -1,4 +1,4 @@
-from networkx import networkx
+from src.graph.GraphFacade import GraphFacade
 from src.importer.ArnetMinerDataImporter import ArnetMinerDataImporter
 from src.importer.error.ArnetParseError import ArnetParseError
 from src.model.edge.dblp.Authorship import Authorship
@@ -20,9 +20,6 @@ class ArnetMinerDataImporterTest(ImporterTest):
     """
 
     def setUp(self):
-
-        """
-        """
         self.dataImporter = ArnetMinerDataImporter(None, None)
 
 
@@ -217,7 +214,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = networkx.DiGraph()
+        expectedGraph = GraphFacade.getInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -227,13 +224,13 @@ class ArnetMinerDataImporterTest(ImporterTest):
         topic = Topic(0, ['databas'])
         conference1 = Conference(0, 'Conference One')
         conference2 = Conference(1, 'Conference Two')
-        expectedGraph.add_node(author1)
-        expectedGraph.add_node(author2)
-        expectedGraph.add_node(paper1)
-        expectedGraph.add_node(paper2)
-        expectedGraph.add_node(topic)
-        expectedGraph.add_node(conference1)
-        expectedGraph.add_node(conference2)
+        expectedGraph.addNode(author1)
+        expectedGraph.addNode(author2)
+        expectedGraph.addNode(paper1)
+        expectedGraph.addNode(paper2)
+        expectedGraph.addNode(topic)
+        expectedGraph.addNode(conference1)
+        expectedGraph.addNode(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
@@ -271,7 +268,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = networkx.DiGraph()
+        expectedGraph = GraphFacade.getInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -281,13 +278,13 @@ class ArnetMinerDataImporterTest(ImporterTest):
         topic1 = Topic(0, ['databas'])
         topic2 = Topic(1, ['knowledg'])
         conference = Conference(0, 'Conference One')
-        expectedGraph.add_node(author1)
-        expectedGraph.add_node(author2)
-        expectedGraph.add_node(paper1)
-        expectedGraph.add_node(paper2)
-        expectedGraph.add_node(topic1)
-        expectedGraph.add_node(topic2)
-        expectedGraph.add_node(conference)
+        expectedGraph.addNode(author1)
+        expectedGraph.addNode(author2)
+        expectedGraph.addNode(paper1)
+        expectedGraph.addNode(paper2)
+        expectedGraph.addNode(topic1)
+        expectedGraph.addNode(topic2)
+        expectedGraph.addNode(conference)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
@@ -325,7 +322,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = networkx.DiGraph()
+        expectedGraph = GraphFacade.getInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -334,12 +331,12 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databas'])
         conference = Conference(0, 'Conference One')
-        expectedGraph.add_node(author1)
-        expectedGraph.add_node(author2)
-        expectedGraph.add_node(paper1)
-        expectedGraph.add_node(paper2)
-        expectedGraph.add_node(topic)
-        expectedGraph.add_node(conference)
+        expectedGraph.addNode(author1)
+        expectedGraph.addNode(author2)
+        expectedGraph.addNode(paper1)
+        expectedGraph.addNode(paper2)
+        expectedGraph.addNode(topic)
+        expectedGraph.addNode(conference)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
@@ -380,7 +377,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = networkx.DiGraph()
+        expectedGraph = GraphFacade.getInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -391,14 +388,14 @@ class ArnetMinerDataImporterTest(ImporterTest):
         topic = Topic(0, ['databas'])
         conference1 = Conference(0, 'Conference One')
         conference2 = Conference(1, 'Conference Two')
-        expectedGraph.add_node(author1)
-        expectedGraph.add_node(author2)
-        expectedGraph.add_node(author3)
-        expectedGraph.add_node(paper1)
-        expectedGraph.add_node(paper2)
-        expectedGraph.add_node(topic)
-        expectedGraph.add_node(conference1)
-        expectedGraph.add_node(conference2)
+        expectedGraph.addNode(author1)
+        expectedGraph.addNode(author2)
+        expectedGraph.addNode(author3)
+        expectedGraph.addNode(paper1)
+        expectedGraph.addNode(paper2)
+        expectedGraph.addNode(topic)
+        expectedGraph.addNode(conference1)
+        expectedGraph.addNode(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author3, paper1, Authorship())
@@ -437,7 +434,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = networkx.DiGraph()
+        expectedGraph = GraphFacade.getInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -446,12 +443,12 @@ class ArnetMinerDataImporterTest(ImporterTest):
         paper2 = Paper(1, 'Databases')
         topic = Topic(0, ['databas'])
         conference = Conference(0, 'Conference One')
-        expectedGraph.add_node(author1)
-        expectedGraph.add_node(author2)
-        expectedGraph.add_node(paper1)
-        expectedGraph.add_node(paper2)
-        expectedGraph.add_node(topic)
-        expectedGraph.add_node(conference)
+        expectedGraph.addNode(author1)
+        expectedGraph.addNode(author2)
+        expectedGraph.addNode(paper1)
+        expectedGraph.addNode(paper2)
+        expectedGraph.addNode(topic)
+        expectedGraph.addNode(conference)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
@@ -492,7 +489,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = networkx.DiGraph()
+        expectedGraph = GraphFacade.getInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -502,13 +499,13 @@ class ArnetMinerDataImporterTest(ImporterTest):
         topic = Topic(0, ['databas'])
         conference1 = Conference(0, 'Conference One')
         conference2 = Conference(1, 'Conference Two')
-        expectedGraph.add_node(author1)
-        expectedGraph.add_node(author2)
-        expectedGraph.add_node(paper1)
-        expectedGraph.add_node(paper2)
-        expectedGraph.add_node(topic)
-        expectedGraph.add_node(conference1)
-        expectedGraph.add_node(conference2)
+        expectedGraph.addNode(author1)
+        expectedGraph.addNode(author2)
+        expectedGraph.addNode(paper1)
+        expectedGraph.addNode(paper2)
+        expectedGraph.addNode(topic)
+        expectedGraph.addNode(conference1)
+        expectedGraph.addNode(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
@@ -518,7 +515,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
         GraphUtility.addEdgesToGraph(expectedGraph, paper2, conference2, Publication())
 
         # Not symmetric!
-        expectedGraph.add_edge(paper2, paper1, Citation().toDict())
+        expectedGraph.addEdge(paper2, paper1, Citation())
 
         actualGraph = self.dataImporter.buildGraph(parsedData)
 
@@ -549,7 +546,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = networkx.DiGraph()
+        expectedGraph = GraphFacade.getInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -559,13 +556,13 @@ class ArnetMinerDataImporterTest(ImporterTest):
         topic = Topic(0, ['databas'])
         conference1 = Conference(0, 'Conference One')
         conference2 = Conference(1, 'Conference Two')
-        expectedGraph.add_node(author1)
-        expectedGraph.add_node(author2)
-        expectedGraph.add_node(paper1)
-        expectedGraph.add_node(paper2)
-        expectedGraph.add_node(topic)
-        expectedGraph.add_node(conference1)
-        expectedGraph.add_node(conference2)
+        expectedGraph.addNode(author1)
+        expectedGraph.addNode(author2)
+        expectedGraph.addNode(paper1)
+        expectedGraph.addNode(paper2)
+        expectedGraph.addNode(topic)
+        expectedGraph.addNode(conference1)
+        expectedGraph.addNode(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author1, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author2, paper2, Authorship())
@@ -606,7 +603,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = networkx.DiGraph()
+        expectedGraph = GraphFacade.getInstance()
 
         # Expect unspecified ids to auto-increment
         author = Author(0, 'Author One')
@@ -615,12 +612,12 @@ class ArnetMinerDataImporterTest(ImporterTest):
         topic = Topic(0, ['databas'])
         conference1 = Conference(0, 'Conference One')
         conference2 = Conference(1, 'Conference Two')
-        expectedGraph.add_node(author)
-        expectedGraph.add_node(paper1)
-        expectedGraph.add_node(paper2)
-        expectedGraph.add_node(topic)
-        expectedGraph.add_node(conference1)
-        expectedGraph.add_node(conference2)
+        expectedGraph.addNode(author)
+        expectedGraph.addNode(paper1)
+        expectedGraph.addNode(paper2)
+        expectedGraph.addNode(topic)
+        expectedGraph.addNode(conference1)
+        expectedGraph.addNode(conference2)
 
         GraphUtility.addEdgesToGraph(expectedGraph, author, paper1, Authorship())
         GraphUtility.addEdgesToGraph(expectedGraph, author, paper2, Authorship())

@@ -1,5 +1,5 @@
 import unittest
-import networkx
+from src.graph.GraphFacade import GraphFacade
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Citation import Citation
 from src.model.edge.dblp.Publication import Publication
@@ -23,7 +23,7 @@ class MetaPathUtilityTest(unittest.TestCase):
         self.maxDiff = None
 
         # Construct template graph for tests
-        graph = networkx.DiGraph()
+        graph = GraphFacade.getInstance()
 
         # Put references to graph objects on test object
         self.author = Author(0, 'author')
@@ -35,7 +35,7 @@ class MetaPathUtilityTest(unittest.TestCase):
         self.paper3 = Paper(2, 'paper3')
 
         # Construct graph
-        graph.add_nodes_from([self.author, self.conference1, self.conference2, self.paper1, self.paper2, self.paper3])
+        graph.addNodes([self.author, self.conference1, self.conference2, self.paper1, self.paper2, self.paper3])
         GraphUtility.addEdgesToGraph(graph, self.paper1, self.author, Authorship())
         GraphUtility.addEdgesToGraph(graph, self.paper2, self.author, Authorship())
         GraphUtility.addEdgesToGraph(graph, self.paper3, self.author, Authorship())
@@ -43,8 +43,8 @@ class MetaPathUtilityTest(unittest.TestCase):
         GraphUtility.addEdgesToGraph(graph, self.paper1, self.conference1, Publication())
         GraphUtility.addEdgesToGraph(graph, self.paper2, self.conference1, Publication())
         GraphUtility.addEdgesToGraph(graph, self.paper3, self.conference2, Publication())
-        graph.add_edge(self.paper1, self.paper2, Citation().toDict())
-        GraphUtility.addEdgesToGraph(graph, self.paper2, self.paper3, Citation().toDict())
+        graph.addEdge(self.paper1, self.paper2, Citation())
+        GraphUtility.addEdgesToGraph(graph, self.paper2, self.paper3, Citation())
 
         self.templateGraph = graph
 
