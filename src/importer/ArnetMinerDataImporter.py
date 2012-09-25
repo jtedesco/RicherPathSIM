@@ -213,3 +213,7 @@ class ArnetMinerDataImporter(Thread):
                 keywords.add(word)
 
         return keywords
+
+if __name__ == '__main__':
+    arnetMinerDataImporter = ArnetMinerDataImporter('data/real/DBLP-citation-Feb21.txt', 'graphs/arnetV5WithPublicationLinks')
+    arnetMinerDataImporter.start()

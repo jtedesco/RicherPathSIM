@@ -1,3 +1,4 @@
+import json
 import logging
 import xmlrpclib
 import cPickle
@@ -56,21 +57,19 @@ class CoMoToDataImporter(Thread):
           </ol>
         """
 
-        try:
 
-            self.logger.info("Fetching CoMoTo data")
-            coMoToData = self.getCoMoToData()
+        self.logger.info("Fetching CoMoTo data")
+        coMoToData = self.getCoMoToData()
 
-            self.logger.info("Building CoMoTo graph data")
-            graph = self.buildGraph(coMoToData)
+        with open('comotodata', 'w') as f:
+            f.write(json.dumps(coMoToData))
 
-            self.logger.info("Pickling CoMoTo graph data to file")
-            with open(self.outputPath, 'w') as outputFile:
-                cPickle.dump(graph, outputFile)
+        self.logger.info("Building CoMoTo graph data")
+        graph = self.buildGraph(coMoToData)
 
-        except Exception, error:
-
-            self.logger.error(error.__class__.__name__ + ": " + error.message)
+        self.logger.info("Pickling CoMoTo graph data to file")
+        with open(self.outputPath, 'w') as outputFile:
+            cPickle.dump(graph, outputFile)
 
 
     def getCoMoToData(self):
@@ -91,7 +90,9 @@ class CoMoToDataImporter(Thread):
         assignments = []
         for course in courses:
             if course['name'] == 'CS 225':
+                assert(len(assignments) == 0)
                 assignments = connection.getAssignments(course['id'])
+                assert(len(offerings) == 0)
                 offerings = course['offerings']
 
         fileSetIdsList = []
@@ -108,6 +109,14 @@ class CoMoToDataImporter(Thread):
             for fileSetId in fileSetIds:
                 fileSetAnalysisMap[fileSetId] = analysisId
         for offering in offerings:
+            semesterData = offering['semester']
+
+            # Skip invalid semesters and semesters that are too new to have analyses
+            if semesterData['id'] < 0 or semesterData['year'] <= 0:
+                continue
+            if semesterData['year'] == 2012 and semesterData['season'] == 'Fall':
+                continue
+
             if len(offering['fileset_ids']):
                 aFileSetId = offering['fileset_ids'][0]
                 offering['analysis_id'] = fileSetAnalysisMap[aFileSetId]
@@ -318,3 +327,9 @@ class CoMoToDataImporter(Thread):
             'matches' : matches,
             'submissions' : submissions
         }
+
+if __name__ == '__main__':
+    netid = raw_input("Netid:")
+    password = raw_input("Password:")
+    comotoDataImporter = CoMoToDataImporter('graphs/cs225comotodata', netid, password)
+    comotoDataImporter.start()
