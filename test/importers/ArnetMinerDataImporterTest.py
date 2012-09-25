@@ -1,4 +1,4 @@
-from src.graph.GraphFacade import GraphFacade
+from src.graph.GraphFactory import GraphFactory
 from src.importer.ArnetMinerDataImporter import ArnetMinerDataImporter
 from src.importer.error.ArnetParseError import ArnetParseError
 from src.model.edge.dblp.Authorship import Authorship
@@ -213,7 +213,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -267,7 +267,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -321,7 +321,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -376,7 +376,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -433,7 +433,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -488,7 +488,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -545,7 +545,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
 
         # Expect unspecified ids to auto-increment
         author1 = Author(0, 'Author One')
@@ -602,7 +602,7 @@ class ArnetMinerDataImporterTest(ImporterTest):
             }
         }
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
 
         # Expect unspecified ids to auto-increment
         author = Author(0, 'Author One')

@@ -2,7 +2,7 @@ import logging
 import xmlrpclib
 import cPickle
 from threading import Thread
-from src.graph.GraphFacade import GraphFacade
+from src.graph.GraphFactory import GraphFactory
 from src.importer.error.CoMoToParseError import CoMoToParseError
 from src.logger.ColoredLogger import ColoredLogger
 from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
@@ -126,7 +126,7 @@ class CoMoToDataImporter(Thread):
 
     def buildGraph(self, coMoToData):
 
-        graph = GraphFacade.getInstance()
+        graph = GraphFactory.createInstance()
 
         # Add semesters to graph
         semesterIdToSemesterMap = {}

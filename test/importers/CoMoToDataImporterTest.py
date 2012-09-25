@@ -1,4 +1,4 @@
-from src.graph.GraphFacade import GraphFacade
+from src.graph.GraphFactory import GraphFactory
 from src.importer.CoMoToDataImporter import CoMoToDataImporter
 from src.model.edge.comoto.AssignmentSubmission import AssignmentSubmission
 from src.model.edge.comoto.Authorship import Authorship
@@ -596,7 +596,7 @@ class CoMoToDataImporterTest(ImporterTest):
         assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
         expectedGraph.addNode(student2)
         expectedGraph.addNode(student3)
@@ -647,7 +647,7 @@ class CoMoToDataImporterTest(ImporterTest):
         assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
         expectedGraph.addNode(student2)
         expectedGraph.addNode(student3)
@@ -696,7 +696,7 @@ class CoMoToDataImporterTest(ImporterTest):
         assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
         expectedGraph.addNode(student2)
         expectedGraph.addNode(student3)
@@ -746,7 +746,7 @@ class CoMoToDataImporterTest(ImporterTest):
         assignment = Assignment(1, 'MP1')
         semester = Semester(7, 'Fall', 2012)
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
         expectedGraph.addNode(student2)
         expectedGraph.addNode(student3)
@@ -801,7 +801,7 @@ class CoMoToDataImporterTest(ImporterTest):
         semester1 = Semester(7, 'Fall', 2012)
         semester2 = Semester(8, 'Spring', 2013)
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
         expectedGraph.addNode(student2)
         expectedGraph.addNode(student3)
@@ -869,7 +869,7 @@ class CoMoToDataImporterTest(ImporterTest):
         semester1 = Semester(7, 'Fall', 2012)
         semester2 = Semester(8, 'Spring', 2013)
 
-        expectedGraph = GraphFacade.getInstance()
+        expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
         expectedGraph.addNode(student2)
         expectedGraph.addNode(student3)

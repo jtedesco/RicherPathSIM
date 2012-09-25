@@ -1,5 +1,5 @@
 import unittest
-from src.graph.GraphFacade import GraphFacade
+from src.graph.GraphFactory import GraphFactory
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Citation import Citation
 from src.model.edge.dblp.Publication import Publication
@@ -23,7 +23,7 @@ class MetaPathUtilityTest(unittest.TestCase):
         self.maxDiff = None
 
         # Construct template graph for tests
-        graph = GraphFacade.getInstance()
+        graph = GraphFactory.createInstance()
 
         # Put references to graph objects on test object
         self.author = Author(0, 'author')

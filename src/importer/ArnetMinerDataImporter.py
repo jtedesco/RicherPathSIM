@@ -5,7 +5,7 @@ import Stemmer
 import cPickle
 from threading import Thread
 from copy import deepcopy
-from src.graph.GraphFacade import GraphFacade
+from src.graph.GraphFactory import GraphFactory
 from src.importer.error.ArnetParseError import ArnetParseError
 from src.logger.ColoredLogger import ColoredLogger
 from src.model.edge.dblp.Authorship import Authorship
@@ -131,7 +131,7 @@ class ArnetMinerDataImporter(Thread):
           Form the DBLP graph structure from the parsed data
         """
 
-        graph = GraphFacade.getInstance()
+        graph = GraphFactory.createInstance()
 
         # First, build the nodes for the graph
         authors = {} # Indexed by name
