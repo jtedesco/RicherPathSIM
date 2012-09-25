@@ -235,24 +235,18 @@ class CoMoToDataImporter(Thread):
                             addEnrollmentEdge = True
 
                     if addEnrollmentEdge:
-                        enrollmentEdge = Enrollment()
                         graph.addNode(student)
-                        graph.addEdge(submissionSemester, student, enrollmentEdge)
-                        graph.addEdge(student, submissionSemester, enrollmentEdge)
+                        graph.addBothEdges(submissionSemester, student, Enrollment())
 
                     # We know that this student has only one submission for this offering, connect them in the graph
-                    authorshipEdge = Authorship()
-                    graph.addEdge(student, submission, authorshipEdge)
-                    graph.addEdge(submission, student, authorshipEdge)
+                    graph.addBothEdges(student, submission, Authorship())
 
                 # Associate submission with assignment
                 associatedAssignment = analysisIdToAssignmentMap[analysisId]
                 if associatedAssignment is None:
                     raise CoMoToParseError('Failed to find assignment corresponding to submission')
 
-                assignmentSubmissionEdge = AssignmentSubmission()
-                graph.addEdge(submission, associatedAssignment, assignmentSubmissionEdge)
-                graph.addEdge(associatedAssignment, submission, assignmentSubmissionEdge)
+                graph.addBothEdges(submission, associatedAssignment, AssignmentSubmission())
 
             matchTypeToClassMap = {
                 'same_semester_matches': SameSemesterMatch,

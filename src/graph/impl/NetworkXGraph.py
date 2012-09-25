@@ -30,7 +30,7 @@ class NetworkXGraph(Graph):
         return self.graph.nodes()
 
     def removeEdge(self, source, destination):
-        return self.graph.has_edge(source, destination)
+        return self.graph.remove_edge(source, destination)
 
     def removeNode(self, node):
         return self.graph.remove_node(node)
