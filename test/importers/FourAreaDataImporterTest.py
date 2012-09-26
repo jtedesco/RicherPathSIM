@@ -5,6 +5,7 @@ from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Topic import Topic
 from test.importers.ImporterTest import ImporterTest
 
+
 __author__ = 'jontedesco'
 
 class FourAreaDataImporterTest(ImporterTest):
@@ -95,3 +96,57 @@ class FourAreaDataImporterTest(ImporterTest):
 
         self.assertEquals(expectedTypeCounts, actualTypeCounts)
         self.assertEquals(0, otherTypeCounts)
+
+
+    def testParsedGraphAuthorshipEdges(self):
+        """
+          Checks that parsing the basic authorship edge content of the graph works as expected, by spot checking a few
+          edges that do & don't exist
+        """
+
+        graph, nodeIndex = self.dataImporter.parseNodeContent({})
+        graph = self.dataImporter.parseEdgeContent(graph, nodeIndex)
+
+        # Test single paper / author
+        singleAuthorPaperId = 7600
+        singleAuthorAuthorId = 15134
+        self.assertTrue(graph.hasEdge(nodeIndex['paper'][singleAuthorPaperId], nodeIndex['author'][singleAuthorAuthorId]))
+        self.assertTrue(graph.hasEdge(nodeIndex['author'][singleAuthorAuthorId], nodeIndex['paper'][singleAuthorPaperId]))
+
+        # Test multiple authors for a paper
+        multiAuthorPaperId = 7605
+        multiAuthorAuthor1Id = 15138
+        multiAuthorAuthor2Id = 15139
+        self.assertTrue(graph.hasEdge(nodeIndex['paper'][multiAuthorPaperId], nodeIndex['author'][multiAuthorAuthor1Id]))
+        self.assertTrue(graph.hasEdge(nodeIndex['author'][multiAuthorAuthor1Id], nodeIndex['paper'][multiAuthorPaperId]))
+        self.assertTrue(graph.hasEdge(nodeIndex['paper'][multiAuthorPaperId], nodeIndex['author'][multiAuthorAuthor2Id]))
+        self.assertTrue(graph.hasEdge(nodeIndex['author'][multiAuthorAuthor2Id], nodeIndex['paper'][multiAuthorPaperId]))
+
+        # Test author for only one paper
+        self.assertEqual(1, graph.getSuccessors(nodeIndex['author'][singleAuthorAuthorId]))
+        self.assertEqual(1, graph.getPredecessors(nodeIndex['author'][singleAuthorAuthorId]))
+
+
+    def testParsedGraphPublicationEdges(self):
+        """
+          Checks that parsing the basic publication edge content of the graph works as expected, by spot checking a few
+          edges that do & don't exist
+        """
+
+        graph, nodeIndex = self.dataImporter.parseNodeContent({})
+        graph = self.dataImporter.parseEdgeContent(graph, nodeIndex)
+
+        conference = nodeIndex['conference'][36]
+        paper = nodeIndex['paper'][7600]
+
+        # Check basic publication case
+        self.assertTrue(graph.hasEdge(paper, conference))
+        self.assertTrue(graph.hasEdge(conference, paper))
+
+        # Check that papers are only connected with one conference
+        for node in graph.getSuccessors(paper):
+            if isinstance(node, Conference):
+                self.assertEquals(conference, node)
+
+        # Check the number of publications for a conference
+        self.assertEquals(3375, len(graph.getPredecessors(conference)))
