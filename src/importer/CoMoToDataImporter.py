@@ -133,168 +133,6 @@ class CoMoToDataImporter(Thread):
         }
 
 
-    def buildGraph(self, coMoToData):
-
-        graph = GraphFactory.createInstance()
-
-        # Add semesters to graph
-        semesterIdToSemesterMap = {}
-        offeringIdToSemesterMap = {}
-        for offeringId in coMoToData['offerings']:
-
-            semesterData = coMoToData['offerings'][offeringId]['semester']
-
-            # Skip invalid or dummy semesters
-            if semesterData['id'] >= 0 and semesterData['year'] >= 0:
-
-                semester = Semester(semesterData['id'], semesterData['season'], semesterData['year'])
-                semesterIdToSemesterMap[semesterData['id']] = semester
-                offeringIdToSemesterMap[offeringId] = semester
-
-                graph.addNode(semester)
-
-        # Add assignments to graph & connect them to semesters
-        analysisIdToAssignmentMap = {}
-        for assignmentId in coMoToData['assignments']:
-
-            # Skip invalid / dummy assignments
-            if assignmentId < 0:
-                continue
-
-            assignmentData = coMoToData['assignments'][assignmentId]
-            assignment = Assignment(assignmentId, assignmentData['name'])
-            offeredSemester = semesterIdToSemesterMap[assignmentData['moss_analysis_pruned_offering']['semester']['id']]
-            if offeredSemester is None:
-                raise CoMoToParseError('Failed to find semester corresponding to assignment')
-            analysisIdToAssignmentMap[assignmentData['analysis_id']] = assignment
-
-            semesterAssignmentEdge = SemesterAssignment()
-            graph.addNode(assignment)
-            graph.addEdge(assignment, offeredSemester, semesterAssignmentEdge)
-            graph.addEdge(offeredSemester, assignment, semesterAssignmentEdge)
-
-        # Add submissions & students to graph, connect submissions with students and assignment,
-        # and students with assignments
-        submissions = {}
-        students = {}
-        submissionIdsRemoved = set()
-        for analysisId in coMoToData['analysis_data']:
-            analysisData = coMoToData['analysis_data'][analysisId]
-            for submissionId in analysisData['submissions']:
-
-                # Get submission data & add to graph
-                submissionData = analysisData['submissions'][submissionId]
-                isSolution = (submissionData['type'] == 'solutionsubmission')
-                partnerIds = None if isSolution else set(submissionData['partner_ids'])
-                submission = Submission(submissionId, partnerIds, isSolution)
-                submissions[submissionId] = submission
-
-                # Get semester corresponding to this submission
-                submissionSemester = offeringIdToSemesterMap[submissionData['offering_id']]
-                if submissionSemester is None:
-                    raise CoMoToParseError('Failed to find semester corresponding to student')
-
-                graph.addNode(submission)
-
-                if not isSolution:
-
-                    studentId = submissionData['student']['id']
-                    addEnrollmentEdge = False
-                    if studentId not in students:
-
-                        # Add student data to the graph if not already encountered
-                        studentData = submissionData['student']
-                        student = Student(studentId, studentData['display_name'], studentData['netid'])
-                        students[studentId] = student
-
-                        # We know that student is not associated with this offering yet, just add him/her & corresponding
-                        # enrollment edges to graph
-                        addEnrollmentEdge = True
-
-                    else:
-
-                        # Get student encountered before
-                        student = students[studentId]
-
-                        # Check all incoming edges to student node for connections to another (different) analysis
-                        studentNodePredecessors = graph.getPredecessors(student)
-                        studentIsRetake = False
-                        for node in studentNodePredecessors:
-                            if isinstance(node, Semester) and node != submissionSemester:
-                                studentIsRetake = True
-
-                        # Remove all edges
-                        if studentIsRetake:
-                            student.retake = True
-
-                            # Remove old enrollments & submissions for last semester
-                            for node in studentNodePredecessors:
-                                isSemester = isinstance(node, Semester) and node != submissionSemester
-                                isSubmission = isinstance(node, Submission)
-
-                                if isSemester or isSubmission:
-                                    if graph.hasEdge(node, student):
-                                        graph.removeEdge(node, student)
-                                    if graph.hasEdge(student, node):
-                                        graph.removeEdge(student, node)
-                                if isSubmission:
-                                    submissionIdsRemoved.add(node.id)
-                                    graph.removeNode(node)
-
-                            addEnrollmentEdge = True
-
-                    if addEnrollmentEdge:
-                        graph.addNode(student)
-                        graph.addBothEdges(submissionSemester, student, Enrollment())
-
-                    # We know that this student has only one submission for this offering, connect them in the graph
-                    graph.addBothEdges(student, submission, Authorship())
-
-                # Associate submission with assignment
-                associatedAssignment = analysisIdToAssignmentMap[analysisId]
-                if associatedAssignment is None:
-                    raise CoMoToParseError('Failed to find assignment corresponding to submission')
-
-                graph.addBothEdges(submission, associatedAssignment, AssignmentSubmission())
-
-            matchTypeToClassMap = {
-                'same_semester_matches': SameSemesterMatch,
-                'cross_semester_matches': CrossSemesterMatch,
-                'solution_matches': SolutionMatch
-            }
-            for matchType in matchTypeToClassMap.keys():
-                for matchData in analysisData['matches'][matchType]:
-
-                    # Don't add this match edge if we removed the submission cleaning retaking students before
-                    if len({matchData['submission_1_id'], matchData['submission_2_id']}.intersection(submissionIdsRemoved)) is not 0:
-                        continue
-
-                    submissionOne = submissions[matchData['submission_1_id']]
-                    submissionTwo = submissions[matchData['submission_2_id']]
-                    averageScore = (float(matchData['score1']) + float(matchData['score2'])) / 2.0
-
-                    isPartnerMatch = matchData['submission_1_id'] in submissionTwo.partnerIds \
-                        or matchData['submission_2_id'] in submissionOne.partnerIds
-
-                    if submissionOne is None:
-                        raise CoMoToParseError('Failed to find submission 1 corresponding to match')
-                    if submissionTwo is None:
-                        raise CoMoToParseError('Failed to find submission 2 corresponding to match')
-
-                    matchClass = matchTypeToClassMap[matchType]
-                    if matchClass is SameSemesterMatch and isPartnerMatch:
-                        matchClass = PartnerMatch
-
-                    matchEdge = matchClass(matchData['id'], averageScore)
-                    graph.addEdge(submissionOne, submissionTwo, matchEdge)
-
-                    # If this is a cross semester match, don't make it bidirectional
-                    if matchType != 'cross_semester_matches':
-                        graph.addEdge(submissionTwo, submissionOne, matchEdge)
-
-        return graph
-
-
     def __getMatchesAndSubmissions(self, analysisId, fileSetIds, connection):
         """
           Get the code submissions and submission matches for a particular analysis
@@ -327,6 +165,203 @@ class CoMoToDataImporter(Thread):
             'matches' : matches,
             'submissions' : submissions
         }
+
+
+    def buildGraph(self, coMoToData):
+
+        graph = GraphFactory.createInstance()
+
+        # Add semesters to graph
+        analysisIdToAssignmentMap, offeringIdToSemesterMap = self.__addSemestersAndAssignmentsToGraph(coMoToData, graph)
+
+        # Add submissions & students to graph, connect submissions with students and assignment, and students with assignments
+        self.addStudentsAndSemestersToGraph(analysisIdToAssignmentMap, coMoToData, graph, offeringIdToSemesterMap)
+
+        return graph
+
+
+    def __addSemestersAndAssignmentsToGraph(self, coMoToData, graph):
+        """
+          Add semesters and assignments to the graph (assumes graph is empty)
+        """
+
+        semesterIdToSemesterMap = {}
+        offeringIdToSemesterMap = {}
+        for offeringId in coMoToData['offerings']:
+            semesterData = coMoToData['offerings'][offeringId]['semester']
+
+            # Skip invalid or dummy semesters
+            if semesterData['id'] >= 0 and semesterData['year'] >= 0:
+                semester = Semester(semesterData['id'], semesterData['season'], semesterData['year'])
+                semesterIdToSemesterMap[semesterData['id']] = semester
+                offeringIdToSemesterMap[offeringId] = semester
+
+                graph.addNode(semester)
+
+        # Add assignments to graph & connect them to semesters
+        analysisIdToAssignmentMap = {}
+        for assignmentId in coMoToData['assignments']:
+            # Skip invalid / dummy assignments
+            if assignmentId < 0:
+                continue
+
+            assignmentData = coMoToData['assignments'][assignmentId]
+            assignment = Assignment(assignmentId, assignmentData['name'])
+            offeredSemester = semesterIdToSemesterMap[assignmentData['moss_analysis_pruned_offering']['semester']['id']]
+            if offeredSemester is None:
+                raise CoMoToParseError('Failed to find semester corresponding to assignment')
+            analysisIdToAssignmentMap[assignmentData['analysis_id']] = assignment
+
+            semesterAssignmentEdge = SemesterAssignment()
+            graph.addNode(assignment)
+            graph.addEdge(assignment, offeredSemester, semesterAssignmentEdge)
+            graph.addEdge(offeredSemester, assignment, semesterAssignmentEdge)
+
+        return analysisIdToAssignmentMap, offeringIdToSemesterMap
+
+
+    def __addExistingStudentToGraph(self, addEnrollmentEdge, graph, studentId, students, submissionIdsRemoved,
+                                    submissionSemester):
+        """
+          Add an existing student to the graph, given the student id and map of existing students
+        """
+
+        # Get student encountered before
+        student = students[studentId]
+
+        # Check all incoming edges to student node for connections to another (different) analysis
+        studentNodePredecessors = graph.getPredecessors(student)
+        studentIsRetake = False
+        for node in studentNodePredecessors:
+            if isinstance(node, Semester) and node != submissionSemester:
+                studentIsRetake = True
+
+        # Remove all edges
+        if studentIsRetake:
+            student.retake = True
+
+            # Remove old enrollments & submissions for last semester
+            for node in studentNodePredecessors:
+                isSemester = isinstance(node, Semester) and node != submissionSemester
+                isSubmission = isinstance(node, Submission)
+
+                if isSemester or isSubmission:
+                    if graph.hasEdge(node, student):
+                        graph.removeEdge(node, student)
+                    if graph.hasEdge(student, node):
+                        graph.removeEdge(student, node)
+                if isSubmission:
+                    submissionIdsRemoved.add(node.id)
+                    graph.removeNode(node)
+
+            addEnrollmentEdge = True
+        return addEnrollmentEdge, student
+
+
+    def addStudentsAndSemestersToGraph(self, analysisIdToAssignmentMap, coMoToData, graph, offeringIdToSemesterMap):
+        """
+          Add the student and semester nodes (and corresponding enrollment edges) to graph (assuming all
+          semester / assignment data has been added to graph.
+        """
+
+        submissions = {}
+        students = {}
+        submissionIdsRemoved = set()
+        for analysisId in coMoToData['analysis_data']:
+            analysisData = coMoToData['analysis_data'][analysisId]
+            for submissionId in analysisData['submissions']:
+
+                # Get submission data & add to graph
+                submissionData = analysisData['submissions'][submissionId]
+                isSolution = (submissionData['type'] == 'solutionsubmission')
+                partnerIds = None if isSolution else set(submissionData['partner_ids'])
+                submission = Submission(submissionId, partnerIds, isSolution)
+                submissions[submissionId] = submission
+
+                # Get semester corresponding to this submission
+                submissionSemester = offeringIdToSemesterMap[submissionData['offering_id']]
+                if submissionSemester is None:
+                    raise CoMoToParseError('Failed to find semester corresponding to student')
+
+                graph.addNode(submission)
+
+                if not isSolution:
+                    studentId = submissionData['student']['id']
+                    addEnrollmentEdge = False
+                    if studentId not in students:
+
+                        # Add student data to the graph if not already encountered
+                        studentData = submissionData['student']
+                        student = Student(studentId, studentData['display_name'], studentData['netid'])
+                        students[studentId] = student
+
+                        # We know that student is not associated with this offering yet, just add him/her & corresponding
+                        # enrollment edges to graph
+                        addEnrollmentEdge = True
+
+                    else:
+                        addEnrollmentEdge, student = self.__addExistingStudentToGraph(addEnrollmentEdge, graph,
+                            studentId, students, submissionIdsRemoved, submissionSemester)
+
+                    if addEnrollmentEdge:
+                        graph.addNode(student)
+                        graph.addBothEdges(submissionSemester, student, Enrollment())
+
+                    # We know that this student has only one submission for this offering, connect them in the graph
+                    graph.addBothEdges(student, submission, Authorship())
+
+                # Associate submission with assignment
+                associatedAssignment = analysisIdToAssignmentMap[analysisId]
+                if associatedAssignment is None:
+                    raise CoMoToParseError('Failed to find assignment corresponding to submission')
+
+                graph.addBothEdges(submission, associatedAssignment, AssignmentSubmission())
+
+            self.__addMatchesToGraph(analysisData, graph, submissionIdsRemoved, submissions)
+
+
+    def __addMatchesToGraph(self, analysisData, graph, submissionIdsRemoved, submissions):
+        """
+          Add match edges to graph (assuming all other data has been added to graph)
+        """
+
+        matchTypeToClassMap = {
+            'same_semester_matches': SameSemesterMatch,
+            'cross_semester_matches': CrossSemesterMatch,
+            'solution_matches': SolutionMatch
+        }
+
+        for matchType in matchTypeToClassMap.keys():
+            for matchData in analysisData['matches'][matchType]:
+
+                # Don't add this match edge if we removed the submission cleaning retaking students before
+                if len({matchData['submission_1_id'], matchData['submission_2_id']}.intersection(
+                    submissionIdsRemoved)) is not 0:
+                    continue
+
+                submissionOne = submissions[matchData['submission_1_id']]
+                submissionTwo = submissions[matchData['submission_2_id']]
+                averageScore = (float(matchData['score1']) + float(matchData['score2'])) / 2.0
+
+                isPartnerMatch = matchData['submission_1_id'] in submissionTwo.partnerIds\
+                or matchData['submission_2_id'] in submissionOne.partnerIds
+
+                if submissionOne is None:
+                    raise CoMoToParseError('Failed to find submission 1 corresponding to match')
+                if submissionTwo is None:
+                    raise CoMoToParseError('Failed to find submission 2 corresponding to match')
+
+                matchClass = matchTypeToClassMap[matchType]
+                if matchClass is SameSemesterMatch and isPartnerMatch:
+                    matchClass = PartnerMatch
+
+                matchEdge = matchClass(matchData['id'], averageScore)
+                graph.addEdge(submissionOne, submissionTwo, matchEdge)
+
+                # If this is a cross semester match, don't make it bidirectional
+                if matchType != 'cross_semester_matches':
+                    graph.addEdge(submissionTwo, submissionOne, matchEdge)
+
 
 if __name__ == '__main__':
     netid = raw_input("Netid:")
