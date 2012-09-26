@@ -104,8 +104,7 @@ class FourAreaDataImporter(Thread):
         def termLineParser(line):
             topicId, term = line.split()
             topicId = int(self.__removeControlCharacters(topicId))
-            # TODO: Use stemming & stop words list
-            topic = Topic(topicId, [term])
+            topic = Topic(topicId, [term]) if term not in self.stopWords else None
             return topicId, topic
         self.__parseNodeType(termLineParser, 'topic', 'term.txt', graph, nodeIndex)
 
@@ -127,8 +126,9 @@ class FourAreaDataImporter(Thread):
             if id in nodeIndex[typeName]:
                 raise FourAreaParseError("Found duplicate node id %d parsing %ss" % (id, typeName))
 
-            nodeIndex[typeName][id] = object
-            graph.addNode(object)
+            if object is not None:
+                nodeIndex[typeName][id] = object
+                graph.addNode(object)
 
         inputFile.close()
 
