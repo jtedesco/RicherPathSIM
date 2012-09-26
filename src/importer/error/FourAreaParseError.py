@@ -1,4 +1,6 @@
 __author__ = 'jontedesco'
 
 class FourAreaParseError(Exception):
-    pass
+    """
+      Raised if an error is encountered during parsing the four area DBLP data
+    """

@@ -1,4 +1,6 @@
 __author__ = 'jontedesco'
 
 class ArnetParseError(Exception):
-    pass
+    """
+      Raised if an error is encountered during parsing the arnet DBLP data
+    """
