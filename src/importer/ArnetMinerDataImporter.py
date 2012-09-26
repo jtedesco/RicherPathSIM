@@ -35,7 +35,7 @@ class ArnetMinerDataImporter(Thread):
 
         # Get the stop words set & stemmer for text analysis
         self.stopWords = None
-        with open(os.getcwd() + '/src/importer/stopWords.json') as stopWordsFile:
+        with open(os.path.join(os.getcwd(), 'src', 'importer', 'stopWords.json')) as stopWordsFile:
             self.stopWords = set(json.load(stopWordsFile))
         self.stemmer = Stemmer('english')
 
@@ -215,5 +215,8 @@ class ArnetMinerDataImporter(Thread):
         return keywords
 
 if __name__ == '__main__':
-    arnetMinerDataImporter = ArnetMinerDataImporter('data/real/DBLP-citation-Feb21.txt', 'graphs/arnetV5WithPublicationLinks')
+    arnetMinerDataImporter = ArnetMinerDataImporter(
+        os.path.join('data', 'real', 'DBLP-citation-Feb21.txt'),
+        os.path.join('graphs', 'arnetV5WithPublicationLinks')
+    )
     arnetMinerDataImporter.start()

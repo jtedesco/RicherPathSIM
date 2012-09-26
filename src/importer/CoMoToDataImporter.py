@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import xmlrpclib
 import cPickle
 from threading import Thread
@@ -366,5 +367,5 @@ class CoMoToDataImporter(Thread):
 if __name__ == '__main__':
     netid = raw_input("Netid:")
     password = raw_input("Password:")
-    comotoDataImporter = CoMoToDataImporter('graphs/cs225comotodata', netid, password)
+    comotoDataImporter = CoMoToDataImporter(os.path.join('graphs','cs225comotodata'), netid, password)
     comotoDataImporter.start()

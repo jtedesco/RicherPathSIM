@@ -1,3 +1,4 @@
+import os
 from src.importer.FourAreaDataImporter import FourAreaDataImporter
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
@@ -11,7 +12,10 @@ __author__ = 'jontedesco'
 class FourAreaDataImporterTest(ImporterTest):
 
     def setUp(self):
-        self.dataImporter = FourAreaDataImporter('data/real/four_area', 'graphs/fourArea')
+        self.dataImporter = FourAreaDataImporter(
+            os.path.join('data','real','four_area'),
+            os.path.join('graphs','fourArea')
+        )
 
 
     def testBasicParsedIndexData(self):
