@@ -1,7 +1,7 @@
 import json
 import logging
 import os
-import Stemmer
+from Stemmer import Stemmer
 import cPickle
 from threading import Thread
 from copy import deepcopy
@@ -37,7 +37,7 @@ class ArnetMinerDataImporter(Thread):
         self.stopWords = None
         with open(os.getcwd() + '/src/importer/stopWords.json') as stopWordsFile:
             self.stopWords = set(json.load(stopWordsFile))
-        self.stemmer = Stemmer.Stemmer('english')
+        self.stemmer = Stemmer('english')
 
         super(ArnetMinerDataImporter, self).__init__()
 

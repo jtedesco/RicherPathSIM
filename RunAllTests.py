@@ -1,6 +1,7 @@
 import unittest
 from test.importers.ArnetMinerDataImporterTest import ArnetMinerDataImporterTest
 from test.importers.CoMoToDataImporterTest import CoMoToDataImporterTest
+from test.importers.FourAreaDataImporterTest import FourAreaDataImporterTest
 from test.similarity.heterogeneous.PathSimStrategyTest import PathSimStrategyTest
 from test.similarity.homogeneous.PageRankStrategyTest import PageRankStrategyTest
 from test.util.MetaPathUtilityTest import MetaPathUtilityTest
@@ -13,6 +14,7 @@ if __name__ == '__main__':
     # Data importer tests
     importerTestSuite = unittest.TestLoader().loadTestsFromTestCase(CoMoToDataImporterTest)
     importerTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(ArnetMinerDataImporterTest))
+    importerTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(FourAreaDataImporterTest))
     unittest.TextTestRunner(verbosity=2).run(importerTestSuite)
 
     # Utility tests
