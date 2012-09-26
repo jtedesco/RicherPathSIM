@@ -18,8 +18,10 @@ class ImporterTest(unittest.TestCase):
         """
 
         # Check nodes
-        expectedGraphNodeData = list(node.toDict() for node in expectedGraph.getNodes())
-        actualGraphNodeData = list(node.toDict() for node in actualGraph.getNodes())
+        expectedNodes = sorted(expectedGraph.getNodes(), key=lambda node: str(node.toDict()).__hash__())
+        actualNodes = sorted(actualGraph.getNodes(), key=lambda node: str(node.toDict()).__hash__())
+        expectedGraphNodeData = [node.toDict() for node in expectedNodes]
+        actualGraphNodeData = [node.toDict() for node in actualNodes]
         expectedGraphNodeData.sort()
         actualGraphNodeData.sort()
 
@@ -32,3 +34,11 @@ class ImporterTest(unittest.TestCase):
         actualGraphEdgeData.sort()
 
         self.assertEqual(expectedGraphEdgeData, actualGraphEdgeData)
+
+        # Check that edges exist where they should
+        for expectedNodeA, actualNodeA in zip(expectedNodes, actualNodes):
+            for expectedNodeB, actualNodeB in zip(expectedNodes, actualNodes):
+                if expectedGraph.hasEdge(actualNodeA, actualNodeB):
+                    self.assertTrue(actualGraph.hasEdge(expectedNodeA, expectedNodeB))
+                else:
+                    self.assertFalse(actualGraph.hasEdge(expectedNodeA, expectedNodeB))
