@@ -108,23 +108,23 @@ class FourAreaDataImporterTest(ImporterTest):
         graph = self.dataImporter.parseEdgeContent(graph, nodeIndex)
 
         # Test single paper / author
-        singleAuthorPaperId = 7600
-        singleAuthorAuthorId = 15134
-        self.assertTrue(graph.hasEdge(nodeIndex['paper'][singleAuthorPaperId], nodeIndex['author'][singleAuthorAuthorId]))
-        self.assertTrue(graph.hasEdge(nodeIndex['author'][singleAuthorAuthorId], nodeIndex['paper'][singleAuthorPaperId]))
+        singleAuthorPaper = nodeIndex['paper'][7600]
+        singlePaperAuthor = nodeIndex['author'][15134]
+        self.assertTrue(graph.hasEdge(singleAuthorPaper, singlePaperAuthor))
+        self.assertTrue(graph.hasEdge(singlePaperAuthor, singleAuthorPaper))
 
         # Test multiple authors for a paper
-        multiAuthorPaperId = 7605
-        multiAuthorAuthor1Id = 15138
-        multiAuthorAuthor2Id = 15139
-        self.assertTrue(graph.hasEdge(nodeIndex['paper'][multiAuthorPaperId], nodeIndex['author'][multiAuthorAuthor1Id]))
-        self.assertTrue(graph.hasEdge(nodeIndex['author'][multiAuthorAuthor1Id], nodeIndex['paper'][multiAuthorPaperId]))
-        self.assertTrue(graph.hasEdge(nodeIndex['paper'][multiAuthorPaperId], nodeIndex['author'][multiAuthorAuthor2Id]))
-        self.assertTrue(graph.hasEdge(nodeIndex['author'][multiAuthorAuthor2Id], nodeIndex['paper'][multiAuthorPaperId]))
+        multiAuthorPaper = nodeIndex['paper'][7605]
+        multiAuthorPaperAuthor1 = nodeIndex['author'][15138]
+        multiAuthorPaperAuthor2 = nodeIndex['author'][15139]
+        self.assertTrue(graph.hasEdge(multiAuthorPaper, multiAuthorPaperAuthor1))
+        self.assertTrue(graph.hasEdge(multiAuthorPaperAuthor1, multiAuthorPaper))
+        self.assertTrue(graph.hasEdge(multiAuthorPaper, multiAuthorPaperAuthor2))
+        self.assertTrue(graph.hasEdge(multiAuthorPaperAuthor2, multiAuthorPaper))
 
         # Test author for only one paper
-        self.assertEqual(1, graph.getSuccessors(nodeIndex['author'][singleAuthorAuthorId]))
-        self.assertEqual(1, graph.getPredecessors(nodeIndex['author'][singleAuthorAuthorId]))
+        self.assertEqual([singleAuthorPaper], graph.getSuccessors(singlePaperAuthor))
+        self.assertEqual([singleAuthorPaper], graph.getPredecessors(singlePaperAuthor))
 
 
     def testParsedGraphPublicationEdges(self):
