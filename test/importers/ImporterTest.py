@@ -9,7 +9,6 @@ class ImporterTest(unittest.TestCase):
 
     def __init__(self, methodName='runTest'):
         super(ImporterTest, self).__init__(methodName)
-
         self.maxDiff = None
 
 

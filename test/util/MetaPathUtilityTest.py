@@ -16,8 +16,7 @@ class MetaPathUtilityTest(unittest.TestCase):
       Tests the meta path utility functions
     """
 
-    def __init__(self, methodName='runTest'):
-        super(MetaPathUtilityTest, self).__init__(methodName)
+    def setUp(self):
 
         self.maxDiff = None
 
