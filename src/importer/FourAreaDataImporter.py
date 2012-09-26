@@ -151,6 +151,9 @@ class FourAreaDataImporter(Thread):
 
 
     def __parseEdgeType(self, nodeTypeAMap, nodeTypeBMap, graph, edgeType, fileName):
+        """
+          Add edges between all nodes for a given edge type
+        """
 
         inputFile = open(os.path.join(self.inputFolderPath, fileName))
         for line in inputFile:
