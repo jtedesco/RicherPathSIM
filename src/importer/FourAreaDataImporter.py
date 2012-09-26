@@ -4,6 +4,7 @@ import logging
 import os
 import re
 from threading import Thread
+import cPickle
 from src.importer.error.FourAreaParseError import FourAreaParseError
 from src.logger.ColoredLogger import ColoredLogger
 from src.graph.GraphFactory import GraphFactory
@@ -44,24 +45,24 @@ class FourAreaDataImporter(Thread):
 
     def run(self):
 
-#        try:
+        try:
 
             # Index of nodes by id
             nodeIndex = {}
 
-            self.logger.info("Parsing ArnetMiner input node content")
+            self.logger.info("Parsing Four Area input node content")
             partialGraph, nodeIndex = self.parseNodeContent(nodeIndex)
 
-            self.logger.info("Parsing ArnetMiner input edge content")
+            self.logger.info("Parsing Four Area input edge content")
             graph = self.parseEdgeContent(partialGraph, nodeIndex)
-#
-#            self.logger.info("Pickling CoMoTo graph data to file")
-#            with open(self.outputPath, 'w') as outputFile:
-#                cPickle.dump(graph, outputFile)
 
-#        except Exception, error:
-#
-#            self.logger.error(error.__class__.__name__ + ": " + error.message)
+            self.logger.info("Pickling Four Area graph data to file")
+            with open(self.outputPath, 'w') as outputFile:
+                cPickle.dump(graph, outputFile)
+
+        except Exception, error:
+
+            self.logger.error(error.__class__.__name__ + ": " + error.message)
 
 
     def parseNodeContent(self, nodeIndex):
@@ -169,7 +170,7 @@ class FourAreaDataImporter(Thread):
             typeBId = int(self.__removeControlCharacters(typeBId))
             nodeA = nodeTypeAMap[typeAId]
             nodeB = nodeTypeBMap[typeBId]
-            graph.addBothEdges(nodeA, nodeB, edgeType())
+            graph.addBothEdges(nodeA, nodeB) # Skipping adding data to edge
 
 
     def __removeControlCharacters(self, string):
