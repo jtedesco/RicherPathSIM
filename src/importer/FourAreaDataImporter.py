@@ -101,10 +101,17 @@ class FourAreaDataImporter(Thread):
 
 
         # Parse terms
+        stemmedTermMap = {} # Map of term to topic object, to handle stemmer collisions
         def termLineParser(line):
             topicId, term = line.split()
             topicId = int(self.__removeControlCharacters(topicId))
-            topic = Topic(topicId, [term]) if term not in self.stopWords else None
+            term = self.stemmer.stemWord(term)
+            if term in stemmedTermMap:
+                topic = stemmedTermMap[term]
+            else:
+                topic = Topic(topicId, [term]) if term not in self.stopWords else None
+                if topic is not None:
+                    stemmedTermMap[term] = topic
             return topicId, topic
         self.__parseNodeType(termLineParser, 'topic', 'term.txt', graph, nodeIndex)
 

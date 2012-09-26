@@ -137,6 +137,7 @@ class FourAreaDataImporterTest(ImporterTest):
         graph = self.dataImporter.parseEdgeContent(graph, nodeIndex)
 
         conference = nodeIndex['conference'][36]
+        conferencePublicationCount = 3375
         paper = nodeIndex['paper'][7600]
 
         # Check basic publication case
@@ -149,4 +150,19 @@ class FourAreaDataImporterTest(ImporterTest):
                 self.assertEquals(conference, node)
 
         # Check the number of publications for a conference
-        self.assertEquals(3375, len(graph.getPredecessors(conference)))
+        self.assertEquals(conferencePublicationCount, len(graph.getPredecessors(conference)))
+
+
+    def testParsedTopicEdges(self):
+        """
+          CHecks that parsing topic edge content of the graph works as expected, by spot checking a few stemmer
+          collisions that should occur
+        """
+
+        graph, nodeIndex = self.dataImporter.parseNodeContent({})
+        graph = self.dataImporter.parseEdgeContent(graph, nodeIndex)
+
+        # Check for 'challenging', 'challenges', and 'challenge' are all stemmed to the same topic
+        topic = nodeIndex['topic'][25] # 'challenge'
+        self.assertIs(nodeIndex['topic'][451], topic) # 'challenges'
+        self.assertIs(nodeIndex['topic'][5821], topic) # 'challenging'
