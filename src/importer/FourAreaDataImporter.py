@@ -7,6 +7,8 @@ from threading import Thread
 from src.importer.error.FourAreaParseError import FourAreaParseError
 from src.logger.ColoredLogger import ColoredLogger
 from src.graph.GraphFactory import GraphFactory
+from src.model.edge.dblp.Authorship import Authorship
+from src.model.edge.dblp.Publication import Publication
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
@@ -50,8 +52,8 @@ class FourAreaDataImporter(Thread):
             self.logger.info("Parsing ArnetMiner input node content")
             partialGraph, nodeIndex = self.parseNodeContent(nodeIndex)
 
-#            self.logger.info("Parsing ArnetMiner input edge content")
-#            graph = self.parseEdgeContent(partialGraph, nodeIndex)
+            self.logger.info("Parsing ArnetMiner input edge content")
+            graph = self.parseEdgeContent(partialGraph, nodeIndex)
 #
 #            self.logger.info("Pickling CoMoTo graph data to file")
 #            with open(self.outputPath, 'w') as outputFile:
@@ -129,6 +131,35 @@ class FourAreaDataImporter(Thread):
             graph.addNode(object)
 
         inputFile.close()
+
+
+    def parseEdgeContent(self, graph, nodeIndex):
+        """
+          Add edges to the graph parsed from the input files
+        """
+
+        # Parse paper-author edges
+        self.__parseEdgeType(nodeIndex['paper'], nodeIndex['author'], graph, Authorship, 'paper_author.txt')
+
+        # Parse paper-conference edges
+        self.__parseEdgeType(nodeIndex['paper'], nodeIndex['conference'], graph, Publication, 'paper_conf.txt')
+
+        # Parse paper-term edges
+        self.__parseEdgeType(nodeIndex['paper'], nodeIndex['conference'], graph, Publication, 'paper_conf.txt')
+
+        return graph
+
+
+    def __parseEdgeType(self, nodeTypeAMap, nodeTypeBMap, graph, edgeType, fileName):
+
+        inputFile = open(os.path.join(self.inputFolderPath, fileName))
+        for line in inputFile:
+            typeAId, typeBId = line.split()
+            typeAId = int(self.__removeControlCharacters(typeAId))
+            typeBId = int(self.__removeControlCharacters(typeBId))
+            nodeA = nodeTypeAMap[typeAId]
+            nodeB = nodeTypeBMap[typeBId]
+            graph.addBothEdges(nodeA, nodeB, edgeType())
 
 
     def __removeControlCharacters(self, string):
