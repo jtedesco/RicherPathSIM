@@ -40,10 +40,24 @@ class CoMoToIntegrityExperiment(Experiment):
                 # Output the name of the assignment & number of submissions we have for it
                 self.output("%s (%s %d):  %d" % (node.name, semester.season, semester.year, node.submissionCount))
 
+        # Output the assignments & semesters included
+        self.output("\n\nSemesters Included:\n")
+        for semester in self.getNodesByType(Semester):
+            self.output("%s %d" % (semester.season, semester.year))
+        self.output("\n\nAssignments Included:\n")
+        for assignment in self.getNodesByType(Assignment):
+            self.output("%s" % assignment.name)
+
 
 if __name__ == '__main__':
     experiment = CoMoToIntegrityExperiment(
         os.path.join('graphs', 'cs225comotodata'),
+        'CoMoTo data integrity experiment',
+    )
+    experiment.start()
+
+    experiment = CoMoToIntegrityExperiment(
+        os.path.join('graphs', 'cs225comotodata-pruned'),
         'CoMoTo data integrity experiment'
     )
     experiment.start()
