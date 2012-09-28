@@ -13,7 +13,7 @@ class FourAreaDataImporterTest(ImporterTest):
 
     def setUp(self):
         self.dataImporter = FourAreaDataImporter(
-            os.path.join('data','real','four_area'),
+            os.path.join('data','four_area'),
             os.path.join('graphs','fourArea')
         )
 
