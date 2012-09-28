@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import xmlrpclib
@@ -27,7 +28,7 @@ class CoMoToDataImporter(Thread):
       Imports CoMoTo CS 225 data into a python graph structure stored in NetworkX.
     """
 
-    def __init__(self, outputPath, userName, password):
+    def __init__(self, outputPath, userName, password, semesterNameFilter = set(), analysisIdsFilter = set()):
         """
           Constructs a thread to handle importing CoMoTo data from the CoMoTo API
 
@@ -43,8 +44,12 @@ class CoMoToDataImporter(Thread):
         logging.setLoggerClass(ColoredLogger)
         self.logger = logging.getLogger('CoMoToDataImporter')
 
+        # Used for filtering
+        self.semesterNameFilter = semesterNameFilter
+        self.analysisIdsFilter = analysisIdsFilter
+
         # Bad analysis ids to skip from CoMoTo data
-        self.analysisIdsToSkip = {51, 98, 95, 108, 76}
+        self.badAnalysisIds = {51, 98, 95, 108, 76}
 
         super(CoMoToDataImporter, self).__init__()
 
@@ -61,9 +66,9 @@ class CoMoToDataImporter(Thread):
         """
 
 
-        self.logger.info("Fetching CoMoTo data")
-        coMoToData = self.getCoMoToData()
-
+#        self.logger.info("Fetching CoMoTo data")
+#        coMoToData = self.getCoMoToData()
+        coMoToData = json.load(open('comotodata'))
         self.logger.info("Building CoMoTo graph data")
         graph = self.buildGraph(coMoToData)
 
@@ -192,11 +197,17 @@ class CoMoToDataImporter(Thread):
             semesterData = offeringData['semester']
 
             # Skip invalid or dummy semesters
-            if semesterData['id'] >= 0 and semesterData['year'] >= 0:
-                semester = Semester(semesterData['id'], semesterData['season'], semesterData['year'])
-                semesterIdToSemesterMap[semesterData['id']] = semester
-                offeringIdToSemesterMap[offeringId] = semester
+            if semesterData['id'] < 0 or semesterData['year'] <= 0:
+                continue
 
+            # Add semester to semester id map even if filtered (for skipping assignments)
+            semester = Semester(semesterData['id'], semesterData['season'], semesterData['year'])
+            semesterIdToSemesterMap[semesterData['id']] = semester
+            offeringIdToSemesterMap[offeringId] = semester
+
+            # Skip semesters not in the filter
+            semesterName = '%s %d' % (semesterData['season'], semesterData['year'])
+            if len(self.semesterNameFilter) == 0 or semesterName in self.semesterNameFilter:
                 graph.addNode(semester)
 
         # Add assignments to graph & connect them to semesters
@@ -209,7 +220,8 @@ class CoMoToDataImporter(Thread):
 
             # For assignments not pruned by offering, delegate to manual map of semesters
             if len(assignmentData['moss_analysis_pruned_offering']) > 0:
-                offeredSemester = semesterIdToSemesterMap[assignmentData['moss_analysis_pruned_offering']['semester']['id']]
+                semesterId = assignmentData['moss_analysis_pruned_offering']['semester']['id']
+                offeredSemester = semesterIdToSemesterMap[semesterId]
             else:
                 offeredSemester = self.__explicitlyCategorizeAssignment(assignmentData, semesterIdToSemesterMap)
 
@@ -217,13 +229,17 @@ class CoMoToDataImporter(Thread):
             if offeredSemester is None:
                 continue
 
-            assignment = Assignment(assignmentData['id'], assignmentData['name'])
-            analysisIdToAssignmentMap[assignmentData['analysis_id']] = assignment
+            # Skip filtered semesters
+            semesterName = '%s %d' % (offeredSemester.season, offeredSemester.year)
+            if len(self.semesterNameFilter) == 0 or semesterName in self.semesterNameFilter:
 
-            semesterAssignmentEdge = SemesterAssignment()
-            graph.addNode(assignment)
-            graph.addEdge(assignment, offeredSemester, semesterAssignmentEdge)
-            graph.addEdge(offeredSemester, assignment, semesterAssignmentEdge)
+                assignment = Assignment(assignmentData['id'], assignmentData['name'])
+                analysisIdToAssignmentMap[assignmentData['analysis_id']] = assignment
+
+                semesterAssignmentEdge = SemesterAssignment()
+                graph.addNode(assignment)
+                graph.addEdge(assignment, offeredSemester, semesterAssignmentEdge)
+                graph.addEdge(offeredSemester, assignment, semesterAssignmentEdge)
 
         return analysisIdToAssignmentMap, offeringIdToSemesterMap
 
@@ -301,8 +317,12 @@ class CoMoToDataImporter(Thread):
         submissionIdsRemoved = set()
         for analysisId in coMoToData['analysis_data']:
 
-            # Skip known bad analyses
-            if int(analysisId) not in analysisIdToAssignmentMap and int(analysisId) in self.analysisIdsToSkip:
+            # Skip filtered analyses
+            if len(self.analysisIdsFilter) and int(analysisId) not in self.analysisIdsFilter:
+                continue
+
+            # Skip known bad analyses or analyses to be pruned
+            if int(analysisId) not in analysisIdToAssignmentMap and int(analysisId) in self.badAnalysisIds:
                 for submissionId in coMoToData['analysis_data'][analysisId]['submissions']:
                     submissionIdsRemoved.add(int(submissionId))
                 continue
@@ -329,6 +349,11 @@ class CoMoToDataImporter(Thread):
                     submissionSemester = offeringIdToSemesterMap[submissionData['offering_id']]
                     if submissionSemester is None:
                         raise CoMoToParseError('Failed to find semester corresponding to student')
+
+                    # Don't add filtered semesters to graph
+                    semesterName = '%s %d' % (submissionSemester.season, submissionSemester.year)
+                    if len(self.semesterNameFilter) > 0 and semesterName not in self.semesterNameFilter:
+                        continue
 
                     studentId = submissionData['student']['id']
                     addEnrollmentEdge = False
@@ -385,13 +410,15 @@ class CoMoToDataImporter(Thread):
                     continue
 
                 if str(matchData['submission_1_id']) not in submissions:
-                    raise CoMoToParseError(
+                    self.logger.warn(
                         'Failed to find submission 1 corresponding to match for id %d' % matchData['submission_1_id']
                     )
+                    continue
                 if str(matchData['submission_2_id']) not in submissions:
-                    raise CoMoToParseError(
+                    self.logger.warn(
                         'Failed to find submission 2 corresponding to match for id %d' % matchData['submission_2_id']
                     )
+                    continue
 
                 submissionOne = submissions[str(matchData['submission_1_id'])]
                 submissionTwo = submissions[str(matchData['submission_2_id'])]
@@ -415,5 +442,22 @@ class CoMoToDataImporter(Thread):
 if __name__ == '__main__':
     netid = raw_input("Netid:")
     password = raw_input("Password:")
+
+    # Unpruned results
     comotoDataImporter = CoMoToDataImporter(os.path.join('graphs','cs225comotodata'), netid, password)
+    comotoDataImporter.start()
+
+    # Restrict to semesters with full assignment data (only include those below)
+    semesterNameFilter = {
+        'Spring 2010',
+        'Fall 2010',
+        'Spring 2011',
+        'Fall 2011'
+    }
+    analysisIdsFilter = {
+        12, 13, 15, 27, 33, 34, 36, 38, 44, 48, 49, 50, 57, 65, 68, 69, 71, 72, 74
+    }
+
+    # Pruned results
+    comotoDataImporter = CoMoToDataImporter(os.path.join('graphs','cs225comotodata-pruned'), netid, password)
     comotoDataImporter.start()
