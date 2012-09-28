@@ -79,6 +79,34 @@ class Graph(object):
         raise NotImplementedError()
 
 
+    def getPredecessorsOfType(self, node, type):
+        """
+          Get nodes preceding a node of a certain type only
+        """
+
+        predecessorsOfType = set()
+        predecessors = self.getPredecessors(node)
+        for predecessor in predecessors:
+            if isinstance(predecessor, type):
+                predecessorsOfType.add(node)
+
+        return predecessorsOfType
+
+
+    def getSuccessorsOfType(self, node, type):
+        """
+          Get successors of a node of a certain type only
+        """
+
+        successorsOfType = set()
+        successors = self.getSuccessors(node)
+        for successor in successors:
+            if isinstance(successor, type):
+                successorsOfType.add(node)
+
+        return successorsOfType
+
+
     def getEdgeData(self, source, destination):
         """
           Gets the data associated with an edge of the graph
