@@ -31,19 +31,20 @@ class CoMoToIntegrityExperiment(Experiment):
                 assignmentData[semester].append(node)
 
         # Order by calendar dates
-        keys = sorted(assignmentData.keys(), key=lambda semester: (semester.year, ('Spring', 'Summer', 'Fall').index(semester.season)))
+        keys = sorted(assignmentData.keys(), key=lambda s: (s.year, ('Spring', 'Summer', 'Fall').index(s.season)))
 
         for semester in keys:
             nodes = assignmentData[semester]
             for node in nodes:
 
                 # Output the name of the assignment & number of submissions we have for it
-                print "%s (%s %d):  %d" % (node.name, semester.season, semester.year, node.submissionCount)
+                self.output("%s (%s %d):  %d" % (node.name, semester.season, semester.year, node.submissionCount))
 
 
 if __name__ == '__main__':
     experiment = CoMoToIntegrityExperiment(
         os.path.join('graphs', 'cs225comotodata'),
-        'CoMoTo data integrity experiment'
+        'CoMoTo data integrity experiment',
+        os.path.join('experiment', 'results', 'coMoToDataSummary')
     )
     experiment.start()
