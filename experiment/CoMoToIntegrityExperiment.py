@@ -44,7 +44,6 @@ class CoMoToIntegrityExperiment(Experiment):
 if __name__ == '__main__':
     experiment = CoMoToIntegrityExperiment(
         os.path.join('graphs', 'cs225comotodata'),
-        'CoMoTo data integrity experiment',
-        os.path.join('experiment', 'results', 'coMoToDataSummary')
+        'CoMoTo data integrity experiment'
     )
     experiment.start()
