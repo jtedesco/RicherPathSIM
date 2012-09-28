@@ -42,7 +42,7 @@ class CoMoToDataImporterTest(ImporterTest):
                         ]
                     },
                     'submissions': {
-                        5001: {
+                        '5001': {
                             'id': 5001,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -53,7 +53,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'johnsmith'
                             }
                         },
-                        5002: {
+                        '5002': {
                             'id': 5002,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -64,7 +64,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'janedoe'
                             }
                         },
-                        5003: {
+                        '5003': {
                             'id': 5003,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -78,28 +78,24 @@ class CoMoToDataImporterTest(ImporterTest):
                     }
                 }
             },
-            'assignments': {
-                1: {
-                    'id': 1,
-                    'name': 'MP1',
-                    'analysis_id': 50,
-                    'moss_analysis_pruned_offering': {
-                        'semester': {
-                            'id': 7
-                        }
-                    }
-                }
-            },
-            'offerings': {
-                14: {
-                    'id': 14,
+            'assignments': [{
+                'id': 1,
+                'name': 'MP1',
+                'analysis_id': 50,
+                'moss_analysis_pruned_offering': {
                     'semester': {
-                        'id': 7,
-                        'season': 'Fall',
-                        'year': 2012
+                        'id': 7
                     }
                 }
-            }
+            }],
+            'offerings': [{
+                'id': 14,
+                'semester': {
+                    'id': 7,
+                    'season': 'Spring',
+                    'year': 2011
+                }
+            }]
         }
 
         self.invalidSameSemesterMatchAnalysis = {
@@ -119,7 +115,7 @@ class CoMoToDataImporterTest(ImporterTest):
                         ]
                     },
                     'submissions': {
-                        5001: {
+                        '5001': {
                             'id': 5001,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -130,7 +126,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'johnsmith'
                             }
                         },
-                        5002: {
+                        '5002': {
                             'id': 5002,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -141,7 +137,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'janedoe'
                             }
                         },
-                        5003: {
+                        '5003': {
                             'id': 5003,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -155,40 +151,34 @@ class CoMoToDataImporterTest(ImporterTest):
                     }
                 }
             },
-            'assignments': {
-                1: {
-                    'id': 1,
-                    'analysis_id': 50,
-                    'name': 'MP1',
-                    'moss_analysis_pruned_offering': {
-                        'semester': {
-                            'id': 7
-                        }
-                    }
-                },
-                -1: {
-                    'name': 'invalid assignment!',
-                    'id': -1
-                }
-            },
-            'offerings': {
-                14: {
-                    'id': 14,
+            'assignments': [{
+                'id': 1,
+                'analysis_id': 50,
+                'name': 'MP1',
+                'moss_analysis_pruned_offering': {
                     'semester': {
-                        'id': 7,
-                        'season': 'Fall',
-                        'year': 2012
-                    }
-                },
-                15: {
-                    'id': 15,
-                    'semester': {
-                        'id': 8,
-                        'season': 'Fall',
-                        'year': -1
+                        'id': 7
                     }
                 }
-            }
+            }, {
+                'name': 'invalid assignment!',
+                'id': -1
+            }],
+            'offerings': [{
+                'id': 14,
+                'semester': {
+                    'id': 7,
+                    'season': 'Spring',
+                    'year': 2011
+                }
+            }, {
+                'id': 15,
+                'semester': {
+                    'id': 8,
+                    'season': 'Spring',
+                    'year': -1
+                }
+            }]
         }
 
         self.partnerMatchAnalysis = {
@@ -208,7 +198,7 @@ class CoMoToDataImporterTest(ImporterTest):
                         ]
                     },
                     'submissions': {
-                        5001: {
+                        '5001': {
                             'id': 5001,
                             'offering_id': 14,
                             'partner_ids': [5003],
@@ -219,7 +209,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'johnsmith'
                             }
                         },
-                        5002: {
+                        '5002': {
                             'id': 5002,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -230,7 +220,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'janedoe'
                             }
                         },
-                        5003: {
+                        '5003': {
                             'id': 5003,
                             'offering_id': 14,
                             'partner_ids': [5001],
@@ -244,28 +234,24 @@ class CoMoToDataImporterTest(ImporterTest):
                     }
                 }
             },
-            'assignments': {
-                1: {
-                    'id': 1,
-                    'analysis_id': 50,
-                    'name': 'MP1',
-                    'moss_analysis_pruned_offering': {
-                        'semester': {
-                            'id': 7
-                        }
-                    }
-                }
-            },
-            'offerings': {
-                14: {
-                    'id': 14,
+            'assignments': [{
+                'id': 1,
+                'analysis_id': 50,
+                'name': 'MP1',
+                'moss_analysis_pruned_offering': {
                     'semester': {
-                        'id': 7,
-                        'season': 'Fall',
-                        'year': 2012
+                        'id': 7
                     }
                 }
-            }
+            }],
+            'offerings': [{
+                'id': 14,
+                'semester': {
+                    'id': 7,
+                    'season': 'Spring',
+                    'year': 2011
+                }
+            }]
         }
 
         self.solutionMatchAnalysis = {
@@ -285,7 +271,7 @@ class CoMoToDataImporterTest(ImporterTest):
                         'same_semester_matches': []
                     },
                     'submissions': {
-                        5001: {
+                        '5001': {
                             'id': 5001,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -296,7 +282,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'johnsmith'
                             }
                         },
-                        5002: {
+                        '5002': {
                             'id': 5002,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -307,7 +293,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'janedoe'
                             }
                         },
-                        5003: {
+                        '5003': {
                             'id': 5003,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -318,7 +304,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'joesmith'
                             }
                         },
-                        5004: {
+                        '5004': {
                             'id': 5004,
                             'offering_id': 14,
                             'type': 'solutionsubmission'
@@ -326,28 +312,24 @@ class CoMoToDataImporterTest(ImporterTest):
                     }
                 }
             },
-            'assignments': {
-                1: {
-                    'id': 1,
-                    'analysis_id': 50,
-                    'name': 'MP1',
-                    'moss_analysis_pruned_offering': {
-                        'semester': {
-                            'id': 7
-                        }
-                    }
-                }
-            },
-            'offerings': {
-                14: {
-                    'id': 14,
+            'assignments': [{
+                'id': 1,
+                'analysis_id': 50,
+                'name': 'MP1',
+                'moss_analysis_pruned_offering': {
                     'semester': {
-                        'id': 7,
-                        'season': 'Fall',
-                        'year': 2012
+                        'id': 7
                     }
                 }
-            }
+            }],
+            'offerings': [{
+                'id': 14,
+                'semester': {
+                    'id': 7,
+                    'season': 'Spring',
+                    'year': 2011
+                }
+            }]
         }
 
         self.crossSemesterMatchAnalysis = {
@@ -367,7 +349,7 @@ class CoMoToDataImporterTest(ImporterTest):
                         'same_semester_matches': []
                     },
                     'submissions': {
-                        5001: {
+                        '5001': {
                             'id': 5001,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -378,7 +360,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'johnsmith'
                             }
                         },
-                        5002: {
+                        '5002': {
                             'id': 5002,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -389,7 +371,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'janedoe'
                             }
                         },
-                        5003: {
+                        '5003': {
                             'id': 5003,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -400,7 +382,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'joesmith'
                             }
                         },
-                        5004: {
+                        '5004': {
                             'id': 5004,
                             'offering_id': 15,
                             'partner_ids': [],
@@ -414,46 +396,40 @@ class CoMoToDataImporterTest(ImporterTest):
                     }
                 }
             },
-            'assignments': {
-                1: {
-                    'id': 1,
-                    'analysis_id': 50,
-                    'name': 'MP1',
-                    'moss_analysis_pruned_offering': {
-                        'semester': {
-                            'id': 7
-                        }
-                    }
-                },
-                2: {
-                    'id': 2,
-                    'analysis_id': 51,
-                    'name': 'MP2',
-                    'moss_analysis_pruned_offering': {
-                        'semester': {
-                            'id': 8
-                        }
+            'assignments': [{
+                'id': 1,
+                'analysis_id': 50,
+                'name': 'MP1',
+                'moss_analysis_pruned_offering': {
+                    'semester': {
+                        'id': 7
                     }
                 }
-            },
-            'offerings': {
-                14: {
-                    'id': 14,
+            }, {
+                'id': 2,
+                'analysis_id': 71,
+                'name': 'MP2',
+                'moss_analysis_pruned_offering': {
                     'semester': {
-                        'id': 7,
-                        'season': 'Fall',
-                        'year': 2012
-                    }
-                },
-                15: {
-                    'id': 15,
-                    'semester': {
-                        'id': 8,
-                        'season': 'Spring',
-                        'year': 2013
+                        'id': 8
                     }
                 }
-            }
+            }],
+            'offerings': [{
+                'id': 14,
+                'semester': {
+                    'id': 7,
+                    'season': 'Spring',
+                    'year': 2011
+                }
+            }, {
+                'id': 15,
+                'semester': {
+                    'id': 8,
+                    'season': 'Spring',
+                    'year': 2012
+                }
+            }]
         }
 
         self.retakingStudentAnalysis = {
@@ -473,7 +449,7 @@ class CoMoToDataImporterTest(ImporterTest):
                         'same_semester_matches': []
                     },
                     'submissions': {
-                        5001: {
+                        '5001': {
                             'id': 5001,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -484,7 +460,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'johnsmith'
                             }
                         },
-                        5002: {
+                        '5002': {
                             'id': 5002,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -495,7 +471,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'janedoe'
                             }
                         },
-                        5003: {
+                        '5003': {
                             'id': 5003,
                             'offering_id': 14,
                             'partner_ids': [],
@@ -506,7 +482,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'joesmith'
                             }
                         },
-                        5004: {
+                        '5004': {
                             'id': 5004,
                             'offering_id': 15,
                             'partner_ids': [],
@@ -517,7 +493,7 @@ class CoMoToDataImporterTest(ImporterTest):
                                 'netid': 'johnsmith'
                             }
                         },
-                        5005: {
+                        '5005': {
                             'id': 5005,
                             'offering_id': 15,
                             'partner_ids': [],
@@ -531,46 +507,40 @@ class CoMoToDataImporterTest(ImporterTest):
                     }
                 }
             },
-            'assignments': {
-                1: {
-                    'id': 1,
-                    'analysis_id': 50,
-                    'name': 'MP1',
-                    'moss_analysis_pruned_offering': {
-                        'semester': {
-                            'id': 7
-                        }
-                    }
-                },
-                2: {
-                    'id': 2,
-                    'analysis_id': 51,
-                    'name': 'MP2',
-                    'moss_analysis_pruned_offering': {
-                        'semester': {
-                            'id': 8
-                        }
+            'assignments': [{
+                'id': 1,
+                'analysis_id': 50,
+                'name': 'MP1',
+                'moss_analysis_pruned_offering': {
+                    'semester': {
+                        'id': 7
                     }
                 }
-            },
-            'offerings': {
-                14: {
-                    'id': 14,
+            }, {
+                'id': 2,
+                'analysis_id': 61,
+                'name': 'MP2',
+                'moss_analysis_pruned_offering': {
                     'semester': {
-                        'id': 7,
-                        'season': 'Fall',
-                        'year': 2012
-                    }
-                },
-                15: {
-                    'id': 15,
-                    'semester': {
-                        'id': 8,
-                        'season': 'Spring',
-                        'year': 2013
+                        'id': 8
                     }
                 }
-            }
+            }],
+            'offerings': [{
+                'id': 14,
+                'semester': {
+                    'id': 7,
+                    'season': 'Spring',
+                    'year': 2011
+                }
+            }, {
+                'id': 15,
+                'semester': {
+                    'id': 8,
+                    'season': 'Spring',
+                    'year': 2012
+                }
+            }]
         }
 
 
@@ -594,7 +564,7 @@ class CoMoToDataImporterTest(ImporterTest):
         submission2 = Submission(5002)
         submission3 = Submission(5003)
         assignment = Assignment(1, 'MP1')
-        semester = Semester(7, 'Fall', 2012)
+        semester = Semester(7, 'Spring', 2011)
 
         expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
@@ -645,7 +615,7 @@ class CoMoToDataImporterTest(ImporterTest):
         submission2 = Submission(5002)
         submission3 = Submission(5003)
         assignment = Assignment(1, 'MP1')
-        semester = Semester(7, 'Fall', 2012)
+        semester = Semester(7, 'Spring', 2011)
 
         expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
@@ -694,7 +664,7 @@ class CoMoToDataImporterTest(ImporterTest):
         submission2 = Submission(5002)
         submission3 = Submission(5003, {5001})
         assignment = Assignment(1, 'MP1')
-        semester = Semester(7, 'Fall', 2012)
+        semester = Semester(7, 'Spring', 2011)
 
         expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
@@ -744,7 +714,7 @@ class CoMoToDataImporterTest(ImporterTest):
         submission3 = Submission(5003)
         solutionSubmission = Submission(5004, None, True)
         assignment = Assignment(1, 'MP1')
-        semester = Semester(7, 'Fall', 2012)
+        semester = Semester(7, 'Spring', 2011)
 
         expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
@@ -798,8 +768,8 @@ class CoMoToDataImporterTest(ImporterTest):
         submission4 = Submission(5004)
         assignment1 = Assignment(1, 'MP1')
         assignment2 = Assignment(2, 'MP2')
-        semester1 = Semester(7, 'Fall', 2012)
-        semester2 = Semester(8, 'Spring', 2013)
+        semester1 = Semester(7, 'Spring', 2011)
+        semester2 = Semester(8, 'Spring', 2012)
 
         expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)
@@ -866,8 +836,8 @@ class CoMoToDataImporterTest(ImporterTest):
         submission5 = Submission(5005)
         assignment1 = Assignment(1, 'MP1')
         assignment2 = Assignment(2, 'MP2')
-        semester1 = Semester(7, 'Fall', 2012)
-        semester2 = Semester(8, 'Spring', 2013)
+        semester1 = Semester(7, 'Spring', 2011)
+        semester2 = Semester(8, 'Spring', 2012)
 
         expectedGraph = GraphFactory.createInstance()
         expectedGraph.addNode(student1)

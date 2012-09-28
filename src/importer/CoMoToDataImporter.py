@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 import xmlrpclib
@@ -44,6 +43,9 @@ class CoMoToDataImporter(Thread):
         logging.setLoggerClass(ColoredLogger)
         self.logger = logging.getLogger('CoMoToDataImporter')
 
+        # Bad analysis ids to skip from CoMoTo data
+        self.analysisIdsToSkip = {51, 98, 95, 108, 76}
+
         super(CoMoToDataImporter, self).__init__()
 
 
@@ -61,9 +63,6 @@ class CoMoToDataImporter(Thread):
 
         self.logger.info("Fetching CoMoTo data")
         coMoToData = self.getCoMoToData()
-
-        with open('comotodata', 'w') as f:
-            f.write(json.dumps(coMoToData))
 
         self.logger.info("Building CoMoTo graph data")
         graph = self.buildGraph(coMoToData)
@@ -188,8 +187,9 @@ class CoMoToDataImporter(Thread):
 
         semesterIdToSemesterMap = {}
         offeringIdToSemesterMap = {}
-        for offeringId in coMoToData['offerings']:
-            semesterData = coMoToData['offerings'][offeringId]['semester']
+        for offeringData in coMoToData['offerings']:
+            offeringId = offeringData['id']
+            semesterData = offeringData['semester']
 
             # Skip invalid or dummy semesters
             if semesterData['id'] >= 0 and semesterData['year'] >= 0:
@@ -201,16 +201,23 @@ class CoMoToDataImporter(Thread):
 
         # Add assignments to graph & connect them to semesters
         analysisIdToAssignmentMap = {}
-        for assignmentId in coMoToData['assignments']:
+        for assignmentData in coMoToData['assignments']:
+
             # Skip invalid / dummy assignments
-            if assignmentId < 0:
+            if assignmentData['id'] < 0:
                 continue
 
-            assignmentData = coMoToData['assignments'][assignmentId]
-            assignment = Assignment(assignmentId, assignmentData['name'])
-            offeredSemester = semesterIdToSemesterMap[assignmentData['moss_analysis_pruned_offering']['semester']['id']]
+            # For assignments not pruned by offering, delegate to manual map of semesters
+            if len(assignmentData['moss_analysis_pruned_offering']) > 0:
+                offeredSemester = semesterIdToSemesterMap[assignmentData['moss_analysis_pruned_offering']['semester']['id']]
+            else:
+                offeredSemester = self.__explicitlyCategorizeAssignment(assignmentData, semesterIdToSemesterMap)
+
+            # For assignments where we couldn't resolve semester, skip
             if offeredSemester is None:
-                raise CoMoToParseError('Failed to find semester corresponding to assignment')
+                continue
+
+            assignment = Assignment(assignmentData['id'], assignmentData['name'])
             analysisIdToAssignmentMap[assignmentData['analysis_id']] = assignment
 
             semesterAssignmentEdge = SemesterAssignment()
@@ -219,6 +226,30 @@ class CoMoToDataImporter(Thread):
             graph.addEdge(offeredSemester, assignment, semesterAssignmentEdge)
 
         return analysisIdToAssignmentMap, offeringIdToSemesterMap
+
+
+    def __explicitlyCategorizeAssignment(self, assignmentData, semesterIdToSemesterMap):
+        """
+          Use a manually created map to categorize the assignment if not pruned to semester in DB
+        """
+
+        def findSemester(season, year):
+            for id in semesterIdToSemesterMap:
+                if semesterIdToSemesterMap[id].season == season and semesterIdToSemesterMap[id].year == year:
+                    return semesterIdToSemesterMap[id]
+            return None
+
+        assignmentName = assignmentData['name']
+        if 'Spring 2010' in assignmentName:
+            return findSemester('Spring', 2010)
+        elif 'su11' in assignmentName:
+            return findSemester('Summer', 2011)
+        elif 'Fall2011' in assignmentName:
+            return findSemester('Fall', 2011)
+        elif 'su12' in assignmentName:
+            return findSemester('Summer', 2012)
+
+        return None
 
 
     def __addExistingStudentToGraph(self, addEnrollmentEdge, graph, studentId, students, submissionIdsRemoved,
@@ -252,7 +283,7 @@ class CoMoToDataImporter(Thread):
                     if graph.hasEdge(student, node):
                         graph.removeEdge(student, node)
                 if isSubmission:
-                    submissionIdsRemoved.add(node.id)
+                    submissionIdsRemoved.add(int(node.id))
                     graph.removeNode(node)
 
             addEnrollmentEdge = True
@@ -269,24 +300,36 @@ class CoMoToDataImporter(Thread):
         students = {}
         submissionIdsRemoved = set()
         for analysisId in coMoToData['analysis_data']:
+
+            # Skip known bad analyses
+            if int(analysisId) not in analysisIdToAssignmentMap and int(analysisId) in self.analysisIdsToSkip:
+                for submissionId in coMoToData['analysis_data'][analysisId]['submissions']:
+                    submissionIdsRemoved.add(int(submissionId))
+                continue
+
             analysisData = coMoToData['analysis_data'][analysisId]
             for submissionId in analysisData['submissions']:
+                submissionData = analysisData['submissions'][submissionId]
+
+                # Skip useless submissions
+                if submissionData['type'] not in {'solutionsubmission', 'studentsubmission'}:
+                    continue
 
                 # Get submission data & add to graph
-                submissionData = analysisData['submissions'][submissionId]
                 isSolution = (submissionData['type'] == 'solutionsubmission')
                 partnerIds = None if isSolution else set(submissionData['partner_ids'])
-                submission = Submission(submissionId, partnerIds, isSolution)
+                submission = Submission(int(submissionId), partnerIds, isSolution)
                 submissions[submissionId] = submission
-
-                # Get semester corresponding to this submission
-                submissionSemester = offeringIdToSemesterMap[submissionData['offering_id']]
-                if submissionSemester is None:
-                    raise CoMoToParseError('Failed to find semester corresponding to student')
 
                 graph.addNode(submission)
 
                 if not isSolution:
+
+                    # Get semester corresponding to this submission
+                    submissionSemester = offeringIdToSemesterMap[submissionData['offering_id']]
+                    if submissionSemester is None:
+                        raise CoMoToParseError('Failed to find semester corresponding to student')
+
                     studentId = submissionData['student']['id']
                     addEnrollmentEdge = False
                     if studentId not in students:
@@ -312,13 +355,14 @@ class CoMoToDataImporter(Thread):
                     graph.addBothEdges(student, submission, Authorship())
 
                 # Associate submission with assignment
-                associatedAssignment = analysisIdToAssignmentMap[analysisId]
+                associatedAssignment = analysisIdToAssignmentMap[int(analysisId)]
                 if associatedAssignment is None:
                     raise CoMoToParseError('Failed to find assignment corresponding to submission')
 
                 graph.addBothEdges(submission, associatedAssignment, AssignmentSubmission())
 
-            self.__addMatchesToGraph(analysisData, graph, submissionIdsRemoved, submissions)
+        for analysisId in coMoToData['analysis_data']:
+            self.__addMatchesToGraph(coMoToData['analysis_data'][analysisId], graph, submissionIdsRemoved, submissions)
 
 
     def __addMatchesToGraph(self, analysisData, graph, submissionIdsRemoved, submissions):
@@ -340,17 +384,21 @@ class CoMoToDataImporter(Thread):
                     submissionIdsRemoved)) is not 0:
                     continue
 
-                submissionOne = submissions[matchData['submission_1_id']]
-                submissionTwo = submissions[matchData['submission_2_id']]
+                if str(matchData['submission_1_id']) not in submissions:
+                    raise CoMoToParseError(
+                        'Failed to find submission 1 corresponding to match for id %d' % matchData['submission_1_id']
+                    )
+                if str(matchData['submission_2_id']) not in submissions:
+                    raise CoMoToParseError(
+                        'Failed to find submission 2 corresponding to match for id %d' % matchData['submission_2_id']
+                    )
+
+                submissionOne = submissions[str(matchData['submission_1_id'])]
+                submissionTwo = submissions[str(matchData['submission_2_id'])]
                 averageScore = (float(matchData['score1']) + float(matchData['score2'])) / 2.0
 
                 isPartnerMatch = matchData['submission_1_id'] in submissionTwo.partnerIds\
-                or matchData['submission_2_id'] in submissionOne.partnerIds
-
-                if submissionOne is None:
-                    raise CoMoToParseError('Failed to find submission 1 corresponding to match')
-                if submissionTwo is None:
-                    raise CoMoToParseError('Failed to find submission 2 corresponding to match')
+                    or matchData['submission_2_id'] in submissionOne.partnerIds
 
                 matchClass = matchTypeToClassMap[matchType]
                 if matchClass is SameSemesterMatch and isPartnerMatch:
