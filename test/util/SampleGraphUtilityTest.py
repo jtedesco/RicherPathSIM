@@ -1,5 +1,4 @@
 import unittest
-from src.model.metapath.MetaPath import MetaPath
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Conference import Conference
@@ -23,7 +22,7 @@ class SampleGraphUtilityTest(unittest.TestCase):
         """
 
         graph, authorMap, conferenceMap = SampleGraphUtility.constructPathSimExampleThree()
-        metaPath = MetaPath([Author, Paper, Conference])
+        metaPath = [Author, Paper, Conference]
 
         # Mike's adjacency to conferences
         self.assertEquals(2, len(MetaPathUtility.findMetaPaths(graph, authorMap['Mike'], conferenceMap['SIGMOD'], metaPath)))

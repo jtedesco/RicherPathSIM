@@ -1,5 +1,4 @@
 import unittest
-from src.model.metapath.MetaPath import MetaPath
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Conference import Conference
@@ -19,7 +18,7 @@ class PathSimStrategyTest(unittest.TestCase):
         """
 
         graph, authorMap, conferenceMap  = SampleGraphUtility.constructPathSimExampleThree()
-        metaPath = MetaPath([Author, Paper, Conference, Paper, Author])
+        metaPath = [Author, Paper, Conference, Paper, Author]
         strategy = PathSimStrategy(graph, metaPath)
 
         mike = authorMap['Mike']
@@ -37,7 +36,7 @@ class PathSimStrategyTest(unittest.TestCase):
         """
 
         graph, authorMap, conferenceMap  = SampleGraphUtility.constructPathSimExampleThree()
-        metaPath = MetaPath([Author, Paper, Conference, Paper, Author])
+        metaPath = [Author, Paper, Conference, Paper, Author]
         strategy = PathSimStrategy(graph, metaPath)
 
         mike = authorMap['Mike']

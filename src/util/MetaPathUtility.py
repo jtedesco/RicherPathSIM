@@ -1,4 +1,3 @@
-from src.model.metapath.MetaPath import MetaPath
 
 __author__ = 'jontedesco'
 
@@ -20,10 +19,10 @@ class MetaPathUtility(object):
         """
 
         # Verify that the given node is a valid starting node for the given meta path
-        assert(node.__class__ == metaPath.classes[0])
+        assert(node.__class__ == metaPath[0])
 
         # Recursively traverse the graph using this type information
-        return MetaPathUtility.__findMetaPathNeighborsHelper(graph, node, metaPath.classes[1:], set(), symmetric)
+        return MetaPathUtility.__findMetaPathNeighborsHelper(graph, node, metaPath[1:], set(), symmetric)
 
 
     @staticmethod
@@ -33,8 +32,8 @@ class MetaPathUtility(object):
         """
 
         # Check that the endpoints are of the correct types
-        assert(startingNode.__class__ == metaPath.classes[0])
-        assert(endingNode.__class__ == metaPath.classes[-1])
+        assert(startingNode.__class__ == metaPath[0])
+        assert(endingNode.__class__ == metaPath[-1])
 
         # Split logic based on whether or not the path should be a cycle
         if startingNode == endingNode:
@@ -53,11 +52,10 @@ class MetaPathUtility(object):
                                     (i.e. should the final meta path be even length?)
         """
 
-        metaPathClasses = partialMetaPath.classes
-        reversedMetaPathClasses = list(metaPathClasses)
-        reversedMetaPathClasses.reverse()
-        metaPathClasses = partialMetaPath.classes if repeatLastType else partialMetaPath.classes[:-1] # Don't repeat the middle entry
-        modifiedMetaPath = MetaPath(metaPathClasses + reversedMetaPathClasses, partialMetaPath.weight)
+        reversedMetaPath = list(partialMetaPath)
+        reversedMetaPath.reverse()
+        metaPath = partialMetaPath if repeatLastType else partialMetaPath[:-1] # Don't repeat the middle entry
+        modifiedMetaPath = metaPath + reversedMetaPath
 
         return modifiedMetaPath
 
@@ -111,7 +109,7 @@ class MetaPathUtility(object):
 
 
         # Create a meta path one entry shorter
-        modifiedMetaPath = MetaPath(metaPath.classes[:-1], metaPath.weight)
+        modifiedMetaPath = metaPath[:-1]
 
         # Find reachable nodes on this shorter meta path
         reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, modifiedMetaPath)
@@ -140,7 +138,7 @@ class MetaPathUtility(object):
 
         for path in allPathsOfCorrectLength:
             pathMatchesMetaPath = True
-            for node, type in zip(path, metaPath.classes):
+            for node, type in zip(path, metaPath):
                 if node.__class__ != type:
                     pathMatchesMetaPath = False
                     break
