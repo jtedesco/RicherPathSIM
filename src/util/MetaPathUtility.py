@@ -115,12 +115,20 @@ class MetaPathUtility(object):
         reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, modifiedMetaPath)
 
         paths = []
+        pathsFound = set()
 
         for endingNode in reachableNodes:
             if graph.hasEdge(endingNode, startingNode):
                 correctPaths = MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, symmetric)
                 for path in correctPaths:
-                    paths.append(path + [startingNode])
+                    thisPath = path + [startingNode]
+
+                    # Check to see if we've already recorded this path or the reverse
+                    # (for paths A-B-C and C-B-A, only record one or the other)
+                    if tuple(thisPath) not in pathsFound and tuple(reversed(thisPath)) not in pathsFound:
+                        pathsFound.add(tuple(thisPath))
+                        pathsFound.add(tuple(reversed(thisPath)))
+                        paths.append(thisPath)
 
         return paths
 

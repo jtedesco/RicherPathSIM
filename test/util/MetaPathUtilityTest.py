@@ -1,3 +1,4 @@
+from pprint import pprint
 import unittest
 from src.graph.GraphFactory import GraphFactory
 from src.model.edge.dblp.Authorship import Authorship
@@ -44,6 +45,23 @@ class MetaPathUtilityTest(unittest.TestCase):
         graph.addBothEdges(self.paper2, self.paper3, Citation())
 
         self.templateGraph = graph
+
+
+    def assertItemsOrReverseItemsEqual(self, expectedPaths, actualPaths):
+        """
+          Asserts that the two iterables of iterables contain the same items, or reversed items (i.e. two items are
+          considered equal if they are reverses of each other).
+        """
+        self.assertEqual(len(expectedPaths), len(actualPaths))
+        for expectedPath in expectedPaths:
+            foundPath = False
+            for actualPath in actualPaths:
+                if expectedPath == actualPath or list(reversed(expectedPath)) == actualPath:
+                    foundPath = True
+            if not foundPath:
+                pprint(expectedPaths)
+                pprint(actualPaths)
+            self.assertTrue(foundPath)
 
 
     def testFindMetaPathNeighborsLengthTwo(self):
@@ -249,21 +267,23 @@ class MetaPathUtilityTest(unittest.TestCase):
         """
 
         # Self-citation
-        self.assertItemsEqual([
+        expectedPaths = [
             [self.author, self.paper1, self.paper2, self.author],
-            [self.author, self.paper2, self.paper3, self.author],
-            [self.author, self.paper3, self.paper2, self.author]
-        ], MetaPathUtility.findMetaPaths(
+            [self.author, self.paper2, self.paper3, self.author]
+        ]
+        actualPaths = MetaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.author, [Author, Paper, Paper, Author]
-        ))
+        )
+        self.assertItemsOrReverseItemsEqual(expectedPaths, actualPaths)
 
         # Publishing multiple papers in a single conference
-        self.assertItemsEqual([
-            [self.author, self.paper1, self.conference1, self.paper2, self.author],
-            [self.author, self.paper2, self.conference1, self.paper1, self.author]
-        ], MetaPathUtility.findMetaPaths(
+        expectedPaths = [
+            [self.author, self.paper1, self.conference1, self.paper2, self.author]
+        ]
+        actualPaths = MetaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.author, [Author, Paper, Conference, Paper, Author]
-        ))
+        )
+        self.assertItemsOrReverseItemsEqual(expectedPaths, actualPaths)
 
 
     def testFindLoopMetaPathsWithSymmetry(self):
@@ -272,9 +292,10 @@ class MetaPathUtilityTest(unittest.TestCase):
         """
 
         # Self-citation using symmetry
-        self.assertItemsEqual([
-            [self.author, self.paper2, self.paper3, self.author],
-            [self.author, self.paper3, self.paper2, self.author]
-        ], MetaPathUtility.findMetaPaths(
+        expectedPaths = [
+            [self.author, self.paper3, self.paper2, self.author] # Either order is fine
+        ]
+        actualPaths = MetaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.author, [Author, Paper, Paper, Author], True
-        ))
+        )
+        self.assertItemsOrReverseItemsEqual(expectedPaths, actualPaths)
