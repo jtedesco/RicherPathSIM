@@ -37,9 +37,9 @@ class MetaPathUtility(object):
 
         # Split logic based on whether or not the path should be a cycle
         if startingNode == endingNode:
-            return MetaPathUtility.__findReflexiveMetaPaths(graph, startingNode, metaPath, symmetric)
+            return MetaPathUtility.__findLoopMetaPaths(graph, startingNode, metaPath, symmetric)
         else:
-            return MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, metaPath, symmetric)
+            return MetaPathUtility.__findNonLoopMetaPaths(graph, startingNode, endingNode, metaPath, symmetric)
 
 
     @staticmethod
@@ -102,7 +102,7 @@ class MetaPathUtility(object):
 
 
     @staticmethod
-    def __findReflexiveMetaPaths(graph, startingNode, metaPath, symmetric):
+    def __findLoopMetaPaths(graph, startingNode, metaPath, symmetric):
         """
           Helper function to find meta paths, given that we know the start and end nodes are the same
         """
@@ -119,22 +119,21 @@ class MetaPathUtility(object):
 
         for endingNode in reachableNodes:
             if graph.hasEdge(endingNode, startingNode):
-                correctPaths = MetaPathUtility.__findNonReflexiveMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, symmetric)
+                correctPaths = MetaPathUtility.__findNonLoopMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, symmetric)
                 for path in correctPaths:
                     thisPath = path + [startingNode]
 
                     # Check to see if we've already recorded this path or the reverse
                     # (for paths A-B-C and C-B-A, only record one or the other)
-                    if tuple(thisPath) not in pathsFound and tuple(reversed(thisPath)) not in pathsFound:
+                    if tuple(thisPath) not in pathsFound:
                         pathsFound.add(tuple(thisPath))
-                        pathsFound.add(tuple(reversed(thisPath)))
                         paths.append(thisPath)
 
         return paths
 
 
     @staticmethod
-    def __findNonReflexiveMetaPaths(graph, startingNode, endingNode, metaPath, symmetric):
+    def __findNonLoopMetaPaths(graph, startingNode, endingNode, metaPath, symmetric):
         """
           Helper function to find meta paths, given that we know the start and end nodes are not the same
         """

@@ -269,6 +269,7 @@ class MetaPathUtilityTest(unittest.TestCase):
         # Self-citation
         expectedPaths = [
             [self.author, self.paper1, self.paper2, self.author],
+            [self.author, self.paper2, self.paper1, self.author],
             [self.author, self.paper2, self.paper3, self.author]
         ]
         actualPaths = MetaPathUtility.findMetaPaths(
@@ -278,7 +279,8 @@ class MetaPathUtilityTest(unittest.TestCase):
 
         # Publishing multiple papers in a single conference
         expectedPaths = [
-            [self.author, self.paper1, self.conference1, self.paper2, self.author]
+            [self.author, self.paper1, self.conference1, self.paper2, self.author],
+            [self.author, self.paper2, self.conference1, self.paper1, self.author]
         ]
         actualPaths = MetaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.author, [Author, Paper, Conference, Paper, Author]
@@ -293,7 +295,8 @@ class MetaPathUtilityTest(unittest.TestCase):
 
         # Self-citation using symmetry
         expectedPaths = [
-            [self.author, self.paper3, self.paper2, self.author] # Either order is fine
+            [self.author, self.paper3, self.paper2, self.author],
+            [self.author, self.paper2, self.paper3, self.author]
         ]
         actualPaths = MetaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.author, [Author, Paper, Paper, Author], True
