@@ -7,6 +7,16 @@ class MetaPathUtility(object):
       end at different nodes, and that never repeat nodes in the path (repeating meta path types is fine).
     """
 
+    # Parameter to control whether or not to try to read from cache (assume the graphs are never changed?)
+    graphsImmutable = True
+
+    # Dictionary indexed by arguments to findMetaPathNeighbors, containing the meta paths between two nodes
+    __metaPathsCache = {}
+
+    # Dictionary indexed by arguments to findMetaPathNeighbors, containing the meta path neighbors for a node
+    __metaPathNeighborsCache = {}
+
+
     @staticmethod
     def findMetaPathNeighbors(graph, node, metaPath, symmetric = False):
         """
@@ -21,8 +31,15 @@ class MetaPathUtility(object):
         # Verify that the given node is a valid starting node for the given meta path
         assert(node.__class__ == metaPath[0])
 
-        # Recursively traverse the graph using this type information
-        return MetaPathUtility.__findMetaPathNeighborsHelper(graph, node, metaPath[1:], set(), symmetric)
+        # Attempt to read from cache first
+        cacheKey = (graph, node, tuple(metaPath), symmetric)
+        if cacheKey in MetaPathUtility.__metaPathNeighborsCache:
+            return MetaPathUtility.__metaPathNeighborsCache[cacheKey]
+
+        # Cache & return the value
+        cacheData = MetaPathUtility.__findMetaPathNeighborsHelper(graph, node, metaPath[1:], set(), symmetric)
+        MetaPathUtility.__metaPathNeighborsCache[cacheKey] = cacheData
+        return cacheData
 
 
     @staticmethod
@@ -35,11 +52,18 @@ class MetaPathUtility(object):
         assert(startingNode.__class__ == metaPath[0])
         assert(endingNode.__class__ == metaPath[-1])
 
-        # Split logic based on whether or not the path should be a cycle
+        # Attempt to read from cache first
+        cacheKey = (graph, startingNode, endingNode, tuple(metaPath), symmetric)
+        if cacheKey in MetaPathUtility.__metaPathsCache:
+            return MetaPathUtility.__metaPathsCache[cacheKey]
+
+        # Split logic based on whether or not the path should be a cycle, and add to cache
         if startingNode == endingNode:
-            return MetaPathUtility.__findLoopMetaPaths(graph, startingNode, metaPath, symmetric)
+            cacheData = MetaPathUtility.__findLoopMetaPaths(graph, startingNode, metaPath, symmetric)
         else:
-            return MetaPathUtility.__findNonLoopMetaPaths(graph, startingNode, endingNode, metaPath, symmetric)
+            cacheData = MetaPathUtility.__findNonLoopMetaPaths(graph, startingNode, endingNode, metaPath, symmetric)
+        MetaPathUtility.__metaPathsCache[cacheKey] = cacheData
+        return cacheData
 
 
     @staticmethod

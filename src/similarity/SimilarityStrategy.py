@@ -9,6 +9,9 @@ class SimilarityStrategy(object):
         self.graph = graph
         self.n = len(graph.getNodes())
 
+        # Two level dictionary, indexed by nodes, giving similarity scores, of the form dict[source][destination]
+        self.similarityScores = {}
+
 
     def findSimilarityScore(self, source, destination):
         """
@@ -40,3 +43,15 @@ class SimilarityStrategy(object):
         normalizedScores = list(score / float(maxScore) for score in scores)
 
         return normalizedScores
+
+
+    def getFromCache(self, source, destination):
+        if source in self.similarityScores:
+            if destination in self.similarityScores[source]:
+                return self.similarityScores[source][destination]
+
+
+    def addToCache(self, source, destination, score):
+        if source not in self.similarityScores:
+            self.similarityScores[source] = {}
+        self.similarityScores[source][destination] = score

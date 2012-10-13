@@ -28,9 +28,6 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
         self.metaPath = metaPath
         self.symmetric = symmetric
 
-        # Two level dictionary, indexed by nodes, giving similarity scores, of the form dict[source][destination]
-        self.similarityScores = {}
-
 
     def findMostSimilarNodes(self, source, number=None):
         """
@@ -61,15 +58,3 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
         mostSimilarNodes = newMostSimilarNodes[:number]
 
         return mostSimilarNodes
-
-
-    def getFromCache(self, source, destination):
-        if source in self.similarityScores:
-            if destination in self.similarityScores[source]:
-                return self.similarityScores[source][destination]
-
-
-    def addToCache(self, source, destination, score):
-        if source not in self.similarityScores:
-            self.similarityScores[source] = {}
-        self.similarityScores[source][destination] = score
