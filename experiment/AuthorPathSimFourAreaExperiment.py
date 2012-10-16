@@ -1,4 +1,5 @@
 import os
+import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
@@ -20,21 +21,22 @@ class AuthorPathSimFourAreaExperiment(Experiment):
         authors = self.getNodesByAttribute('name', 'Christos Faloutsos')
         assert(len(authors) == 1)
         christos = list(authors)[0]
+        number = 10
 
         # Output the top ten most similar authors on the APA meta path
-        self.output('\n\nTop Ten Similar Authors to Christos Faloutsos (APA meta path):\n')
-        mostSimilarNodes = strategy.findMostSimilarNodes(christos, 10)
-        self.output('| Rank\t| Author')
-        for i in xrange(0, 10):
-            self.output('| %d \t| %s\t' % (i+1, mostSimilarNodes[i].name))
+        self.output('\n\nTop Ten Similar Authors to Christos Faloutsos (APA meta path):')
+        mostSimilarNodes = strategy.findMostSimilarNodes(christos, number)
+        apaPathTable = texttable.Texttable()
+        apaPathTable.add_rows([['Rank', 'Author']] + [[i+1, mostSimilarNodes[i].name] for i in xrange(0, number)])
+        self.output(apaPathTable.draw())
 
         # Output the top ten most similar authors on the APCPA meta path
         strategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
-        self.output('\n\nTop Ten Similar Authors to Christos Faloutsos (APCPA meta path):\n')
-        mostSimilarNodes = strategy.findMostSimilarNodes(christos, 10)
-        self.output('| Rank\t| Author')
-        for i in xrange(0, 10):
-            self.output('| %d \t| %s\t' % (i+1, mostSimilarNodes[i].name))
+        self.output('\n\nTop Ten Similar Authors to Christos Faloutsos (APCPA meta path):')
+        mostSimilarNodes = strategy.findMostSimilarNodes(christos, number)
+        apcpaPathTable = texttable.Texttable()
+        apcpaPathTable.add_rows([['Rank', 'Author']] + [[i+1, mostSimilarNodes[i].name] for i in xrange(0, number)])
+        self.output(apcpaPathTable.draw())
 
 
 if __name__ == '__main__':

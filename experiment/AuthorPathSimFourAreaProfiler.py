@@ -16,10 +16,11 @@ class AuthorPathSimFourAreaProfiler(Experiment):
         authors = self.getNodesByAttribute('name', 'Christos Faloutsos')
         assert(len(authors) == 1)
         christos = list(authors)[0]
+        number = 10
 
         # Output the top ten most similar authors on the APA meta path
         before = time()
-        strategy.findMostSimilarNodes(christos, 10)
+        strategy.findMostSimilarNodes(christos, number)
         after = time()
         runningTime = after - before
         self.output("Total time (seconds): %4.4f" % runningTime)

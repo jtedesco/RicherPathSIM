@@ -19,14 +19,15 @@ class ConferencePathSimFourAreaExperiment(Experiment):
         conferences = self.getNodesByAttribute('name', 'PKDD')
         assert(len(conferences) == 1)
         pkdd = list(conferences)[0]
+        number = 10
 
         # Output the top ten most similar conferences to PKDD (using CPAPC)
         strategy = PathSimStrategy(self.graph, [Conference, Paper, Author, Paper, Conference], True)
-        mostSimilarNodes = strategy.findMostSimilarNodes(pkdd, 10)
+        mostSimilarNodes = strategy.findMostSimilarNodes(pkdd, number)
 
         self.output('\n\nTop Ten Similar Conferences to PKDD (CPAPC meta path):')
         conferenceTable = texttable.Texttable()
-        rows = [['Rank', 'Conference']] + [[i+1, mostSimilarNodes[i].name] for i in xrange(0,10)]
+        rows = [['Rank', 'Conference']] + [[i+1, mostSimilarNodes[i].name] for i in xrange(0, number)]
         conferenceTable.add_rows(rows)
         self.output(conferenceTable.draw())
 
