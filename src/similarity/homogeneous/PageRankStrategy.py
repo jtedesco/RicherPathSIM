@@ -9,15 +9,6 @@ class PageRankStrategy(SimilarityStrategy):
       on graph reachable from a given node.
     """
 
-
-    def __init__(self, graph):
-        super(PageRankStrategy, self).__init__(graph)
-
-        # Dictionary indexed by graph nodes, where each entry is a dictionary of similarity scores in [0,1] between that
-        # node and reachable nodes in the graph
-        self.similarityScores = {}
-
-
     def findSimilarityScore(self, source, destination):
         """
           Return the similarity score in [0,1] between the source and destination nodes in the graph

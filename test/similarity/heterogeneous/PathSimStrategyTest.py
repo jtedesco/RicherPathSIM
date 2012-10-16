@@ -26,7 +26,7 @@ class PathSimStrategyTest(unittest.TestCase):
             mike, [authorMap['Jim'], authorMap['Mary'], authorMap['Bob'], authorMap['Ann']]
         )
 
-        self.assertEquals(bobScore, 1.0)
+        self.assertEquals(bobScore, max([jimScore, maryScore, bobScore, annScore]))
         self.assertEquals(annScore, 0)
 
 

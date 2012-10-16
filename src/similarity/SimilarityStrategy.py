@@ -17,7 +17,6 @@ class SimilarityStrategy(object):
         """
           Find the similarity score between two nodes (score may or may not be symmetric)
         """
-
         raise NotImplementedError()
 
 
@@ -28,7 +27,6 @@ class SimilarityStrategy(object):
             @param  node    The node for which to find the most similar other nodes in the graph
             @param  number  The number of similar nodes to find
         """
-
         raise NotImplementedError()
 
 
@@ -37,12 +35,7 @@ class SimilarityStrategy(object):
           Find the similarity scores between a source and a list of destination, and normalize these scores by the
           maximum score for any destination
         """
-
-        scores = list(self.findSimilarityScore(source, destination) for destination in destinations)
-        maxScore = max(scores)
-        normalizedScores = list(score / float(maxScore) for score in scores)
-
-        return normalizedScores
+        return list(self.findSimilarityScore(source, destination) for destination in destinations)
 
 
     def getFromCache(self, source, destination):
