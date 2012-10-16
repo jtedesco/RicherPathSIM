@@ -6,7 +6,7 @@ __author__ = 'jontedesco'
 class PathSimStrategy(MetaPathSimilarityStrategy):
     """
       Class that implements the PathSim similarity measure for same-typed nodes on heterogeneous graphs. Based on
-      publication by Yizhou Sun et al.
+      publication by Yizhou Sun et al. NOTE: This assumes that any given meta path is symmetric.
 
         @see    http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.220.2455
     """
@@ -23,11 +23,17 @@ class PathSimStrategy(MetaPathSimilarityStrategy):
         numSourceDestinationPaths = len(MetaPathUtility.findMetaPaths(self.graph, source, destination, self.metaPath, True))
 
         # Get cycle counts
-        numSourceCycles = len(MetaPathUtility.findMetaPaths(self.graph, source, source, self.metaPath))
-        numDestinationCycles = len(MetaPathUtility.findMetaPaths(self.graph, destination, destination, self.metaPath))
+        partialMetaPath = self.metaPath[:len(self.metaPath)/2 + len(self.metaPath) % 2]
+        sourceNeighbors = MetaPathUtility.findMetaPathNeighbors(self.graph, source, partialMetaPath, True)
+        destinationNeighbors = MetaPathUtility.findMetaPathNeighbors(self.graph, source, partialMetaPath, True)
+        numSourceDestinationCycles = 0
+        for node, neighbors in [(source, sourceNeighbors), (destination, destinationNeighbors)]:
+            for neighbor in neighbors:
+                paths = MetaPathUtility.findMetaPaths(self.graph, node, neighbor, partialMetaPath, True)
+                numSourceDestinationCycles += len(paths) ** 2
 
         # Compute the PathSim similarity scores of the two nodes
-        similarityScore = (2.0 * numSourceDestinationPaths) / float(numDestinationCycles + numSourceCycles)
+        similarityScore = (2.0 * numSourceDestinationPaths) / float(numSourceDestinationCycles)
 
         self.addToCache(source, destination, similarityScore)
 

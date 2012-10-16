@@ -136,33 +136,34 @@ class MetaPathUtility(object):
           Helper function to find meta paths, given that we know the start and end nodes are the same
         """
 
-
-        # Create a meta path one entry shorter
-        modifiedMetaPath = metaPath[:-1]
-
         # Find reachable nodes on this shorter meta path
-        reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, modifiedMetaPath, symmetric, False)
+        reachableNodes, paths = MetaPathUtility.__findMetaPathsHelper(graph, startingNode, metaPath[1:-1], [], symmetric)
 
-        paths = []
+        returnPaths = []
         pathsFound = set()
 
-        for endingNode in reachableNodes:
+        for path in paths:
+
+            # Sanity check
+            if startingNode.__class__ != metaPath[-1]:
+                continue
+
+            endingNode = path[-1]
             if not graph.hasEdge(endingNode, startingNode):
                 continue
-            correctPaths = MetaPathUtility.__findNonLoopMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, symmetric)
-            for path in correctPaths:
-                if startingNode.__class__ != metaPath[-1]:
-                    continue
-                thisPath = path + [startingNode]
+            if symmetric and not graph.hasEdge(startingNode, endingNode):
+                continue
 
-                # Check to see if we've already recorded this path or the reverse
-                # (for paths A-B-C and C-B-A, only record one or the other)
-                if tuple(thisPath) in pathsFound:
-                    continue
-                pathsFound.add(tuple(thisPath))
-                paths.append(thisPath)
+            thisPath = list(path) + [startingNode]
 
-        return paths
+            # Check to see if we've already recorded this path
+            if tuple(thisPath) in pathsFound:
+                continue
+
+            pathsFound.add(tuple(thisPath))
+            returnPaths.append(thisPath)
+
+        return returnPaths
 
 
     @staticmethod
