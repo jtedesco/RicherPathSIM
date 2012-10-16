@@ -13,7 +13,6 @@ class GraphObject(object):
         """
         if id is not None:
             self.id = id
-        self.dictionary = None
 
 
     def toDict(self):
