@@ -10,15 +10,11 @@ class MetaPathUtility(object):
     # Parameter to control whether or not to try to read from cache (assume the graphs are never changed?)
     graphsImmutable = True
 
-    # Dictionary indexed by arguments to findMetaPathNeighbors, containing the meta paths between two nodes
+    # Dictionary indexed by initial arguments to __findMetaPathsHelper, containing the paths along a meta path from a node
     __metaPathsCache = {}
 
-    # Dictionary indexed by arguments to findMetaPathNeighbors, containing the meta path neighbors for a node
-    __metaPathNeighborsCache = {}
-
-
     @staticmethod
-    def findMetaPathNeighbors(graph, node, metaPath, symmetric = False):
+    def findMetaPathNeighbors(graph, node, metaPath, symmetric = False, checkLoops = True):
         """
           Finds the neighbors of some node along the given meta path, i.e. nodes that are reachable from the given node
           along the given meta path.
@@ -31,15 +27,13 @@ class MetaPathUtility(object):
         # Verify that the given node is a valid starting node for the given meta path
         assert(node.__class__ == metaPath[0])
 
-        # Attempt to read from cache first
-        cacheKey = (graph, node, tuple(metaPath), symmetric)
-        if cacheKey in MetaPathUtility.__metaPathNeighborsCache:
-            return MetaPathUtility.__metaPathNeighborsCache[cacheKey]
-
-        # Cache & return the value
-        cacheData = MetaPathUtility.__findMetaPathNeighborsHelper(graph, node, metaPath[1:], set(), symmetric)
-        MetaPathUtility.__metaPathNeighborsCache[cacheKey] = cacheData
-        return cacheData
+        # Get the paths & neighbors, then add this node if necessary
+        (metaPathNeighbors, paths) = MetaPathUtility.__findMetaPathsHelper(graph, node, metaPath[1:], [], symmetric)
+        if checkLoops:
+            selfLoops = MetaPathUtility.__findLoopMetaPaths(graph, node, metaPath, symmetric)
+            if len(selfLoops) > 0:
+                metaPathNeighbors.add(node)
+        return set(metaPathNeighbors)
 
 
     @staticmethod
@@ -52,18 +46,11 @@ class MetaPathUtility(object):
         assert(startingNode.__class__ == metaPath[0])
         assert(endingNode.__class__ == metaPath[-1])
 
-        # Attempt to read from cache first
-        cacheKey = (graph, startingNode, endingNode, tuple(metaPath), symmetric)
-        if cacheKey in MetaPathUtility.__metaPathsCache:
-            return MetaPathUtility.__metaPathsCache[cacheKey]
-
         # Split logic based on whether or not the path should be a cycle, and add to cache
         if startingNode == endingNode:
-            cacheData = MetaPathUtility.__findLoopMetaPaths(graph, startingNode, metaPath, symmetric)
+            return MetaPathUtility.__findLoopMetaPaths(graph, startingNode, metaPath, symmetric)
         else:
-            cacheData = MetaPathUtility.__findNonLoopMetaPaths(graph, startingNode, endingNode, metaPath, symmetric)
-        MetaPathUtility.__metaPathsCache[cacheKey] = cacheData
-        return cacheData
+            return MetaPathUtility.__findNonLoopMetaPaths(graph, startingNode, endingNode, metaPath, symmetric)
 
 
     @staticmethod
@@ -85,22 +72,26 @@ class MetaPathUtility(object):
 
 
     @staticmethod
-    def __findMetaPathNeighborsHelper(graph, node, metaPathTypes, visitedNodes, symmetric):
+    def __findMetaPathsHelper(graph, node, metaPathTypes, previousNodes, symmetric):
         """
-          Recursive helper function to recurse on nodes not yet visited according to types in meta path
+          Recursive helper function to recurse on nodes not yet visited according to types in meta path. This helper
+          function cannot handle loops back to the original node, it assumes that we are only interested in paths that
+          do not repeat any nodes, not even the start/end node.
         """
 
+        # Find the meta paths & meta path neighbors from this node
         metaPathNeighbors = set()
+        paths = set()
 
         # Base case, we've reached the end of the meta path
         if len(metaPathTypes) == 0:
-            return metaPathNeighbors
+            return metaPathNeighbors, paths
 
         neighbors = graph.getSuccessors(node)
         for neighbor in neighbors:
 
             # Skip visited neighbors
-            if neighbor in visitedNodes:
+            if neighbor in previousNodes:
                 continue
 
             # Skip neighbors that don't match the next type in the meta path
@@ -114,15 +105,17 @@ class MetaPathUtility(object):
             # If we're at the last node in the meta path, add it to the meta path neighbors
             if len(metaPathTypes) == 1:
                 metaPathNeighbors.add(neighbor)
+                paths.add(tuple(previousNodes + [node, neighbor]))
             else:
 
                 # Otherwise, recurse & take union of all recursive calls
-                neighborsFromThisNode = MetaPathUtility.__findMetaPathNeighborsHelper(
-                    graph, neighbor, metaPathTypes[1:], visitedNodes.union({neighbor}), symmetric
+                neighborsFromThisNode, pathsFromThisNode = MetaPathUtility.__findMetaPathsHelper(
+                    graph, neighbor, metaPathTypes[1:], previousNodes + [node], symmetric
                 )
+                paths = paths.union(pathsFromThisNode)
                 metaPathNeighbors = metaPathNeighbors.union(neighborsFromThisNode)
 
-        return metaPathNeighbors
+        return metaPathNeighbors, paths
 
 
     @staticmethod
@@ -136,22 +129,26 @@ class MetaPathUtility(object):
         modifiedMetaPath = metaPath[:-1]
 
         # Find reachable nodes on this shorter meta path
-        reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, modifiedMetaPath)
+        reachableNodes = MetaPathUtility.findMetaPathNeighbors(graph, startingNode, modifiedMetaPath, symmetric, False)
 
         paths = []
         pathsFound = set()
 
         for endingNode in reachableNodes:
-            if graph.hasEdge(endingNode, startingNode):
-                correctPaths = MetaPathUtility.__findNonLoopMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, symmetric)
-                for path in correctPaths:
-                    thisPath = path + [startingNode]
+            if not graph.hasEdge(endingNode, startingNode):
+                continue
+            correctPaths = MetaPathUtility.__findNonLoopMetaPaths(graph, startingNode, endingNode, modifiedMetaPath, symmetric)
+            for path in correctPaths:
+                if startingNode.__class__ != metaPath[-1]:
+                    continue
+                thisPath = path + [startingNode]
 
-                    # Check to see if we've already recorded this path or the reverse
-                    # (for paths A-B-C and C-B-A, only record one or the other)
-                    if tuple(thisPath) not in pathsFound:
-                        pathsFound.add(tuple(thisPath))
-                        paths.append(thisPath)
+                # Check to see if we've already recorded this path or the reverse
+                # (for paths A-B-C and C-B-A, only record one or the other)
+                if tuple(thisPath) in pathsFound:
+                    continue
+                pathsFound.add(tuple(thisPath))
+                paths.append(thisPath)
 
         return paths
 
@@ -162,34 +159,5 @@ class MetaPathUtility(object):
           Helper function to find meta paths, given that we know the start and end nodes are not the same
         """
 
-        paths = []
-
-        # Find all paths of the right length, then filter by the node types in the path
-        allPathsOfCorrectLength = graph.findAllPathsOfLength(startingNode, endingNode, len(metaPath))
-
-        for path in allPathsOfCorrectLength:
-            pathMatchesMetaPath = True
-            for node, type in zip(path, metaPath):
-                if node.__class__ != type:
-                    pathMatchesMetaPath = False
-                    break
-
-            if pathMatchesMetaPath:
-                paths.append(path)
-
-        # If these meta paths must be symmetric, skip any meta paths where edges don't go in both directions
-        return MetaPathUtility.__filterPathsForSymmetry(graph, paths) if symmetric else paths
-
-
-    @staticmethod
-    def __filterPathsForSymmetry(graph, paths):
-        """
-          Remove any paths that are asymmetrical
-        """
-
-        newMetaPaths = list(paths)
-        for path in paths:
-            for i in xrange(0, len(path) - 1):
-                if not graph.hasEdge(path[i + 1], path[i]):
-                    newMetaPaths.remove(path)
-        return newMetaPaths
+        (metaPathNeighbors, paths) = MetaPathUtility.__findMetaPathsHelper(graph, startingNode, metaPath[1:], [], symmetric)
+        return [list(path) for path in paths if path[-1] is endingNode]

@@ -15,6 +15,9 @@ class NetworkXGraph(Graph):
 
         self.graph = networkx.DiGraph()
 
+        # Used for caching result to expensive queries
+        self.queryCache = {}
+
     def addEdge(self, source, destination, attribute = None):
         attributeDictionary = None if attribute is None else attribute.toDict()
         self.graph.add_edge(source, destination, attr_dict = attributeDictionary)
@@ -49,9 +52,6 @@ class NetworkXGraph(Graph):
 
     def getPredecessors(self, node):
         return self.graph.predecessors(node)
-
-    def findAllPathsOfAtMostLength(self, source, destination, length):
-        return networkx.all_simple_paths(self.graph, source, destination, length)
 
     def breadthFirstSearch(self, source):
         newGraph = NetworkXGraph()

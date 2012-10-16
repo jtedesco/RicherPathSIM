@@ -128,22 +128,6 @@ class Graph(object):
         raise NotImplementedError()
 
 
-    def findAllPathsOfLength(self, source, destination, length):
-        """
-          Returns all paths between the two nodes of exactly the given length
-        """
-
-        pathsOfAtMostLength = self.findAllPathsOfAtMostLength(source, destination, length)
-        return [path for path in pathsOfAtMostLength if len(path) == length]
-
-
-    def findAllPathsOfAtMostLength(self, source, destination, length):
-        """
-          Returns all paths between the two nodes of at most the given length
-        """
-        raise NotImplementedError()
-
-
     def breadthFirstSearch(self, source):
         """
           Returns the tree found performing BFS from the given root
