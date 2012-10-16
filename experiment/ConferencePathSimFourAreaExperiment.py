@@ -1,4 +1,5 @@
 import os
+import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
@@ -21,12 +22,13 @@ class ConferencePathSimFourAreaExperiment(Experiment):
 
         # Output the top ten most similar conferences to PKDD (using CPAPC)
         strategy = PathSimStrategy(self.graph, [Conference, Paper, Author, Paper, Conference], True)
-        self.output('\n\nTop Ten Similar Conferences to PKDD (CPAPC meta path):\n')
         mostSimilarNodes = strategy.findMostSimilarNodes(pkdd, 10)
-        self.output('| Rank\t| Conference')
-        for i in xrange(0, 10):
-            self.output('| %d \t| %s\t' % (i+1, mostSimilarNodes[i].name))
 
+        self.output('\n\nTop Ten Similar Conferences to PKDD (CPAPC meta path):')
+        conferenceTable = texttable.Texttable()
+        rows = [['Rank', 'Conference']] + [[i+1, mostSimilarNodes[i].name] for i in xrange(0,10)]
+        conferenceTable.add_rows(rows)
+        self.output(conferenceTable.draw())
 
 if __name__ == '__main__':
     experiment = ConferencePathSimFourAreaExperiment(
