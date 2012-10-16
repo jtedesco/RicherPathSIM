@@ -46,7 +46,7 @@ class MetaPathUtility(object):
         assert(startingNode.__class__ == metaPath[0])
         assert(endingNode.__class__ == metaPath[-1])
 
-        # Split logic based on whether or not the path should be a cycle, and add to cache
+        # Split logic based on whether or not the path should be a cycle
         if startingNode == endingNode:
             return MetaPathUtility.__findLoopMetaPaths(graph, startingNode, metaPath, symmetric)
         else:
@@ -78,6 +78,14 @@ class MetaPathUtility(object):
           function cannot handle loops back to the original node, it assumes that we are only interested in paths that
           do not repeat any nodes, not even the start/end node.
         """
+
+        # Prepare to use the cache if necessary
+        shouldCacheResults = len(previousNodes) == 0 and MetaPathUtility.graphsImmutable
+        cacheKey = (graph, node, tuple(metaPathTypes), symmetric)
+
+        # Pull from cache if necessary
+        if shouldCacheResults and cacheKey in MetaPathUtility.__metaPathsCache:
+            return MetaPathUtility.__metaPathsCache[cacheKey]
 
         # Find the meta paths & meta path neighbors from this node
         metaPathNeighbors = set()
@@ -114,6 +122,10 @@ class MetaPathUtility(object):
                 )
                 paths = paths.union(pathsFromThisNode)
                 metaPathNeighbors = metaPathNeighbors.union(neighborsFromThisNode)
+
+        # Store in the cache if necessary
+        if shouldCacheResults:
+            MetaPathUtility.__metaPathsCache[cacheKey] = (metaPathNeighbors, paths)
 
         return metaPathNeighbors, paths
 
