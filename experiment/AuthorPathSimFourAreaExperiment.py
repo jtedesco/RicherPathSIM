@@ -28,27 +28,13 @@ class AuthorPathSimFourAreaExperiment(Experiment):
         for i in xrange(0, 10):
             self.output('| %d \t| %s\t' % (i+1, mostSimilarNodes[i].name))
 
-        # Output the top ten most similar authors on the APA meta path
+        # Output the top ten most similar authors on the APCPA meta path
         strategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
         self.output('\n\nTop Ten Similar Authors to Christos Faloutsos (APCPA meta path):\n')
         mostSimilarNodes = strategy.findMostSimilarNodes(christos, 10)
         self.output('| Rank\t| Author')
         for i in xrange(0, 10):
             self.output('| %d \t| %s\t' % (i+1, mostSimilarNodes[i].name))
-
-        # Get the conference PKDD
-        conferences = self.getNodesByAttribute('name', 'PKDD')
-        assert(len(conferences) == 1)
-        pkdd = list(conferences)[0]
-
-        # Output the top ten most similar conferences to PKDD (using CPAPC)
-        strategy = PathSimStrategy(self.graph, [Conference, Paper, Author, Paper, Conference], True)
-        self.output('\n\nTop Ten Similar Conferences to PKDD (CPAPC meta path):\n')
-        mostSimilarNodes = strategy.findMostSimilarNodes(pkdd, 10)
-        self.output('| Rank\t| Conference')
-        for i in xrange(0, 10):
-            self.output('| %d \t| %s\t' % (i+1, mostSimilarNodes[i].name))
-
 
 
 if __name__ == '__main__':
