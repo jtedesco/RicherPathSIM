@@ -1,3 +1,4 @@
+import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
@@ -33,29 +34,28 @@ class PathSimPaperExamplesExperiment(Experiment):
         ]
 
         # Output the adjacency matrix for authors & conferences in the graph
-        self.output('Adjacency Matrix:\n')
-        line = '|\t|'
-        for conference in conferences:
-            line += ' ' + conference.name + '\t|'
-        self.output(line)
+        self.output('\nAdjacency Matrix:')
+        adjMatrixTable = texttable.Texttable()
+        rows = [['Author'] + [conference.name for conference in conferences]]
         for author in authors:
-            line = '| %s\t|' % author.name
+            row = [author.name]
             for conference in conferences:
                 metaPaths = MetaPathUtility.findMetaPaths(self.graph, author, conference, [Author, Paper, Conference])
-                line += ' %d  \t|' % len(metaPaths)
-            self.output(line)
+                row.append(len(metaPaths))
+            rows.append(row)
+        adjMatrixTable.add_rows(rows)
+        self.output(adjMatrixTable.draw())
 
         # Output the PathSim similarity scores
-        self.output('\n\nPathsim Scores (compared to Mike):\n')
-        line = '|'
-        for author in authors[1:]:
-            line += ' ' + author.name + '\t|'
-        self.output(line)
-        line = '|'
         strategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
-        for author in authors[1:]:
-            line += ' %1.2f\t|' % strategy.findSimilarityScore(authorMap['Mike'], author)
-        self.output(line)
+        self.output('\n\nPathsim Scores (compared to Mike):')
+        rows = [
+            [author.name for author in authors[1:]],
+            ['%1.2f' % strategy.findSimilarityScore(authorMap['Mike'], author) for author in authors[1:]]
+        ]
+        pathSimTable = texttable.Texttable()
+        pathSimTable.add_rows(rows)
+        self.output(pathSimTable.draw())
 
 
 if __name__ == '__main__':
