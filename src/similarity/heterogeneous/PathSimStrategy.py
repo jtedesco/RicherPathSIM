@@ -29,4 +29,6 @@ class PathSimStrategy(MetaPathSimilarityStrategy):
         # Compute the PathSim similarity scores of the two nodes
         similarityScore = (2.0 * numSourceDestinationPaths) / float(numDestinationCycles + numSourceCycles)
 
+        self.addToCache(source, destination, similarityScore)
+
         return similarityScore
