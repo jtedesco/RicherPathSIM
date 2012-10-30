@@ -1,6 +1,7 @@
 import os
 import texttable
 from experiment.Experiment import Experiment
+from experiment.helper.ExperimentHelper import ExperimentHelper
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
@@ -17,8 +18,10 @@ class AuthorPathSimFourAreaExperiment(Experiment):
 
         strategy = PathSimStrategy(self.graph, [Author, Paper, Author], True)
 
+        experimentHelper = ExperimentHelper()
+
         # Get the author node for 'Christos Faloutsos)
-        authors = self.getNodesByAttribute('name', 'Christos Faloutsos')
+        authors = experimentHelper.getNodesByAttribute(self.graph, 'name', 'Christos Faloutsos')
         assert(len(authors) == 1)
         christos = list(authors)[0]
         number = 10

@@ -2,6 +2,7 @@ import cProfile
 import os
 from time import time
 from experiment.Experiment import Experiment
+from experiment.helper.ExperimentHelper import ExperimentHelper
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
@@ -11,9 +12,10 @@ __author__ = 'jontedesco'
 class AuthorPathSimFourAreaProfiler(Experiment):
     def run(self):
         strategy = PathSimStrategy(self.graph, [Author, Paper, Author], True)
+        experimentHelper = ExperimentHelper()
 
         # Get the author node for 'Christos Faloutsos)
-        authors = self.getNodesByAttribute('name', 'Christos Faloutsos')
+        authors = experimentHelper.getNodesByAttribute(self.graph, 'name', 'Christos Faloutsos')
         assert(len(authors) == 1)
         christos = list(authors)[0]
         number = 10

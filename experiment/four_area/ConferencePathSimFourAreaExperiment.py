@@ -1,6 +1,7 @@
 import os
 import texttable
 from experiment.Experiment import Experiment
+from experiment.helper.ExperimentHelper import ExperimentHelper
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
@@ -14,9 +15,10 @@ class ConferencePathSimFourAreaExperiment(Experiment):
     """
 
     def run(self):
+        experimentHelper = ExperimentHelper()
 
         # Get the conference PKDD
-        conferences = self.getNodesByAttribute('name', 'PKDD')
+        conferences = experimentHelper.getNodesByAttribute(self.graph, 'name', 'PKDD')
         assert(len(conferences) == 1)
         pkdd = list(conferences)[0]
         number = 10

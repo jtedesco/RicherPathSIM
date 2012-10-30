@@ -1,17 +1,19 @@
 import os
+from experiment.Experiment import Experiment
+from experiment.helper.ExperimentHelper import ExperimentHelper
 from src.model.node.comoto.Assignment import Assignment
 from src.model.node.comoto.Semester import Semester
 from src.model.node.comoto.Submission import Submission
 
 __author__ = 'jontedesco'
 
-from Experiment import Experiment
-
 class CoMoToIntegrityExperiment(Experiment):
 
     def run(self):
 
         assignmentData = {}
+
+        experimentHelper = ExperimentHelper()
 
         # Print the semesters with submissions & the number of submissions for each
         for node in self.graph.getNodes():
@@ -42,10 +44,10 @@ class CoMoToIntegrityExperiment(Experiment):
 
         # Output the assignments & semesters included
         self.output("\n\nSemesters Included:\n")
-        for semester in self.getNodesByType(Semester):
+        for semester in experimentHelper.getNodesByType(self.graph, Semester):
             self.output("%s %d" % (semester.season, semester.year))
         self.output("\n\nAssignments Included:\n")
-        for assignment in self.getNodesByType(Assignment):
+        for assignment in experimentHelper.getNodesByType(self.graph, Assignment):
             self.output("%s" % assignment.name)
 
 
