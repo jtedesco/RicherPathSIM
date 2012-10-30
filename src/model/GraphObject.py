@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 __author__ = 'jontedesco'
 
 class GraphObject(object):
@@ -22,8 +24,10 @@ class GraphObject(object):
         try:
             return self.dictionary
         except AttributeError:
-            self.dictionary = self.__dict__
+            self.dictionary = deepcopy(self.__dict__)
             self.dictionary['type'] = self.__class__.__name__
+            if 'dictionary' in self.dictionary:
+                del self.dictionary['dictionary']
             return self.dictionary
 
 
