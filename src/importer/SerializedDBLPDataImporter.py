@@ -181,13 +181,13 @@ class SerializedDBLPDataImporter(Thread):
 
 if __name__ == '__main__':
     fourAreaDataImporter = SerializedDBLPDataImporter(
-        os.path.join('data','real','four_area'),
+        os.path.join('data','four_area'),
         os.path.join('graphs','fourArea')
     )
     fourAreaDataImporter.start()
 
     dbisDataImporter = SerializedDBLPDataImporter(
-        os.path.join('data','real','dbis'),
+        os.path.join('data','dbis'),
         os.path.join('graphs','dbis')
     )
     dbisDataImporter.start()
