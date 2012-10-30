@@ -9,12 +9,12 @@ from test.importers.ImporterTest import ImporterTest
 
 __author__ = 'jontedesco'
 
-class FourAreaDataImporterTest(ImporterTest):
+class DBISDataImporterTest(ImporterTest):
 
     def setUp(self):
         self.dataImporter = SerializedDBLPDataImporter(
-            os.path.join('data','four_area'),
-            os.path.join('graphs','fourArea')
+            os.path.join('data','dbis'),
+            os.path.join('graphs','dbis')
         )
 
 
@@ -26,9 +26,9 @@ class FourAreaDataImporterTest(ImporterTest):
         graph, actualNodeIndex = self.dataImporter.parseNodeContent({'author':{}})
 
         # For conferences, authors, and papers, count should be the same (don't check exact count for topics)
-        expectedAuthorCount = 28702
-        expectedConferenceCount = 20
-        expectedPaperCount = 28569
+        expectedAuthorCount = 60694
+        expectedConferenceCount = 464
+        expectedPaperCount = 72902
         self.assertEquals(expectedAuthorCount, len(actualNodeIndex['author']))
         self.assertEquals(expectedConferenceCount, len(actualNodeIndex['conference']))
         self.assertEquals(expectedPaperCount, len(actualNodeIndex['paper']))
@@ -62,8 +62,8 @@ class FourAreaDataImporterTest(ImporterTest):
         stemmedRemovedWords = {'individuals', 'formalisms', 'challenges', 'challenging'}
         self.assertEqual(0, len(stemmedRemovedWords.intersection(actualKeywords)))
 
-        # Check that the number of keywords is at least 20% smaller than the input keywords
-        self.assertLess(len(actualKeywords), 13575 * 0.8)
+        # Check that the number of keywords is at least 15% smaller than the input keywords
+        self.assertLess(len(actualKeywords), 16798 * 0.85)
 
 
     def testParsedGraphNodes(self):
@@ -115,23 +115,23 @@ class FourAreaDataImporterTest(ImporterTest):
         graph = self.dataImporter.parseEdgeContent(graph, nodeIndex)
 
         # Test single paper / author
-        singleAuthorPaper = nodeIndex['paper'][7600]
-        singlePaperAuthor = nodeIndex['author'][15134]
+        singleAuthorPaper = nodeIndex['paper'][21530]
+        singlePaperAuthor = nodeIndex['author'][33483]
         self.assertTrue(graph.hasEdge(singleAuthorPaper, singlePaperAuthor))
         self.assertTrue(graph.hasEdge(singlePaperAuthor, singleAuthorPaper))
 
         # Test multiple authors for a paper
-        multiAuthorPaper = nodeIndex['paper'][7605]
-        multiAuthorPaperAuthor1 = nodeIndex['author'][15138]
-        multiAuthorPaperAuthor2 = nodeIndex['author'][15139]
+        multiAuthorPaper = nodeIndex['paper'][21536]
+        multiAuthorPaperAuthor1 = nodeIndex['author'][2247]
+        multiAuthorPaperAuthor2 = nodeIndex['author'][5763]
         self.assertTrue(graph.hasEdge(multiAuthorPaper, multiAuthorPaperAuthor1))
         self.assertTrue(graph.hasEdge(multiAuthorPaperAuthor1, multiAuthorPaper))
         self.assertTrue(graph.hasEdge(multiAuthorPaper, multiAuthorPaperAuthor2))
         self.assertTrue(graph.hasEdge(multiAuthorPaperAuthor2, multiAuthorPaper))
 
         # Test author for only one paper
-        self.assertEqual([singleAuthorPaper], graph.getSuccessors(singlePaperAuthor))
-        self.assertEqual([singleAuthorPaper], graph.getPredecessors(singlePaperAuthor))
+        self.assertTrue(singleAuthorPaper in graph.getSuccessors(singlePaperAuthor))
+        self.assertTrue(singleAuthorPaper in graph.getPredecessors(singlePaperAuthor))
 
 
     def testParsedGraphPublicationEdges(self):
@@ -143,9 +143,9 @@ class FourAreaDataImporterTest(ImporterTest):
         graph, nodeIndex = self.dataImporter.parseNodeContent({})
         graph = self.dataImporter.parseEdgeContent(graph, nodeIndex)
 
-        conference = nodeIndex['conference'][36]
-        conferencePublicationCount = 3375
-        paper = nodeIndex['paper'][7600]
+        conference = nodeIndex['conference'][512]
+        conferencePublicationCount = 9
+        paper = nodeIndex['paper'][67300]
 
         # Check basic publication case
         self.assertTrue(graph.hasEdge(paper, conference))
@@ -169,7 +169,6 @@ class FourAreaDataImporterTest(ImporterTest):
         graph, nodeIndex = self.dataImporter.parseNodeContent({})
         graph = self.dataImporter.parseEdgeContent(graph, nodeIndex)
 
-        # Check for 'challenging', 'challenges', and 'challenge' are all stemmed to the same topic
-        topic = nodeIndex['topic'][25] # 'challenge'
-        self.assertIs(nodeIndex['topic'][451], topic) # 'challenges'
-        self.assertIs(nodeIndex['topic'][5821], topic) # 'challenging'
+        # Check for 'procedure' and 'procedural' are stemmed to the same topic
+        topic = nodeIndex['topic'][39] # 'procedure'
+        self.assertIs(nodeIndex['topic'][1875], topic) # 'procedural'

@@ -17,7 +17,7 @@ from src.model.node.dblp.Topic import Topic
 
 __author__ = 'jontedesco'
 
-class FourAreaDataImporter(Thread):
+class SerializedDBLPDataImporter(Thread):
     """
       Imports the simple data set from four research areas into the DBLP graph
     """
@@ -28,7 +28,7 @@ class FourAreaDataImporter(Thread):
         self.outputPath = outputPath
 
         logging.setLoggerClass(ColoredLogger)
-        self.logger = logging.getLogger('FourAreaDataImporter')
+        self.logger = logging.getLogger('SerializedDBLPDataImporter')
 
         # Get the stop words set & stemmer for text analysis
         self.stopWords = None
@@ -40,7 +40,7 @@ class FourAreaDataImporter(Thread):
         controlChars = ''.join(map(unichr, range(0,32) + range(127,160)))
         self.controlCharactersRegex = re.compile('[%s]' % re.escape(controlChars))
 
-        super(FourAreaDataImporter, self).__init__()
+        super(SerializedDBLPDataImporter, self).__init__()
 
 
     def run(self):
@@ -50,13 +50,13 @@ class FourAreaDataImporter(Thread):
             # Index of nodes by id
             nodeIndex = {}
 
-            self.logger.info("Parsing Four Area input node content")
+            self.logger.info("Parsing input node content")
             partialGraph, nodeIndex = self.parseNodeContent(nodeIndex)
 
-            self.logger.info("Parsing Four Area input edge content")
+            self.logger.info("Parsing input edge content")
             graph = self.parseEdgeContent(partialGraph, nodeIndex)
 
-            self.logger.info("Pickling Four Area graph data to file")
+            self.logger.info("Pickling graph data to file")
             with open(self.outputPath, 'w') as outputFile:
                 cPickle.dump(graph, outputFile)
 
@@ -84,8 +84,9 @@ class FourAreaDataImporter(Thread):
 
         # Parse conferences from file
         def conferenceLineParser(line):
-            conferenceId, conferenceName = line.split()
-            conferenceId = int(self.__removeControlCharacters(conferenceId))
+            conferenceData = line.split()
+            conferenceId = int(self.__removeControlCharacters(conferenceData[0]))
+            conferenceName = conferenceData[1:]
             conference = Conference(conferenceId, conferenceName)
             return conferenceId, conference
         self.__parseNodeType(conferenceLineParser, 'conference', 'conf.txt', graph, nodeIndex)
@@ -179,8 +180,14 @@ class FourAreaDataImporter(Thread):
 
 
 if __name__ == '__main__':
-    fourAreaDataImporter = FourAreaDataImporter(
+    fourAreaDataImporter = SerializedDBLPDataImporter(
         os.path.join('data','real','four_area'),
         os.path.join('graphs','fourArea')
     )
     fourAreaDataImporter.start()
+
+    dbisDataImporter = SerializedDBLPDataImporter(
+        os.path.join('data','real','dbis'),
+        os.path.join('graphs','dbis')
+    )
+    dbisDataImporter.start()
