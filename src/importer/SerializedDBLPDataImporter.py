@@ -86,7 +86,7 @@ class SerializedDBLPDataImporter(Thread):
         def conferenceLineParser(line):
             conferenceData = line.split()
             conferenceId = int(self.__removeControlCharacters(conferenceData[0]))
-            conferenceName = conferenceData[1:]
+            conferenceName = ' '.join(conferenceData[1:])
             conference = Conference(conferenceId, conferenceName)
             return conferenceId, conference
         self.__parseNodeType(conferenceLineParser, 'conference', 'conf.txt', graph, nodeIndex)
