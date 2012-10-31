@@ -1,4 +1,3 @@
-from pprint import pprint
 import unittest
 from src.graph.GraphFactory import GraphFactory
 from src.model.edge.dblp.Authorship import Authorship
@@ -58,9 +57,6 @@ class MetaPathUtilityTest(unittest.TestCase):
             for actualPath in actualPaths:
                 if expectedPath == actualPath or list(reversed(expectedPath)) == actualPath:
                     foundPath = True
-            if not foundPath:
-                pprint(expectedPaths)
-                pprint(actualPaths)
             self.assertTrue(foundPath)
 
 

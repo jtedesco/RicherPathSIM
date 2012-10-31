@@ -22,7 +22,6 @@ class GraphObject(object):
           Returns a dictionary containing all data for this object
         """
         try:
-            print self.dictionary
             return self.dictionary
         except AttributeError:
             self.dictionary = deepcopy(self.__dict__)
