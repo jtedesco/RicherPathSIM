@@ -18,8 +18,9 @@ class Experiment(threading.Thread):
         super(Experiment, self).__init__()
 
         # Load the graph from the file
-        self.graph = cPickle.load(open(inputGraphPath)) if inputGraphPath is not None else None
-        self.graph.inputPath = inputGraphPath
+        if inputGraphPath is not None:
+            self.graph = cPickle.load(open(inputGraphPath))
+            self.graph.inputPath = inputGraphPath
 
         self.outputFilePath = outputFilePath
 
