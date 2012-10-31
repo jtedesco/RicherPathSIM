@@ -1,17 +1,16 @@
+import hashlib
+import os
+import json
 
 __author__ = 'jontedesco'
+
+# TODO: Implement faster cache misses using set of existing hashes
 
 class MetaPathUtility(object):
     """
       Contains helper methods for dealing with meta paths. Note that this utility only handles meta paths that start and
       end at different nodes, and that never repeat nodes in the path (repeating meta path types is fine).
     """
-
-    # Parameter to control whether or not to try to read from cache (assume the graphs are never changed?)
-    graphsImmutable = True
-
-    # Dictionary indexed by initial arguments to __findMetaPathsHelper, containing the paths along a meta path from a node
-    __metaPathsCache = {}
 
     @staticmethod
     def findMetaPathNeighbors(graph, node, metaPath, symmetric = False, checkLoops = True):
@@ -79,13 +78,13 @@ class MetaPathUtility(object):
           do not repeat any nodes, not even the start/end node.
         """
 
-        # Prepare to use the cache if necessary
-        shouldCacheResults = len(previousNodes) == 0 and MetaPathUtility.graphsImmutable
-        cacheKey = (graph, node, tuple(metaPathTypes), symmetric)
+        # Prepare to use the cache if possible
+        shouldCacheResults = len(previousNodes) == 0 and hasattr(graph, 'inputPath')
 
-        # Pull from cache if necessary
-        if shouldCacheResults and cacheKey in MetaPathUtility.__metaPathsCache:
-            return MetaPathUtility.__metaPathsCache[cacheKey]
+        # Pull from cache if possible
+        cacheData = MetaPathUtility.__readFromCache(graph, node, metaPathTypes, symmetric)
+        if shouldCacheResults and cacheData is not None:
+            return cacheData
 
         # Find the meta paths & meta path neighbors from this node
         metaPathNeighbors = set()
@@ -123,9 +122,9 @@ class MetaPathUtility(object):
                 paths = paths.union(pathsFromThisNode)
                 metaPathNeighbors = metaPathNeighbors.union(neighborsFromThisNode)
 
-        # Store in the cache if necessary
+        # Store in the cache if possible
         if shouldCacheResults:
-            MetaPathUtility.__metaPathsCache[cacheKey] = (metaPathNeighbors, paths)
+            MetaPathUtility.__addToCache(graph, node, metaPathTypes, symmetric, metaPathNeighbors, paths)
 
         return metaPathNeighbors, paths
 
@@ -174,3 +173,69 @@ class MetaPathUtility(object):
 
         (metaPathNeighbors, paths) = MetaPathUtility.__findMetaPathsHelper(graph, startingNode, metaPath[1:], [], symmetric)
         return [list(path) for path in paths if path[-1] is endingNode]
+
+
+    @staticmethod
+    def __readFromCache(graph, node, metaPathTypes, symmetric):
+
+        # If this graph was not loaded through an experiment (where a graph does not change dynamically), do not cache!
+        if not hasattr(graph, 'inputPath'):
+            return None
+
+        strCacheKey = str((graph.inputPath, node.dictionary, [t.__name__ for t in metaPathTypes], symmetric))
+        cacheKey = hashlib.sha256(strCacheKey).hexdigest()
+
+        # Traditional cache miss case
+        if not os.path.exists(os.path.join('cache', cacheKey)):
+            print "CACHE MISS"
+            return None
+
+        # Temporary functions to use for deserialization (in ASCII, instead of unicode)
+        def __decodeList(data):
+            rv = []
+            for item in data:
+                if isinstance(item, unicode):
+                    item = item.encode('utf-8')
+                elif isinstance(item, list):
+                    item = __decodeList(item)
+                elif isinstance(item, dict):
+                    item = __decodeDict(item)
+                rv.append(item)
+            return rv
+        def __decodeDict(data):
+            rv = {}
+            for key, value in data.iteritems():
+                if isinstance(key, unicode):
+                    key = key.encode('utf-8')
+                if isinstance(value, unicode):
+                    value = value.encode('utf-8')
+                elif isinstance(value, list):
+                    value = __decodeList(value)
+                elif isinstance(value, dict):
+                    value = __decodeDict(value)
+                rv[key] = value
+            return rv
+
+        # Load serialized data from cache & locate graph objects
+        cacheData = json.load(open(os.path.join('cache', cacheKey)), object_hook=__decodeDict)
+        metaPathNeighbors = set(graph.dataMap[str(neighbor)] for neighbor in cacheData['metaPathNeighbors'])
+        paths = set(tuple(graph.dataMap[str(d)] for d in path) for path in cacheData['paths'])
+
+        return metaPathNeighbors, paths
+
+
+    @staticmethod
+    def __addToCache(graph, node, metaPathTypes, symmetric, metaPathNeighbors, paths):
+
+        # If this graph was not loaded through an experiment (where a graph does not change dynamically), do not cache!
+        if not hasattr(graph, 'inputPath'):
+            return None
+
+        strCacheKey = str((graph.inputPath, node.dictionary, [t.__name__ for t in metaPathTypes], symmetric))
+        cacheKey = hashlib.sha256(strCacheKey).hexdigest()
+        cacheData = {
+            'metaPathNeighbors': [n.toDict() for n in metaPathNeighbors],
+            'paths': [[node.toDict() for node in t] for t in paths]
+        }
+
+        json.dump(cacheData, open(os.path.join('cache', cacheKey), 'w'))
