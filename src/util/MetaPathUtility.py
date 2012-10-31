@@ -4,8 +4,6 @@ import cPickle
 
 __author__ = 'jontedesco'
 
-# TODO: Implement faster cache misses using set of existing hashes
-
 class MetaPathUtility(object):
     """
       Contains helper methods for dealing with meta paths. Note that this utility only handles meta paths that start and
