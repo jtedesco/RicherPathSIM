@@ -1,7 +1,3 @@
-import hashlib
-import os
-import cPickle
-
 __author__ = 'jontedesco'
 
 class MetaPathUtility(object):
@@ -24,7 +20,7 @@ class MetaPathUtility(object):
         assert(node.__class__ == metaPath[0])
 
         # Get the paths & neighbors, then add this node if necessary
-        (metaPathNeighbors, paths) = self._findMetaPathsHelper(graph, node, metaPath[1:], [], symmetric)
+        (metaPathNeighbors, paths) = self._findMetaPathsHelper(graph, node, metaPath[1:], symmetric = symmetric)
         if checkLoops:
             selfLoops = self.__findLoopMetaPaths(graph, node, metaPath, symmetric)
             if len(selfLoops) > 0:
@@ -71,7 +67,7 @@ class MetaPathUtility(object):
         """
 
         # Find reachable nodes on this shorter meta path
-        reachableNodes, paths = self._findMetaPathsHelper(graph, startingNode, metaPath[1:-1], [], symmetric)
+        reachableNodes, paths = self._findMetaPathsHelper(graph, startingNode, metaPath[1:-1], symmetric = symmetric)
 
         returnPaths = []
         pathsFound = set()
@@ -105,42 +101,5 @@ class MetaPathUtility(object):
           Helper function to find meta paths, given that we know the start and end nodes are not the same
         """
 
-        (metaPathNeighbors, paths) = self._findMetaPathsHelper(graph, startingNode, metaPath[1:], [], symmetric)
+        (metaPathNeighbors, paths) = self._findMetaPathsHelper(graph, startingNode, metaPath[1:], symmetric = symmetric)
         return [list(path) for path in paths if path[-1] is endingNode]
-
-
-    def _readFromCache(self, graph, node, metaPathTypes, symmetric):
-
-        # If this graph was not loaded through an experiment (where a graph does not change dynamically), do not cache!
-        if not hasattr(graph, 'inputPath'):
-            return None
-
-        strCacheKey = str((graph.inputPath, node.dictionary, [t.__name__ for t in metaPathTypes], symmetric))
-        cacheKey = hashlib.sha256(strCacheKey).hexdigest()
-
-        # Traditional cache miss case
-        if not os.path.exists(os.path.join('cache', cacheKey)):
-            return None
-
-        # Load serialized data from cache & locate graph objects
-        cacheData = cPickle.load(open(os.path.join('cache', cacheKey)))
-        metaPathNeighbors = set(graph.dataMap[str(neighbor)] for neighbor in cacheData['metaPathNeighbors'])
-        paths = set(tuple(graph.dataMap[str(d)] for d in path) for path in cacheData['paths'])
-
-        return metaPathNeighbors, paths
-
-
-    def _addToCache(self, graph, node, metaPathTypes, symmetric, metaPathNeighbors, paths):
-
-        # If this graph was not loaded through an experiment (where a graph does not change dynamically), do not cache!
-        if not hasattr(graph, 'inputPath'):
-            return None
-
-        strCacheKey = str((graph.inputPath, node.dictionary, [t.__name__ for t in metaPathTypes], symmetric))
-        cacheKey = hashlib.sha256(strCacheKey).hexdigest()
-        cacheData = {
-            'metaPathNeighbors': [n.toDict() for n in metaPathNeighbors],
-            'paths': [[node.toDict() for node in t] for t in paths]
-        }
-
-        cPickle.dump(cacheData, open(os.path.join('cache', cacheKey), 'w'))

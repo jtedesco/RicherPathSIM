@@ -7,23 +7,12 @@ class DFSMetaPathUtility(MetaPathUtility):
       Recursive implementation of meta path utility interface
     """
 
-    def _findMetaPathsHelper(self, graph, node, metaPathTypes, previousNodes, symmetric):
+    def _findMetaPathsHelper(self, graph, node, metaPathTypes, previousNodes = list(), symmetric = True):
         """
           Recursive helper function to recurse on nodes not yet visited according to types in meta path. This helper
           function cannot handle loops back to the original node, it assumes that we are only interested in paths that
           do not repeat any nodes, not even the start/end node.
         """
-
-        # Prepare to use the cache if possible
-        shouldCacheResults = len(previousNodes) == 0 and hasattr(graph, 'inputPath')
-
-        # Pull from cache if possible
-        try:
-            cacheData = self._readFromCache(graph, node, metaPathTypes, symmetric)
-            if shouldCacheResults and cacheData is not None:
-                return cacheData
-        except ValueError:
-            print "Error reading from cache..."
 
         # Find the meta paths & meta path neighbors from this node
         metaPathNeighbors = set()
@@ -60,12 +49,5 @@ class DFSMetaPathUtility(MetaPathUtility):
                 )
                 paths = paths.union(pathsFromThisNode)
                 metaPathNeighbors = metaPathNeighbors.union(neighborsFromThisNode)
-
-        # Store in the cache if possible
-        if shouldCacheResults:
-            try:
-                self._addToCache(graph, node, metaPathTypes, symmetric, metaPathNeighbors, paths)
-            except UnicodeDecodeError:
-                print "Skipping adding data to cache..."
 
         return metaPathNeighbors, paths
