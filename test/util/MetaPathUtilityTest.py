@@ -1,50 +1,15 @@
 import unittest
-from src.graph.GraphFactory import GraphFactory
-from src.model.edge.dblp.Authorship import Authorship
-from src.model.edge.dblp.Citation import Citation
-from src.model.edge.dblp.Publication import Publication
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Conference import Conference
-from src.util.MetaPathUtility import MetaPathUtility
 
 __author__ = 'jontedesco'
 
 class MetaPathUtilityTest(unittest.TestCase):
     """
-      Tests the meta path utility functions
+      Super class to test the meta path utility functions. This should not be called directly, but rather its subclasses
+      should be called.
     """
-
-    def setUp(self):
-
-        self.maxDiff = None
-
-        # Construct template graph for tests
-        graph = GraphFactory.createInstance()
-
-        # Put references to graph objects on test object
-        self.author = Author(0, 'author')
-        self.coauthor = Author(1, 'coauthor')
-        self.conference1 = Conference(0, 'conference1')
-        self.conference2 = Conference(1, 'conference2')
-        self.paper1 = Paper(0, 'paper1')
-        self.paper2 = Paper(1, 'paper2')
-        self.paper3 = Paper(2, 'paper3')
-
-        # Construct graph
-        graph.addNodes([self.author, self.conference1, self.conference2, self.paper1, self.paper2, self.paper3])
-        graph.addBothEdges(self.paper1, self.author, Authorship())
-        graph.addBothEdges(self.paper2, self.author, Authorship())
-        graph.addBothEdges(self.paper3, self.author, Authorship())
-        graph.addBothEdges(self.paper3, self.coauthor, Authorship())
-        graph.addBothEdges(self.paper1, self.conference1, Publication())
-        graph.addBothEdges(self.paper2, self.conference1, Publication())
-        graph.addBothEdges(self.paper3, self.conference2, Publication())
-        graph.addEdge(self.paper1, self.paper2, Citation())
-        graph.addBothEdges(self.paper2, self.paper3, Citation())
-
-        self.templateGraph = graph
-
 
     def assertItemsOrReverseItemsEqual(self, expectedPaths, actualPaths):
         """
@@ -68,14 +33,14 @@ class MetaPathUtilityTest(unittest.TestCase):
         # Test case with many neighbors
         self.assertEquals({
             self.conference1, self.conference2
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.author, [Author, Paper, Conference]
         ))
 
         # Test case with only one neighbor
         self.assertEquals({
             self.author
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.conference1, [Conference, Paper, Author]
         ))
 
@@ -92,14 +57,14 @@ class MetaPathUtilityTest(unittest.TestCase):
         self.assertItemsOrReverseItemsEqual([
             [self.author, self.paper1, self.conference1],
             [self.author, self.paper2, self.conference1]
-        ], MetaPathUtility.findMetaPaths(
+        ], self.metaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.conference1, metaPath
         ))
 
         # Test case with only one path
         self.assertItemsOrReverseItemsEqual([
             [self.author, self.paper3, self.conference2]
-        ], MetaPathUtility.findMetaPaths(
+        ], self.metaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.conference2, metaPath
         ))
 
@@ -112,14 +77,14 @@ class MetaPathUtilityTest(unittest.TestCase):
         # Test case with many neighbors
         self.assertEquals({
             self.paper1, self.paper2, self.paper3
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.author, [Author, Paper]
         ))
 
         # Test case with only one neighbor
         self.assertEquals({
             self.author
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.paper1, [Paper, Author]
         ))
 
@@ -133,7 +98,7 @@ class MetaPathUtilityTest(unittest.TestCase):
 
         self.assertEquals([
             [self.author, self.paper1]
-        ], MetaPathUtility.findMetaPaths(
+        ], self.metaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.paper1, metaPath
         ))
 
@@ -146,31 +111,31 @@ class MetaPathUtilityTest(unittest.TestCase):
         # Co-authorship
         self.assertEquals({
             self.coauthor, self.author
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.author, [Author, Paper, Author]
         ))
         self.assertEquals({
             self.author, self.coauthor
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.coauthor, [Author, Paper, Author]
         ))
 
         # Author citation (asymmetric)
         self.assertEquals({
             self.author, self.coauthor
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.author, [Author, Paper, Paper, Author]
         ))
         self.assertEquals({
             self.author
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.coauthor, [Author, Paper, Paper, Author]
         ))
 
         # Self-citation (asymmetric)
         self.assertEquals({
             self.paper2, self.paper3,
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.author, [Author, Paper, Paper]
         ))
 
@@ -183,14 +148,14 @@ class MetaPathUtilityTest(unittest.TestCase):
         # Co-authorship
         self.assertEquals([
             [self.author, self.paper3, self.coauthor]
-        ], MetaPathUtility.findMetaPaths(
+        ], self.metaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.coauthor, [Author, Paper, Author]
         ))
 
         # Author citation
         self.assertEquals([
             [self.author, self.paper2, self.paper3, self.coauthor]
-        ], MetaPathUtility.findMetaPaths(
+        ], self.metaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.coauthor, [Author, Paper, Paper, Author]
         ))
 
@@ -198,7 +163,7 @@ class MetaPathUtilityTest(unittest.TestCase):
         self.assertItemsOrReverseItemsEqual([
             [self.author, self.paper1, self.paper2],
             [self.author, self.paper3, self.paper2]
-        ], MetaPathUtility.findMetaPaths(
+        ], self.metaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.paper2, [Author, Paper, Paper]
         ))
 
@@ -215,7 +180,7 @@ class MetaPathUtilityTest(unittest.TestCase):
         # Citation
         self.assertEquals({
             self.paper3
-        }, MetaPathUtility.findMetaPathNeighbors(
+        }, self.metaPathUtility.findMetaPathNeighbors(
             self.templateGraph, self.author, [Author, Paper, Paper], True
         ))
 
@@ -229,7 +194,7 @@ class MetaPathUtilityTest(unittest.TestCase):
         # Co-authorship
         self.assertEquals([
             [self.author, self.paper3, self.coauthor]
-        ], MetaPathUtility.findMetaPaths(self.templateGraph, self.author,
+        ], self.metaPathUtility.findMetaPaths(self.templateGraph, self.author,
             self.coauthor, [Author, Paper, Author], True
         ))
 
@@ -241,7 +206,7 @@ class MetaPathUtilityTest(unittest.TestCase):
 
         self.assertEquals(
             [Author, Paper, Author],
-            MetaPathUtility.expandPartialMetaPath([Author, Paper])
+            self.metaPathUtility.expandPartialMetaPath([Author, Paper])
         )
 
 
@@ -252,7 +217,7 @@ class MetaPathUtilityTest(unittest.TestCase):
 
         self.assertEquals(
             [Author, Paper, Paper, Author],
-            MetaPathUtility.expandPartialMetaPath([Author, Paper], True)
+            self.metaPathUtility.expandPartialMetaPath([Author, Paper], True)
         )
 
 
@@ -268,7 +233,7 @@ class MetaPathUtilityTest(unittest.TestCase):
             [self.author, self.paper2, self.paper1, self.author],
             [self.author, self.paper2, self.paper3, self.author]
         ]
-        actualPaths = MetaPathUtility.findMetaPaths(
+        actualPaths = self.metaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.author, [Author, Paper, Paper, Author]
         )
         self.assertItemsOrReverseItemsEqual(expectedPaths, actualPaths)
@@ -278,7 +243,7 @@ class MetaPathUtilityTest(unittest.TestCase):
             [self.author, self.paper1, self.conference1, self.paper2, self.author],
             [self.author, self.paper2, self.conference1, self.paper1, self.author]
         ]
-        actualPaths = MetaPathUtility.findMetaPaths(
+        actualPaths = self.metaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.author, [Author, Paper, Conference, Paper, Author]
         )
         self.assertItemsOrReverseItemsEqual(expectedPaths, actualPaths)
@@ -294,7 +259,7 @@ class MetaPathUtilityTest(unittest.TestCase):
             [self.author, self.paper3, self.paper2, self.author],
             [self.author, self.paper2, self.paper3, self.author]
         ]
-        actualPaths = MetaPathUtility.findMetaPaths(
+        actualPaths = self.metaPathUtility.findMetaPaths(
             self.templateGraph, self.author, self.author, [Author, Paper, Paper, Author], True
         )
         self.assertItemsOrReverseItemsEqual(expectedPaths, actualPaths)

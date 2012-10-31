@@ -6,7 +6,8 @@ from test.importers.FourAreaDataImporterTest import FourAreaDataImporterTest
 from test.model.GraphObjectFactoryTest import GraphObjectFactoryTest
 from test.similarity.heterogeneous.PathSimStrategyTest import PathSimStrategyTest
 from test.similarity.homogeneous.PageRankStrategyTest import PageRankStrategyTest
-from test.util.MetaPathUtilityTest import MetaPathUtilityTest
+from test.util.BFSMetaPathUtilityTest import BFSMetaPathUtilityTest
+from test.util.DFSMetaPathUtilityTest import DFSMetaPathUtilityTest
 from test.util.SampleGraphUtilityTest import SampleGraphUtilityTest
 
 __author__ = 'jontedesco'
@@ -30,6 +31,7 @@ if __name__ == '__main__':
     unittest.TextTestRunner().run(strategyTestSuite)
 
     # Utility tests
-    utilityTestSuite = unittest.TestLoader().loadTestsFromTestCase(MetaPathUtilityTest)
+    utilityTestSuite = unittest.TestLoader().loadTestsFromTestCase(DFSMetaPathUtilityTest)
+    utilityTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(BFSMetaPathUtilityTest))
     utilityTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(SampleGraphUtilityTest))
     unittest.TextTestRunner().run(utilityTestSuite)
