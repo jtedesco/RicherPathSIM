@@ -1,6 +1,6 @@
 import hashlib
 import os
-import json
+import cPickle
 
 __author__ = 'jontedesco'
 
@@ -82,9 +82,12 @@ class MetaPathUtility(object):
         shouldCacheResults = len(previousNodes) == 0 and hasattr(graph, 'inputPath')
 
         # Pull from cache if possible
-        cacheData = MetaPathUtility.__readFromCache(graph, node, metaPathTypes, symmetric)
-        if shouldCacheResults and cacheData is not None:
-            return cacheData
+        try:
+            cacheData = MetaPathUtility.__readFromCache(graph, node, metaPathTypes, symmetric)
+            if shouldCacheResults and cacheData is not None:
+                return cacheData
+        except ValueError:
+            print "Error reading from cache..."
 
         # Find the meta paths & meta path neighbors from this node
         metaPathNeighbors = set()
@@ -124,7 +127,10 @@ class MetaPathUtility(object):
 
         # Store in the cache if possible
         if shouldCacheResults:
-            MetaPathUtility.__addToCache(graph, node, metaPathTypes, symmetric, metaPathNeighbors, paths)
+            try:
+                MetaPathUtility.__addToCache(graph, node, metaPathTypes, symmetric, metaPathNeighbors, paths)
+            except UnicodeDecodeError:
+                print "Skipping adding data to cache..."
 
         return metaPathNeighbors, paths
 
@@ -187,37 +193,10 @@ class MetaPathUtility(object):
 
         # Traditional cache miss case
         if not os.path.exists(os.path.join('cache', cacheKey)):
-            print "CACHE MISS"
             return None
 
-        # Temporary functions to use for deserialization (in ASCII, instead of unicode)
-        def __decodeList(data):
-            rv = []
-            for item in data:
-                if isinstance(item, unicode):
-                    item = item.encode('utf-8')
-                elif isinstance(item, list):
-                    item = __decodeList(item)
-                elif isinstance(item, dict):
-                    item = __decodeDict(item)
-                rv.append(item)
-            return rv
-        def __decodeDict(data):
-            rv = {}
-            for key, value in data.iteritems():
-                if isinstance(key, unicode):
-                    key = key.encode('utf-8')
-                if isinstance(value, unicode):
-                    value = value.encode('utf-8')
-                elif isinstance(value, list):
-                    value = __decodeList(value)
-                elif isinstance(value, dict):
-                    value = __decodeDict(value)
-                rv[key] = value
-            return rv
-
         # Load serialized data from cache & locate graph objects
-        cacheData = json.load(open(os.path.join('cache', cacheKey)), object_hook=__decodeDict)
+        cacheData = cPickle.load(open(os.path.join('cache', cacheKey)))
         metaPathNeighbors = set(graph.dataMap[str(neighbor)] for neighbor in cacheData['metaPathNeighbors'])
         paths = set(tuple(graph.dataMap[str(d)] for d in path) for path in cacheData['paths'])
 
@@ -238,4 +217,4 @@ class MetaPathUtility(object):
             'paths': [[node.toDict() for node in t] for t in paths]
         }
 
-        json.dump(cacheData, open(os.path.join('cache', cacheKey), 'w'))
+        cPickle.dump(cacheData, open(os.path.join('cache', cacheKey), 'w'))
