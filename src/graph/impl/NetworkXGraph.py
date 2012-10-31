@@ -12,11 +12,13 @@ class NetworkXGraph(Graph):
         """
           Construct the new graph instance
         """
+        super(NetworkXGraph, self).__init__()
 
         self.graph = networkx.DiGraph()
 
         # Used for caching result to expensive queries
         self.queryCache = {}
+
 
     def addEdge(self, source, destination, attribute = None):
         attributeDictionary = None if attribute is None else attribute.toDict()
@@ -24,6 +26,7 @@ class NetworkXGraph(Graph):
 
     def addNode(self, node, attribute = None):
         attributeDictionary = None if attribute is None else attribute.toDict()
+        self.dataMap[str(node.toDict())] = node
         self.graph.add_node(node, attr_dict = attributeDictionary)
 
     def getEdges(self):

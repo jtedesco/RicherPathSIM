@@ -5,6 +5,12 @@ class Graph(object):
       Abstract interface for interacting with a graph instance (directed graph)
     """
 
+    def __init__(self):
+
+        # Used to map dictionary data values to node instances (so we can cache complex queries effectively)
+        self.dataMap = {}
+
+
     def addNode(self, node):
         """
           Add a node to this graph
