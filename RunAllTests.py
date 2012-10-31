@@ -1,7 +1,9 @@
 import unittest
 from test.importers.ArnetMinerDataImporterTest import ArnetMinerDataImporterTest
 from test.importers.CoMoToDataImporterTest import CoMoToDataImporterTest
+from test.importers.DBISDataImporterTest import DBISDataImporterTest
 from test.importers.FourAreaDataImporterTest import FourAreaDataImporterTest
+from test.model.GraphObjectFactoryTest import GraphObjectFactoryTest
 from test.similarity.heterogeneous.PathSimStrategyTest import PathSimStrategyTest
 from test.similarity.homogeneous.PageRankStrategyTest import PageRankStrategyTest
 from test.util.MetaPathUtilityTest import MetaPathUtilityTest
@@ -14,15 +16,20 @@ if __name__ == '__main__':
     # Data importer tests
     importerTestSuite = unittest.TestLoader().loadTestsFromTestCase(CoMoToDataImporterTest)
     importerTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(ArnetMinerDataImporterTest))
+    importerTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(DBISDataImporterTest))
     importerTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(FourAreaDataImporterTest))
-    unittest.TextTestRunner(verbosity=2).run(importerTestSuite)
+    unittest.TextTestRunner().run(importerTestSuite)
 
-    # Utility tests
-    utilityTestSuite = unittest.TestLoader().loadTestsFromTestCase(MetaPathUtilityTest)
-    utilityTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(SampleGraphUtilityTest))
-    unittest.TextTestRunner(verbosity=2).run(utilityTestSuite)
+    # Model tests
+    utilityTestSuite = unittest.TestLoader().loadTestsFromTestCase(GraphObjectFactoryTest)
+    unittest.TextTestRunner().run(utilityTestSuite)
 
     # Strategy tests
     strategyTestSuite = unittest.TestLoader().loadTestsFromTestCase(PageRankStrategyTest)
     strategyTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(PathSimStrategyTest))
-    unittest.TextTestRunner(verbosity=2).run(strategyTestSuite)
+    unittest.TextTestRunner().run(strategyTestSuite)
+
+    # Utility tests
+    utilityTestSuite = unittest.TestLoader().loadTestsFromTestCase(MetaPathUtilityTest)
+    utilityTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(SampleGraphUtilityTest))
+    unittest.TextTestRunner().run(utilityTestSuite)
