@@ -1,6 +1,6 @@
 import operator
 from src.similarity.SimilarityStrategy import SimilarityStrategy
-from src.util.MetaPathUtility import MetaPathUtility
+from src.util.BFSMetaPathUtility import BFSMetaPathUtility
 
 __author__ = 'jontedesco'
 
@@ -28,6 +28,8 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
         self.metaPath = metaPath
         self.symmetric = symmetric
 
+        self.metaPathUtility = BFSMetaPathUtility()
+
 
     def findMostSimilarNodes(self, source, number=None):
         """
@@ -40,7 +42,7 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
             number = self.n
 
         # Get similarity scores for all entries
-        reachableNodes = MetaPathUtility.findMetaPathNeighbors(self.graph, source, self.metaPath)
+        reachableNodes = self.metaPathUtility.findMetaPathNeighbors(self.graph, source, self.metaPath)
         for reachableNode in reachableNodes:
             self.findSimilarityScore(source, reachableNode)
 

@@ -1,5 +1,4 @@
 from src.similarity.MetaPathSimilarityStrategy import MetaPathSimilarityStrategy
-from src.util.MetaPathUtility import MetaPathUtility
 
 __author__ = 'jontedesco'
 
@@ -20,16 +19,16 @@ class PathSimStrategy(MetaPathSimilarityStrategy):
             return self.getFromCache(source, destination)
 
         # Get the meta paths between the source and destination
-        numSourceDestinationPaths = len(MetaPathUtility.findMetaPaths(self.graph, source, destination, self.metaPath, True))
+        numSourceDestinationPaths = len(self.metaPathUtility.findMetaPaths(self.graph, source, destination, self.metaPath, True))
 
         # Get cycle counts
         partialMetaPath = self.metaPath[:len(self.metaPath)/2 + len(self.metaPath) % 2]
-        sourceNeighbors = MetaPathUtility.findMetaPathNeighbors(self.graph, source, partialMetaPath, True)
-        destinationNeighbors = MetaPathUtility.findMetaPathNeighbors(self.graph, source, partialMetaPath, True)
+        sourceNeighbors = self.metaPathUtility.findMetaPathNeighbors(self.graph, source, partialMetaPath, True)
+        destinationNeighbors = self.metaPathUtility.findMetaPathNeighbors(self.graph, source, partialMetaPath, True)
         numSourceDestinationCycles = 0
         for node, neighbors in [(source, sourceNeighbors), (destination, destinationNeighbors)]:
             for neighbor in neighbors:
-                paths = MetaPathUtility.findMetaPaths(self.graph, node, neighbor, partialMetaPath, True)
+                paths = self.metaPathUtility.findMetaPaths(self.graph, node, neighbor, partialMetaPath, True)
                 numSourceDestinationCycles += len(paths) ** 2
 
         # Compute the PathSim similarity scores of the two nodes

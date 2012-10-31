@@ -15,7 +15,7 @@ class BFSMetaPathUtility(MetaPathUtility):
         """
 
         # Prepare to use the cache if possible
-        shouldCacheResults = len(previousNodes) == 0 and hasattr(graph, 'inputPath')
+        shouldCacheResults = hasattr(graph, 'inputPath')
 
         # Pull from cache if possible
         try:

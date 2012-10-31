@@ -4,7 +4,6 @@ from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
-from src.util.MetaPathUtility import MetaPathUtility
 from src.util.SampleGraphUtility import SampleGraphUtility
 
 __author__ = 'jontedesco'
@@ -40,7 +39,7 @@ class PathSimPaperExamplesExperiment(Experiment):
         for author in authors:
             row = [author.name]
             for conference in conferences:
-                metaPaths = MetaPathUtility.findMetaPaths(self.graph, author, conference, [Author, Paper, Conference])
+                metaPaths = self.metaPathUtility.findMetaPaths(self.graph, author, conference, [Author, Paper, Conference])
                 row.append(len(metaPaths))
             rows.append(row)
         adjMatrixTable.add_rows(rows)
