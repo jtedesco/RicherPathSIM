@@ -69,4 +69,3 @@ class DFSMetaPathUtility(MetaPathUtility):
                 print "Skipping adding data to cache..."
 
         return metaPathNeighbors, paths
-
