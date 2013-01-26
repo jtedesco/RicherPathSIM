@@ -2,6 +2,7 @@ import logging
 import threading
 import cPickle
 from src.logger.ColoredLogger import ColoredLogger
+from src.util.MetaPathUtility import MetaPathUtility
 
 __author__ = 'jontedesco'
 
@@ -23,6 +24,7 @@ class Experiment(threading.Thread):
             self.graph.inputPath = inputGraphPath
 
         self.outputFilePath = outputFilePath
+        self.metaPathUtility = MetaPathUtility()
 
         logging.setLoggerClass(ColoredLogger)
         self.logger = logging.getLogger(experimentTitle)
