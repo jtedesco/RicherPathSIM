@@ -1,3 +1,5 @@
+from src.graph.GraphFactory import GraphFactory
+
 __author__ = 'jontedesco'
 
 class MetaPathUtility(object):
@@ -59,6 +61,31 @@ class MetaPathUtility(object):
         modifiedMetaPath = metaPath + reversedMetaPath
 
         return modifiedMetaPath
+
+
+    def createHomogeneousProjection(self, graph, metaPath):
+        """
+          Create a homogeneous graph projection of some symmetric meta path
+        """
+
+        # Check that the endpoints are of the correct types
+        assert(metaPath[0] == metaPath[-1])
+
+        newGraph = GraphFactory.createInstance()
+
+        # Get the nodes of the homogeneous graph
+        def f(x): isinstance(x, metaPath[0])
+        newGraph.addNodes(filter(f, graph.getNodes()))
+
+        # Add the edges for this graph
+        for node in newGraph.getNodes():
+            neighbors = self.findMetaPathNeighbors(graph, node, metaPath)
+            for neighbor in neighbors:
+                numPaths = len(self.findMetaPaths(graph, node, neighbor, metaPath))
+                for i in xrange(0, numPaths):
+                    newGraph.addEdge(node, neighbor)
+
+        return newGraph
 
 
     def __findLoopMetaPaths(self, graph, startingNode, metaPath, symmetric):
