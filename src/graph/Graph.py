@@ -163,3 +163,9 @@ class Graph(object):
         for (node, metaPathTypes, symmetric) in queries:
             neighbors, paths = metaPathHelper._findMetaPathsHelper(self, node, metaPathTypes, symmetric)
             self.cache[(node, tuple(metaPathTypes), symmetric)] = paths
+
+    def cloneEmpty(self):
+        """
+          Creates an empty copy of this graph and returns it (new graph of same implementation
+        """
+        raise NotImplementedError()

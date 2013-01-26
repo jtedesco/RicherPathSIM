@@ -16,10 +16,6 @@ class NetworkXGraph(Graph):
 
         self.graph = networkx.DiGraph()
 
-        # Used for caching result to expensive queries
-        self.queryCache = {}
-
-
     def addEdge(self, source, destination, attribute = None):
         attributeDictionary = None if attribute is None else attribute.toDict()
         self.graph.add_edge(source, destination, attr_dict = attributeDictionary)
@@ -63,3 +59,5 @@ class NetworkXGraph(Graph):
     def pageRank(self):
         return networkx.pagerank_numpy(self.graph)
 
+    def cloneEmpty(self):
+        return NetworkXGraph()
