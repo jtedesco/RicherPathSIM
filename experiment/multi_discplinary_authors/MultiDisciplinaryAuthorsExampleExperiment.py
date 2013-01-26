@@ -1,4 +1,3 @@
-from src.util.BFSMetaPathUtility import BFSMetaPathUtility
 from src.util.DFSMetaPathUtility import DFSMetaPathUtility
 
 __author__ = 'jontedesco'
