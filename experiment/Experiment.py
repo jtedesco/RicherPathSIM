@@ -24,7 +24,6 @@ class Experiment(threading.Thread):
             self.graph.inputPath = inputGraphPath
 
         self.outputFilePath = outputFilePath
-        self.metaPathUtility = MetaPathUtility()
 
         logging.setLoggerClass(ColoredLogger)
         self.logger = logging.getLogger(experimentTitle)
