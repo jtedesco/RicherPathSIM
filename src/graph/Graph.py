@@ -1,3 +1,5 @@
+from src.util.BFSMetaPathUtility import BFSMetaPathUtility
+
 __author__ = 'jontedesco'
 
 class Graph(object):
@@ -7,8 +9,8 @@ class Graph(object):
 
     def __init__(self):
 
-        # Used to map dictionary data values to node instances (so we can cache complex queries effectively)
-        self.dataMap = {}
+        # Used to map meta path query tuples to the paths along the meta path
+        self.cache = {}
 
 
     def addNode(self, node):
@@ -146,3 +148,18 @@ class Graph(object):
           Computes and returns PageRank scores for the this graph
         """
         raise NotImplementedError()
+
+
+    def computeMetaPathQueries(self, queries):
+        """
+          Compute the paths corresponding to the given meta path for a particular node
+
+            @param queries  List of tuples of node, meta path types, and symmetric flags, encoding queries to the meta
+                            path helper functions in MetaPathUtility subclasses
+        """
+
+        metaPathHelper = BFSMetaPathUtility()
+
+        for (node, metaPathTypes, symmetric) in queries:
+            neighbors, paths = metaPathHelper._findMetaPathsHelper(self, node, metaPathTypes, symmetric)
+            self.cache[(node, tuple(metaPathTypes), symmetric)] = paths
