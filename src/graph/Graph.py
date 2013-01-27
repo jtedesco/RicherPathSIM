@@ -110,7 +110,7 @@ class Graph(object):
         successors = self.getSuccessors(node)
         for successor in successors:
             if isinstance(successor, type):
-                successorsOfType.add(node)
+                successorsOfType.add(successor)
 
         return successorsOfType
 
