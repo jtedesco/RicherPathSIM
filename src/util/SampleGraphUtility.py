@@ -80,6 +80,8 @@ class SampleGraphUtility(object):
             Construct example DBLP graph where two authors are multi disciplinary, and no one else
         """
 
+        # TODO: Change graph structure to be simple digraph, not mult-edge digraph (invalid for meta path definition)
+
         graph = GraphFactory.createInstance()
         authorMap = {}
         conferenceMap = {}
