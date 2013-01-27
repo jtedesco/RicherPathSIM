@@ -1,5 +1,3 @@
-from src.graph.GraphFactory import GraphFactory
-
 __author__ = 'jontedesco'
 
 class MetaPathUtility(object):
@@ -71,11 +69,12 @@ class MetaPathUtility(object):
         # Check that the endpoints are of the correct types
         assert(metaPath[0] == metaPath[-1])
 
-        newGraph = GraphFactory.createInstance()
+        newGraph = graph.cloneEmpty()
 
         # Get the nodes of the homogeneous graph
-        def f(x): isinstance(x, metaPath[0])
-        newGraph.addNodes(filter(f, graph.getNodes()))
+        for node in graph.getNodes():
+            if isinstance(node, metaPath[0]):
+                newGraph.addNode(node)
 
         # Add the edges for this graph
         for node in newGraph.getNodes():

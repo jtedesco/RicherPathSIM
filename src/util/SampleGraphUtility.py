@@ -143,7 +143,7 @@ class SampleGraphUtility(object):
                     # Loop through papers of all other authors (4 per area)
                     for otherAuthorName in authorNames:
                         if authorName != otherAuthorName:
-                            for citingPaper in paperMap[prefix+authorName]:
+                            for citingPaper in paperMap[prefix+otherAuthorName]:
                                 for j in xrange(0, (citationCounts[authorName] / (2*len(authorNames)-2))):
                                     graph.addEdge(citingPaper, citedPaper, Citation())
                                     totalCitationCount[authorName] += 1

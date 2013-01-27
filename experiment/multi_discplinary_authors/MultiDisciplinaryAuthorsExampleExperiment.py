@@ -1,3 +1,4 @@
+from src.util.BFSMetaPathUtility import BFSMetaPathUtility
 from src.util.DFSMetaPathUtility import DFSMetaPathUtility
 
 __author__ = 'jontedesco'
@@ -34,12 +35,35 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
             authorMap['H'],
             authorMap['I'],
         ]
-        self.metaPathUtility = DFSMetaPathUtility()
+        self.metaPathUtility = BFSMetaPathUtility()
+
+        # Build homogeneous projection of network (authors, with edges for times authors cite each other)
+        paper1, paper2 = self.graph.getSuccessorsOfType(authorMap['A'], Paper)
+        projectedGraph = self.metaPathUtility.createHomogeneousProjection(self.graph, [Author, Paper, Paper, Author])
+        authorCitationCounts = {}
+        for author in projectedGraph.getNodes():
+            authorCitationCounts[author] = {}
+            for otherAuthor in projectedGraph.getNodes():
+                authorCitationCounts[author][otherAuthor] = 0
+        for citing, cited in projectedGraph.getEdges():
+            authorCitationCounts[citing][cited] += 1
+
+        # Output the adjacency matrix for authors & conferences in the graph
+        self.output('\nCitation Matrix:')
+        adjMatrixTable = texttable.Texttable()
+        rows = [['Author'] + [author.name for author in authors]]
+        for author in authors:
+            row = [author.name]
+            for otherAuthor in authors:
+                row.append(authorCitationCounts[author][otherAuthor])
+            rows.append(row)
+        adjMatrixTable.add_rows(rows)
+        self.output(adjMatrixTable.draw())
 
         # Output the adjacency matrix for authors & conferences in the graph
         self.output('\nAdjacency Matrix:')
         adjMatrixTable = texttable.Texttable()
-        rows = [['Author'] + [conference.name for conference in conferences]]
+        rows = [[''] + [conference.name for conference in conferences]]
         for author in authors:
             row = [author.name]
             for conference in conferences:
