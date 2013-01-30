@@ -142,7 +142,7 @@ class Graph(object):
         raise NotImplementedError()
 
 
-    def pageRank(self):
+    def pageRank(self, alpha=0.85, personalization=None):
         """
           Computes and returns PageRank scores for the this graph
         """

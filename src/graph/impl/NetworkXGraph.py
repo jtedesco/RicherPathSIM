@@ -59,8 +59,8 @@ class NetworkXGraph(Graph):
         newGraph.graph = networkx.bfs_tree(self.graph, source)
         return newGraph
 
-    def pageRank(self):
-        return networkx.pagerank_numpy(self.graph)
+    def pageRank(self, alpha=0.85, personalization=None):
+        return networkx.pagerank_numpy(self.graph, alpha, personalization)
 
     def cloneEmpty(self):
         return NetworkXGraph()
