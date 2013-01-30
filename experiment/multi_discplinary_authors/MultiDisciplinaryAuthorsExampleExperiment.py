@@ -37,7 +37,6 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         self.metaPathUtility = EdgeBasedMetaPathUtility()
 
         # Build homogeneous projection of network (authors, with edges for times authors cite each other)
-#        paper1, paper2 = self.graph.getSuccessorsOfType(authorMap['A'], Paper)
         projectedGraph = self.metaPathUtility.createHomogeneousProjection(self.graph, [Author, Paper, Paper, Author])
         authorCitationCounts = {}
         for author in projectedGraph.getNodes():
