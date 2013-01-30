@@ -35,7 +35,7 @@ class SimilarityStrategy(object):
           Find the similarity scores between a source and a list of destination, and normalize these scores by the
           maximum score for any destination
         """
-        return list(self.findSimilarityScore(source, destination) for destination in destinations)
+        return [self.findSimilarityScore(source, destination) for destination in destinations]
 
 
     def getFromCache(self, source, destination):
