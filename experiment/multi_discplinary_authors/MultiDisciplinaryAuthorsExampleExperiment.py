@@ -76,7 +76,6 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         citationCountTable.add_rows(rows)
         self.output(citationCountTable.draw())
 
-
         # Output the PathSim similarity scores
         strategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
         self.output('\nPathsim Scores (compared to D):')
