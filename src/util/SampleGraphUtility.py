@@ -1,5 +1,3 @@
-import math
-from pprint import pprint
 from src.graph.GraphFactory import GraphFactory
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Citation import Citation
@@ -79,8 +77,6 @@ class SampleGraphUtility(object):
         """
             Construct example DBLP graph where two authors are multi disciplinary, and no one else
         """
-
-        # TODO: Change graph structure to be simple digraph, not mult-edge digraph (invalid for meta path definition)
 
         graph = GraphFactory.createInstance()
         authorMap = {}
