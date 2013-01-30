@@ -60,11 +60,11 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         self.output('\nAdjacency Matrix:')
         adjMatrixTable = texttable.Texttable()
         rows = [[''] + [conference.name for conference in conferences]]
+        projectedGraph = self.metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference])
         for author in authors:
             row = [author.name]
             for conference in conferences:
-                metaPaths = self.metaPathUtility.findMetaPaths(self.graph, author, conference, [Author, Paper, Conference])
-                row.append(len(metaPaths))
+                row.append(projectedGraph.getNumberOfEdges(author, conference))
             rows.append(row)
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())

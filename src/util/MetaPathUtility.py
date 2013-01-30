@@ -63,23 +63,42 @@ class MetaPathUtility(object):
 
     def createHomogeneousProjection(self, graph, metaPath):
         """
-          Create a homogeneous graph projection of some symmetric meta path
+          Create a homogeneous graph projection of some meta path
         """
 
         # Check that the endpoints are of the correct types
         assert(metaPath[0] == metaPath[-1])
+        return self.__projectionHelper(graph, metaPath)
+
+
+    def createHeterogeneousProjection(self, graph, metaPath):
+        """
+          Create a homogeneous graph projection of some meta path
+        """
+
+        # Check that the endpoints are of the correct types
+        assert(metaPath[0] != metaPath[-1])
+        return self.__projectionHelper(graph, metaPath, True)
+
+
+    def __projectionHelper(self, graph, metaPath, heterogeneous = False):
+        """
+          Helper method to assist in
+        """
 
         newGraph = graph.cloneEmpty()
 
         # Get the nodes of the homogeneous graph
         for node in graph.getNodes():
-            if isinstance(node, metaPath[0]):
+            if isinstance(node, metaPath[0]) or (heterogeneous and isinstance(node, metaPath[-1])):
                 newGraph.addNode(node)
 
         # Add the edges for this graph
         for node in newGraph.getNodes():
+            if not isinstance(node, metaPath[0]): continue
             neighbors = self.findMetaPathNeighbors(graph, node, metaPath)
             for neighbor in neighbors:
+                if not isinstance(neighbor, metaPath[-1]): continue
                 numPaths = len(self.findMetaPaths(graph, node, neighbor, metaPath))
                 for i in xrange(0, numPaths):
                     newGraph.addEdge(node, neighbor)
