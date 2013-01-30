@@ -14,7 +14,7 @@ class NetworkXGraph(Graph):
         """
         super(NetworkXGraph, self).__init__()
 
-        self.graph = networkx.DiGraph()
+        self.graph = networkx.MultiDiGraph()
 
     def addEdge(self, source, destination, attribute = None):
         attributeDictionary = None if attribute is None else attribute.toDict()
