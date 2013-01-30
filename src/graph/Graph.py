@@ -148,6 +148,11 @@ class Graph(object):
         """
         raise NotImplementedError()
 
+    def subGraph(self, nodes):
+        """
+          Builds a subgraph of this graph given a set of nodes
+        """
+        raise NotImplementedError()
 
     def cloneEmpty(self):
         """

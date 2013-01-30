@@ -62,5 +62,10 @@ class NetworkXGraph(Graph):
     def pageRank(self, alpha=0.85, personalization=None):
         return networkx.pagerank_numpy(self.graph, alpha, personalization)
 
+    def subGraph(self, nodes):
+        newGraph = NetworkXGraph()
+        newGraph.graph = self.graph.subgraph(nodes)
+        return newGraph
+
     def cloneEmpty(self):
         return NetworkXGraph()
