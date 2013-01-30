@@ -45,6 +45,9 @@ class NetworkXGraph(Graph):
     def getEdgeData(self, source, destination):
         return self.graph.get_edge_data(source, destination)
 
+    def getNumberOfEdges(self, source, destination):
+        return self.graph.number_of_edges(source, destination)
+
     def getSuccessors(self, node):
         return self.graph.successors(node)
 

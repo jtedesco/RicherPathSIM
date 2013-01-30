@@ -73,6 +73,13 @@ class Graph(object):
         raise NotImplementedError()
 
 
+    def getNumberOfEdges(self, source, destination):
+        """
+          Get the number of edges between the given pair of nodes
+        """
+        raise NotImplementedError()
+
+
     def getPredecessors(self, node):
         """
           Get nodes preceding a node
