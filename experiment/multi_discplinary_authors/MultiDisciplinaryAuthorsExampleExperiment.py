@@ -1,5 +1,4 @@
-from src.util.BFSMetaPathUtility import BFSMetaPathUtility
-from src.util.DFSMetaPathUtility import DFSMetaPathUtility
+from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 
 __author__ = 'jontedesco'
 
@@ -35,7 +34,7 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
             authorMap['H'],
             authorMap['I'],
         ]
-        self.metaPathUtility = BFSMetaPathUtility()
+        self.metaPathUtility = EdgeBasedMetaPathUtility()
 
         # Build homogeneous projection of network (authors, with edges for times authors cite each other)
 #        paper1, paper2 = self.graph.getSuccessorsOfType(authorMap['A'], Paper)
@@ -44,9 +43,7 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         for author in projectedGraph.getNodes():
             authorCitationCounts[author] = {}
             for otherAuthor in projectedGraph.getNodes():
-                authorCitationCounts[author][otherAuthor] = 0
-        for citing, cited in projectedGraph.getEdges():
-            authorCitationCounts[citing][cited] += 1
+                authorCitationCounts[author][otherAuthor] = projectedGraph.getNumberOfEdges(author, otherAuthor)
 
         # Output the adjacency matrix for authors & conferences in the graph
         self.output('\nCitation Matrix:')
