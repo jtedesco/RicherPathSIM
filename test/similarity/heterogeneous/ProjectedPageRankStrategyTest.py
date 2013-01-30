@@ -2,12 +2,12 @@ import unittest
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Conference import Conference
-from src.similarity.heterogeneous.ProjectedPageRankDistanceStrategy import ProjectedPageRankDistanceStrategy
+from src.similarity.heterogeneous.ProjectedPageRankStrategy import ProjectedPageRankStrategy
 from src.util.SampleGraphUtility import SampleGraphUtility
 
 __author__ = 'jontedesco'
 
-class ProjectedPageRankDistanceStrategyTest(unittest.TestCase):
+class ProjectedPageRankStrategyTest(unittest.TestCase):
     """
       Tests the PathSim similarity strategy
     """
@@ -19,7 +19,7 @@ class ProjectedPageRankDistanceStrategyTest(unittest.TestCase):
 
         graph, authorMap, conferenceMap  = SampleGraphUtility.constructPathSimExampleThree()
         metaPath = [Author, Paper, Conference, Paper, Author]
-        strategy = ProjectedPageRankDistanceStrategy(graph, metaPath)
+        strategy = ProjectedPageRankStrategy(graph, metaPath)
 
         mike = authorMap['Mike']
         jimScore, maryScore, bobScore, annScore = strategy.findSimilarityScores(
@@ -36,7 +36,7 @@ class ProjectedPageRankDistanceStrategyTest(unittest.TestCase):
 
         graph, authorMap, conferenceMap  = SampleGraphUtility.constructPathSimExampleThree()
         metaPath = [Author, Paper, Conference, Paper, Author]
-        strategy = ProjectedPageRankDistanceStrategy(graph, metaPath)
+        strategy = ProjectedPageRankStrategy(graph, metaPath)
 
         mike = authorMap['Mike']
         mostSimilarNodes = strategy.findMostSimilarNodes(mike, 5)

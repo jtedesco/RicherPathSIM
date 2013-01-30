@@ -1,6 +1,6 @@
 import operator
 from src.similarity.SimilarityStrategy import SimilarityStrategy
-from src.util.BFSMetaPathUtility import BFSMetaPathUtility
+from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 
 __author__ = 'jontedesco'
 
@@ -28,7 +28,7 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
         self.metaPath = metaPath
         self.symmetric = symmetric
 
-        self.metaPathUtility = BFSMetaPathUtility()
+        self.metaPathUtility = EdgeBasedMetaPathUtility()
 
 
     def findMostSimilarNodes(self, source, number=None):

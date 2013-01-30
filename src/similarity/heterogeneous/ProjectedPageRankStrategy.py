@@ -2,7 +2,7 @@ from src.similarity.MetaPathSimilarityStrategy import MetaPathSimilarityStrategy
 
 __author__ = 'jontedesco'
 
-class ProjectedPageRankDistanceStrategy(MetaPathSimilarityStrategy):
+class ProjectedPageRankStrategy(MetaPathSimilarityStrategy):
     """
       Class that computes the absolute difference between the PageRank of two nodes
     """

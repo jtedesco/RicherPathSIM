@@ -2,7 +2,7 @@ import unittest
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.model.node.dblp.Conference import Conference
-from src.util.BFSMetaPathUtility import BFSMetaPathUtility
+from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 from src.util.SampleGraphUtility import SampleGraphUtility
 
 __author__ = 'jontedesco'
@@ -24,7 +24,7 @@ class SampleGraphUtilityTest(unittest.TestCase):
         graph, authorMap, conferenceMap = SampleGraphUtility.constructPathSimExampleThree()
         metaPath = [Author, Paper, Conference]
 
-        metaPathUtility = BFSMetaPathUtility()
+        metaPathUtility = EdgeBasedMetaPathUtility()
 
         # Mike's adjacency to conferences
         self.assertEquals(2, len(metaPathUtility.findMetaPaths(graph, authorMap['Mike'], conferenceMap['SIGMOD'], metaPath)))

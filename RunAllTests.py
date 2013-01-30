@@ -5,7 +5,7 @@ from test.importers.DBISDataImporterTest import DBISDataImporterTest
 from test.importers.FourAreaDataImporterTest import FourAreaDataImporterTest
 from test.model.GraphObjectFactoryTest import GraphObjectFactoryTest
 from test.similarity.heterogeneous.PathSimStrategyTest import PathSimStrategyTest
-from test.similarity.heterogeneous.ProjectedPageRankDistanceStrategyTest import ProjectedPageRankDistanceStrategyTest
+from test.similarity.heterogeneous.ProjectedPageRankStrategyTest import ProjectedPageRankStrategyTest
 from test.similarity.homogeneous.PageRankStrategyTest import PageRankStrategyTest
 from test.util.BFSMetaPathUtilityTest import BFSMetaPathUtilityTest
 from test.util.DFSMetaPathUtilityTest import DFSMetaPathUtilityTest
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     # Strategy tests
     strategyTestSuite = unittest.TestLoader().loadTestsFromTestCase(PageRankStrategyTest)
     strategyTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(PathSimStrategyTest))
-    strategyTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(ProjectedPageRankDistanceStrategyTest))
+    strategyTestSuite.addTests(unittest.TestLoader().loadTestsFromTestCase(ProjectedPageRankStrategyTest))
     unittest.TextTestRunner().run(strategyTestSuite)
 
     # Utility tests
