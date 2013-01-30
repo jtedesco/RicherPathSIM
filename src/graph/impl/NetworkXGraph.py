@@ -24,8 +24,8 @@ class NetworkXGraph(Graph):
         attributeDictionary = None if attribute is None else attribute.toDict()
         self.graph.add_node(node, attr_dict = attributeDictionary)
 
-    def getEdges(self):
-        return self.graph.edges()
+    def getEdges(self, nodes = list()):
+        return self.graph.edges(nodes)
 
     def getNodes(self):
         return self.graph.nodes()

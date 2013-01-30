@@ -52,9 +52,9 @@ class Graph(object):
         raise NotImplementedError()
 
 
-    def getEdges(self):
+    def getEdges(self, nodes = list()):
         """
-          Get the edges of the graph
+          Get the edges of the graph, optionally with some specified set of starting nodes
         """
         raise NotImplementedError()
 
