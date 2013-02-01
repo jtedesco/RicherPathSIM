@@ -141,6 +141,11 @@ class Graph(object):
         """
         raise NotImplementedError()
 
+    def hits(self):
+        """
+          Computes and returns the HITS scores (hubs and authorities) as separate dictionaries
+        """
+        raise NotImplementedError()
 
     def pageRank(self, alpha=0.85, personalization=None):
         """
