@@ -1,5 +1,6 @@
 from src.similarity.heterogeneous.HITSDistanceStrategy import HITSDistanceStrategy
 from src.similarity.heterogeneous.PageRankDistanceStrategy import PageRankDistanceStrategy
+from src.similarity.heterogeneous.SimRankStrategy import SimRankStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 
 __author__ = 'jontedesco'
@@ -88,6 +89,18 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         pathSimTable = texttable.Texttable()
         pathSimTable.add_rows(rows)
         self.output(pathSimTable.draw())
+
+        # Output SimRank-related scores
+        strategy = SimRankStrategy(self.graph, [Author, Paper, Paper, Author], symmetric=True)
+        self.output('\nProjected SimRank Scores (compared to D):')
+        rows = [
+            [author.name for author in authors[1:]],
+            ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors[1:]]
+        ]
+        distTable = texttable.Texttable()
+        distTable.add_rows(rows)
+        self.output(distTable.draw())
+
 
         # Output the projected PageRank/HITS similarity scores
         for name, algorithm in zip(['PageRank', 'HITS'], [PageRankDistanceStrategy, HITSDistanceStrategy]):
