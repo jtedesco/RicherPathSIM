@@ -3,14 +3,14 @@ from src.similarity.MetaPathSimilarityStrategy import MetaPathSimilarityStrategy
 
 __author__ = 'jontedesco'
 
-class ProjectedPageRankStrategy(MetaPathSimilarityStrategy):
+class GlobalInfluenceDistanceStrategy(MetaPathSimilarityStrategy):
     """
-      Class that computes the absolute difference between the PageRank of two nodes
+      Class that computes the absolute difference between some influence measure of nodes
     """
 
     def __init__(self, graph, metaPath, nodeSets = None, symmetric = False):
         """
-          Constructs a meta path similarity strategy, storing the meta path data for this strategy.
+          Constructs a global meta path influence similarity strategy, using euclidean distance between measures on subgraphs.
 
             @param  graph       The graph
             @param  nodeSets    The set of tuples of nodes to use to project subgraphs
@@ -24,12 +24,16 @@ class ProjectedPageRankStrategy(MetaPathSimilarityStrategy):
             meta paths 'ABCBA'
         """
 
-        super(ProjectedPageRankStrategy, self).__init__(graph, metaPath, symmetric)
+        super(GlobalInfluenceDistanceStrategy, self).__init__(graph, metaPath, symmetric)
         if nodeSets is None:
             self.nodeSets = set()
             self.nodeSets.add(tuple(graph.getNodes()))
         else:
             self.nodeSets = nodeSets
+
+
+    def getGlobalInfluenceMeasure(self, projectedGraph):
+        raise NotImplementedError("Implement a concrete global influence strategy!")
 
 
     def findSimilarityScore(self, source, destination):
@@ -53,11 +57,10 @@ class ProjectedPageRankStrategy(MetaPathSimilarityStrategy):
             else:
                 projectedGraph = self.metaPathUtility.createHeterogeneousProjection(subgraph, self.metaPath)
 
-            # Calculate PageRank in network (default alpha & no personalization)
-            pageRanks = projectedGraph.pageRank()
+            measures = self.getGlobalInfluenceMeasure(projectedGraph)
 
-            sourceScore = pageRanks[source] if source in pageRanks else 0
-            destinationScore = pageRanks[destination] if destination in pageRanks else 0
+            sourceScore = measures[source] if source in measures else 0
+            destinationScore = measures[destination] if destination in measures else 0
             sourceScoreVector.append(sourceScore)
             destinationScoreVector.append(destinationScore)
 
