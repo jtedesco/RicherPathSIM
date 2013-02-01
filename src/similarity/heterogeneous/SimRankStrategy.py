@@ -66,5 +66,16 @@ class SimRankStrategy(MetaPathSimilarityStrategy):
 
                 newSimilarities[a][b] = total
 
+        # Return early if we've convered
+        if self.__hasConverged(newSimilarities, previousSimilarities):
+            return newSimilarities
+
         return self.__simRank(projectedGraph, newSimilarities, iterationsRemaining - 1)
 
+
+    def __hasConverged(self, s1, s2, eps=1e-4):
+        for i in s1.keys():
+            for j in s1[i].keys():
+                if abs(s1[i][j] - s2[i][j]) >= eps:
+                    return False
+        return True
