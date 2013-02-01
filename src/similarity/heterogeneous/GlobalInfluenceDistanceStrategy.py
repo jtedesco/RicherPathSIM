@@ -61,8 +61,17 @@ class GlobalInfluenceDistanceStrategy(MetaPathSimilarityStrategy):
 
             sourceScore = measures[source] if source in measures else 0
             destinationScore = measures[destination] if destination in measures else 0
-            sourceScoreVector.append(sourceScore)
-            destinationScoreVector.append(destinationScore)
+            if type(destinationScore) == type([]) and sourceScore == 0:
+                sourceScore = [0] * len(destinationScore)
+            if type(sourceScore) == type([]) and destinationScore == 0:
+                destinationScore = [0] * len(sourceScore)
+            if type(sourceScore) == type([]):
+                for sScore, dScore in zip(sourceScore, destinationScore):
+                    sourceScoreVector.append(sScore)
+                    destinationScoreVector.append(dScore)
+            else:
+                sourceScoreVector.append(sourceScore)
+                destinationScoreVector.append(destinationScore)
 
         # Compute Euclidean norm
         similarityScore = 1 - (numpy.linalg.norm(numpy.array(sourceScoreVector) - numpy.array(destinationScoreVector)))

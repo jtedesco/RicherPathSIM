@@ -1,4 +1,5 @@
-from src.similarity.heterogeneous.ProjectedPageRankStrategy import ProjectedPageRankStrategy
+from src.similarity.heterogeneous.HITSDistanceStrategy import HITSDistanceStrategy
+from src.similarity.heterogeneous.PageRankDistanceStrategy import PageRankDistanceStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 
 __author__ = 'jontedesco'
@@ -88,20 +89,21 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         pathSimTable.add_rows(rows)
         self.output(pathSimTable.draw())
 
-        # Output the projected PageRank similarity scores
-        researchAreas = {
-            (authorMap['A'], authorMap['B'], authorMap['C'], authorMap['D'], authorMap['E'], authorMap['I']),
-            (authorMap['F'], authorMap['G'], authorMap['H'], authorMap['D'], authorMap['E'], authorMap['I']),
-        }
-        strategy = ProjectedPageRankStrategy(self.graph, [Author, Paper, Paper, Author], nodeSets=researchAreas, symmetric=True)
-        self.output('\nProjected PageRank Scores (compared to D):')
-        rows = [
-            [author.name for author in authors[1:]],
-            ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors[1:]]
-        ]
-        pathSimTable = texttable.Texttable()
-        pathSimTable.add_rows(rows)
-        self.output(pathSimTable.draw())
+        # Output the projected PageRank/HITS similarity scores
+        for name, algorithm in zip(['PageRank', 'HITS'], [PageRankDistanceStrategy, HITSDistanceStrategy]):
+            researchAreas = {
+                (authorMap['A'], authorMap['B'], authorMap['C'], authorMap['D'], authorMap['E'], authorMap['I']),
+                (authorMap['F'], authorMap['G'], authorMap['H'], authorMap['D'], authorMap['E'], authorMap['I']),
+            }
+            strategy = algorithm(self.graph, [Author, Paper, Paper, Author], nodeSets=researchAreas, symmetric=True)
+            self.output('\nProjected %s Scores (compared to D):' % name)
+            rows = [
+                [author.name for author in authors[1:]],
+                ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors[1:]]
+            ]
+            distTable = texttable.Texttable()
+            distTable.add_rows(rows)
+            self.output(distTable.draw())
 
 
 if __name__ == '__main__':
