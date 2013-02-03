@@ -66,6 +66,11 @@ class PathSimPaperExamplesExperiment(Experiment):
         heterogeneousSimRankStrategy = SimRankStrategy(projectedGraph)
         self.outputSimilarityScores(authorMap, authors, heterogeneousSimRankStrategy, 'Heterogeneous SimRank')
 
+        # Output heterogeneous simrank w/ squared neighbors comparison
+        normalization = lambda aNeighbors, bNeighbors: float(len(aNeighbors)**2 * len(bNeighbors)**2)
+        heterogeneousSquaredSimRankStrategy = SimRankStrategy(projectedGraph, normalization=normalization)
+        self.outputSimilarityScores(authorMap, authors, heterogeneousSquaredSimRankStrategy, 'Squared Heterogeneous SimRank')
+
         # Output the PathSim similarity scores
         pathsimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
         self.outputSimilarityScores(authorMap, authors, pathsimStrategy, 'PathSim')
