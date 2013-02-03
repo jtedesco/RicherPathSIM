@@ -15,8 +15,8 @@ class SimRankStrategy(MetaPathSimilarityStrategy):
     def __init__(self, graph, metaPath = None, symmetric = False, normalization = None, factor = None):
         super(SimRankStrategy, self).__init__(graph, metaPath, symmetric)
         self.similarityScores = None
-        self.normalization = lambda aN, bN: float(len(aN) * len(bN)) if normalization is None else normalization
-        self.factor = lambda: SimRankStrategy.C if factor is None else factor
+        self.normalization = (lambda aN, bN: float(len(aN) * len(bN))) if normalization is None else normalization
+        self.factor = (lambda: SimRankStrategy.C) if factor is None else factor
 
 
     def findSimilarityScore(self, source, destination):
