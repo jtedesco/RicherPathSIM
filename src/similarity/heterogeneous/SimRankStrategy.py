@@ -12,9 +12,11 @@ class SimRankStrategy(MetaPathSimilarityStrategy):
     C = 0.8
     k = 100
 
-    def __init__(self, graph, metaPath = None, symmetric = False):
+    def __init__(self, graph, metaPath = None, symmetric = False, normalization = None, factor = None):
         super(SimRankStrategy, self).__init__(graph, metaPath, symmetric)
         self.similarityScores = None
+        self.normalization = lambda aN, bN: float(len(aN) * len(bN)) if normalization is None else normalization
+        self.factor = lambda: SimRankStrategy.C if factor is None else factor
 
 
     def findSimilarityScore(self, source, destination):
@@ -65,13 +67,14 @@ class SimRankStrategy(MetaPathSimilarityStrategy):
                 newSimilarities[a][b] = 1.0
             else:
                 aNeighbors, bNeighbors = projectedGraph.getPredecessors(a), projectedGraph.getPredecessors(b)
-                numNeighbors = float(len(aNeighbors) * len(bNeighbors))
+                normalization = self.normalization(aNeighbors, bNeighbors)
+                factor = self.factor()
 
-                if numNeighbors == 0:
+                if normalization == 0:
                     total = 0
                 else:
                     total = sum([previousSimilarities[aNeighbor][bNeighbor] for aNeighbor, bNeighbor in itertools.product(aNeighbors, bNeighbors)])
-                    total *= SimRankStrategy.C / numNeighbors
+                    total *= factor / normalization
 
                 newSimilarities[a][b] = total
 
