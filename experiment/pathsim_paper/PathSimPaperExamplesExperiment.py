@@ -15,6 +15,16 @@ class PathSimPaperExamplesExperiment(Experiment):
       Experiment to test results of PathSim on examples given in PathSim paper
     """
 
+    def outputSimilarityScores(self, authorMap, authors, strategy, strategyName):
+        self.output('\n\n%s Scores (compared to Mike):' % strategyName)
+        rows = [
+            [author.name for author in authors[1:]],
+            ['%1.2f' % strategy.findSimilarityScore(authorMap['Mike'], author) for author in authors[1:]]
+        ]
+        pathSimTable = texttable.Texttable()
+        pathSimTable.add_rows(rows)
+        self.output(pathSimTable.draw())
+
     def run(self):
 
         self.graph, authorMap, conferenceMap = SampleGraphUtility.constructPathSimExampleThree()
@@ -38,7 +48,7 @@ class PathSimPaperExamplesExperiment(Experiment):
         # Project a 2-typed heterogeneous graph over PathSim example
         self.output('\nAdjacency Matrix (Projected):')
         adjMatrixTable = texttable.Texttable()
-        projectedGraph = metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference])
+        projectedGraph = metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference], symmetric = True)
         rows = [['Author'] + [conference.name for conference in conferences]]
         for author in authors:
             row = [author.name]
@@ -48,20 +58,17 @@ class PathSimPaperExamplesExperiment(Experiment):
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
 
-        #
-        strategy = SimRankStrategy(self.graph)
+        # Output homogeneous simrank comparison
+        homogeneousSimRankStrategy = SimRankStrategy(self.graph)
+        self.outputSimilarityScores(authorMap, authors, homogeneousSimRankStrategy, 'Homogeneous SimRank')
 
+        # Output heterogeneous simrank comparison
+        heterogeneousSimRankStrategy = SimRankStrategy(projectedGraph)
+        self.outputSimilarityScores(authorMap, authors, heterogeneousSimRankStrategy, 'Heterogeneous SimRank')
 
         # Output the PathSim similarity scores
-        strategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
-        self.output('\n\nPathsim Scores (compared to Mike):')
-        rows = [
-            [author.name for author in authors[1:]],
-            ['%1.2f' % strategy.findSimilarityScore(authorMap['Mike'], author) for author in authors[1:]]
-        ]
-        pathSimTable = texttable.Texttable()
-        pathSimTable.add_rows(rows)
-        self.output(pathSimTable.draw())
+        pathsimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
+        self.outputSimilarityScores(authorMap, authors, pathsimStrategy, 'PathSim')
 
 
 if __name__ == '__main__':

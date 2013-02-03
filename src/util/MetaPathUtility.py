@@ -65,27 +65,27 @@ class MetaPathUtility(object):
         return modifiedMetaPath
 
 
-    def createHomogeneousProjection(self, graph, metaPath):
+    def createHomogeneousProjection(self, graph, metaPath, symmetric = False):
         """
           Create a homogeneous graph projection of some meta path
         """
 
         # Check that the endpoints are of the correct types
         assert(metaPath[0] == metaPath[-1])
-        return self.__projectionHelper(graph, metaPath)
+        return self.__projectionHelper(graph, metaPath, symmetric = symmetric)
 
 
-    def createHeterogeneousProjection(self, graph, metaPath):
+    def createHeterogeneousProjection(self, graph, metaPath, symmetric = False):
         """
           Create a homogeneous graph projection of some meta path
         """
 
         # Check that the endpoints are of the correct types
         assert(metaPath[0] != metaPath[-1])
-        return self.__projectionHelper(graph, metaPath, True)
+        return self.__projectionHelper(graph, metaPath, symmetric = symmetric, heterogeneous = True)
 
 
-    def __projectionHelper(self, graph, metaPath, heterogeneous = False):
+    def __projectionHelper(self, graph, metaPath, symmetric = False, heterogeneous = False):
         """
           Helper method to assist in creating a projection over a graph using some meta path
         """
@@ -106,6 +106,7 @@ class MetaPathUtility(object):
                 numPaths = len(self.findMetaPaths(graph, node, neighbor, metaPath))
                 for i in xrange(0, numPaths):
                     newGraph.addEdge(node, neighbor)
+                    if symmetric: newGraph.addEdge(neighbor, node)
 
         return newGraph
 
