@@ -10,7 +10,7 @@ class SimRankStrategy(MetaPathSimilarityStrategy):
     """
 
     C = 0.8
-    k = 20
+    k = 100
 
     def __init__(self, graph, metaPath = None, symmetric = False):
         super(SimRankStrategy, self).__init__(graph, metaPath, symmetric)
