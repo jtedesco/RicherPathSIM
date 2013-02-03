@@ -65,8 +65,13 @@ class SimRankStrategy(MetaPathSimilarityStrategy):
                 newSimilarities[a][b] = 1.0
             else:
                 aNeighbors, bNeighbors = projectedGraph.getPredecessors(a), projectedGraph.getPredecessors(b)
-                total = sum([previousSimilarities[aNeighbor][bNeighbor] for aNeighbor, bNeighbor in itertools.product(aNeighbors, bNeighbors)])
-                total *= SimRankStrategy.C / float(len(aNeighbors) * len(bNeighbors))
+                numNeighbors = float(len(aNeighbors) * len(bNeighbors))
+
+                if numNeighbors == 0:
+                    total = 0
+                else:
+                    total = sum([previousSimilarities[aNeighbor][bNeighbor] for aNeighbor, bNeighbor in itertools.product(aNeighbors, bNeighbors)])
+                    total *= SimRankStrategy.C / numNeighbors
 
                 newSimilarities[a][b] = total
 
