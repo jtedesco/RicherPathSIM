@@ -28,6 +28,10 @@ class MetaPathUtility(object):
         return set(metaPathNeighbors)
 
 
+    def _findMetaPathsHelper(self, graph, node, metaPath, symmetric):
+        raise NotImplementedError("Implement a concrete subclass to find meta paths!")
+
+
     def findMetaPaths(self, graph, startingNode, endingNode, metaPath, symmetric = False):
         """
           Finds all paths that match the metaPath connecting the given nodes
@@ -83,7 +87,7 @@ class MetaPathUtility(object):
 
     def __projectionHelper(self, graph, metaPath, heterogeneous = False):
         """
-          Helper method to assist in
+          Helper method to assist in creating a projection over a graph using some meta path
         """
 
         newGraph = graph.cloneEmpty()
