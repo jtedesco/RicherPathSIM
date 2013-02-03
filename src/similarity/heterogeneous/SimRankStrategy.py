@@ -12,7 +12,7 @@ class SimRankStrategy(MetaPathSimilarityStrategy):
     C = 0.8
     k = 20
 
-    def __init__(self, graph, metaPath, symmetric = False):
+    def __init__(self, graph, metaPath = None, symmetric = False):
         super(SimRankStrategy, self).__init__(graph, metaPath, symmetric)
         self.similarityScores = None
 
@@ -26,12 +26,16 @@ class SimRankStrategy(MetaPathSimilarityStrategy):
         if self.similarityScores is not None:
             return self.similarityScores[source][destination]
 
-        # Project graph
-        if self.metaPath[0] == self.metaPath[-1]: # Homogeneous projection?
-            projectedGraph = self.metaPathUtility.createHomogeneousProjection(self.graph, self.metaPath)
+        # Project graph (if a meta path was provided)
+        if self.metaPath is None:
+            projectedGraph = self.graph
         else:
-            projectedGraph = self.metaPathUtility.createHeterogeneousProjection(self.graph, self.metaPath)
+            if self.metaPath[0] == self.metaPath[-1]: # Homogeneous projection?
+                projectedGraph = self.metaPathUtility.createHomogeneousProjection(self.graph, self.metaPath)
+            else:
+                projectedGraph = self.metaPathUtility.createHeterogeneousProjection(self.graph, self.metaPath)
 
+        # Build initial similarity scores
         self.similarityScores = defaultdict(dict)
         nodes = self.graph.getNodes()
         for a, b in itertools.product(nodes, nodes):

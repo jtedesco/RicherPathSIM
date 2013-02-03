@@ -4,6 +4,8 @@ from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
+from src.similarity.heterogeneous.SimRankStrategy import SimRankStrategy
+from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 from src.util.SampleGraphUtility import SampleGraphUtility
 
 __author__ = 'jontedesco'
@@ -31,19 +33,24 @@ class PathSimPaperExamplesExperiment(Experiment):
             authorMap['Bob'],
             authorMap['Ann'],
         ]
+        metaPathUtility = EdgeBasedMetaPathUtility()
 
-        # Output the adjacency matrix for authors & conferences in the graph
-        self.output('\nAdjacency Matrix:')
+        # Project a 2-typed heterogeneous graph over PathSim example
+        self.output('\nAdjacency Matrix (Projected):')
         adjMatrixTable = texttable.Texttable()
+        projectedGraph = metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference])
         rows = [['Author'] + [conference.name for conference in conferences]]
         for author in authors:
             row = [author.name]
             for conference in conferences:
-                metaPaths = self.metaPathUtility.findMetaPaths(self.graph, author, conference, [Author, Paper, Conference])
-                row.append(len(metaPaths))
+                row.append(projectedGraph.getNumberOfEdges(author, conference))
             rows.append(row)
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
+
+        #
+        strategy = SimRankStrategy(self.graph)
+
 
         # Output the PathSim similarity scores
         strategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)

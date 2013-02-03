@@ -9,7 +9,7 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
       Generic class for similarity strategies that use meta paths
     """
 
-    def __init__(self, graph, metaPath, symmetric = False):
+    def __init__(self, graph, metaPath = None, symmetric = False):
         """
           Constructs a meta path similarity strategy, storing the meta path data for this strategy.
 
