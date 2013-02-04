@@ -63,24 +63,16 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         self.output('\nCitation Matrix:')
         adjMatrixTable = texttable.Texttable()
         rows = [['Author'] + [author.name for author in authors]]
-        for author in authors:
-            row = [author.name]
-            for otherAuthor in authors:
-                row.append(authorCitationCounts[author][otherAuthor])
-            rows.append(row)
+        rows += [[author.name] + [authorCitationCounts[author][otherAuthor] for otherAuthor in authors] for author in authors]
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
 
         # Output the adjacency matrix for authors & conferences in the graph
         self.output('\nAdjacency Matrix:')
         adjMatrixTable = texttable.Texttable()
-        rows = [[''] + [conference.name for conference in conferences]]
         projectedGraph = self.metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference])
-        for author in authors:
-            row = [author.name]
-            for conference in conferences:
-                row.append(projectedGraph.getNumberOfEdges(author, conference))
-            rows.append(row)
+        rows = [[''] + [conference.name for conference in conferences]]
+        rows += [[author.name] + [projectedGraph.getNumberOfEdges(author, conference) for conference in conferences] for author in authors]
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
 
