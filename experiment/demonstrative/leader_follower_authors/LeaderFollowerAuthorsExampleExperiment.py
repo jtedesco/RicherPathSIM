@@ -26,17 +26,7 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
 
     def run(self):
 
-        citationMatrix = {
-            'Mike':  {'Mike': 0, 'Jim': 0,  'Mary': 0,  'Bob': 0,  'Ann': 0,  'Joe': 0, 'Nancy': 0},
-            'Jim':   {'Mike': 1, 'Jim': 0,  'Mary': 10, 'Bob': 10, 'Ann': 10, 'Joe': 1, 'Nancy': 1},
-            'Mary':  {'Mike': 1, 'Jim': 10, 'Mary': 0,  'Bob': 5,  'Ann': 5,  'Joe': 1, 'Nancy': 1},
-            'Bob':   {'Mike': 1, 'Jim': 10, 'Mary': 5,  'Bob': 0,  'Ann': 5,  'Joe': 1, 'Nancy': 1},
-            'Ann':   {'Mike': 1, 'Jim': 10, 'Mary': 5,  'Bob': 5,  'Ann': 0,  'Joe': 1, 'Nancy': 1},
-            'Joe':   {'Mike': 0, 'Jim': 0,  'Mary': 0,  'Bob': 0,  'Ann': 0,  'Joe': 0, 'Nancy': 1},
-            'Nancy': {'Mike': 1, 'Jim': 0,  'Mary': 1,  'Bob': 1,  'Ann': 1,  'Joe': 1, 'Nancy': 0}
-        }
-
-        self.graph, authorMap, conferenceMap = SampleGraphUtility.constructPathSimExampleThree(extraAuthors=True, citationMatrix=citationMatrix)
+        self.graph, authorMap, conferenceMap = SampleGraphUtility.constructPathSimExampleThree(extraAuthorsAndCitations=True)
 
         # Get the nodes we care about
         conferences = [

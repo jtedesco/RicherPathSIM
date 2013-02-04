@@ -20,7 +20,7 @@ class SampleGraphUtility(object):
 
 
     @staticmethod
-    def constructPathSimExampleThree(extraAuthors = False, citationMatrix = None):
+    def constructPathSimExampleThree(extraAuthorsAndCitations = False):
         """
           Constructs "Example 3" from PathSim publication, ignoring topic nodes
 
@@ -38,7 +38,7 @@ class SampleGraphUtility(object):
         bob = Author(SampleGraphUtility.__getNextId(), 'Bob')
         ann = Author(SampleGraphUtility.__getNextId(), 'Ann')
         authors = [mike, jim, mary, bob, ann]
-        if extraAuthors:
+        if extraAuthorsAndCitations:
             joe = Author(SampleGraphUtility.__getNextId(), 'Joe')
             nancy = Author(SampleGraphUtility.__getNextId(), 'Nancy')
             authors += [joe, nancy]
@@ -86,24 +86,25 @@ class SampleGraphUtility(object):
         SampleGraphUtility.__addSimilarAuthorsPapers(graph, bob, sigmod, vldb, authorConferencePaperMap)
 
         # Add extra authors & citation data
-        if extraAuthors:
+        if extraAuthorsAndCitations:
             SampleGraphUtility.__addSimilarAuthorsPapers(graph, joe, sigmod, vldb, authorConferencePaperMap)
             SampleGraphUtility.__addSimilarAuthorsPapers(graph, nancy, sigmod, vldb, authorConferencePaperMap)
-        if citationMatrix is not None:
-            SampleGraphUtility.__constructCitations(graph, authorMap, conferenceMap, citationMatrix, authorConferencePaperMap)
+            SampleGraphUtility.__constructCitations(graph, authorMap, conferenceMap, authorConferencePaperMap)
 
 
         return graph, authorMap, conferenceMap
 
 
     @staticmethod
-    def __constructCitations(graph, authorMap, conferenceMap, citationMatrix, authorConferencePaperMap):
+    def __constructCitations(graph, authorMap, conferenceMap, acpMap):
         """
           Add citations
         """
-        for authorName, conferenceName in itertools.product(authorMap, conferenceMap):
-            print "%s published %d papers in %s" % (authorName, len(authorConferencePaperMap[authorMap[authorName]][conferenceMap[conferenceName]]), conferenceName)
 
+        for author1Name, author2Name in itertools.product(authorMap, authorMap):
+            citingAuthor, citedAuthor = authorMap[author1Name], authorMap[author2Name]
+
+            # TODO: Add citations that make sense
 
     @staticmethod
     def constructMultiDisciplinaryAuthorExample():
