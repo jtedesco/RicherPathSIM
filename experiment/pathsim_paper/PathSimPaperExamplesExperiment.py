@@ -67,18 +67,31 @@ class PathSimPaperExamplesExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, heterogeneousSimRankStrategy, 'Heterogeneous SimRank')
 
         # Output heterogeneous simrank w/ squared neighbors comparison
-        def normalization(graph, a, b, sim):
+        def sqNeighborsNorm(graph, a, b, sim):
             aNeighbors, bNeighbors = graph.getPredecessors(a), graph.getPredecessors(b)
             return float(len(aNeighbors)**2 * len(bNeighbors)**2)
-        heterogeneousSquaredSimRankStrategy = SimRankStrategy(projectedGraph, normalization=normalization)
+        heterogeneousSquaredSimRankStrategy = SimRankStrategy(projectedGraph, normalization=sqNeighborsNorm)
         self.outputSimilarityScores(authorMap, authors, heterogeneousSquaredSimRankStrategy, 'Squared Heterogeneous SimRank')
 
-        # Output heterogeneous simrank w/ squared neighbors comparison
-        def normalization(graph, a, b, sim):
-            aTotalSim, bTotalSim = sum(sim[a].values()), sum(sim[b].values())
-            return float(aTotalSim * bTotalSim)
-        heterogeneousSquaredSimRankStrategy = SimRankStrategy(projectedGraph, normalization=normalization)
+        # Output heterogeneous simrank w/ sum of total similarity per node
+        def totalSimNorm(graph, a, b, sim):
+            return float(sum([sum(sim[x].values()) for x in sim]))
+        heterogeneousSquaredSimRankStrategy = SimRankStrategy(projectedGraph, normalization=totalSimNorm)
         self.outputSimilarityScores(authorMap, authors, heterogeneousSquaredSimRankStrategy, 'TotalSim-Normalized Heterogeneous SimRank')
+
+        # Output heterogeneous simrank w/ euclidean norm of total similarity per node
+        def euclideanTotalSimNorm(graph, a, b, sim):
+            return sum([x**2 for x in (sim[a].values() + sim[b].values())]) ** 0.5
+        heterogeneousSquaredSimRankStrategy = SimRankStrategy(projectedGraph, normalization=euclideanTotalSimNorm)
+        self.outputSimilarityScores(authorMap, authors, heterogeneousSquaredSimRankStrategy, 'TotalSim-Euclidean Heterogeneous SimRank')
+
+        # Output heterogeneous simrank normalized by PR on graph
+        pageRanks = projectedGraph.pageRank()
+        def pagerankNorm(graph, a, b, sim):
+            aNeighbors, bNeighbors = graph.getPredecessors(a), graph.getPredecessors(b)
+            return float(len(aNeighbors) * len(bNeighbors)) * (pageRanks[a]/max(pageRanks.values()))
+        heterogeneousSquaredSimRankStrategy = SimRankStrategy(projectedGraph, normalization=pagerankNorm)
+        self.outputSimilarityScores(authorMap, authors, heterogeneousSquaredSimRankStrategy, 'PR-Normalized Heterogeneous SimRank')
 
         # Output the PathSim similarity scores
         pathsimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
