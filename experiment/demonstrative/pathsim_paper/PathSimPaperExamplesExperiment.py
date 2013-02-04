@@ -50,12 +50,9 @@ class PathSimPaperExamplesExperiment(Experiment):
         self.output('\nAdjacency Matrix (Projected):')
         adjMatrixTable = texttable.Texttable()
         projectedGraph = metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference], symmetric = True)
+
         rows = [['Author'] + [conference.name for conference in conferences]]
-        for author in authors:
-            row = [author.name]
-            for conference in conferences:
-                row.append(projectedGraph.getNumberOfEdges(author, conference))
-            rows.append(row)
+        rows += [[author.name] + [projectedGraph.getNumberOfEdges(author, conference) for conference in conferences] for author in authors]
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
 
