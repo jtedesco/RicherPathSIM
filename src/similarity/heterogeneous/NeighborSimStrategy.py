@@ -13,10 +13,6 @@ class NeighborSimStrategy(MetaPathSimilarityStrategy):
           Find the similarity score between two nodes
         """
 
-        # Catch edge case where only path from A->A is by repetition
-        if source is destination:
-            return 1.0
-
         if self.getFromCache(source, destination) is not None:
             return self.getFromCache(source, destination)
 
