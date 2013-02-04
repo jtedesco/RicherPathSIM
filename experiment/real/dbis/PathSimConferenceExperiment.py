@@ -1,8 +1,8 @@
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.helper.LabeledExperimentHelper import LabeledExperimentHelper
-from experiment.measure.CumulativeGainMeasures import CumulativeGainMeasures
+from src.experiment.measure import CumulativeGainMeasures
+from src.experiment.helper import LabeledExperimentHelper
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper

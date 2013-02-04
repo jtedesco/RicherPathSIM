@@ -1,7 +1,7 @@
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.helper.ExperimentHelper import ExperimentHelper
+from src.experiment.helper.ExperimentHelper import ExperimentHelper
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper

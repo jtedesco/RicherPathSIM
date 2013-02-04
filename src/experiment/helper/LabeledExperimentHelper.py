@@ -1,5 +1,5 @@
 import os
-from experiment.helper.ExperimentHelper import ExperimentHelper
+from src.experiment.helper import ExperimentHelper
 
 __author__ = 'jontedesco'
 

@@ -2,7 +2,7 @@ import cProfile
 import os
 from time import time
 from experiment.Experiment import Experiment
-from experiment.helper.ExperimentHelper import ExperimentHelper
+from src.experiment.helper import ExperimentHelper
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Paper import Paper
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy

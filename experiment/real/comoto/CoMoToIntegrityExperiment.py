@@ -1,6 +1,6 @@
 import os
 from experiment.Experiment import Experiment
-from experiment.helper.ExperimentHelper import ExperimentHelper
+from src.experiment.helper import ExperimentHelper
 from src.model.node.comoto.Assignment import Assignment
 from src.model.node.comoto.Semester import Semester
 from src.model.node.comoto.Submission import Submission
