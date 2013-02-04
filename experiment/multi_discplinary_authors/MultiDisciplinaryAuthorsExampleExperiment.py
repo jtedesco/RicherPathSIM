@@ -1,4 +1,5 @@
 from src.similarity.heterogeneous.HITSDistanceStrategy import HITSDistanceStrategy
+from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
 from src.similarity.heterogeneous.PageRankDistanceStrategy import PageRankDistanceStrategy
 from src.similarity.heterogeneous.SimRankStrategy import SimRankStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
@@ -16,6 +17,17 @@ from src.util.SampleGraphUtility import SampleGraphUtility
 __author__ = 'jontedesco'
 
 class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
+
+    def outputSimilarityScores(self, authorMap, authors, strategy, strategyName):
+        self.output('\n%s Scores (compared to D):' % strategyName)
+        rows = [
+            [author.name for author in authors[1:]],
+            ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors[1:]]
+        ]
+        pathSimTable = texttable.Texttable()
+        pathSimTable.add_rows(rows)
+        self.output(pathSimTable.draw())
+
 
     def run(self):
 
@@ -79,28 +91,18 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         citationCountTable.add_rows(rows)
         self.output(citationCountTable.draw())
 
+
+        # Output the NeighborSim similarity scores
+        strategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
+        self.outputSimilarityScores(authorMap, authors, strategy, "NeighborSim")
+
         # Output the PathSim similarity scores
         strategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
-        self.output('\nPathsim Scores (compared to D):')
-        rows = [
-            [author.name for author in authors[1:]],
-            ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors[1:]]
-        ]
-        pathSimTable = texttable.Texttable()
-        pathSimTable.add_rows(rows)
-        self.output(pathSimTable.draw())
+        self.outputSimilarityScores(authorMap, authors, strategy, "PathSim")
 
         # Output SimRank-related scores
         strategy = SimRankStrategy(self.graph, [Author, Paper, Paper, Author], symmetric=True)
-        self.output('\nProjected SimRank Scores (compared to D):')
-        rows = [
-            [author.name for author in authors[1:]],
-            ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors[1:]]
-        ]
-        distTable = texttable.Texttable()
-        distTable.add_rows(rows)
-        self.output(distTable.draw())
-
+        self.outputSimilarityScores(authorMap, authors, strategy, "SimRank")
 
         # Output the projected PageRank/HITS similarity scores
         for name, algorithm in zip(['PageRank', 'HITS'], [PageRankDistanceStrategy, HITSDistanceStrategy]):
@@ -109,19 +111,12 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
                 (authorMap['F'], authorMap['G'], authorMap['H'], authorMap['D'], authorMap['E'], authorMap['I']),
             }
             strategy = algorithm(self.graph, [Author, Paper, Paper, Author], nodeSets=researchAreas, symmetric=True)
-            self.output('\nProjected %s Scores (compared to D):' % name)
-            rows = [
-                [author.name for author in authors[1:]],
-                ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors[1:]]
-            ]
-            distTable = texttable.Texttable()
-            distTable.add_rows(rows)
-            self.output(distTable.draw())
+            self.outputSimilarityScores(authorMap, authors, strategy, "%s-Distance" % name)
 
 
 if __name__ == '__main__':
     experiment = MultiDisciplinaryAuthorsExampleExperiment(
         None,
-        'PathSim Similarity on paper examples'
+        'Similarity on multidisciplinary author example'
     )
     experiment.start()
