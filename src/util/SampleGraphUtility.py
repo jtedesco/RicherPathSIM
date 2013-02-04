@@ -1,3 +1,5 @@
+from collections import defaultdict
+import itertools
 from src.graph.GraphFactory import GraphFactory
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Citation import Citation
@@ -18,7 +20,7 @@ class SampleGraphUtility(object):
 
 
     @staticmethod
-    def constructPathSimExampleThree(extraAuthors = False):
+    def constructPathSimExampleThree(extraAuthors = False, citationMatrix = None):
         """
           Constructs "Example 3" from PathSim publication, ignoring topic nodes
 
@@ -56,30 +58,51 @@ class SampleGraphUtility(object):
         for conference in conferences:
             conferenceMap[conference.name] = conference
 
-        # Add number of papers & edges mentioned in example
-        SampleGraphUtility.__addSimilarAuthorsPapers(graph, mike, sigmod, vldb)
+        # Add author / conference / papers index
+        authorConferencePaperMap = defaultdict(lambda : defaultdict(list))
+
+        # Add jim's papers
         for i in xrange(0, 70):
             conference = sigmod if i < 50 else vldb
             paper = Paper(SampleGraphUtility.__getNextId(), '%s Paper %d' % (conference.name, i + 1))
             graph.addNode(paper)
             graph.addBothEdges(jim, paper, Authorship())
             graph.addBothEdges(paper, conference, Publication())
-        SampleGraphUtility.__addSimilarAuthorsPapers(graph, mary, sigmod, icde)
-        SampleGraphUtility.__addSimilarAuthorsPapers(graph, bob, sigmod, vldb)
+            authorConferencePaperMap[jim][conference].append(paper)
 
+        # Add ann's papers
         annsPaper1 = Paper(SampleGraphUtility.__getNextId(), 'ICDE Paper')
         annsPaper2 = Paper(SampleGraphUtility.__getNextId(), 'KDD Paper')
         graph.addBothEdges(ann, annsPaper1, Authorship())
         graph.addBothEdges(ann, annsPaper2, Authorship())
         graph.addBothEdges(annsPaper1, icde, Publication())
         graph.addBothEdges(annsPaper2, kdd, Publication())
+        authorConferencePaperMap[ann][icde].append(annsPaper1)
+        authorConferencePaperMap[ann][kdd].append(annsPaper2)
+
+        # Auto-add remaining authors (2,1) paper numbers
+        SampleGraphUtility.__addSimilarAuthorsPapers(graph, mike, sigmod, vldb, authorConferencePaperMap)
+        SampleGraphUtility.__addSimilarAuthorsPapers(graph, mary, sigmod, icde, authorConferencePaperMap)
+        SampleGraphUtility.__addSimilarAuthorsPapers(graph, bob, sigmod, vldb, authorConferencePaperMap)
 
         # Add extra authors & citation data
         if extraAuthors:
-            SampleGraphUtility.__addSimilarAuthorsPapers(graph, joe, sigmod, vldb)
-            SampleGraphUtility.__addSimilarAuthorsPapers(graph, nancy, sigmod, vldb)
+            SampleGraphUtility.__addSimilarAuthorsPapers(graph, joe, sigmod, vldb, authorConferencePaperMap)
+            SampleGraphUtility.__addSimilarAuthorsPapers(graph, nancy, sigmod, vldb, authorConferencePaperMap)
+        if citationMatrix is not None:
+            SampleGraphUtility.__constructCitations(graph, authorMap, conferenceMap, citationMatrix, authorConferencePaperMap)
+
 
         return graph, authorMap, conferenceMap
+
+
+    @staticmethod
+    def __constructCitations(graph, authorMap, conferenceMap, citationMatrix, authorConferencePaperMap):
+        """
+          Add citations
+        """
+        for authorName, conferenceName in itertools.product(authorMap, conferenceMap):
+            print "%s published %d papers in %s" % (authorName, len(authorConferencePaperMap[authorMap[authorName]][conferenceMap[conferenceName]]), conferenceName)
 
 
     @staticmethod
@@ -178,7 +201,7 @@ class SampleGraphUtility(object):
 
 
     @staticmethod
-    def __addSimilarAuthorsPapers(graph, author, firstConference, secondConference):
+    def __addSimilarAuthorsPapers(graph, author, firstConference, secondConference, authorConferencePaperMap):
         """
           Helper function to construct the papers & edges associated with the three very similar authors in example 3.
           (i.e. Mike, Mary, and Bob). Will only construct the third paper if these papers are not from Mary.
@@ -193,11 +216,14 @@ class SampleGraphUtility(object):
         graph.addBothEdges(author, paper2, Authorship())
         graph.addBothEdges(paper1, firstConference, Publication())
         graph.addBothEdges(paper2, firstConference, Publication())
+        authorConferencePaperMap[author][firstConference].append(paper1)
+        authorConferencePaperMap[author][firstConference].append(paper2)
 
         paper3 = Paper(SampleGraphUtility.__getNextId(), 'Paper 3')
         graph.addNode(paper3)
         graph.addBothEdges(author, paper3, Authorship())
         graph.addBothEdges(paper3, secondConference, Publication())
+        authorConferencePaperMap[author][secondConference].append(paper3)
 
 
     @staticmethod
