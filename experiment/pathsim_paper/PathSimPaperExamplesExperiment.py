@@ -3,6 +3,7 @@ from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
+from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
 from src.similarity.heterogeneous.SimRankStrategy import SimRankStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
@@ -92,6 +93,10 @@ class PathSimPaperExamplesExperiment(Experiment):
             return float(len(aNeighbors) * len(bNeighbors)) * (pageRanks[a]/max(pageRanks.values()))
         heterogeneousSquaredSimRankStrategy = SimRankStrategy(projectedGraph, normalization=pagerankNorm)
         self.outputSimilarityScores(authorMap, authors, heterogeneousSquaredSimRankStrategy, 'PR-Normalized Heterogeneous SimRank')
+
+        # Output NeighborSim similarity scores
+        neighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Conference])
+        self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'NeighborSim')
 
         # Output the PathSim similarity scores
         pathsimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
