@@ -18,7 +18,7 @@ class SampleGraphUtility(object):
 
 
     @staticmethod
-    def constructPathSimExampleThree():
+    def constructPathSimExampleThree(extraAuthors = False):
         """
           Constructs "Example 3" from PathSim publication, ignoring topic nodes
 
@@ -36,6 +36,10 @@ class SampleGraphUtility(object):
         bob = Author(SampleGraphUtility.__getNextId(), 'Bob')
         ann = Author(SampleGraphUtility.__getNextId(), 'Ann')
         authors = [mike, jim, mary, bob, ann]
+        if extraAuthors:
+            joe = Author(SampleGraphUtility.__getNextId(), 'Joe')
+            nancy = Author(SampleGraphUtility.__getNextId(), 'Nancy')
+            authors += [joe, nancy]
         graph.addNodes(authors)
 
         # Add conferences
@@ -62,12 +66,18 @@ class SampleGraphUtility(object):
             graph.addBothEdges(paper, conference, Publication())
         SampleGraphUtility.__addSimilarAuthorsPapers(graph, mary, sigmod, icde)
         SampleGraphUtility.__addSimilarAuthorsPapers(graph, bob, sigmod, vldb)
+
         annsPaper1 = Paper(SampleGraphUtility.__getNextId(), 'ICDE Paper')
         annsPaper2 = Paper(SampleGraphUtility.__getNextId(), 'KDD Paper')
         graph.addBothEdges(ann, annsPaper1, Authorship())
         graph.addBothEdges(ann, annsPaper2, Authorship())
         graph.addBothEdges(annsPaper1, icde, Publication())
         graph.addBothEdges(annsPaper2, kdd, Publication())
+
+        # Add extra authors & citation data
+        if extraAuthors:
+            SampleGraphUtility.__addSimilarAuthorsPapers(graph, joe, sigmod, vldb)
+            SampleGraphUtility.__addSimilarAuthorsPapers(graph, nancy, sigmod, vldb)
 
         return graph, authorMap, conferenceMap
 
