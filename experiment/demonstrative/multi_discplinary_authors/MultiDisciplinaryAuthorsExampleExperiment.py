@@ -59,7 +59,7 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
             for otherAuthor in projectedGraph.getNodes():
                 authorCitationCounts[author][otherAuthor] = projectedGraph.getNumberOfEdges(author, otherAuthor)
 
-        # Output the adjacency matrix for authors & conferences in the graph
+        # Output the adjacency matrix for authors-authors in the graph
         self.output('\nCitation Matrix:')
         adjMatrixTable = texttable.Texttable()
         rows = [['Author'] + [author.name for author in authors]]

@@ -1,5 +1,4 @@
 from collections import defaultdict
-import itertools
 from src.graph.GraphFactory import GraphFactory
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Citation import Citation
@@ -15,12 +14,11 @@ class SampleGraphUtility(object):
       Utility for creating sample graphs for unit testing and manual tests or experiments.
     """
 
-
     __nextId = 0
 
 
     @staticmethod
-    def constructPathSimExampleThree(extraAuthorsAndCitations = False):
+    def constructPathSimExampleThree(extraAuthorsAndCitations = False, citationMap = None):
         """
           Constructs "Example 3" from PathSim publication, ignoring topic nodes
 
@@ -89,22 +87,60 @@ class SampleGraphUtility(object):
         if extraAuthorsAndCitations:
             SampleGraphUtility.__addSimilarAuthorsPapers(graph, joe, sigmod, vldb, authorConferencePaperMap)
             SampleGraphUtility.__addSimilarAuthorsPapers(graph, nancy, sigmod, vldb, authorConferencePaperMap)
-            SampleGraphUtility.__constructCitations(graph, authorMap, conferenceMap, authorConferencePaperMap)
-
+            SampleGraphUtility.__constructCitations(graph, authorMap, conferenceMap, authorConferencePaperMap, citationMap)
 
         return graph, authorMap, conferenceMap
 
 
     @staticmethod
-    def __constructCitations(graph, authorMap, conferenceMap, acpMap):
+    def __constructCitations(graph, authorMap, conferenceMap, acpMap, citationMap):
         """
           Add citations
         """
 
-        for author1Name, author2Name in itertools.product(authorMap, authorMap):
-            citingAuthor, citedAuthor = authorMap[author1Name], authorMap[author2Name]
+        def addCitations(authorOne, authorTwo, n):
 
-            # TODO: Add citations that make sense
+            if n == 0: return
+
+            # Find the shared conferences
+            sharedConferences = []
+            for conferenceName, conference in conferenceMap.iteritems():
+                if len(acpMap[authorOne][conference]) > 0 and len(acpMap[authorTwo][conference]) > 0:
+                    sharedConferences.append(conference)
+
+
+            incomplete = True
+
+            # Loop through shared conferences between authors until we find something that makes sense
+            attempt = -1
+            while incomplete:
+                attempt += 1
+                sharedConference = sharedConferences[attempt]
+
+                # Cite the author, skip if it's not possible
+                papersToCiteFrom = acpMap[authorOne][sharedConference]
+                papersToCite = acpMap[authorTwo][sharedConference] # just select one of the papers published in the shared conference
+                if n > len(papersToCiteFrom) * len(papersToCite):
+                    continue
+                for i in xrange(0, n):
+
+                    if n > len(papersToCiteFrom):
+                        paperToCiteFrom = papersToCiteFrom[0]
+                        paperToCite = papersToCite[i]
+                    else:
+                        paperToCiteFrom = papersToCiteFrom[i]
+                        paperToCite = papersToCite[0]
+
+                    graph.addEdge(paperToCiteFrom, paperToCite, Citation())
+
+                incomplete = False
+
+
+        for citingAuthorName in citationMap:
+            for citedAuthorName in citationMap[citingAuthorName]:
+                numCitations = citationMap[citingAuthorName][citedAuthorName]
+                addCitations(authorMap[citingAuthorName], authorMap[citedAuthorName], numCitations)
+
 
     @staticmethod
     def constructMultiDisciplinaryAuthorExample():

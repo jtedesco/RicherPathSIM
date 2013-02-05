@@ -26,7 +26,18 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
 
     def run(self):
 
-        self.graph, authorMap, conferenceMap = SampleGraphUtility.constructPathSimExampleThree(extraAuthorsAndCitations=True)
+        citationMap = {
+            'Mike':  {'Mike': 0,  'Jim': 0,  'Mary': 0,  'Bob': 0,  'Ann': 0, 'Joe': 0,  'Nancy': 0},
+            'Jim':   {'Mike': 20, 'Jim': 0,  'Mary': 20, 'Bob': 20, 'Ann': 0, 'Joe': 20, 'Nancy': 0},
+            'Mary':  {'Mike': 1,  'Jim': 10, 'Mary': 0,  'Bob': 1,  'Ann': 0, 'Joe': 1,  'Nancy': 0},
+            'Bob':   {'Mike': 1,  'Jim': 10, 'Mary': 1,  'Bob': 0,  'Ann': 0, 'Joe': 1,  'Nancy': 0},
+            'Ann':   {'Mike': 0,  'Jim': 0,  'Mary': 0,  'Bob': 0,  'Ann': 0, 'Joe': 0,  'Nancy': 0},
+            'Joe':   {'Mike': 0,  'Jim': 0,  'Mary': 0,  'Bob': 0,  'Ann': 0, 'Joe': 0,  'Nancy': 0},
+            'Nancy': {'Mike': 1,  'Jim': 10, 'Mary': 1,  'Bob': 1,  'Ann': 0, 'Joe': 1,  'Nancy': 0}
+        }
+
+        self.graph, authorMap, conferenceMap =\
+            SampleGraphUtility.constructPathSimExampleThree(extraAuthorsAndCitations=True, citationMap = citationMap)
 
         # Get the nodes we care about
         conferences = [
@@ -46,15 +57,23 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
         ]
         metaPathUtility = EdgeBasedMetaPathUtility()
 
-        # Project a 2-typed heterogeneous graph over PathSim example
+        # Project a 2-typed heterogeneous graph over adapted PathSim example
+        publicationProjectedGraph = metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference], symmetric = True)
         self.output('\nAdjacency Matrix (Projected):')
         adjMatrixTable = texttable.Texttable()
-        projectedGraph = metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference], symmetric = True)
         rows = [['Author'] + [conference.name for conference in conferences]]
-        rows += [[author.name] + [projectedGraph.getNumberOfEdges(author, conference) for conference in conferences] for author in authors]
+        rows += [[author.name] + [publicationProjectedGraph.getNumberOfEdges(author, conference) for conference in conferences] for author in authors]
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
 
+        # Project a homogeneous citation graph over adapted PathSim example
+        citationProjectedGraph = metaPathUtility.createHomogeneousProjection(self.graph, [Author, Paper, Paper, Author])
+        self.output('\nCitation Matrix:')
+        adjMatrixTable = texttable.Texttable()
+        rows = [['Author'] + [author.name for author in authors]]
+        rows += [[author.name] + [citationProjectedGraph.getNumberOfEdges(author, otherAuthor) for otherAuthor in authors] for author in authors]
+        adjMatrixTable.add_rows(rows)
+        self.output(adjMatrixTable.draw())
 
 if __name__ == '__main__':
     experiment = LeaderFollowerAuthorsExampleExperiment(
