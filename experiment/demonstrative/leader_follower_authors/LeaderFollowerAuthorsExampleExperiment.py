@@ -1,6 +1,9 @@
 from src.similarity.AggregateSimilarityStrategy import AggregateSimilarityStrategy
+from src.similarity.heterogeneous.HITSDistanceStrategy import HITSDistanceStrategy
 from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
+from src.similarity.heterogeneous.PageRankDistanceStrategy import PageRankDistanceStrategy
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
+from src.similarity.heterogeneous.SimRankStrategy import SimRankStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 
 __author__ = 'jontedesco'
@@ -80,15 +83,24 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
 
         # Get PathSim similarity scores
         pathSimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
-        self.outputSimilarityScores(authorMap, authors, pathSimStrategy, 'PathSim')
+        self.outputSimilarityScores(authorMap, authors, pathSimStrategy, 'APCPA PathSim')
+
+        # Output SimRank-related scores
+        strategy = SimRankStrategy(self.graph, [Author, Paper, Paper, Author], symmetric=True)
+        self.outputSimilarityScores(authorMap, authors, strategy, "SimRank")
+
+        # Output the projected PageRank/HITS similarity scores
+        for name, algorithm in zip(['PageRank', 'HITS'], [PageRankDistanceStrategy, HITSDistanceStrategy]):
+            strategy = algorithm(self.graph, [Author, Paper, Paper, Author], symmetric=True)
+            self.outputSimilarityScores(authorMap, authors, strategy, "%s-Distance" % name)
 
         # Get NeighborSim similarity scores
         inNeighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
-        self.outputSimilarityScores(authorMap, authors, inNeighborSimStrategy, 'NeighborSim-In')
+        self.outputSimilarityScores(authorMap, authors, inNeighborSimStrategy, 'APPA NeighborSim-In')
         outNeighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author], reversed=True)
-        self.outputSimilarityScores(authorMap, authors, outNeighborSimStrategy, 'NeighborSim-Out')
+        self.outputSimilarityScores(authorMap, authors, outNeighborSimStrategy, 'APPA NeighborSim-Out')
         combinedNeighborSim = AggregateSimilarityStrategy(self.graph, [inNeighborSimStrategy, outNeighborSimStrategy], [0.8, 0.2])
-        self.outputSimilarityScores(authorMap, authors, combinedNeighborSim, 'NeighborSim-Combined')
+        self.outputSimilarityScores(authorMap, authors, combinedNeighborSim, 'APPA NeighborSim-Combined')
 
 
 if __name__ == '__main__':
