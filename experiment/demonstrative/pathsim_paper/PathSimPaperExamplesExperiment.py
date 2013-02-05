@@ -92,11 +92,11 @@ class PathSimPaperExamplesExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, heterogeneousSquaredSimRankStrategy, 'PR-Normalized Heterogeneous SimRank')
 
         # Output NeighborSim similarity scores
-        neighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Conference])
+        neighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Conference], symmetric=True)
         self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'NeighborSim')
 
         # Output the PathSim similarity scores
-        pathsimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
+        pathsimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], symmetric=True)
         self.outputSimilarityScores(authorMap, authors, pathsimStrategy, 'PathSim')
 
 

@@ -18,9 +18,13 @@ class NeighborSimStrategy(MetaPathSimilarityStrategy):
 
         # Project graph
         if self.metaPath[0] == self.metaPath[-1]: # Homogeneous projection?
-            projectedGraph = self.metaPathUtility.createHomogeneousProjection(self.graph, self.metaPath, True)
+            projectedGraph = self.metaPathUtility.createHomogeneousProjection(
+                self.graph, self.metaPath, symmetric=self.symmetric
+            )
         else:
-            projectedGraph = self.metaPathUtility.createHeterogeneousProjection(self.graph, self.metaPath, True)
+            projectedGraph = self.metaPathUtility.createHeterogeneousProjection(
+                self.graph, self.metaPath, symmetric=self.symmetric
+            )
 
         # Find the shared in-neighbors of these nodes in the projected graph, and calculate the numerator
         sharedInNeighbors = set(projectedGraph.getPredecessors(source)).intersection(projectedGraph.getPredecessors(destination))

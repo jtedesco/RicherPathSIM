@@ -83,7 +83,10 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
 
         # Get NeighborSim similarity scores
         neighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
-        self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'NeighborSim')
+        self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'NeighborSim-In')
+
+        neighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
+        self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'NeighborSim-Out')
 
 if __name__ == '__main__':
     experiment = LeaderFollowerAuthorsExampleExperiment(
