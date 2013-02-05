@@ -1,3 +1,4 @@
+from src.similarity.AggregateSimilarityStrategy import AggregateSimilarityStrategy
 from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
@@ -82,11 +83,13 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, pathSimStrategy, 'PathSim')
 
         # Get NeighborSim similarity scores
-        neighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
-        self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'NeighborSim-In')
+        inNeighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
+        self.outputSimilarityScores(authorMap, authors, inNeighborSimStrategy, 'NeighborSim-In')
+        outNeighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author], reversed=True)
+        self.outputSimilarityScores(authorMap, authors, outNeighborSimStrategy, 'NeighborSim-Out')
+        combinedNeighborSim = AggregateSimilarityStrategy(self.graph, [inNeighborSimStrategy, outNeighborSimStrategy], [0.8, 0.2])
+        self.outputSimilarityScores(authorMap, authors, combinedNeighborSim, 'NeighborSim-Combined')
 
-        neighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
-        self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'NeighborSim-Out')
 
 if __name__ == '__main__':
     experiment = LeaderFollowerAuthorsExampleExperiment(
