@@ -8,13 +8,13 @@ class NetworkXGraph(Graph):
       Interface to a networkx graph instance
     """
 
-    def __init__(self):
+    def __init__(self, graph = None):
         """
           Construct the new graph instance
         """
         super(NetworkXGraph, self).__init__()
 
-        self.graph = networkx.MultiDiGraph()
+        self.graph = networkx.MultiDiGraph() if graph is None else graph
 
     def addEdge(self, source, destination, attribute = None):
         attributeDictionary = None if attribute is None else attribute.toDict()
@@ -55,9 +55,7 @@ class NetworkXGraph(Graph):
         return self.graph.predecessors(node)
 
     def breadthFirstSearch(self, source):
-        newGraph = NetworkXGraph()
-        newGraph.graph = networkx.bfs_tree(self.graph, source)
-        return newGraph
+        return NetworkXGraph(networkx.bfs_tree(self.graph, source))
 
     def hits(self):
         return networkx.hits_numpy(self.graph)
@@ -65,10 +63,11 @@ class NetworkXGraph(Graph):
     def pageRank(self, alpha=0.85, personalization=None):
         return networkx.pagerank_numpy(self.graph, alpha, personalization)
 
+    def reverse(self):
+        return NetworkXGraph(self.graph.reverse())
+
     def subGraph(self, nodes):
-        newGraph = NetworkXGraph()
-        newGraph.graph = self.graph.subgraph(nodes)
-        return newGraph
+        return NetworkXGraph(self.graph.subgraph(nodes))
 
     def cloneEmpty(self):
         return NetworkXGraph()

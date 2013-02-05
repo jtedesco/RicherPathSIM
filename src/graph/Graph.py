@@ -153,6 +153,12 @@ class Graph(object):
         """
         raise NotImplementedError()
 
+    def reverse(self):
+        """
+          Return a reversed copy of this graph
+        """
+        raise NotImplementedError()
+
     def subGraph(self, nodes):
         """
           Builds a subgraph of this graph given a set of nodes
