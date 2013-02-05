@@ -1,3 +1,5 @@
+from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
+from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 
 __author__ = 'jontedesco'
@@ -74,6 +76,14 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
         rows += [[author.name] + [citationProjectedGraph.getNumberOfEdges(author, otherAuthor) for otherAuthor in authors] for author in authors]
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
+
+        # Get PathSim similarity scores
+        pathSimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
+        self.outputSimilarityScores(authorMap, authors, pathSimStrategy, 'PathSim')
+
+        # Get NeighborSim similarity scores
+        neighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
+        self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'NeighborSim')
 
 if __name__ == '__main__':
     experiment = LeaderFollowerAuthorsExampleExperiment(
