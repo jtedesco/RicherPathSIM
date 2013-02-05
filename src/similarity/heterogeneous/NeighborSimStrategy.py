@@ -30,39 +30,22 @@ class NeighborSimStrategy(MetaPathSimilarityStrategy):
                 self.graph, self.metaPath, symmetric=self.symmetric
             )
 
+        # Consider the reverse meta path if flag is enabled
+        if self.reversed: projectedGraph = projectedGraph.reverse()
 
+        # Find the shared in-neighbors of these nodes in the projected graph, and calculate the numerator
+        sharedInNeighbors = set(projectedGraph.getPredecessors(source)).intersection(projectedGraph.getPredecessors(destination))
+        total = 1
+        for sharedN in sharedInNeighbors:
+            total += (projectedGraph.getNumberOfEdges(sharedN, source) * projectedGraph.getNumberOfEdges(sharedN, destination))
 
-        if self.reversed:
-
-            # Find the shared out-neighbors of these nodes in the projected graph, and calculate the numerator
-            sharedOutNeighbors = set(projectedGraph.getSuccessors(source)).intersection(projectedGraph.getSuccessors(destination))
-            total = 1
-            for sharedN in sharedOutNeighbors:
-                total += (projectedGraph.getNumberOfEdges(source, sharedN) * projectedGraph.getNumberOfEdges(destination, sharedN))
-
-            # Accumulate normalizations
-            sourceNormalization = 1
-            for sourceNeighbor in projectedGraph.getSuccessors(source):
-                sourceNormalization += projectedGraph.getNumberOfEdges(source, sourceNeighbor)**2
-            destNormalization = 1
-            for destNeighbor in projectedGraph.getSuccessors(destination):
-                destNormalization += projectedGraph.getNumberOfEdges(destination, destNeighbor)**2
-
-        else:
-
-            # Find the shared in-neighbors of these nodes in the projected graph, and calculate the numerator
-            sharedInNeighbors = set(projectedGraph.getPredecessors(source)).intersection(projectedGraph.getPredecessors(destination))
-            total = 1
-            for sharedN in sharedInNeighbors:
-                total += (projectedGraph.getNumberOfEdges(sharedN, source) * projectedGraph.getNumberOfEdges(sharedN, destination))
-
-            # Accumulate normalizations
-            sourceNormalization = 1
-            for sourceNeighbor in projectedGraph.getPredecessors(source):
-                sourceNormalization += projectedGraph.getNumberOfEdges(sourceNeighbor, source)**2
-            destNormalization = 1
-            for destNeighbor in projectedGraph.getPredecessors(destination):
-                destNormalization += projectedGraph.getNumberOfEdges(destNeighbor, destination)**2
+        # Accumulate normalizations
+        sourceNormalization = 1
+        for sourceNeighbor in projectedGraph.getPredecessors(source):
+            sourceNormalization += projectedGraph.getNumberOfEdges(sourceNeighbor, source)**2
+        destNormalization = 1
+        for destNeighbor in projectedGraph.getPredecessors(destination):
+            destNormalization += projectedGraph.getNumberOfEdges(destNeighbor, destination)**2
 
         similarityScore = total
         if total > 0:
