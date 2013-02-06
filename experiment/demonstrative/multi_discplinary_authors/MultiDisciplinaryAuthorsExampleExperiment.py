@@ -21,8 +21,8 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
     def outputSimilarityScores(self, authorMap, authors, strategy, strategyName):
         self.output('\n%s Scores (compared to D):' % strategyName)
         rows = [
-            [author.name for author in authors[1:]],
-            ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors[1:]]
+            [author.name for author in authors],
+            ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors]
         ]
         pathSimTable = texttable.Texttable()
         pathSimTable.add_rows(rows)
