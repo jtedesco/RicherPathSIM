@@ -22,8 +22,8 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
     def outputSimilarityScores(self, authorMap, authors, strategy, strategyName, nodeName = 'Mike'):
         self.output('\n%s Scores (compared to %s):' % (strategyName, nodeName))
         rows = [
-            [author.name for author in authors[1:]],
-            ['%1.2f' % strategy.findSimilarityScore(authorMap[nodeName], author) for author in authors[1:]]
+            [author.name for author in authors],
+            ['%1.2f' % strategy.findSimilarityScore(authorMap[nodeName], author) for author in authors]
         ]
         pathSimTable = texttable.Texttable()
         pathSimTable.add_rows(rows)
@@ -110,8 +110,15 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, inNeighborSimStrategy, 'APPA NeighborSim-In')
         outNeighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author], reversed=True, smoothed=True)
         self.outputSimilarityScores(authorMap, authors, outNeighborSimStrategy, 'APPA NeighborSim-Out')
-        combinedNeighborSim = AggregateSimilarityStrategy(self.graph, [inNeighborSimStrategy, outNeighborSimStrategy], [0.8, 0.2])
-        self.outputSimilarityScores(authorMap, authors, combinedNeighborSim, 'APPA NeighborSim-Combined')
+
+        # Combined best PR-distance algorithm
+        simRankStrategy = SimRankStrategy(self.graph, [Author, Paper, Paper, Author], symmetric=True)
+        simRank = AggregateSimilarityStrategy(self.graph, [pathSimStrategy, simRankStrategy], [0.5, 0.5])
+        self.outputSimilarityScores(authorMap, authors, simRank, 'APCPA Pathsim, APPA SimRank')
+
+        # Combined best neighborsim score
+        combinedNeighborSim = AggregateSimilarityStrategy(self.graph, [pathSimStrategy, inNeighborSimStrategy, outNeighborSimStrategy], [0.6, 0.2, 0.2])
+        self.outputSimilarityScores(authorMap, authors, combinedNeighborSim, 'APCPA Pathsim, APPA NeighborSim-Combined')
 
 
 if __name__ == '__main__':
