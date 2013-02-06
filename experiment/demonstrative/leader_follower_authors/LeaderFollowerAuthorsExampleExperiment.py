@@ -108,7 +108,7 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
         # Get NeighborSim similarity scores
         inNeighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
         self.outputSimilarityScores(authorMap, authors, inNeighborSimStrategy, 'APPA NeighborSim-In')
-        outNeighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author], reversed=True)
+        outNeighborSimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author], reversed=True, smoothed=True)
         self.outputSimilarityScores(authorMap, authors, outNeighborSimStrategy, 'APPA NeighborSim-Out')
         combinedNeighborSim = AggregateSimilarityStrategy(self.graph, [inNeighborSimStrategy, outNeighborSimStrategy], [0.8, 0.2])
         self.outputSimilarityScores(authorMap, authors, combinedNeighborSim, 'APPA NeighborSim-Combined')

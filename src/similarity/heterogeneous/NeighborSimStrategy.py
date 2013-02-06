@@ -8,9 +8,10 @@ class NeighborSimStrategy(MetaPathSimilarityStrategy):
       the two nodes, but connecting to shared neighbors.
     """
 
-    def __init__(self, graph, metaPath=None, symmetric=False, reversed=False):
+    def __init__(self, graph, metaPath=None, symmetric=False, reversed=False, smoothed=False):
         super(NeighborSimStrategy, self).__init__(graph, metaPath, symmetric)
         self.reversed = reversed
+        self.smoothed = smoothed
 
     def findSimilarityScore(self, source, destination):
         """
@@ -35,15 +36,15 @@ class NeighborSimStrategy(MetaPathSimilarityStrategy):
 
         # Find the shared in-neighbors of these nodes in the projected graph, and calculate the numerator
         sharedInNeighbors = set(projectedGraph.getPredecessors(source)).intersection(projectedGraph.getPredecessors(destination))
-        total = 1
+        total = 1 if self.smoothed else 0
         for sharedN in sharedInNeighbors:
             total += (projectedGraph.getNumberOfEdges(sharedN, source) * projectedGraph.getNumberOfEdges(sharedN, destination))
 
         # Accumulate normalizations
-        sourceNormalization = 1
+        sourceNormalization = 1 if self.smoothed else 0
         for sourceNeighbor in projectedGraph.getPredecessors(source):
             sourceNormalization += projectedGraph.getNumberOfEdges(sourceNeighbor, source)**2
-        destNormalization = 1
+        destNormalization = 1 if self.smoothed else 0
         for destNeighbor in projectedGraph.getPredecessors(destination):
             destNormalization += projectedGraph.getNumberOfEdges(destNeighbor, destination)**2
 
