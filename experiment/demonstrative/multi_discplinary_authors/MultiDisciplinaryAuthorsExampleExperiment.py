@@ -1,3 +1,4 @@
+from src.similarity.AggregateSimilarityStrategy import AggregateSimilarityStrategy
 from src.similarity.heterogeneous.HITSDistanceStrategy import HITSDistanceStrategy
 from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
 from src.similarity.heterogeneous.PageRankDistanceStrategy import PageRankDistanceStrategy
@@ -89,12 +90,17 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, strategy, "NeighborSim")
 
         # Output the PathSim similarity scores
-        strategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
-        self.outputSimilarityScores(authorMap, authors, strategy, "PathSim")
+        pathsimStretegy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
+        self.outputSimilarityScores(authorMap, authors, pathsimStretegy, "PathSim")
 
         # Output SimRank-related scores
-        strategy = SimRankStrategy(self.graph, [Author, Paper, Paper, Author], symmetric=True)
-        self.outputSimilarityScores(authorMap, authors, strategy, "SimRank")
+        simrankStrategy = SimRankStrategy(self.graph, [Author, Paper, Paper, Author])
+        self.outputSimilarityScores(authorMap, authors, simrankStrategy, "SimRank")
+
+        # Output pathsim - simrank scores
+        combinedNeighborSim = AggregateSimilarityStrategy(self.graph, [simrankStrategy, pathsimStretegy], [0.5, 0.5])
+        self.outputSimilarityScores(authorMap, authors, combinedNeighborSim, 'APCPA Pathsim, APPA SimRank')
+
 
         # Output the projected PageRank/HITS similarity scores
         for name, algorithm in zip(['PageRank', 'HITS'], [PageRankDistanceStrategy, HITSDistanceStrategy]):
