@@ -81,6 +81,17 @@ class LeaderFollowerAuthorsExampleExperiment(Experiment):
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
 
+        # Output total out/in citations
+        self.output('\nCitations Total:')
+        totalCitationsTable = texttable.Texttable()
+        rows = [['Author', 'In', 'Out']]
+        for author in authors:
+            inCount = sum(citationProjectedGraph.getNumberOfEdges(otherAuthor, author) for otherAuthor in authors)
+            outCount = sum(citationProjectedGraph.getNumberOfEdges(author, otherAuthor) for otherAuthor in authors)
+            rows += [[author.name, inCount, outCount]]
+        totalCitationsTable.add_rows(rows)
+        self.output(totalCitationsTable.draw())
+
         # Get PathSim similarity scores
         pathSimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
         self.outputSimilarityScores(authorMap, authors, pathSimStrategy, 'APCPA PathSim')
