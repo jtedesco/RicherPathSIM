@@ -166,12 +166,10 @@ class SampleGraphUtility(object):
         graph.addNodes(authors)
 
         # Add conferences
-        sigmod = Conference(SampleGraphUtility.__getNextId(), 'SIGMOD') # Databases
         vldb = Conference(SampleGraphUtility.__getNextId(), 'VLDB') # Databases
-        cikm = Conference(SampleGraphUtility.__getNextId(), 'CIKM') # Data mining
         kdd = Conference(SampleGraphUtility.__getNextId(), 'KDD') # Data mining
-        conferences = [sigmod, vldb, cikm, kdd]
-        graph.addNodes([sigmod, vldb, cikm, kdd])
+        conferences = [vldb, kdd]
+        graph.addNodes(conferences)
 
         # Add author / conference index
         for author in authors:
@@ -181,14 +179,14 @@ class SampleGraphUtility(object):
 
         # Helper dictionary of total citation counts for each author (to fabricate) -- all divisible by 5, and multi-discipline authors divisible by 10
         # Results in the following total counts: {'A':100, 'B':80, 'C':10, 'D':120, 'E':60, 'F':100, 'G':80, 'H':10, 'I':24}
-        citationCounts = {'A':100, 'B':80, 'C':10, 'D':60, 'E':30, 'F':100, 'G':80, 'H':10, 'I':12} # Citations per paper
+        citationCounts = {'A':100, 'B':80, 'C':10, 'D':60, 'E':45, 'F':100, 'G':80, 'H':10, 'I':12} # Citations per paper
 
         # Create two papers for each author, one paper in each conference in each area
         dmAuthorNames = ['D', 'E', 'F', 'G', 'H', 'I']
         dbAuthorNames = ['A', 'B', 'C', 'D', 'E', 'I']
         duplicateNames = set(dmAuthorNames).intersection(set(dbAuthorNames))
-        dmConferenceNames = ['CIKM', 'KDD']
-        dbConferenceNames = ['SIGMOD', 'VLDB']
+        dmConferenceNames = ['KDD']
+        dbConferenceNames = ['VLDB']
 
         # Create equal number of citations from each other paper in the research area for each author's papers
         totalCitationCount = {}
@@ -197,7 +195,7 @@ class SampleGraphUtility(object):
         for authorNames, conferenceNames in [(dmAuthorNames, dmConferenceNames), (dbAuthorNames, dbConferenceNames)]:
             for authorName in authorNames:
 
-                totalCitationCount[authorName] = 0
+                if authorName not in totalCitationCount: totalCitationCount[authorName] = 0
 
                 citedPaperMap = {}
                 for conferenceName in conferenceNames:
