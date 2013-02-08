@@ -88,20 +88,23 @@ class MetaPathUtility(object):
         return self.__projectionHelper(graph, metaPath, symmetric = symmetric, heterogeneous = True)
 
 
-    def getAdjacencyMatrixFromProjectedGraph(self, graph):
+    def getAdjacencyMatrixFromGraph(self, graph, metaPath = None, symmetric = False):
         """
-          Computes the adjacency matrix from a given projected graph
+          Computes a graph projection (if meta path is provided), and the adjacency matrix
         """
 
-        nodesIndex = {}
-        nodes = graph.getNodes()
-        n = len(nodes)
-        for i in xrange(0, n):
-            nodesIndex[nodes[i]] = i
+        if metaPath is not None:
+            projFunction = self.createHomogeneousProjection if metaPath[0] == metaPath[-1] else self.createHeterogeneousProjection
+            projectedGraph = projFunction(graph, metaPath, symmetric)
+        else:
+            projectedGraph = graph
+
+        nodes, n = projectedGraph.getNodes(), len(projectedGraph.getNodes())
+        nodesIndex = {nodes[i]: i for i in xrange(0, n)}
 
         adjacencyMatrix = numpy.zeros((n, n))
         for x, y in itertools.product(nodes, nodes):
-            adjacencyMatrix[nodesIndex[x]][nodesIndex[y]] = graph.getNumberOfEdges(x, y)
+            adjacencyMatrix[nodesIndex[x]][nodesIndex[y]] = projectedGraph.getNumberOfEdges(x, y)
 
         return adjacencyMatrix, nodesIndex
 
@@ -113,7 +116,7 @@ class MetaPathUtility(object):
 
         newGraph = graph.cloneEmpty()
 
-        # Get the nodes of the homogeneous graph
+        # Get the nodes of the projected graph
         for node in graph.getNodes():
             if isinstance(node, metaPath[0]) or (heterogeneous and isinstance(node, metaPath[-1])):
                 newGraph.addNode(node)
