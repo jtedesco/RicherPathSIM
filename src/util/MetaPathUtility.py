@@ -1,3 +1,6 @@
+import itertools
+import numpy
+
 __author__ = 'jontedesco'
 
 class MetaPathUtility(object):
@@ -83,6 +86,24 @@ class MetaPathUtility(object):
         # Check that the endpoints are of the correct types
         assert(metaPath[0] != metaPath[-1])
         return self.__projectionHelper(graph, metaPath, symmetric = symmetric, heterogeneous = True)
+
+
+    def getAdjacencyMatrixFromProjectedGraph(self, graph):
+        """
+          Computes the adjacency matrix from a given projected graph
+        """
+
+        nodesIndex = {}
+        nodes = graph.getNodes()
+        n = len(nodes)
+        for i in xrange(0, n):
+            nodesIndex[nodes[i]] = i
+
+        adjacencyMatrix = numpy.zeros((n, n))
+        for x, y in itertools.product(nodes, nodes):
+            adjacencyMatrix[nodesIndex[x]][nodesIndex[y]] = graph.getNumberOfEdges(x, y)
+
+        return adjacencyMatrix, nodesIndex
 
 
     def __projectionHelper(self, graph, metaPath, symmetric = False, heterogeneous = False):
