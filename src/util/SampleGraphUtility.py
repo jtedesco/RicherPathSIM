@@ -143,7 +143,7 @@ class SampleGraphUtility(object):
 
 
     @staticmethod
-    def constructMultiDisciplinaryAuthorExample():
+    def constructMultiDisciplinaryAuthorExample(indirectAuthor = False):
         """
             Construct example DBLP graph where two authors are multi disciplinary, and no one else
         """
@@ -163,6 +163,8 @@ class SampleGraphUtility(object):
         h = Author(SampleGraphUtility.__getNextId(), 'H')
         i = Author(SampleGraphUtility.__getNextId(), 'I')
         authors = [a,b,c,d,e,f,g,h,i]
+        if indirectAuthor:
+            authors.append(Author(SampleGraphUtility.__getNextId(), 'J'))
         graph.addNodes(authors)
 
         # Add conferences
@@ -179,23 +181,24 @@ class SampleGraphUtility(object):
 
         # Helper dictionary of total citation counts for each author (to fabricate) -- all divisible by 5, and multi-discipline authors divisible by 10
         # Results in the following total counts: {'A':100, 'B':80, 'C':10, 'D':120, 'E':60, 'F':100, 'G':80, 'H':10, 'I':24}
-        citationCounts = {'A':100, 'B':80, 'C':10, 'D':60, 'E':45, 'F':100, 'G':80, 'H':10, 'I':12} # Citations per paper
+        citationCounts = {'A':100, 'B':80, 'C':10, 'D':60, 'E':45, 'F':100, 'G':80, 'H':10, 'I':12, 'J':60} # Citations per paper
 
         # Create two papers for each author, one paper in each conference in each area
         dmAuthorNames = ['D', 'E', 'F', 'G', 'H', 'I']
         dbAuthorNames = ['A', 'B', 'C', 'D', 'E', 'I']
+        if indirectAuthor:
+            dmAuthorNames += ['J']
+            dbAuthorNames += ['J']
         duplicateNames = set(dmAuthorNames).intersection(set(dbAuthorNames))
         dmConferenceNames = ['KDD']
         dbConferenceNames = ['VLDB']
 
         # Create equal number of citations from each other paper in the research area for each author's papers
-        totalCitationCount = {}
+        totalCitationCount = defaultdict(int)
         def f(x): totalCitationCount[x] = 0
         map(f, set(dmAuthorNames).union(set(dbAuthorNames)))
         for authorNames, conferenceNames in [(dmAuthorNames, dmConferenceNames), (dbAuthorNames, dbConferenceNames)]:
             for authorName in authorNames:
-
-                if authorName not in totalCitationCount: totalCitationCount[authorName] = 0
 
                 citedPaperMap = {}
                 for conferenceName in conferenceNames:
@@ -214,13 +217,18 @@ class SampleGraphUtility(object):
                 else:
                     citingAuthors = set(authorNames)
                     citingAuthors.remove(authorName)
-                numberOfIncomingCitationsPerAuthor = citationCounts[authorName] / len(citingAuthors)
+                citationsPerAuthor = citationCounts[authorName] / len(citingAuthors)
+
+                # Make sure J is cited by the two non-D multi-disciplinary authors
+                if authorName == 'J':
+                    citationsPerAuthor = citationCounts[authorName] / 2
+                    citingAuthors = ['E', 'I']
 
                 # Loop through papers of all other authors
                 for otherAuthorName in citingAuthors:
                     if authorName == otherAuthorName: continue
                     for conferenceName in conferenceNames:
-                        for i in xrange(0, numberOfIncomingCitationsPerAuthor):
+                        for i in xrange(0, citationsPerAuthor):
 
                             # Add fake paper for citing the other author
                             citingPaper = Paper(SampleGraphUtility.__getNextId(), 'Citation%d%sPaperIn%s' % (i, otherAuthorName, conferenceName))
