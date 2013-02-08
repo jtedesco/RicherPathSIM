@@ -18,9 +18,6 @@ class NeighborSimStrategy(MetaPathSimilarityStrategy):
           Find the similarity score between two nodes
         """
 
-        if self.getFromCache(source, destination) is not None:
-            return self.getFromCache(source, destination)
-
         # Project graph
         if self.metaPath[0] == self.metaPath[-1]: # Homogeneous projection?
             projectedGraph = self.metaPathUtility.createHomogeneousProjection(
@@ -51,7 +48,5 @@ class NeighborSimStrategy(MetaPathSimilarityStrategy):
         similarityScore = total
         if total > 0:
             similarityScore = 2 * total / float(sourceNormalization + destNormalization)
-
-        self.addToCache(source, destination, similarityScore)
 
         return similarityScore

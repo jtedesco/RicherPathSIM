@@ -20,11 +20,8 @@ class AggregateSimilarityStrategy(SimilarityStrategy):
           Find the similarity score between two nodes
         """
 
-        if self.getFromCache(source, destination) is not None:
-            return self.getFromCache(source, destination)
         similarityScores = [strategy.findSimilarityScore(source, destination) for strategy in self.strategies]
         similarityScore = sum([weight * score for weight, score in zip(self.strategyWeights, similarityScores)])
-        self.addToCache(source, destination, similarityScore)
 
         return similarityScore
 

@@ -41,9 +41,6 @@ class GlobalInfluenceDistanceStrategy(MetaPathSimilarityStrategy):
           Find the similarity score between
         """
 
-        if self.getFromCache(source, destination) is not None:
-            return self.getFromCache(source, destination)
-
         sourceScoreVector = []
         destinationScoreVector = []
         for nodeSet in self.nodeSets:
@@ -75,8 +72,6 @@ class GlobalInfluenceDistanceStrategy(MetaPathSimilarityStrategy):
 
         # Compute Euclidean norm
         similarityScore = 1 - (numpy.linalg.norm(numpy.array(sourceScoreVector) - numpy.array(destinationScoreVector)))
-
-        self.addToCache(source, destination, similarityScore)
 
         return similarityScore
 

@@ -36,15 +36,3 @@ class SimilarityStrategy(object):
           maximum score for any destination
         """
         return [self.findSimilarityScore(source, destination) for destination in destinations]
-
-
-    def getFromCache(self, source, destination):
-        if source in self.similarityScores:
-            if destination in self.similarityScores[source]:
-                return self.similarityScores[source][destination]
-
-
-    def addToCache(self, source, destination, score):
-        if source not in self.similarityScores:
-            self.similarityScores[source] = {}
-        self.similarityScores[source][destination] = score
