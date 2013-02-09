@@ -10,14 +10,14 @@ class NeighborSimConstantPropagationStrategy(NeighborSimPropagationStrategy):
     def findSimilarityScore(self, source, destination):
 
         # Build adjacency matrix for this projected graph
-        adjMatrix, nodesIndex = self.metaPathUtility.getAdjacencyMatrixFromGraph(self.graph, self.metaPath)
+        adjMatrix, nodesIndex = self.metaPathUtility.getAdjacencyMatrixFromGraph(self.graph, self.metaPath, project=True)
         if self.reversed: adjMatrix = adjMatrix.transpose()
 
         self.similarityScore = self._getScoreFromProjection(source, destination, adjMatrix, nodesIndex)
 
         # Expand meta paths for all additional iterations
         for i in xrange(1, self.iterations):
-            adjMatrix = adjMatrix * adjMatrix # TODO: Correct this
+            adjMatrix = adjMatrix * adjMatrix.transpose() # TODO: Correct this
             self.similarityScore += (self.factor ** i) * self._getScoreFromProjection(source, destination, adjMatrix, nodesIndex)
 
         return self.similarityScore

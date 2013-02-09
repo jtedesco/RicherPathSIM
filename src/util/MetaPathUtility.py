@@ -88,14 +88,14 @@ class MetaPathUtility(object):
         return self.__projectionHelper(graph, metaPath, symmetric = symmetric, heterogeneous = True)
 
 
-    def getAdjacencyMatrixFromGraph(self, graph, metaPath = None, symmetric = False):
+    def getAdjacencyMatrixFromGraph(self, graph, metaPath, project = False, symmetric = False):
         """
           Computes a graph projection (if meta path is provided), and the adjacency matrix
         """
 
         homogeneous = metaPath[0] == metaPath[-1]
 
-        if metaPath is not None:
+        if project:
             projFunction = self.createHomogeneousProjection if homogeneous else self.createHeterogeneousProjection
             projectedGraph = projFunction(graph, metaPath, symmetric)
         else:

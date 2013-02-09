@@ -12,7 +12,7 @@ class NeighborSimPreferentialAttachmentStrategy(NeighborSimPropagationStrategy):
     def findSimilarityScore(self, source, destination):
 
         # Build adjacency matrix for this projected graph
-        adjMatrix, nodesIndex = self.metaPathUtility.getAdjacencyMatrixFromGraph(self.graph, self.metaPath)
+        adjMatrix, nodesIndex = self.metaPathUtility.getAdjacencyMatrixFromGraph(self.graph, self.metaPath, project=True)
         if self.reversed: adjMatrix = adjMatrix.transpose()
 
         self.similarityScore = self._getScoreFromProjection(source, destination, adjMatrix, nodesIndex)
