@@ -15,17 +15,13 @@ class PathSimStrategy(MetaPathSimilarityStrategy):
           Find the similarity score between
         """
 
-        # Catch edge case where only path from A->A is by repetition
-        if source is destination:
-            return 1.0
-
         # Get the meta paths between the source and destination
         numSourceDestinationPaths = len(self.metaPathUtility.findMetaPaths(self.graph, source, destination, self.metaPath, True))
 
         # Get cycle counts
         partialMetaPath = self.metaPath[:len(self.metaPath)/2 + len(self.metaPath) % 2]
         sourceNeighbors = self.metaPathUtility.findMetaPathNeighbors(self.graph, source, partialMetaPath, True)
-        destinationNeighbors = self.metaPathUtility.findMetaPathNeighbors(self.graph, source, partialMetaPath, True)
+        destinationNeighbors = self.metaPathUtility.findMetaPathNeighbors(self.graph, destination, partialMetaPath, True)
         numSourceDestinationCycles = 0
         for node, neighbors in [(source, sourceNeighbors), (destination, destinationNeighbors)]:
             for neighbor in neighbors:

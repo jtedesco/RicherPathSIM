@@ -19,8 +19,8 @@ class PathSimPaperExamplesExperiment(Experiment):
     def outputSimilarityScores(self, authorMap, authors, strategy, strategyName):
         self.output('\n\n%s Scores (compared to Mike):' % strategyName)
         rows = [
-            [author.name for author in authors[1:]],
-            ['%1.2f' % strategy.findSimilarityScore(authorMap['Mike'], author) for author in authors[1:]]
+            [author.name for author in authors],
+            ['%1.2f' % strategy.findSimilarityScore(authorMap['Mike'], author) for author in authors]
         ]
         pathSimTable = texttable.Texttable()
         pathSimTable.add_rows(rows)
