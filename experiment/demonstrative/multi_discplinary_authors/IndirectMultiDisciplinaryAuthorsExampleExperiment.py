@@ -1,3 +1,5 @@
+from src.similarity.heterogeneous.NeighborSimConstantPropagationStrategy import NeighborSimConstantPropagationStrategy
+from src.similarity.heterogeneous.NeighborSimPreferentialAttachmentStrategy import NeighborSimPreferentialAttachmentStrategy
 from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 
@@ -81,14 +83,30 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         citationCountTable.add_rows(rows)
         self.output(citationCountTable.draw())
 
-
-        # Output the NeighborSim similarity scores
-        strategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
-        self.outputSimilarityScores(authorMap, authors, strategy, "NeighborSim")
-
         # Output the PathSim similarity scores
         pathsimStretegy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
         self.outputSimilarityScores(authorMap, authors, pathsimStretegy, "PathSim")
+
+        # Output the NeighborSim similarity scores
+        neighborsimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author, Paper, Paper, Author])
+        self.outputSimilarityScores(authorMap, authors, neighborsimStrategy, "NeighborSim-APPAPPA")
+
+        neighborsimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
+        self.outputSimilarityScores(authorMap, authors, neighborsimStrategy, "NeighborSim")
+
+        # Constant weight propagation strategy
+        propagatedNeighborsimStrategy = NeighborSimConstantPropagationStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 1)
+        self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-ConstantPropagation-1")
+        propagatedNeighborsimStrategy = NeighborSimConstantPropagationStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 2)
+        self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-ConstantPropagation-2")
+
+        # Preferential attachment propagation strategy
+        propagatedNeighborsimStrategy = NeighborSimPreferentialAttachmentStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 1)
+        self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-WeightedPropagation-1")
+        propagatedNeighborsimStrategy = NeighborSimPreferentialAttachmentStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 2)
+        self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-WeightedPropagation-2")
+
+
 
 if __name__ == '__main__':
     experiment = MultiDisciplinaryAuthorsExampleExperiment(
