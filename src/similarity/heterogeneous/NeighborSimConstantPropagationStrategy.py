@@ -24,8 +24,11 @@ class NeighborSimConstantPropagationStrategy(NeighborSimPropagationStrategy):
             extendAdjMatrix, extendNodesIndex = self.metaPathUtility.getAdjacencyMatrixFromGraph(self.graph, extendMetaPath, project=True)
 
         # Expand meta paths for all additional iterations
+        totalNormalization = 1.0
         for i in xrange(1, self.iterations):
             adjMatrix = numpy.dot(adjMatrix, extendAdjMatrix)
-            self.similarityScore += (self.factor ** i) * self._getScoreFromProjection(source, destination, adjMatrix, nodesIndex)
+            normalization = (self.factor ** i)
+            totalNormalization += normalization
+            self.similarityScore += normalization * self._getScoreFromProjection(source, destination, adjMatrix, nodesIndex)
 
-        return self.similarityScore
+        return self.similarityScore / totalNormalization

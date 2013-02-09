@@ -28,12 +28,15 @@ class NeighborSimConstantPreferentialAttachmentStrategy(NeighborSimPropagationSt
 
         # Expand meta paths for all additional iterations
         score = self.similarityScore
+        totalNormalization = 1.0
         for i in xrange(1, self.iterations):
             adjMatrix = numpy.dot(adjMatrix, extendAdjMatrix)
             lastScore = score
             score = self._getScoreFromProjection(source, destination, adjMatrix, nodesIndex)
-            normalization = (self.factor ** i) * (lastScore if lastScore != 0 else 1)
+            staticNorm = (self.factor ** i)
+            normalization = staticNorm * (lastScore if lastScore != 0 else 1)
+            totalNormalization += staticNorm
             self.similarityScore += normalization * score
 
-        return self.similarityScore
+        return self.similarityScore / totalNormalization
 

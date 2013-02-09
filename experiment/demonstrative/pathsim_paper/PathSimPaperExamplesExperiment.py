@@ -1,3 +1,4 @@
+import numpy
 import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
@@ -46,19 +47,35 @@ class PathSimPaperExamplesExperiment(Experiment):
         ]
         metaPathUtility = EdgeBasedMetaPathUtility()
 
-        # Project a 2-typed heterogeneous graph over PathSim example
-        self.output('\nAdjacency Matrix (Projected):')
+        self.output('\nAPC Adjacency Matrix:')
+        apcadjMatrix, nodesIndex = metaPathUtility.getAdjacencyMatrixFromGraph(self.graph, [Author, Paper, Conference], project=True)
         adjMatrixTable = texttable.Texttable()
-        projectedGraph = metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference], symmetric = True)
-
         rows = [['Author'] + [conference.name for conference in conferences]]
-        rows += [[author.name] + [projectedGraph.getNumberOfEdges(author, conference) for conference in conferences] for author in authors]
+        rows += [[author.name] + [apcadjMatrix[nodesIndex[author]][nodesIndex[conference]] for conference in conferences] for author in authors]
+        adjMatrixTable.add_rows(rows)
+        self.output(adjMatrixTable.draw())
+
+        self.output('\nCPA Adjacency Matrix:')
+        cpaadjMatrix, dsad = metaPathUtility.getAdjacencyMatrixFromGraph(self.graph, [Conference, Paper, Author], project=True)
+        adjMatrixTable = texttable.Texttable()
+        rows = [['Conference'] + [author.name for author in authors]]
+        rows += [[conference.name] + [cpaadjMatrix[nodesIndex[conference]][nodesIndex[author]] for author in authors] for conference in conferences]
+        adjMatrixTable.add_rows(rows)
+        self.output(adjMatrixTable.draw())
+
+        self.output('\nAPCPA Adjacency Matrix (Computed):')
+        adjMatrix = numpy.dot(apcadjMatrix, cpaadjMatrix)
+        adjMatrixTable = texttable.Texttable()
+        rows = [['Author'] + [author.name for author in authors]]
+        rows += [[author.name] + [adjMatrix[nodesIndex[author]][nodesIndex[otherAuthor]] for otherAuthor in authors] for author in authors]
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
 
         # Output homogeneous simrank comparison
         homogeneousSimRankStrategy = SimRankStrategy(self.graph)
         self.outputSimilarityScores(authorMap, authors, homogeneousSimRankStrategy, 'Homogeneous SimRank')
+
+        projectedGraph = metaPathUtility.createHeterogeneousProjection(self.graph, [Author, Paper, Conference], symmetric = True)
 
         # Output heterogeneous simrank comparison
         heterogeneousSimRankStrategy = SimRankStrategy(projectedGraph)
