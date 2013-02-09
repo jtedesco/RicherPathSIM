@@ -1,9 +1,12 @@
 import numpy
+
+__author__ = 'jontedesco'
+
 from src.similarity.heterogeneous.NeighborSimPropagationStrategy import NeighborSimPropagationStrategy
 
 __author__ = 'jontedesco'
 
-class NeighborSimConstantPropagationStrategy(NeighborSimPropagationStrategy):
+class NeighborSimConstantPreferentialAttachmentStrategy(NeighborSimPropagationStrategy):
     """
       Class that computes NeighborSim propagation scores, using a constant factor scaling each propagation step
     """
@@ -24,8 +27,13 @@ class NeighborSimConstantPropagationStrategy(NeighborSimPropagationStrategy):
             extendAdjMatrix, extendNodesIndex = self.metaPathUtility.getAdjacencyMatrixFromGraph(self.graph, extendMetaPath, project=True)
 
         # Expand meta paths for all additional iterations
+        score = self.similarityScore
         for i in xrange(1, self.iterations):
             adjMatrix = numpy.dot(adjMatrix, extendAdjMatrix)
-            self.similarityScore += (self.factor ** i) * self._getScoreFromProjection(source, destination, adjMatrix, nodesIndex)
+            lastScore = score
+            score = self._getScoreFromProjection(source, destination, adjMatrix, nodesIndex)
+            normalization = (self.factor ** i) * (lastScore if lastScore != 0 else 1)
+            self.similarityScore += normalization * score
 
         return self.similarityScore
+
