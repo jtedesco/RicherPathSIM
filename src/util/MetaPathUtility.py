@@ -93,17 +93,27 @@ class MetaPathUtility(object):
           Computes a graph projection (if meta path is provided), and the adjacency matrix
         """
 
+        homogeneous = metaPath[0] == metaPath[-1]
+
         if metaPath is not None:
-            projFunction = self.createHomogeneousProjection if metaPath[0] == metaPath[-1] else self.createHeterogeneousProjection
+            projFunction = self.createHomogeneousProjection if homogeneous else self.createHeterogeneousProjection
             projectedGraph = projFunction(graph, metaPath, symmetric)
         else:
             projectedGraph = graph
 
-        nodes, n = projectedGraph.getNodes(), len(projectedGraph.getNodes())
-        nodesIndex = {nodes[i]: i for i in xrange(0, n)}
+        if homogeneous:
+            startNodes = projectedGraph.getNodes()
+            endNodes = startNodes
+            nodesIndex = {startNodes[i]: i for i in xrange(0, len(projectedGraph.getNodes()))}
+        else:
+            startNodes = projectedGraph.getNodesOfType(metaPath[0])
+            endNodes = projectedGraph.getNodesOfType(metaPath[-1])
+            nodesIndex = {startNodes[i]: i for i in xrange(0, len(startNodes))}
+            for i in xrange(0, len(endNodes)):
+                nodesIndex[endNodes[i]] = i
 
-        adjacencyMatrix = numpy.zeros((n, n))
-        for x, y in itertools.product(nodes, nodes):
+        adjacencyMatrix = numpy.zeros((len(startNodes), len(endNodes)))
+        for x, y in itertools.product(startNodes, endNodes):
             adjacencyMatrix[nodesIndex[x]][nodesIndex[y]] = projectedGraph.getNumberOfEdges(x, y)
 
         return adjacencyMatrix, nodesIndex

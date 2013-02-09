@@ -44,6 +44,19 @@ class Graph(object):
         raise NotImplementedError()
 
 
+    def getNodesOfType(self, type):
+        """
+          Get the nodes of a particular type in the graph
+        """
+
+        nodesOfType = set()
+        nodes = self.getNodes()
+        for node in nodes:
+            if isinstance(node, type):
+                nodesOfType.add(node)
+        return list(nodesOfType)
+
+
     def getEdges(self, nodes = list()):
         """
           Get the edges of the graph, optionally with some specified set of starting nodes
