@@ -9,7 +9,7 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
       Generic class for similarity strategies that use meta paths
     """
 
-    def __init__(self, graph, metaPath = None, symmetric = False):
+    def __init__(self, graph, metaPath = None, symmetric = False, conserveMemory = False):
         """
           Constructs a meta path similarity strategy, storing the meta path data for this strategy.
 
@@ -27,11 +27,12 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
 
         self.metaPath = metaPath
         self.symmetric = symmetric
+        self.conserveMemory = conserveMemory
 
         self.metaPathUtility = EdgeBasedMetaPathUtility()
 
 
-    def findMostSimilarNodes(self, source, number=None):
+    def findMostSimilarNodes(self, source, number=None, conserveMemory=False):
         """
           Simple find the similarity scores between this node and all reachable nodes on this meta path. Note that if
           there are fewer reachable nodes than "number", the number of reachable nodes will be returned.

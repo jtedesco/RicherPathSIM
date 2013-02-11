@@ -28,12 +28,14 @@ class AuthorPathSimFourAreaExperiment(Experiment):
 
         # Output the top ten most similar authors on the APA meta path
         self.output('\n\nTop Ten Similar Authors to Christos Faloutsos (APA meta path):')
+        self.conserveMemory = True
         mostSimilarNodes = strategy.findMostSimilarNodes(christos, number)
         apaPathTable = texttable.Texttable()
         apaPathTable.add_rows([['Rank', 'Author']] + [[i+1, mostSimilarNodes[i].name] for i in xrange(0, number)])
         self.output(apaPathTable.draw())
 
         # Output the top ten most similar authors on the APCPA meta path
+        self.conserveMemory = False
         strategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], True)
         self.output('\n\nTop Ten Similar Authors to Christos Faloutsos (APCPA meta path):')
         mostSimilarNodes = strategy.findMostSimilarNodes(christos, number)
