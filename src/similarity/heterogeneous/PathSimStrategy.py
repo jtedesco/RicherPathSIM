@@ -1,3 +1,4 @@
+import numpy
 from src.similarity.MetaPathSimilarityStrategy import MetaPathSimilarityStrategy
 
 __author__ = 'jontedesco'
@@ -15,11 +16,17 @@ class PathSimStrategy(MetaPathSimilarityStrategy):
           Find the similarity score between
         """
 
-        # Get the meta paths between the source and destination
-        numSourceDestinationPaths = len(self.metaPathUtility.findMetaPaths(self.graph, source, destination, self.metaPath, True))
+        partialMetaPath = self.metaPath[:len(self.metaPath)/2 + len(self.metaPath) % 2]
+
+        # Get the number of meta paths between source and destination
+        firstHalfAdjMatrix, firstHalfIndex = self.metaPathUtility.getAdjacencyMatrixFromGraph(
+            self.graph, partialMetaPath, project=True, symmetric=True)
+        secHalfAdjMatrix, secHalfIndex = self.metaPathUtility.getAdjacencyMatrixFromGraph(
+            self.graph, list(reversed(partialMetaPath)), project=True, symmetric=True)
+        adjMatrix = numpy.dot(firstHalfAdjMatrix, secHalfAdjMatrix)
+        numSourceDestinationPaths = adjMatrix[firstHalfIndex[source]][secHalfIndex[destination]]
 
         # Get cycle counts
-        partialMetaPath = self.metaPath[:len(self.metaPath)/2 + len(self.metaPath) % 2]
         sourceNeighbors = self.metaPathUtility.findMetaPathNeighbors(self.graph, source, partialMetaPath, True)
         destinationNeighbors = self.metaPathUtility.findMetaPathNeighbors(self.graph, destination, partialMetaPath, True)
         numSourceDestinationCycles = 0
