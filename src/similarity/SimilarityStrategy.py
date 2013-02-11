@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 __author__ = 'jontedesco'
 
 class SimilarityStrategy(object):
@@ -10,7 +12,7 @@ class SimilarityStrategy(object):
         self.n = len(graph.getNodes())
 
         # Two level dictionary, indexed by nodes, giving similarity scores, of the form dict[source][destination]
-        self.similarityScores = {}
+        self.similarityScores = defaultdict(lambda: defaultdict(int))
 
 
     def findSimilarityScore(self, source, destination):

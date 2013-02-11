@@ -44,8 +44,7 @@ class MetaPathSimilarityStrategy(SimilarityStrategy):
         # Get similarity scores for all entries
         reachableNodes = self.metaPathUtility.findMetaPathNeighbors(self.graph, source, self.metaPath)
         for reachableNode in reachableNodes:
-            self.findSimilarityScore(source, reachableNode)
-
+            self.similarityScores[source][reachableNode] = self.findSimilarityScore(source, reachableNode)
 
         # Sort by increasing score
         mostSimilarNodes = sorted(self.similarityScores[source].iteritems(), key=operator.itemgetter(1))
