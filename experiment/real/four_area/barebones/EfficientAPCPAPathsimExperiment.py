@@ -1,10 +1,11 @@
 import numpy
 import texttable
+from experiment.Experiment import Experiment
 from experiment.real.four_area.barebones.BareBonesHelper import parseFourAreaDataset, getMetaPathAdjacencyData, findMostSimilarNodesPathSim
 
 __author__ = 'jontedesco'
 
-class EfficientAPCPAPathSimExperiment():
+class EfficientAPCPAPathSimExperiment(Experiment):
     """
       Runs some experiments with PathSim on author similarity for the 'four area' dataset
     """
@@ -25,14 +26,18 @@ class EfficientAPCPAPathSimExperiment():
 
         # Find the top 10 most similar nodes to some given node
         mostSimilar = findMostSimilarNodesPathSim(apcpaAdjMatrix, author, extraData)
-        print('Most Similar to "%s":' % author)
+        self.output('\nMost Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
         rows = [['Author', 'Score']]
         rows += [[name, score] for name, score in mostSimilar]
         mostSimilarTable.add_rows(rows)
-        print(mostSimilarTable.draw())
+        self.output(mostSimilarTable.draw())
 
 
 if __name__ == '__main__':
-    experiment = EfficientAPCPAPathSimExperiment()
+    experiment = EfficientAPCPAPathSimExperiment(
+        None, 'Most Similar APCPA PathSim Authors', outputFilePath='experiment/real/four_area/barebones/results/apcpaPathSim')
     experiment.runFor('Christos Faloutsos')
+    experiment.runFor('Jiawei Han')
+    experiment.runFor('Sergey Brin')
+    experiment.runFor('Sanjay Ghemawat')
