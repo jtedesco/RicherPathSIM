@@ -35,6 +35,6 @@ class Experiment(threading.Thread):
 
         if self.outputFilePath is not None:
             with open(self.outputFilePath, 'a') as f:
-                f.write(text + '\n')
+                f.write(text.encode(errors='replace') + '\n')
         else:
             print(text)
