@@ -1,7 +1,7 @@
 import numpy
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.BareBonesHelper import parseFourAreaDataset, getMetaPathAdjacencyData, findMostSimilarNodesPathSim
+from experiment.real.four_area.barebones.BareBonesHelper import parseFourAreaDataset, getMetaPathAdjacencyData, findMostSimilarNodes
 
 __author__ = 'jontedesco'
 
@@ -25,7 +25,7 @@ class EfficientAPCPAPathSimExperiment(Experiment):
         extraData['toNodesIndex'] = data['toNodesIndex']
 
         # Find the top 10 most similar nodes to some given node
-        mostSimilar = findMostSimilarNodesPathSim(apcpaAdjMatrix, author, extraData)
+        mostSimilar = findMostSimilarNodes(apcpaAdjMatrix, author, extraData)
         self.output('\nMost Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
         rows = [['Author', 'Score']]

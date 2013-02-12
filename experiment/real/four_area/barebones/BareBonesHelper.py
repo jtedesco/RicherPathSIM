@@ -114,7 +114,7 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, givenNode = None):
         for path in paths:
             for neighbor in graph.successors(path[-1]):
 
-                # Do not check for repeated nodes, because we assume meta path has no repeats
+                # Do not check for repeated nodes... (could result in infinite loop if path/graph allows backtracking)
                 if neighbor in eligibleNodes: nextPaths.append(path + [neighbor])
         paths = nextPaths
 
@@ -141,16 +141,44 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, givenNode = None):
     return adjMatrix, extraData
 
 
-def getPathSimScore(adjMatrix, sI, dI):
-    if adjMatrix[sI][dI] == 0: return 0
-    return (2.0 * adjMatrix[sI][dI]) / float(adjMatrix[sI][sI] + adjMatrix[dI][dI])
+def getPathSimScore(adjacencyMatrix, sI, dI):
+    if adjacencyMatrix[sI][dI] == 0: return 0
+    return (2.0 * adjacencyMatrix[sI][dI]) / float(adjacencyMatrix[sI][sI] + adjacencyMatrix[dI][dI])
 
+def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
 
-def findMostSimilarNodesPathSim(adjMatrix, source, extraData, k=10):
+    # Find the shared in-neighbors of these nodes in the projected graph
+    xInNeighborIndices = set()
+    yInNeighborIndices = set()
+    for citingAuthorIndex in xrange(0, len(adjacencyMatrix)):
+        if adjacencyMatrix[citingAuthorIndex][xI] != 0: xInNeighborIndices.add(citingAuthorIndex)
+        if adjacencyMatrix[citingAuthorIndex][yI] != 0: yInNeighborIndices.add(citingAuthorIndex)
+    sharedInNeighborIndices = xInNeighborIndices.intersection(yInNeighborIndices)
+
+    # Calculate numerator
+    total = 1 if smoothed else 0
+    for sharedNIndex in sharedInNeighborIndices:
+        total += (adjacencyMatrix[sharedNIndex][xI] * adjacencyMatrix[sharedNIndex][yI])
+
+    # Accumulate normalizations
+    sourceNormalization = 1 if smoothed else 0
+    for sourceNeighborIndex in xInNeighborIndices:
+        sourceNormalization += adjacencyMatrix[sourceNeighborIndex][xI] ** 2
+    destNormalization = 1 if smoothed else 0
+    for destNeighborIndex in yInNeighborIndices:
+        destNormalization += adjacencyMatrix[destNeighborIndex][yI] ** 2
+
+    similarityScore = total
+    if total > 0:
+        similarityScore = 2 * total / float(sourceNormalization + destNormalization)
+
+    return similarityScore
+
+def findMostSimilarNodes(adjMatrix, source, extraData, method=getPathSimScore, k=10):
     sourceIndex = extraData['fromNodesIndex'][source]
     toNodes = extraData['toNodes']
 
-    similarityScores = {toNodes[i]: getPathSimScore(adjMatrix, sourceIndex, i) for i in xrange(0, len(toNodes))}
+    similarityScores = {toNodes[i]: method(adjMatrix, sourceIndex, i) for i in xrange(0, len(toNodes))}
     mostSimilarNodes = sorted(similarityScores.iteritems(), key=operator.itemgetter(1))
     mostSimilarNodes.reverse()
     number = min([k, len(mostSimilarNodes)])
