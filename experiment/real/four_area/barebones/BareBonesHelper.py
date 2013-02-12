@@ -5,6 +5,7 @@ from pprint import pprint
 import re
 from networkx import MultiDiGraph
 import numpy
+import operator
 from src.importer.error.FourAreaParseError import FourAreaParseError
 
 __author__ = 'jontedesco'
@@ -96,7 +97,7 @@ def parseFourAreaDataset():
     return graph, nodeIndex
 
 
-def getMetaPathAdjacencyData(graph, nodeIndex, metaPath):
+def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, givenNode = None):
     """
       Get the adjacency matrix along some meta path (given by an array of keywords)
 
@@ -106,7 +107,7 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath):
     assert len(metaPath) >= 1
 
     # Build all of the paths
-    paths = [[node] for node in nodeIndex[metaPath[0]].values()]
+    paths = [givenNode] if (givenNode is not None) else [[node] for node in nodeIndex[metaPath[0]].values()]
     for nodeType in metaPath[1:]:
         nextPaths = []
         eligibleNodes = set(nodeIndex[nodeType].values())
@@ -116,8 +117,6 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath):
                 # Do not check for repeated nodes, because we assume meta path has no repeats
                 if neighbor in eligibleNodes: nextPaths.append(path + [neighbor])
         paths = nextPaths
-
-    neighbors = [path[-1] for path in paths]
 
     # Build the index into the rows of the graph
     fromNodes = nodeIndex[metaPath[0]].values()
@@ -130,12 +129,33 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath):
     for path in paths:
         adjMatrix[fromNodesIndex[path[0]]][toNodesIndex[path[-1]]] += 1
 
-    return adjMatrix, paths, neighbors
+    extraData = {
+        'paths': paths,
+        'nodeIndex': nodeIndex,
+        'fromNodes': fromNodes,
+        'fromNodesIndex': fromNodesIndex,
+        'toNodes': toNodes,
+        'toNodesIndex': toNodesIndex
+    }
+
+    return adjMatrix, extraData
 
 
-def getPathSimScore(graph, adjMatrix, source, destination):
+def getPathSimScore(adjMatrix, sI, dI):
+    if adjMatrix[sI][dI] == 0: return 0
+    return (2.0 * adjMatrix[sI][dI]) / float(adjMatrix[sI][sI] + adjMatrix[dI][dI])
 
-    pass
+
+def findMostSimilarNodesPathSim(adjMatrix, source, extraData, k=10):
+    sourceIndex = extraData['fromNodesIndex'][source]
+    toNodes = extraData['toNodes']
+
+    similarityScores = {toNodes[i]: getPathSimScore(adjMatrix, sourceIndex, i) for i in xrange(0, len(toNodes))}
+    mostSimilarNodes = sorted(similarityScores.iteritems(), key=operator.itemgetter(1))
+    mostSimilarNodes.reverse()
+    number = min([k, len(mostSimilarNodes)])
+    mostSimilarNodes = mostSimilarNodes[:number]
+    return mostSimilarNodes
 
 
 # When run as script, runs through pathsim papers example experiment
