@@ -1,12 +1,12 @@
 from Stemmer import Stemmer
 import json
 import os
-from pprint import pprint
 import re
 import cPickle
 from networkx import MultiDiGraph
 import numpy
 import operator
+import texttable
 from src.importer.error.FourAreaParseError import FourAreaParseError
 
 __author__ = 'jontedesco'
@@ -272,7 +272,20 @@ def pathSimPaperExample():
         'author': {0: 'Mike', 1: 'Jim', 2: 'Mary', 3: 'Bob'}
     }
 
-    pprint(getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference']))
+    apcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference'])
+    cpaAdjMatrix, data = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'author'])
+    apcpaAdjMatrix = numpy.dot(apcAdjMatrix, cpaAdjMatrix)
+    extraData['toNodes'] = data['toNodes']
+    extraData['toNodesIndex'] = data['toNodesIndex']
+
+    author = 'Mike'
+    mostSimilar = findMostSimilarNodes(apcpaAdjMatrix, author, extraData)
+    print('\nMost Similar to "%s":' % author)
+    mostSimilarTable = texttable.Texttable()
+    rows = [['Author', 'Score']]
+    rows += [[name, score] for name, score in mostSimilar]
+    mostSimilarTable.add_rows(rows)
+    print(mostSimilarTable.draw())
 
 
 def constructGraphAndDumpToFile():
@@ -286,4 +299,5 @@ def constructGraphAndDumpToFile():
 
 # When run as script, runs through pathsim papers example experiment
 if __name__ == '__main__':
-    constructGraphAndDumpToFile()
+#    constructGraphAndDumpToFile()
+    pathSimPaperExample()
