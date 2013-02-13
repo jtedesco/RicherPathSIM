@@ -118,8 +118,6 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath):
                 # Do not check for repeated nodes... (could result in infinite loop if path/graph allows backtracking)
                 if neighbor in eligibleNodes:
                     nextPaths.append(path + [neighbor])
-#                else:??
-#                    print neighbor
 
         paths = nextPaths
 
