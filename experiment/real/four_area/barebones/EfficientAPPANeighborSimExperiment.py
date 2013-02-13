@@ -1,6 +1,6 @@
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.BareBonesHelper import parseFourAreaDataset, getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore
+from experiment.real.four_area.barebones.BareBonesHelper import parseFourAreaDataset, getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, addCitationsToGraph
 
 __author__ = 'jontedesco'
 
@@ -14,10 +14,11 @@ class EfficientAPPANeighborSimExperiment(Experiment):
         # Parse 4-area dataset graph
         graph, nodeIndex = parseFourAreaDataset()
 
+        # Add the citations to the graph
+        addCitationsToGraph(graph, nodeIndex)
+
         # Compute APPA adjacency matrix
         appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
-
-        print(max([max(appaAdjMatrix[i]) for i in xrange(0, len(appaAdjMatrix))]))
 
         # Find the top 10 most similar nodes to some given node
         mostSimilar = findMostSimilarNodes(appaAdjMatrix, author, extraData, method = getNeighborSimScore)

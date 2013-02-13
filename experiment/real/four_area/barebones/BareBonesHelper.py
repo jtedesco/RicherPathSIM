@@ -140,6 +140,53 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, givenNode = None):
 
     return adjMatrix, extraData
 
+def addCitationsToGraph(graph, nodeIndex):
+
+    file = open(os.path.join('data','DBLP-citation-Feb21.txt'))
+    fileStart = file.tell()
+    paperTitles = {paper.lower(): paper for paper in nodeIndex['paper'].values()}
+
+    # Build an index of int -> paper title (including only papers found in the graph)
+    dblpPaperIndex = {}
+    lastTitle = None
+    for line in file:
+        if line.startswith('#*'):
+            title = str(line[2:]).strip()
+            lastTitle = paperTitles[title.lower()] if title.lower() in paperTitles else None
+        elif line.startswith('#index'):
+            i = int(__removeControlCharacters(line[len('#index'):]))
+            if lastTitle is not None:
+                dblpPaperIndex[i] = lastTitle
+        elif len(__removeControlCharacters(line)) == 0:
+            lastTitle = None
+
+    # Add citations to the papers in the graph
+    citationsSkipped = 0
+    file.seek(fileStart) # Rewind the file pointer
+    for line in file:
+
+        # Found new paper block
+        if line.startswith('#*'):
+            title = __removeControlCharacters(line[2:])
+            lastTitle = title if title in paperTitles else None
+
+        # Found new citations
+        elif line.startswith('#%'):
+            if lastTitle is not None and lastTitle in paperTitles:
+                citationIndex = int(__removeControlCharacters(line[2:]))
+                try:
+                    graph.add_edge(lastTitle, dblpPaperIndex[citationIndex])
+                except KeyError:
+                    citationsSkipped +=1
+
+        # Reached end of the paper block, reset title if no citation was found (error check)
+        elif len(__removeControlCharacters(line)) == 0:
+            lastTitle = None
+
+    print("Missing %d cited papers..." % citationsSkipped)
+    file.close()
+
+
 
 def getPathSimScore(adjacencyMatrix, sI, dI):
     if adjacencyMatrix[sI][dI] == 0: return 0
