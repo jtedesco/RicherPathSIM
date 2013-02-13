@@ -215,6 +215,8 @@ def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
     for sharedNIndex in sharedInNeighborIndices:
         total += (adjacencyMatrix[sharedNIndex][xI] * adjacencyMatrix[sharedNIndex][yI])
 
+    if total == 0: return 0
+
     # Accumulate normalizations
     sourceNormalization = 1 if smoothed else 0
     for sourceNeighborIndex in xInNeighborIndices:
