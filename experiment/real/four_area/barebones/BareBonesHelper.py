@@ -116,7 +116,11 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath):
             for neighbor in graph.successors(path[-1]):
 
                 # Do not check for repeated nodes... (could result in infinite loop if path/graph allows backtracking)
-                if neighbor in eligibleNodes: nextPaths.append(path + [neighbor])
+                if neighbor in eligibleNodes:
+                    nextPaths.append(path + [neighbor])
+#                else:??
+#                    print neighbor
+
         paths = nextPaths
 
     # Build the index into the rows of the graph
@@ -145,7 +149,7 @@ def addCitationsToGraph(graph, nodeIndex):
 
     file = open(os.path.join('data','DBLP-citation-Feb21.txt'))
     fileStart = file.tell()
-    paperTitles = {paper.lower(): paper for paper in nodeIndex['paper'].values()}
+    paperTitles = set(nodeIndex['paper'].values())
 
     # Build an index of int -> paper title (including only papers found in the graph)
     dblpPaperIndex = {}
@@ -153,7 +157,7 @@ def addCitationsToGraph(graph, nodeIndex):
     for line in file:
         if line.startswith('#*'):
             title = str(line[2:]).strip()
-            lastTitle = paperTitles[title.lower()] if title.lower() in paperTitles else None
+            lastTitle = title if title in paperTitles else None
         elif line.startswith('#index'):
             i = int(__removeControlCharacters(line[len('#index'):]))
             if lastTitle is not None:
@@ -163,6 +167,7 @@ def addCitationsToGraph(graph, nodeIndex):
 
     # Add citations to the papers in the graph
     citationsSkipped = 0
+    citationsSucceeded = 0
     file.seek(fileStart) # Rewind the file pointer
     for line in file:
 
@@ -177,6 +182,7 @@ def addCitationsToGraph(graph, nodeIndex):
                 citationIndex = int(__removeControlCharacters(line[2:]))
                 try:
                     graph.add_edge(lastTitle, dblpPaperIndex[citationIndex])
+                    citationsSucceeded += 1
                 except KeyError:
                     citationsSkipped +=1
 
@@ -185,6 +191,7 @@ def addCitationsToGraph(graph, nodeIndex):
             lastTitle = None
 
     print("Missing %d cited papers..." % citationsSkipped)
+    print("Cited %d papers..." % citationsSucceeded)
     file.close()
 
 
