@@ -3,6 +3,7 @@ import json
 import os
 from pprint import pprint
 import re
+import cPickle
 from networkx import MultiDiGraph
 import numpy
 import operator
@@ -97,7 +98,7 @@ def parseFourAreaDataset():
     return graph, nodeIndex
 
 
-def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, givenNode = None):
+def getMetaPathAdjacencyData(graph, nodeIndex, metaPath):
     """
       Get the adjacency matrix along some meta path (given by an array of keywords)
 
@@ -107,7 +108,7 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, givenNode = None):
     assert len(metaPath) >= 1
 
     # Build all of the paths
-    paths = [givenNode] if (givenNode is not None) else [[node] for node in nodeIndex[metaPath[0]].values()]
+    paths = [[node] for node in nodeIndex[metaPath[0]].values()]
     for nodeType in metaPath[1:]:
         nextPaths = []
         eligibleNodes = set(nodeIndex[nodeType].values())
@@ -233,8 +234,7 @@ def findMostSimilarNodes(adjMatrix, source, extraData, method=getPathSimScore, k
     return mostSimilarNodes
 
 
-# When run as script, runs through pathsim papers example experiment
-if __name__ == '__main__':
+def pathSimPaperExample():
 
     def add_apc_to_graph(graph, author, conference, n):
         papers = []
@@ -266,3 +266,17 @@ if __name__ == '__main__':
     }
 
     pprint(getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference']))
+
+
+def constructGraphAndDumpToFile():
+
+    # Parse 4-area dataset graph & dump it to disk
+    graph, nodeIndex = parseFourAreaDataset()
+    addCitationsToGraph(graph, nodeIndex)
+
+    cPickle.dump((graph, nodeIndex), open(os.path.join('data', 'four_area', 'graphWithCitations'), 'w'))
+
+
+# When run as script, runs through pathsim papers example experiment
+if __name__ == '__main__':
+    constructGraphAndDumpToFile()
