@@ -101,8 +101,6 @@ def parseFourAreaDataset():
 def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, rows = False):
     """
       Get the adjacency matrix along some meta path (given by an array of keywords)
-
-        NOTE: This cannot handle paths with repeated types
     """
 
     assert len(metaPath) >= 1
