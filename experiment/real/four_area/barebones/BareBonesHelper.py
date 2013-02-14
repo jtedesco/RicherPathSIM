@@ -73,6 +73,12 @@ def parseFourAreaDataset():
         paperData = line.split()
         paperId = int(__removeControlCharacters(paperData[0]))
         paperTitle = ' '.join(paperData[1:])
+
+        # Filter 'garbage' titles
+        garbageTitleSegments = ['Preface.', 'Title, ']
+        titleIsGarbage = max([segment in paperTitle for segment in garbageTitleSegments])
+        paperTitle = None if titleIsGarbage else paperTitle
+
         return paperId, paperTitle
     __parseNodeType(paperLineParser, 'paper', 'paper.txt', graph, nodeIndex)
 
@@ -92,10 +98,11 @@ def parseFourAreaDataset():
             typeAId, typeBId = line.split()
             typeAId = int(__removeControlCharacters(typeAId))
             typeBId = int(__removeControlCharacters(typeBId))
-            nodeA = nodeTypeAMap[typeAId]
-            nodeB = nodeTypeBMap[typeBId]
-            graph.add_edge(nodeA, nodeB)
-            graph.add_edge(nodeB, nodeA)
+            if typeAId in nodeTypeAMap and typeBId in nodeTypeBMap:
+                nodeA = nodeTypeAMap[typeAId]
+                nodeB = nodeTypeBMap[typeBId]
+                graph.add_edge(nodeA, nodeB)
+                graph.add_edge(nodeB, nodeA)
     __parseEdgeType(nodeIndex['paper'], nodeIndex['author'], graph, 'paper_author.txt')
     __parseEdgeType(nodeIndex['paper'], nodeIndex['conference'], graph, 'paper_conf.txt')
     __parseEdgeType(nodeIndex['paper'], nodeIndex['conference'], graph, 'paper_conf.txt')
@@ -178,7 +185,7 @@ def addCitationsToGraph(graph, nodeIndex):
 
     # Output papers ordered by number of citations
     bestKPapers = nlargest(len(bestPapers), bestPapers)
-    paperCitationsFile = open(os.path.join('data', 'paperCitations'), 'w')
+    paperCitationsFile = open(os.path.join('data', 'paperCitationCounts'), 'w')
     for i in xrange(0, len(bestKPapers)):
         paperCitationsFile.write('%d: %s\n' % (bestKPapers[i][0], bestKPapers[i][1]))
 
@@ -333,7 +340,7 @@ def constructGraphAndDumpToFile():
     graph, nodeIndex = parseFourAreaDataset()
     addCitationsToGraph(graph, nodeIndex)
 
-    cPickle.dump((graph, nodeIndex), open(os.path.join('data', 'graphWithCitations-new'), 'w'))
+    cPickle.dump((graph, nodeIndex), open(os.path.join('data', 'graphWithCitations'), 'w'))
 
 
 # When run as script, runs through pathsim papers example experiment
