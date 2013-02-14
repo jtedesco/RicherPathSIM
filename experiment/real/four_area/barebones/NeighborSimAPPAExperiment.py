@@ -28,7 +28,7 @@ if __name__ == '__main__':
         None, 'Most Similar APPA NeighborSim Authors', outputFilePath='results/appaNeighborSim')
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithHalfCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
     appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper'])
 
     # Run for all authors
