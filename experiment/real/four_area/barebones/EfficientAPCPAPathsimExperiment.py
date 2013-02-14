@@ -1,4 +1,4 @@
-import numpy
+from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
 from experiment.real.four_area.barebones.BareBonesHelper import parseFourAreaDataset, getMetaPathAdjacencyData, findMostSimilarNodes
@@ -13,7 +13,7 @@ class EfficientAPCPAPathSimExperiment(Experiment):
     def runFor(self, author, adjMatrix, extraData):
 
         # Find the top 10 most similar nodes to some given node
-        mostSimilar = findMostSimilarNodes(adjMatrix, author, extraData)
+        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData)
         self.output('\nMost Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
         rows = [['Author', 'Score']]
@@ -29,9 +29,9 @@ if __name__ == '__main__':
     graph, nodeIndex = parseFourAreaDataset()
 
     # Compute APCPA adjacency matrix
-    apcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference'])
+    apcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference'], rows=True)
     cpaAdjMatrix, data = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'author'])
-    apcpaAdjMatrix = numpy.dot(apcAdjMatrix, cpaAdjMatrix)
+    apcpaAdjMatrix = lil_matrix(apcAdjMatrix * cpaAdjMatrix)
 
     # Correct the toNodes content in extraData
     extraData['toNodes'] = data['toNodes']

@@ -4,8 +4,8 @@ import os
 import re
 import cPickle
 from networkx import MultiDiGraph
-import numpy
 import operator
+from scipy.sparse import  csr_matrix, lil_matrix, csc_matrix
 import texttable
 from src.importer.error.FourAreaParseError import FourAreaParseError
 
@@ -98,7 +98,7 @@ def parseFourAreaDataset():
     return graph, nodeIndex
 
 
-def getMetaPathAdjacencyData(graph, nodeIndex, metaPath):
+def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, rows = False):
     """
       Get the adjacency matrix along some meta path (given by an array of keywords)
 
@@ -127,14 +127,16 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath):
     toNodes = nodeIndex[metaPath[-1]].values()
     toNodesIndex = {toNodes[i]: i for i in xrange(0, len(toNodes))}
 
-    # Build the adjacency matrix
-    adjMatrix = numpy.zeros((len(fromNodes), len(toNodes)), dtype=numpy.float16)
+    # Build the adjacency matrix (as a sparse array)
+    data, row, col =  [], [], []
     for path in paths:
-        adjMatrix[fromNodesIndex[path[0]]][toNodesIndex[path[-1]]] += 1
+        row.append(fromNodesIndex[path[0]])
+        col.append(toNodesIndex[path[-1]])
+        data.append(1)
+    matrixType = csr_matrix if rows else csc_matrix
+    adjMatrix = matrixType((data, (row,col)), shape=(len(fromNodes), len(toNodes)))
 
     extraData = {
-        'paths': paths,
-        'nodeIndex': nodeIndex,
         'fromNodes': fromNodes,
         'fromNodesIndex': fromNodesIndex,
         'toNodes': toNodes,
@@ -195,33 +197,24 @@ def addCitationsToGraph(graph, nodeIndex):
 
 
 def getPathSimScore(adjacencyMatrix, sI, dI):
-    if adjacencyMatrix[sI][dI] == 0: return 0
-    return (2.0 * adjacencyMatrix[sI][dI]) / float(adjacencyMatrix[sI][sI] + adjacencyMatrix[dI][dI])
+    if adjacencyMatrix[sI,dI] == 0: return 0
+    return (2.0 * adjacencyMatrix[sI,dI]) / float(adjacencyMatrix[sI,sI] + adjacencyMatrix[dI,dI])
 
 def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
 
-    # Find the shared in-neighbors of these nodes in the projected graph
-    xInNeighborIndices = set()
-    yInNeighborIndices = set()
-    for citingAuthorIndex in xrange(0, len(adjacencyMatrix)):
-        if adjacencyMatrix[citingAuthorIndex][xI] != 0: xInNeighborIndices.add(citingAuthorIndex)
-        if adjacencyMatrix[citingAuthorIndex][yI] != 0: yInNeighborIndices.add(citingAuthorIndex)
-    sharedInNeighborIndices = xInNeighborIndices.intersection(yInNeighborIndices)
+    sourceColumn = adjacencyMatrix.getcol(xI)
+    destColumn = adjacencyMatrix.getcol(yI)
 
-    # Calculate numerator
+    # Compute numerator dot product
     total = 1 if smoothed else 0
-    for sharedNIndex in sharedInNeighborIndices:
-        total += (adjacencyMatrix[sharedNIndex][xI] * adjacencyMatrix[sharedNIndex][yI])
-
+    total += (destColumn.transpose() * sourceColumn)[0,0]
     if total == 0: return 0
 
-    # Accumulate normalizations
+    # Compute normalization dot products
     sourceNormalization = 1 if smoothed else 0
-    for sourceNeighborIndex in xInNeighborIndices:
-        sourceNormalization += adjacencyMatrix[sourceNeighborIndex][xI] ** 2
+    sourceNormalization += (sourceColumn.transpose() * sourceColumn)[0,0]
     destNormalization = 1 if smoothed else 0
-    for destNeighborIndex in yInNeighborIndices:
-        destNormalization += adjacencyMatrix[destNeighborIndex][yI] ** 2
+    destNormalization += (destColumn.transpose() * destColumn)[0,0]
 
     similarityScore = total
     if total > 0:
@@ -229,16 +222,26 @@ def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
 
     return similarityScore
 
-def findMostSimilarNodes(adjMatrix, source, extraData, method=getPathSimScore, k=10):
+def findMostSimilarNodes(adjMatrix, source, extraData, method=getPathSimScore, k=10, skipZeros=True):
     sourceIndex = extraData['fromNodesIndex'][source]
     toNodes = extraData['toNodes']
 
-    similarityScores = {toNodes[i]: method(adjMatrix, sourceIndex, i) for i in xrange(0, len(toNodes))}
+    # Find all similarity scores, optionally skipping nonzero scores for memory usage
+    if skipZeros:
+        similarityScores = {}
+        for i in xrange(len(toNodes)):
+            sim = method(adjMatrix, sourceIndex, i)
+            if sim > 0: similarityScores[toNodes[i]] = sim
+    else:
+        similarityScores = {toNodes[i]: method(adjMatrix, sourceIndex, i) for i in xrange(0, len(toNodes))}
+
+    # Sort according to most similar (descending order)
     mostSimilarNodes = sorted(similarityScores.iteritems(), key=operator.itemgetter(1))
     mostSimilarNodes.reverse()
     number = min([k, len(mostSimilarNodes)])
     mostSimilarNodes = mostSimilarNodes[:number]
-    return mostSimilarNodes
+
+    return mostSimilarNodes, similarityScores
 
 
 def pathSimPaperExample():
@@ -272,20 +275,29 @@ def pathSimPaperExample():
         'author': {0: 'Mike', 1: 'Jim', 2: 'Mary', 3: 'Bob'}
     }
 
-    apcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference'])
+    # Compute PathSim similarity scores
+    apcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference'], rows=True)
     cpaAdjMatrix, data = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'author'])
-    apcpaAdjMatrix = numpy.dot(apcAdjMatrix, cpaAdjMatrix)
+    apcpaAdjMatrix = lil_matrix(apcAdjMatrix * cpaAdjMatrix)
     extraData['toNodes'] = data['toNodes']
     extraData['toNodesIndex'] = data['toNodesIndex']
-
     author = 'Mike'
-    mostSimilar = findMostSimilarNodes(apcpaAdjMatrix, author, extraData)
-    print('\nMost Similar to "%s":' % author)
-    mostSimilarTable = texttable.Texttable()
-    rows = [['Author', 'Score']]
-    rows += [[name, score] for name, score in mostSimilar]
-    mostSimilarTable.add_rows(rows)
-    print(mostSimilarTable.draw())
+    pathSimMostSimilar, similarityScores = findMostSimilarNodes(apcpaAdjMatrix, author, extraData)
+
+    # Compute NeighborSim similarity scores
+    cpaAdjMatrix, data = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'author'])
+    data['fromNodes'] = data['toNodes']
+    data['fromNodesIndex'] = data['toNodesIndex']
+    author = 'Mike'
+    neighborSimMostSimilar, similarityScores = findMostSimilarNodes(cpaAdjMatrix, author, extraData, method=getNeighborSimScore)
+
+    for name, mostSimilar in [('PathSim', pathSimMostSimilar), ('NeighborSim', neighborSimMostSimilar)]:
+        print('\n%s Most Similar to "%s":' % (name, author))
+        mostSimilarTable = texttable.Texttable()
+        rows = [['Author', 'Score']]
+        rows += [[name, score] for name, score in mostSimilar]
+        mostSimilarTable.add_rows(rows)
+        print(mostSimilarTable.draw())
 
 
 def constructGraphAndDumpToFile():
