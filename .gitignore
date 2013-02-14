@@ -25,3 +25,13 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+# IDEA
+.idea
+
+# Mac
+*.DS_Store
+
+# Private data, don't ever commit
+graphs/cs225comotodata*
+comotodata
