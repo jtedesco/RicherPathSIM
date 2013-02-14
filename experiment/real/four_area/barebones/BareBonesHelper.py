@@ -17,7 +17,7 @@ controlCharactersRegex = re.compile('[%s]' % re.escape(controlChars))
 
 # Get the stop words set & stemmer for text analysis
 stopWords = None
-with open(os.path.join(os.getcwd(), 'src', 'importer', 'stopWords.json')) as stopWordsFile:
+with open(os.path.join('data', 'stopWords.json')) as stopWordsFile:
     stopWords = set(json.load(stopWordsFile))
 stemmer = Stemmer('english')
 

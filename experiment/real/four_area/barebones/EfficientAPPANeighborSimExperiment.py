@@ -14,7 +14,7 @@ class EfficientAPPANeighborSimExperiment(Experiment):
     def runFor(self, author, adjMatrix, extraData):
 
         # Find the top 10 most similar nodes to some given node
-        mostSimilar = findMostSimilarNodes(adjMatrix, author, extraData, method = getNeighborSimScore)
+        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData, method = getNeighborSimScore)
         self.output('Most Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
         rows = [['Author', 'Score']]
@@ -25,10 +25,10 @@ class EfficientAPPANeighborSimExperiment(Experiment):
 
 if __name__ == '__main__':
     experiment = EfficientAPPANeighborSimExperiment(
-        None, 'Most Similar APPA NeighborSim Authors', outputFilePath='experiment/real/four_area/barebones/results/appaNeighborSim')
+        None, 'Most Similar APPA NeighborSim Authors', outputFilePath='results/appaNeighborSim')
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'four_area', 'graphWithCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithHalfCitations')))
     appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
 
     # Run for all authors
