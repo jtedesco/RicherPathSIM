@@ -25,10 +25,10 @@ class EfficientAPPANeighborSimExperiment(Experiment):
 
 if __name__ == '__main__':
     experiment = EfficientAPPANeighborSimExperiment(
-        None, 'Most Similar APPA PathSim Authors', outputFilePath='experiment/real/four_area/barebones/results/appaPathSim')
+        None, 'Most Similar APPA PathSim Authors', outputFilePath='results/appaPathSim')
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'four_area', 'graphWithCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithHalfCitations')))
     appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
 
     # Run for all authors
