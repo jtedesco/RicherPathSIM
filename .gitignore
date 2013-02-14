@@ -35,3 +35,7 @@ pip-log.txt
 # Private data, don't ever commit
 graphs/cs225comotodata*
 comotodata
+
+# Too big to commit..
+data
+graphs
