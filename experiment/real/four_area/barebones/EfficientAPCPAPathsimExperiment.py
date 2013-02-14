@@ -1,7 +1,9 @@
+import cPickle
+import os
 from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.BareBonesHelper import parseFourAreaDataset, getMetaPathAdjacencyData, findMostSimilarNodes
+from experiment.real.four_area.barebones.BareBonesHelper import  getMetaPathAdjacencyData, findMostSimilarNodes
 
 __author__ = 'jontedesco'
 
@@ -23,10 +25,10 @@ class EfficientAPCPAPathSimExperiment(Experiment):
 
 if __name__ == '__main__':
     experiment = EfficientAPCPAPathSimExperiment(
-        None, 'Most Similar APCPA PathSim Authors', outputFilePath='experiment/real/four_area/barebones/results/apcpaPathSim')
+        None, 'Most Similar APCPA PathSim Authors', outputFilePath='results/apcpaPathSim')
 
-    # Parse 4-area dataset graph
-    graph, nodeIndex = parseFourAreaDataset()
+    # Compute once, since these never change
+    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithHalfCitations')))
 
     # Compute APCPA adjacency matrix
     apcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference'], rows=True)
