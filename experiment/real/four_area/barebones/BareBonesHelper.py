@@ -1,4 +1,5 @@
 from Stemmer import Stemmer
+from heapq import heappush, nlargest
 import json
 import os
 import re
@@ -15,9 +16,13 @@ __author__ = 'jontedesco'
 controlChars = ''.join(map(unichr, range(0,32) + range(127,160)))
 controlCharactersRegex = re.compile('[%s]' % re.escape(controlChars))
 
+# HACK: Get the absolute project root, assuming top-level dir is named 'RicherPathSIM'
+projectRoot = str(os.getcwd())
+projectRoot = projectRoot[:projectRoot.find('RicherPathSIM') + len('RicherPathSIM')]
+
 # Get the stop words set & stemmer for text analysis
 stopWords = None
-with open(os.path.join('data', 'stopWords.json')) as stopWordsFile:
+with open(os.path.join(projectRoot, 'src', 'importer', 'stopWords.json')) as stopWordsFile:
     stopWords = set(json.load(stopWordsFile))
 stemmer = Stemmer('english')
 
@@ -37,7 +42,7 @@ def parseFourAreaDataset():
     # Add all nodes of some single type to the graph
     def __parseNodeType(lineParser, typeName, fileName, graph, nodeIndex):
         nodeIndex[typeName] = {}
-        inputFile = open(os.path.join(inputFolderPath, fileName))
+        inputFile = open(os.path.join(projectRoot, inputFolderPath, fileName))
         for line in inputFile:
             id, content = lineParser(line)
             if id in nodeIndex[typeName]:
@@ -82,7 +87,7 @@ def parseFourAreaDataset():
 
     # Add edges to the graph
     def __parseEdgeType(nodeTypeAMap, nodeTypeBMap, graph, fileName):
-        inputFile = open(os.path.join(inputFolderPath, fileName))
+        inputFile = open(os.path.join(projectRoot, inputFolderPath, fileName))
         for line in inputFile:
             typeAId, typeBId = line.split()
             typeAId = int(__removeControlCharacters(typeAId))
@@ -145,12 +150,16 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, rows = False):
 
 def addCitationsToGraph(graph, nodeIndex):
 
-    file = open(os.path.join('data','DBLP-citation-Feb21.txt'))
+    file = open(os.path.join(projectRoot, 'data','DBLP-citation-Feb21.txt'))
     fileStart = file.tell()
     paperTitles = set(nodeIndex['paper'].values())
 
+    # Heap of papers sorted by their citation counts
+    bestPapers = []
+
     # Build an index of int -> paper title (including only papers found in the graph)
     dblpPaperIndex = {}
+
     lastTitle = None
     for line in file:
         if line.startswith('#*'):
@@ -162,11 +171,23 @@ def addCitationsToGraph(graph, nodeIndex):
                 dblpPaperIndex[i] = lastTitle
         elif len(__removeControlCharacters(line)) == 0:
             lastTitle = None
+        elif line.startswith('#citation'):
+            if lastTitle is not None:
+                citationCount = int(__removeControlCharacters(line[len('#citation'):]))
+                heappush(bestPapers, (citationCount, lastTitle))
+
+    # Output papers ordered by number of citations
+    bestKPapers = nlargest(len(bestPapers), bestPapers)
+    paperCitationsFile = open(os.path.join('data', 'paperCitations'), 'w')
+    for i in xrange(0, len(bestKPapers)):
+        paperCitationsFile.write('%d: %s\n' % (bestKPapers[i][0], bestKPapers[i][1]))
+
+    file.seek(fileStart)
+
+    # Use to perform error checking
+    existingNodes = set(graph.nodes())
 
     # Add citations to the papers in the graph
-    citationsSkipped = 0
-    citationsSucceeded = 0
-    file.seek(fileStart) # Rewind the file pointer
     for line in file:
 
         # Found new paper block
@@ -176,27 +197,34 @@ def addCitationsToGraph(graph, nodeIndex):
 
         # Found new citations
         elif line.startswith('#%'):
-            if lastTitle is not None and lastTitle in paperTitles:
-                citationIndex = int(__removeControlCharacters(line[2:]))
-                try:
-                    graph.add_edge(lastTitle, dblpPaperIndex[citationIndex])
-                    citationsSucceeded += 1
-                except KeyError:
-                    citationsSkipped +=1
+            citationIndex = int(__removeControlCharacters(line[2:]))
+
+            # Check that both the citing & cited papers are in our dataset
+            citingPaperIsValid = lastTitle is not None and lastTitle in paperTitles
+            citedPaperValid = citationIndex in dblpPaperIndex
+
+            if citedPaperValid and citingPaperIsValid:
+
+                # Check that we're not inadvertently adding meaningless edges (since networkx silently adds new nodes
+                # if endpoints of edge do not exist...)
+                if lastTitle not in existingNodes:
+                    raise FourAreaParseError('Citing paper not found in graph: %s' % lastTitle)
+                if dblpPaperIndex[citationIndex] not in existingNodes:
+                    raise FourAreaParseError('Cited paper not found in graph: %s' % dblpPaperIndex[citationIndex])
+
+                graph.add_edge(lastTitle, dblpPaperIndex[citationIndex])
 
         # Reached end of the paper block, reset title if no citation was found (error check)
         elif len(__removeControlCharacters(line)) == 0:
             lastTitle = None
 
-    print("Missing %d cited papers..." % citationsSkipped)
-    print("Cited %d papers..." % citationsSucceeded)
     file.close()
-
 
 
 def getPathSimScore(adjacencyMatrix, sI, dI):
     if adjacencyMatrix[sI,dI] == 0: return 0
     return (2.0 * adjacencyMatrix[sI,dI]) / float(adjacencyMatrix[sI,sI] + adjacencyMatrix[dI,dI])
+
 
 def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
 
@@ -219,6 +247,7 @@ def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
         similarityScore = 2 * total / float(sourceNormalization + destNormalization)
 
     return similarityScore
+
 
 def findMostSimilarNodes(adjMatrix, source, extraData, method=getPathSimScore, k=10, skipZeros=True):
     sourceIndex = extraData['fromNodesIndex'][source]
@@ -304,10 +333,10 @@ def constructGraphAndDumpToFile():
     graph, nodeIndex = parseFourAreaDataset()
     addCitationsToGraph(graph, nodeIndex)
 
-    cPickle.dump((graph, nodeIndex), open(os.path.join('data', 'four_area', 'graphWithCitations'), 'w'))
+    cPickle.dump((graph, nodeIndex), open(os.path.join('data', 'graphWithCitations-new'), 'w'))
 
 
 # When run as script, runs through pathsim papers example experiment
 if __name__ == '__main__':
-#    constructGraphAndDumpToFile()
-    pathSimPaperExample()
+    constructGraphAndDumpToFile()
+#    pathSimPaperExample()
