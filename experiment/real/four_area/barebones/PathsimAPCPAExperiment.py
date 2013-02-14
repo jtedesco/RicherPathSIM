@@ -7,7 +7,7 @@ from experiment.real.four_area.barebones.BareBonesHelper import  getMetaPathAdja
 
 __author__ = 'jontedesco'
 
-class EfficientAPCPAPathSimExperiment(Experiment):
+class PathSimAPCPAExperiment(Experiment):
     """
       Runs some experiments with PathSim on author similarity for the 'four area' dataset
     """
@@ -24,7 +24,7 @@ class EfficientAPCPAPathSimExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
 if __name__ == '__main__':
-    experiment = EfficientAPCPAPathSimExperiment(
+    experiment = PathSimAPCPAExperiment(
         None, 'Most Similar APCPA PathSim Authors', outputFilePath='results/apcpaPathSim')
 
     # Compute once, since these never change

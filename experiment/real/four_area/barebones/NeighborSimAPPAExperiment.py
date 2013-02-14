@@ -2,34 +2,34 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.BareBonesHelper import  getMetaPathAdjacencyData, findMostSimilarNodes, getPathSimScore
+from experiment.real.four_area.barebones.BareBonesHelper import  getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore
 
 __author__ = 'jontedesco'
 
-class EfficientAPPANeighborSimExperiment(Experiment):
+class NeighborSimAPPAExperiment(Experiment):
     """
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
 
-    def runFor(self, author, adjMatrix, extraData):
+    def runFor(self, paper, adjMatrix, extraData):
 
         # Find the top 10 most similar nodes to some given node
-        mostSimilar = findMostSimilarNodes(adjMatrix, author, extraData, method = getPathSimScore)
-        self.output('\nMost Similar to "%s":' % author)
+        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, paper, extraData, method = getNeighborSimScore)
+        self.output('Most Similar to "%s":' % paper)
         mostSimilarTable = texttable.Texttable()
-        rows = [['Author', 'Score']]
+        rows = [['Paper', 'Score']]
         rows += [[name, score] for name, score in mostSimilar]
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
 
 if __name__ == '__main__':
-    experiment = EfficientAPPANeighborSimExperiment(
-        None, 'Most Similar APPA PathSim Authors', outputFilePath='results/appaPathSim')
+    experiment = NeighborSimAPPAExperiment(
+        None, 'Most Similar APPA NeighborSim Authors', outputFilePath='results/appaNeighborSim')
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithHalfCitations')))
-    appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
+    appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper'])
 
     # Run for all authors
     experiment.runFor('Christos Faloutsos', appaAdjMatrix, extraData)
