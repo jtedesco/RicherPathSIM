@@ -25,7 +25,7 @@ class AuthorsNeighborSimAPPAExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
 
-if __name__ == '__main__':
+def run():
     experiment = AuthorsNeighborSimAPPAExperiment(
         None, 'Most Similar APPA NeighborSim Authors', outputFilePath='results/appaNeighborSim')
 
@@ -47,3 +47,5 @@ if __name__ == '__main__':
 
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, appaAdjMatrix, extraData)
+
+if __name__ == '__main__': run()

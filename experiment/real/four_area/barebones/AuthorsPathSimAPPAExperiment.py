@@ -24,7 +24,7 @@ class AuthorsPathSimAPPAExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
 
-if __name__ == '__main__':
+def run():
     experiment = AuthorsPathSimAPPAExperiment(
         None, 'Most Similar APPA PathSim Authors', outputFilePath='results/appaPathSim')
 
@@ -35,3 +35,5 @@ if __name__ == '__main__':
     # Run for all authors
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, appaAdjMatrix, extraData)
+
+if __name__ == '__main__': run()

@@ -24,7 +24,7 @@ class AuthorsPathSimAPTPAExperiment(Experiment):
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
-if __name__ == '__main__':
+def run():
     experiment = AuthorsPathSimAPTPAExperiment(
         None, 'Most Similar APCPA PathSim Authors', outputFilePath='results/aptpaPathSim')
 
@@ -42,3 +42,5 @@ if __name__ == '__main__':
 
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, aptpaAdjMatrix, extraData)
+
+if __name__ == '__main__': run()
