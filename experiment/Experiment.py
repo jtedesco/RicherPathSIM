@@ -1,4 +1,5 @@
 import logging
+import os
 import threading
 import cPickle
 from src.logger.ColoredLogger import ColoredLogger
@@ -22,7 +23,10 @@ class Experiment(threading.Thread):
             self.graph = cPickle.load(open(inputGraphPath))
             self.graph.inputPath = inputGraphPath
 
+        # Remove output path if it already exists
         self.outputFilePath = outputFilePath
+        if os.path.exists(self.outputFilePath):
+            os.remove(self.outputFilePath)
 
         logging.setLoggerClass(ColoredLogger)
         self.logger = logging.getLogger(experimentTitle)
