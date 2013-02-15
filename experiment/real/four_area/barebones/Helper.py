@@ -6,7 +6,6 @@ import re
 import cPickle
 from networkx import MultiDiGraph
 import operator
-import numpy
 from scipy.sparse import  csr_matrix, lil_matrix, csc_matrix
 import texttable
 from src.importer.error.FourAreaParseError import FourAreaParseError
