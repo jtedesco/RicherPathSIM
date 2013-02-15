@@ -1,0 +1,139 @@
+
+Most Similar to "Mining Association Rules between Sets of Items in Large Databases.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Mining Association Rules between     | 1                                    |
+| Sets of Items in Large Databases.    |                                      |
++--------------------------------------+--------------------------------------+
+| An Interval Classifier for Database  | 0.750                                |
+| Mining Applications.                 |                                      |
++--------------------------------------+--------------------------------------+
+| Relative Knowledge in a Distributed  | 0.500                                |
+| Database.                            |                                      |
++--------------------------------------+--------------------------------------+
+| Database Technologies for E-         | 0.500                                |
+| Commerce.                            |                                      |
++--------------------------------------+--------------------------------------+
+| Optimization of Large Join Queries:  | 0.500                                |
+| Combining Heuristic and              |                                      |
+| Combinatorial Techniques.            |                                      |
++--------------------------------------+--------------------------------------+
+| Next frontier.                       | 0.500                                |
++--------------------------------------+--------------------------------------+
+| Results on Translating Defaults to   | 0.500                                |
+| Circumscription.                     |                                      |
++--------------------------------------+--------------------------------------+
+| Query Processing in Deductive        | 0.500                                |
+| Databases with Incomplete            |                                      |
+| Information.                         |                                      |
++--------------------------------------+--------------------------------------+
+| Building knowledge-based             | 0.500                                |
+| applications with cooperating        |                                      |
+| databases.                           |                                      |
++--------------------------------------+--------------------------------------+
+| Privacy in data systems.             | 0.500                                |
++--------------------------------------+--------------------------------------+
+
+Most Similar to "R-Trees: A Dynamic Index Structure for Spatial Searching.":
++-----------------------------------------------------------+-------+
+|                           Paper                           | Score |
++===========================================================+=======+
+| R-Trees: A Dynamic Index Structure for Spatial Searching. | 1     |
++-----------------------------------------------------------+-------+
+
+Most Similar to "Efficient Reasoning in Qualitative Probabilistic Networks.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Efficient Reasoning in Qualitative   | 1                                    |
+| Probabilistic Networks.              |                                      |
++--------------------------------------+--------------------------------------+
+| An Experimental Comparison of        | 0.500                                |
+| Knowledge Engineering for Expert     |                                      |
+| Systems and for Decision Analysis.   |                                      |
++--------------------------------------+--------------------------------------+
+| Generalized Evidence Pre-propagated  | 0.500                                |
+| Importance Sampling for Hybrid       |                                      |
+| Bayesian Networks.                   |                                      |
++--------------------------------------+--------------------------------------+
+| Dynamic Weighting A* Search-Based    | 0.400                                |
+| MAP Algorithm for Bayesian Networks. |                                      |
++--------------------------------------+--------------------------------------+
+
+Most Similar to "Self-Tuning Database Systems: A Decade of Progress.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| An Efficient Cost-Driven Index       | 1                                    |
+| Selection Tool for Microsoft SQL     |                                      |
+| Server.                              |                                      |
++--------------------------------------+--------------------------------------+
+| Automating Statistics Management for | 1                                    |
+| Query Optimizers.                    |                                      |
++--------------------------------------+--------------------------------------+
+| Self-Tuning Database Systems: A      | 1                                    |
+| Decade of Progress.                  |                                      |
++--------------------------------------+--------------------------------------+
+| Microsoft Index Tuning Wizard for    | 1                                    |
+| SQL Server 7.0.                      |                                      |
++--------------------------------------+--------------------------------------+
+| Index Merging.                       | 1                                    |
++--------------------------------------+--------------------------------------+
+| AutoAdmin 'What-if' Index Analysis   | 1                                    |
+| Utility.                             |                                      |
++--------------------------------------+--------------------------------------+
+| Efficient Evaluation of Queries with | 0.800                                |
+| Mining Predicates.                   |                                      |
++--------------------------------------+--------------------------------------+
+| Bridging the Application and DBMS    | 0.800                                |
+| Profiling Divide for Database        |                                      |
+| Application Developers.              |                                      |
++--------------------------------------+--------------------------------------+
+| Random Sampling for Histogram        | 0.800                                |
+| Construction: How much is enough?    |                                      |
++--------------------------------------+--------------------------------------+
+| A Robust, Optimization-Based         | 0.800                                |
+| Approach for Approximate Answering   |                                      |
+| of Aggregate Queries.                |                                      |
++--------------------------------------+--------------------------------------+
+
+Most Similar to "R-trees with Update Memos.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| R-trees with Update Memos.           | 1                                    |
++--------------------------------------+--------------------------------------+
+| SINA: Scalable Incremental           | 0.800                                |
+| Processing of Continuous Queries in  |                                      |
+| Spatio-temporal Databases.           |                                      |
++--------------------------------------+--------------------------------------+
+| SEA-CNN: Scalable Processing of      | 0.800                                |
+| Continuous K-Nearest Neighbor        |                                      |
+| Queries in Spatio-temporal           |                                      |
+| Databases.                           |                                      |
++--------------------------------------+--------------------------------------+
+| Hashing by Proximity to Process      | 0.500                                |
+| Duplicates in Spatial Databases.     |                                      |
++--------------------------------------+--------------------------------------+
+| Optimization for Spatial Query       | 0.500                                |
+| Processing.                          |                                      |
++--------------------------------------+--------------------------------------+
+| Efficient Processing of Window       | 0.500                                |
+| Queries in The Pyramid Data          |                                      |
+| Structure.                           |                                      |
++--------------------------------------+--------------------------------------+
+| Irregularity in Multi-Dimensional    | 0.500                                |
+| Space-Filling Curves with            |                                      |
+| Applications in Multimedia           |                                      |
+| Databases.                           |                                      |
++--------------------------------------+--------------------------------------+
+| Rank-Aware Query Processing and      | 0.500                                |
+| Optimization.                        |                                      |
++--------------------------------------+--------------------------------------+
+| PLACE: A Query Processor for         | 0.500                                |
+| Handling Real-time Spatio-temporal   |                                      |
+| Data Streams.                        |                                      |
++--------------------------------------+--------------------------------------+
+| Joining Ranked Inputs in Practice.   | 0.400                                |
++--------------------------------------+--------------------------------------+

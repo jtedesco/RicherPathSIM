@@ -1,0 +1,154 @@
+
+Most Similar to "Mining Association Rules between Sets of Items in Large Databases.":
++--------------------------------------------------------------------+-------+
+|                               Paper                                | Score |
++====================================================================+=======+
+| Mining Association Rules between Sets of Items in Large Databases. | 1     |
++--------------------------------------------------------------------+-------+
+| The Rough Set Approach to Association Rule Mining.                 | 0.722 |
++--------------------------------------------------------------------+-------+
+| Mining Association Rules in Hypertext Databases.                   | 0.710 |
++--------------------------------------------------------------------+-------+
+| Sampling Large Databases for Association Rules.                    | 0.706 |
++--------------------------------------------------------------------+-------+
+| Ordinal Association Rules for Error Identification in Data Sets.   | 0.703 |
++--------------------------------------------------------------------+-------+
+| Association Rules in Incomplete Databases.                         | 0.688 |
++--------------------------------------------------------------------+-------+
+| Mining Association Rules with Item Constraints.                    | 0.688 |
++--------------------------------------------------------------------+-------+
+| Fast Algorithms for Mining Association Rules in Large Databases.   | 0.686 |
++--------------------------------------------------------------------+-------+
+| Discovering Association Rules in Large, Dense Databases.           | 0.667 |
++--------------------------------------------------------------------+-------+
+| Association Rules.                                                 | 0.667 |
++--------------------------------------------------------------------+-------+
+
+Most Similar to "R-Trees: A Dynamic Index Structure for Spatial Searching.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| R-Trees: A Dynamic Index Structure   | 1                                    |
+| for Spatial Searching.               |                                      |
++--------------------------------------+--------------------------------------+
+| The K-D-B-Tree: A Search Structure   | 0.877                                |
+| For Large Multidimensional Dynamic   |                                      |
+| Indexes.                             |                                      |
++--------------------------------------+--------------------------------------+
+| The DC-Tree: A Fully Dynamic Index   | 0.778                                |
+| Structure for Data Warehouses.       |                                      |
++--------------------------------------+--------------------------------------+
+| ViST: A Dynamic Index Method for     | 0.700                                |
+| Querying XML Data by Tree            |                                      |
+| Structures.                          |                                      |
++--------------------------------------+--------------------------------------+
+| On the Sequencing of Tree Structures | 0.680                                |
+| for XML Indexing.                    |                                      |
++--------------------------------------+--------------------------------------+
+| Mining, Indexing, and Similarity     | 0.679                                |
+| Search in Graphs and Complex         |                                      |
+| Structures.                          |                                      |
++--------------------------------------+--------------------------------------+
+| Dynamic authenticated index          | 0.679                                |
+| structures for outsourced databases. |                                      |
++--------------------------------------+--------------------------------------+
+| The X-tree : An Index Structure for  | 0.654                                |
+| High-Dimensional Data                |                                      |
++--------------------------------------+--------------------------------------+
+| H-trees: A Dynamic Associative       | 0.643                                |
+| Search Index for OODB.               |                                      |
++--------------------------------------+--------------------------------------+
+| Incremental Maintenance of XML       | 0.638                                |
+| Structural Indexes.                  |                                      |
++--------------------------------------+--------------------------------------+
+
+Most Similar to "Efficient Reasoning in Qualitative Probabilistic Networks.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Efficient Reasoning in Qualitative   | 1                                    |
+| Probabilistic Networks.              |                                      |
++--------------------------------------+--------------------------------------+
+| Reasoning and Learning in            | 0.667                                |
+| Probabilistic and Possibilistic      |                                      |
+| Networks: An Overview.               |                                      |
++--------------------------------------+--------------------------------------+
+| Towards Efficient Default Reasoning. | 0.643                                |
++--------------------------------------+--------------------------------------+
+| Off-line Reasoning for On-line       | 0.643                                |
+| Efficiency.                          |                                      |
++--------------------------------------+--------------------------------------+
+| Efficiency Considerations on Built-  | 0.621                                |
+| in Taxonomic Reasoning in PROLOG.    |                                      |
++--------------------------------------+--------------------------------------+
+| Efficient Temporal Reasoning through | 0.621                                |
+| Timegraphs.                          |                                      |
++--------------------------------------+--------------------------------------+
+| Qualitative Spatial and Temporal     | 0.595                                |
+| Reasoning: Efficient Algorithms for  |                                      |
+| Everyone.                            |                                      |
++--------------------------------------+--------------------------------------+
+| Probabilistic Temporal Reasoning.    | 0.593                                |
++--------------------------------------+--------------------------------------+
+| Qualitative Mathematical Reasoning.  | 0.571                                |
++--------------------------------------+--------------------------------------+
+| Qualitative Reasoning with           | 0.571                                |
+| Microscopic Theories.                |                                      |
++--------------------------------------+--------------------------------------+
+
+Most Similar to "Self-Tuning Database Systems: A Decade of Progress.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Self-Tuning Database Systems: A      | 1                                    |
+| Decade of Progress.                  |                                      |
++--------------------------------------+--------------------------------------+
+| A Decade of Progress in Indexing and | 0.500                                |
+| Mining Large Time Series Databases.  |                                      |
++--------------------------------------+--------------------------------------+
+| Database Tuning.                     | 0.500                                |
++--------------------------------------+--------------------------------------+
+| Rethinking Database System           | 0.483                                |
+| Architecture: Towards a Self-Tuning  |                                      |
+| RISC-Style Database System.          |                                      |
++--------------------------------------+--------------------------------------+
+| LINGOL-A Progress Report.            | 0.480                                |
++--------------------------------------+--------------------------------------+
+| Mining progressive confident rules.  | 0.480                                |
++--------------------------------------+--------------------------------------+
+| How to Progress a Database II: The   | 0.471                                |
+| STRIPS Connection.                   |                                      |
++--------------------------------------+--------------------------------------+
+| Disease progression modeling from    | 0.471                                |
+| historical clinical databases.       |                                      |
++--------------------------------------+--------------------------------------+
+| Progressive Modeling.                | 0.462                                |
++--------------------------------------+--------------------------------------+
+| On progressive sequential pattern    | 0.462                                |
+| mining.                              |                                      |
++--------------------------------------+--------------------------------------+
+
+Most Similar to "R-trees with Update Memos.":
++----------------------------------------+-------+
+|                 Paper                  | Score |
++========================================+=======+
+| R-trees with Update Memos.             | 1     |
++----------------------------------------+-------+
+| ODMG Update.                           | 0.737 |
++----------------------------------------+-------+
+| SQL3 Update.                           | 0.737 |
++----------------------------------------+-------+
+| Updating XML.                          | 0.737 |
++----------------------------------------+-------+
+| Cumulative Updates.                    | 0.700 |
++----------------------------------------+-------+
+| Sequential update of ADtrees.          | 0.667 |
++----------------------------------------+-------+
+| Sometimes Updates Are Circumscription. | 0.667 |
++----------------------------------------+-------+
+| Updating a cracked database.           | 0.667 |
++----------------------------------------+-------+
+| Database Updates through Abduction.    | 0.636 |
++----------------------------------------+-------+
+| Conflicting XML Updates.               | 0.636 |
++----------------------------------------+-------+

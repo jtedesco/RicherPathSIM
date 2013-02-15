@@ -1,49 +1,190 @@
 
 Most Similar to "Mining Association Rules between Sets of Items in Large Databases.":
-+-------+-------+
-| Paper | Score |
-+=======+=======+
-+-------+-------+
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| IDEA: Interactive Data Exploration   | 1                                    |
+| and Analysis.                        |                                      |
++--------------------------------------+--------------------------------------+
+| XML Data Management Go Native or     | 1                                    |
+| Spruce up Relational Systems? (Panel |                                      |
+| Abstract).                           |                                      |
++--------------------------------------+--------------------------------------+
+| A System for Semantic Query          | 1                                    |
+| Optimization.                        |                                      |
++--------------------------------------+--------------------------------------+
+| Dynamic Itemset Counting and         | 1                                    |
+| Implication Rules for Market Basket  |                                      |
+| Data.                                |                                      |
++--------------------------------------+--------------------------------------+
+| TREX: DTD-Conforming XML to XML      | 1                                    |
+| Transformations.                     |                                      |
++--------------------------------------+--------------------------------------+
+| Configuration-parametric query       | 1                                    |
+| optimization for physical design     |                                      |
+| tuning.                              |                                      |
++--------------------------------------+--------------------------------------+
+| File-Level Operations on Network     | 1                                    |
+| Data Structures.                     |                                      |
++--------------------------------------+--------------------------------------+
+| Global Query Optimization.           | 1                                    |
++--------------------------------------+--------------------------------------+
+| Finding Candidate Keys for           | 1                                    |
+| Relational Data Bases.               |                                      |
++--------------------------------------+--------------------------------------+
+| Enhanced Hypertext Categorization    | 1                                    |
+| Using Hyperlinks.                    |                                      |
++--------------------------------------+--------------------------------------+
 
 Most Similar to "R-Trees: A Dynamic Index Structure for Spatial Searching.":
-+-------+-------+
-| Paper | Score |
-+=======+=======+
-+-------+-------+
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| IDEA: Interactive Data Exploration   | 1                                    |
+| and Analysis.                        |                                      |
++--------------------------------------+--------------------------------------+
+| XML Data Management Go Native or     | 1                                    |
+| Spruce up Relational Systems? (Panel |                                      |
+| Abstract).                           |                                      |
++--------------------------------------+--------------------------------------+
+| A System for Semantic Query          | 1                                    |
+| Optimization.                        |                                      |
++--------------------------------------+--------------------------------------+
+| Dynamic Itemset Counting and         | 1                                    |
+| Implication Rules for Market Basket  |                                      |
+| Data.                                |                                      |
++--------------------------------------+--------------------------------------+
+| TREX: DTD-Conforming XML to XML      | 1                                    |
+| Transformations.                     |                                      |
++--------------------------------------+--------------------------------------+
+| Configuration-parametric query       | 1                                    |
+| optimization for physical design     |                                      |
+| tuning.                              |                                      |
++--------------------------------------+--------------------------------------+
+| File-Level Operations on Network     | 1                                    |
+| Data Structures.                     |                                      |
++--------------------------------------+--------------------------------------+
+| Global Query Optimization.           | 1                                    |
++--------------------------------------+--------------------------------------+
+| Finding Candidate Keys for           | 1                                    |
+| Relational Data Bases.               |                                      |
++--------------------------------------+--------------------------------------+
+| Enhanced Hypertext Categorization    | 1                                    |
+| Using Hyperlinks.                    |                                      |
++--------------------------------------+--------------------------------------+
 
 Most Similar to "Efficient Reasoning in Qualitative Probabilistic Networks.":
-+-------+-------+
-| Paper | Score |
-+=======+=======+
-| PKDD  | 1     |
-+-------+-------+
-| SIGIR | 1     |
-+-------+-------+
-| PODS  | 1     |
-+-------+-------+
-| WSDM  | 1     |
-+-------+-------+
-| EDBT  | 1     |
-+-------+-------+
-| AAAI  | 1     |
-+-------+-------+
-| SDM   | 1     |
-+-------+-------+
-| ECML  | 1     |
-+-------+-------+
-| ECIR  | 1     |
-+-------+-------+
-| ICDM  | 1     |
-+-------+-------+
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Modeling Human Decision Making in    | 1                                    |
+| Cliff-Edge Environments.             |                                      |
++--------------------------------------+--------------------------------------+
+| Exploration of the Robustness of     | 1                                    |
+| Plans.                               |                                      |
++--------------------------------------+--------------------------------------+
+| Adaptive Localization in a Dynamic   | 1                                    |
+| WiFi Environment through Multi-view  |                                      |
+| Learning.                            |                                      |
++--------------------------------------+--------------------------------------+
+| Acquiring Visibly Intelligent        | 1                                    |
+| Behavior with Example-Guided         |                                      |
+| Neuroevolution.                      |                                      |
++--------------------------------------+--------------------------------------+
+| Fibring Neural Networks.             | 1                                    |
++--------------------------------------+--------------------------------------+
+| Abstract Explanations of Strategy in | 1                                    |
+| a Diagnostic Consultation System.    |                                      |
++--------------------------------------+--------------------------------------+
+| Informed Case Base Maintenance: A    | 1                                    |
+| Complexity Profiling Approach.       |                                      |
++--------------------------------------+--------------------------------------+
+| A Demonstration of ScriptEase        | 1                                    |
+| Interruptible and Resumable          |                                      |
+| Behaviors for CRPGs.                 |                                      |
++--------------------------------------+--------------------------------------+
+| Interleaving Temporal Planning and   | 1                                    |
+| Execution in Robotics Domains.       |                                      |
++--------------------------------------+--------------------------------------+
+| Modeling Reciprocal Behavior in      | 1                                    |
+| Human Bilateral Negotiation.         |                                      |
++--------------------------------------+--------------------------------------+
 
 Most Similar to "Self-Tuning Database Systems: A Decade of Progress.":
-+-------+-------+
-| Paper | Score |
-+=======+=======+
-+-------+-------+
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Scheduling of Page-Fetches in Join   | 1                                    |
+| Operations                           |                                      |
++--------------------------------------+--------------------------------------+
+| EntityRank: Searching Entities       | 1                                    |
+| Directly and Holistically.           |                                      |
++--------------------------------------+--------------------------------------+
+| A Simple and Efficient Estimation    | 1                                    |
+| Method for Stream Expression         |                                      |
+| Cardinalities.                       |                                      |
++--------------------------------------+--------------------------------------+
+| The Long-Term Preservation of        | 1                                    |
+| Authentic Electronic Records.        |                                      |
++--------------------------------------+--------------------------------------+
+| Inverse Functions in the AquaLogic   | 1                                    |
+| Data Services Platform.              |                                      |
++--------------------------------------+--------------------------------------+
+| On Semantic Issues Connected with    | 1                                    |
+| Incomplete Information Data Bases    |                                      |
+| (Abstract).                          |                                      |
++--------------------------------------+--------------------------------------+
+| Integrating SQL Databases with       | 1                                    |
+| Content-Specific Search Engines.     |                                      |
++--------------------------------------+--------------------------------------+
+| PM3: An Orthogonal Persistent        | 1                                    |
+| Systems Programming Language -       |                                      |
+| Design, Implementation, Performance. |                                      |
++--------------------------------------+--------------------------------------+
+| A Generalized End-User Facility      | 1                                    |
+| Architecture for Relational Database |                                      |
+| Systems.                             |                                      |
++--------------------------------------+--------------------------------------+
+| An Evaluation of Buffer Management   | 1                                    |
+| Strategies for Relational Database   |                                      |
+| Systems.                             |                                      |
++--------------------------------------+--------------------------------------+
 
 Most Similar to "R-trees with Update Memos.":
-+-------+-------+
-| Paper | Score |
-+=======+=======+
-+-------+-------+
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Tuning an SQL-Based PDM System in a  | 1                                    |
+| Worldwide Client/Server Environment. |                                      |
++--------------------------------------+--------------------------------------+
+| Batch Scheduling in Parallel         | 1                                    |
+| Database Systems.                    |                                      |
++--------------------------------------+--------------------------------------+
+| Determining Beneficial Semijoins for | 1                                    |
+| a Join Sequence in Distributed Query |                                      |
+| Processing.                          |                                      |
++--------------------------------------+--------------------------------------+
+| Global Integration of Visual         | 1                                    |
+| Databases.                           |                                      |
++--------------------------------------+--------------------------------------+
+| A Theory of Data: Implications for   | 1                                    |
+| Information Retrieval.               |                                      |
++--------------------------------------+--------------------------------------+
+| Assuring Security Properties in      | 1                                    |
+| Third-party Architectures.           |                                      |
++--------------------------------------+--------------------------------------+
+| Performance Analysis of Several      | 1                                    |
+| Algorithms for Processing Joins      |                                      |
+| between Textual Attributes.          |                                      |
++--------------------------------------+--------------------------------------+
+| AttentionAttractor: efficient video  | 1                                    |
+| stream similarity query processing   |                                      |
+| in real time.                        |                                      |
++--------------------------------------+--------------------------------------+
+| Interactive-Time Similarity Search   | 1                                    |
+| for Large Image Collections Using    |                                      |
+| Parallel VA-Files.                   |                                      |
++--------------------------------------+--------------------------------------+
+| Distance-Associated Join Indices for | 1                                    |
+| Spatial Range Search.                |                                      |
++--------------------------------------+--------------------------------------+
