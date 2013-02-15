@@ -1,6 +1,6 @@
 Most Similar to "Christos Faloutsos":
 +---------------------+-------+
-|        Paper        | Score |
+|       Author        | Score |
 +=====================+=======+
 | Christos Faloutsos  | 1     |
 +---------------------+-------+
@@ -24,7 +24,7 @@ Most Similar to "Christos Faloutsos":
 +---------------------+-------+
 Most Similar to "Jiawei Han":
 +-----------------------+-------+
-|         Paper         | Score |
+|        Author         | Score |
 +=======================+=======+
 | Jiawei Han            | 1     |
 +-----------------------+-------+
@@ -48,7 +48,7 @@ Most Similar to "Jiawei Han":
 +-----------------------+-------+
 Most Similar to "Sergey Brin":
 +-------------------+-------+
-|       Paper       | Score |
+|      Author       | Score |
 +===================+=======+
 | Sergey Brin       | 1     |
 +-------------------+-------+
@@ -72,7 +72,7 @@ Most Similar to "Sergey Brin":
 +-------------------+-------+
 Most Similar to "Sanjay Ghemawat":
 +------------------+-------+
-|      Paper       | Score |
+|      Author      | Score |
 +==================+=======+
 | Sanjay Ghemawat  | 1     |
 +------------------+-------+
