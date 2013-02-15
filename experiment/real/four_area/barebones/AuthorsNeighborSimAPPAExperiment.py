@@ -1,5 +1,6 @@
 import cPickle
 import os
+import operator
 import texttable
 from experiment.Experiment import Experiment
 from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore
@@ -30,6 +31,18 @@ if __name__ == '__main__':
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
     appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
+
+    # Compute author citation counts
+    citationCounts = {}
+    for author in extraData['toNodes']:
+        i = extraData['toNodesIndex'][author]
+        citationCounts[author] = sum(appaAdjMatrix.getcol(i).data)
+    citationCountsList = sorted(citationCounts.iteritems(), key=operator.itemgetter(1))
+    citationCountsList.reverse()
+
+    # Output author citation counts
+    with open(os.path.join('data', 'authorCitationCounts'), 'w') as file:
+        map(lambda (author, count): file.write('%d: %s\n' % (int(count), author)), citationCountsList)
 
     # Run for all authors (counts as of 2/15/2013)
 
