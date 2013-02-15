@@ -12,6 +12,15 @@ from src.importer.error.FourAreaParseError import FourAreaParseError
 
 __author__ = 'jontedesco'
 
+# Authors & papers to use for experiments
+testAuthors = [
+    'Christos Faloutsos',
+    'Jiawei Han',
+    'Sergey Brin',
+    'Sanjay Ghemawat'
+]
+
+
 # Regex for stripping non-visible characters
 controlChars = ''.join(map(unichr, range(0,32) + range(127,160)))
 controlCharactersRegex = re.compile('[%s]' % re.escape(controlChars))

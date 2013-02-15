@@ -3,7 +3,7 @@ import os
 import operator
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore
+from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
 
 __author__ = 'jontedesco'
 
@@ -45,12 +45,5 @@ if __name__ == '__main__':
     with open(os.path.join('data', 'authorCitationCounts'), 'w') as file:
         map(lambda (author, count): file.write('%d: %s\n' % (int(count), author)), citationCountsList)
 
-    # Run for all authors (counts as of 2/15/2013)
-
-    # Productive researchers
-    experiment.runFor('Christos Faloutsos', appaAdjMatrix, extraData) # 8,279 citations, 311 papers
-    experiment.runFor('Jiawei Han', appaAdjMatrix, extraData) # 12,410 citations, 420 papers
-
-    # Industry researchers
-    experiment.runFor('Sergey Brin', appaAdjMatrix, extraData) # 3,621 citations, 13 papers
-    experiment.runFor('Sanjay Ghemawat', appaAdjMatrix, extraData) # 2,950 citations, 18 papers
+    for testAuthor in testAuthors:
+        experiment.runFor(testAuthor, appaAdjMatrix, extraData)

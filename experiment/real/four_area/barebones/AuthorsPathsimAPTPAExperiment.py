@@ -3,7 +3,7 @@ import os
 from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes
+from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testAuthors
 
 __author__ = 'jontedesco'
 
@@ -40,7 +40,5 @@ if __name__ == '__main__':
     extraData['toNodes'] = data['toNodes']
     extraData['toNodesIndex'] = data['toNodesIndex']
 
-    experiment.runFor('Christos Faloutsos', aptpaAdjMatrix, extraData)
-    experiment.runFor('Jiawei Han', aptpaAdjMatrix, extraData)
-    experiment.runFor('Sergey Brin', aptpaAdjMatrix, extraData)
-    experiment.runFor('Sanjay Ghemawat', aptpaAdjMatrix, extraData)
+    for testAuthor in testAuthors:
+        experiment.runFor(testAuthor, aptpaAdjMatrix, extraData)

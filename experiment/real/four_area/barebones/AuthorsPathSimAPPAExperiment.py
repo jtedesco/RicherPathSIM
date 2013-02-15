@@ -2,7 +2,7 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes
+from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testAuthors
 
 __author__ = 'jontedesco'
 
@@ -33,7 +33,5 @@ if __name__ == '__main__':
     appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
 
     # Run for all authors
-    experiment.runFor('Christos Faloutsos', appaAdjMatrix, extraData)
-    experiment.runFor('Jiawei Han', appaAdjMatrix, extraData)
-    experiment.runFor('Sergey Brin', appaAdjMatrix, extraData)
-    experiment.runFor('Sanjay Ghemawat', appaAdjMatrix, extraData)
+    for testAuthor in testAuthors:
+        experiment.runFor(testAuthor, appaAdjMatrix, extraData)
