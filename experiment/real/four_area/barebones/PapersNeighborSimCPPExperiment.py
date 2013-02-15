@@ -2,7 +2,7 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore
+from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testPapers
 
 __author__ = 'jontedesco'
 
@@ -34,13 +34,5 @@ if __name__ == '__main__':
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
 
-    # Very highly cited papers
-    experiment.runFor('Mining Association Rules between Sets of Items in Large Databases.', cppAdjMatrix, extraData) # 9000 citations
-    experiment.runFor('R-Trees: A Dynamic Index Structure for Spatial Searching.', cppAdjMatrix, extraData) # ~5000 citations
-
-    # Medium papers
-    experiment.runFor('Efficient Reasoning in Qualitative Probabilistic Networks.', cppAdjMatrix, extraData) # ~120 citations
-
-    # Medium-small papers (~50 citations)
-    experiment.runFor('Self-Tuning Database Systems: A Decade of Progress.', cppAdjMatrix, extraData)
-    experiment.runFor('R-trees with Update Memos.', cppAdjMatrix, extraData)
+    for testPaper in testPapers:
+        experiment.runFor(testPaper, cppAdjMatrix, extraData)

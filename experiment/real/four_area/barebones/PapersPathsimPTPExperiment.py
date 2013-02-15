@@ -3,7 +3,7 @@ import os
 from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes
+from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testPapers
 
 __author__ = 'jontedesco'
 
@@ -40,13 +40,5 @@ if __name__ == '__main__':
     extraData['toNodes'] = data['fromNodes']
     extraData['toNodesIndex'] = data['fromNodesIndex']
 
-    # Very highly cited papers
-    experiment.runFor('Mining Association Rules between Sets of Items in Large Databases.', ptpAdjMatrix, extraData) # 9000 citations
-    experiment.runFor('R-Trees: A Dynamic Index Structure for Spatial Searching.', ptpAdjMatrix, extraData) # ~5000 citations
-
-    # Medium papers
-    experiment.runFor('Efficient Reasoning in Qualitative Probabilistic Networks.', ptpAdjMatrix, extraData) # ~120 citations
-
-    # Medium-small papers (~50 citations)
-    experiment.runFor('Self-Tuning Database Systems: A Decade of Progress.', ptpAdjMatrix, extraData)
-    experiment.runFor('R-trees with Update Memos.', ptpAdjMatrix, extraData)
+    for testPaper in testPapers:
+        experiment.runFor(testPaper, ptpAdjMatrix, extraData)

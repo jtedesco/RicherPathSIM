@@ -19,6 +19,13 @@ testAuthors = [
     'Sergey Brin',
     'Sanjay Ghemawat'
 ]
+testPapers = [
+    'Mining Association Rules between Sets of Items in Large Databases.',
+    'R-Trees: A Dynamic Index Structure for Spatial Searching.',
+    'Efficient Reasoning in Qualitative Probabilistic Networks.',
+    'Self-Tuning Database Systems: A Decade of Progress.',
+    'R-trees with Update Memos.'
+]
 
 
 # Regex for stripping non-visible characters
