@@ -6,6 +6,7 @@ import re
 import cPickle
 from networkx import MultiDiGraph
 import operator
+import numpy
 from scipy.sparse import  csr_matrix, lil_matrix, csc_matrix
 import texttable
 from src.importer.error.FourAreaParseError import FourAreaParseError
@@ -144,7 +145,7 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, rows = False):
         col.append(toNodesIndex[path[-1]])
         data.append(1)
     matrixType = csr_matrix if rows else csc_matrix
-    adjMatrix = matrixType((data, (row,col)), shape=(len(fromNodes), len(toNodes)))
+    adjMatrix = matrixType((data, (row,col)), shape=(len(fromNodes), len(toNodes)), dtype=numpy.float16)
 
     extraData = {
         'fromNodes': fromNodes,
