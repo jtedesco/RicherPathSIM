@@ -121,7 +121,7 @@ def parseFourAreaDataset():
                 graph.add_edge(nodeB, nodeA)
     __parseEdgeType(nodeIndex['paper'], nodeIndex['author'], graph, 'paper_author.txt')
     __parseEdgeType(nodeIndex['paper'], nodeIndex['conference'], graph, 'paper_conf.txt')
-    __parseEdgeType(nodeIndex['paper'], nodeIndex['conference'], graph, 'paper_conf.txt')
+    __parseEdgeType(nodeIndex['paper'], nodeIndex['term'], graph, 'paper_term.txt')
 
     return graph, nodeIndex
 
