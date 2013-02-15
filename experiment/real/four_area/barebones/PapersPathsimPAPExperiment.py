@@ -12,11 +12,12 @@ class PapersPathSimPAPExperiment(Experiment):
       Runs some experiments with PathSim on paper similarity for the 'four area' dataset
     """
 
-    def runFor(self, author, adjMatrix, extraData):
+    def runFor(self, paper, adjMatrix, extraData):
+        print("Running for %s..." % paper)
 
         # Find the top 10 most similar nodes to some given node
-        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData)
-        self.output('\nMost Similar to "%s":' % author)
+        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, paper, extraData)
+        self.output('\nMost Similar to "%s":' % paper)
         mostSimilarTable = texttable.Texttable()
         rows = [['Paper', 'Score']]
         rows += [[name, score] for name, score in mostSimilar]
