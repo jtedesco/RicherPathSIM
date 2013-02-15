@@ -1,0 +1,117 @@
+Most Similar to "Mining Association Rules between Sets of Items in Large Databases.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Mining Association Rules between     | 1                                    |
+| Sets of Items in Large Databases.    |                                      |
++--------------------------------------+--------------------------------------+
+| Fast Algorithms for Mining           | 0.986                                |
+| Association Rules in Large           |                                      |
+| Databases.                           |                                      |
++--------------------------------------+--------------------------------------+
+| BIRCH: An Efficient Data Clustering  | 0.717                                |
+| Method for Very Large Databases.     |                                      |
++--------------------------------------+--------------------------------------+
+| Mining Sequential Patterns.          | 0.712                                |
++--------------------------------------+--------------------------------------+
+| Automatic Subspace Clustering of     | 0.626                                |
+| High Dimensional Data for Data       |                                      |
+| Mining Applications.                 |                                      |
++--------------------------------------+--------------------------------------+
+| Mining Frequent Patterns without     | 0.561                                |
+| Candidate Generation.                |                                      |
++--------------------------------------+--------------------------------------+
+| Text Categorization with Suport      | 0.553                                |
+| Vector Machines: Learning with Many  |                                      |
+| Relevant Features.                   |                                      |
++--------------------------------------+--------------------------------------+
+| The R*-Tree: An Efficient and Robust | 0.534                                |
+| Access Method for Points and         |                                      |
+| Rectangles.                          |                                      |
++--------------------------------------+--------------------------------------+
+| Mining Quantitative Association      | 0.472                                |
+| Rules in Large Relational Tables.    |                                      |
++--------------------------------------+--------------------------------------+
+| A Comparative Study on Feature       | 0.470                                |
+| Selection in Text Categorization.    |                                      |
++--------------------------------------+--------------------------------------+
+Most Similar to "R-Trees: A Dynamic Index Structure for Spatial Searching.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Abstract Machine for LDL.            | 1                                    |
++--------------------------------------+--------------------------------------+
+| Adaptive Data Broadcast in Hybrid    | 1                                    |
+| Networks.                            |                                      |
++--------------------------------------+--------------------------------------+
+| Semantics Based Transaction          | 1                                    |
+| Management Techniques for Replicated |                                      |
+| Data.                                |                                      |
++--------------------------------------+--------------------------------------+
+| An Evaluation Framework for          | 1                                    |
+| Algebraic Object-Oriented Query      |                                      |
+| Models.                              |                                      |
++--------------------------------------+--------------------------------------+
+| Local Disk Caching for Client-Server | 1                                    |
+| Database Systems.                    |                                      |
++--------------------------------------+--------------------------------------+
+| Clustering Techniques for Minimizing | 1                                    |
+| External Path Length.                |                                      |
++--------------------------------------+--------------------------------------+
+| Prepare and Commit Certification for | 1                                    |
+| Decentralized Transaction Management |                                      |
+| in Rigorous Heterogeneous            |                                      |
+| Multidatabases.                      |                                      |
++--------------------------------------+--------------------------------------+
+| Querying Database Knowledge.         | 1                                    |
++--------------------------------------+--------------------------------------+
+| Handling Summary Information in a    | 1                                    |
+| Database: Derivability.              |                                      |
++--------------------------------------+--------------------------------------+
+| An Approach to Integrating Query     | 1                                    |
+| Refinement in SQL.                   |                                      |
++--------------------------------------+--------------------------------------+
+Most Similar to "Efficient Reasoning in Qualitative Probabilistic Networks.":
++-------+-------+
+| Paper | Score |
++=======+=======+
++-------+-------+
+Most Similar to "Self-Tuning Database Systems: A Decade of Progress.":
++-------+-------+
+| Paper | Score |
++=======+=======+
++-------+-------+
+Most Similar to "R-trees with Update Memos.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Finding Candidate Keys for           | 1                                    |
+| Relational Data Bases.               |                                      |
++--------------------------------------+--------------------------------------+
+| Percentile Finding Algorithm for     | 1                                    |
+| Multiple Sorted Runs.                |                                      |
++--------------------------------------+--------------------------------------+
+| Fast-Start: Quick Fault Recovery in  | 1                                    |
+| Oracle.                              |                                      |
++--------------------------------------+--------------------------------------+
+| Performance Evaluation of Two        | 1                                    |
+| Concurrency Control Mechanisms in a  |                                      |
+| Distributed Database System.         |                                      |
++--------------------------------------+--------------------------------------+
+| Forms Approach to Requirements       | 1                                    |
+| Specification for Database Design.   |                                      |
++--------------------------------------+--------------------------------------+
+| Dealing with Temporal Schema         | 1                                    |
+| Anomalies in History Databases.      |                                      |
++--------------------------------------+--------------------------------------+
+| V-Trees - A Storage Method for Long  | 1                                    |
+| Vector Data.                         |                                      |
++--------------------------------------+--------------------------------------+
+| On B-Trees: Routing Schemes and      | 1                                    |
+| Concurrency.                         |                                      |
++--------------------------------------+--------------------------------------+
+| Compiling XSLT 2.0 into XQuery 1.0.  | 1                                    |
++--------------------------------------+--------------------------------------+
+| Self Maintenance of Multiple Views   | 1                                    |
+| in Data Warehousing.                 |                                      |
++--------------------------------------+--------------------------------------+

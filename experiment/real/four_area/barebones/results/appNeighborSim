@@ -1,0 +1,105 @@
+Most Similar to "Mining Association Rules between Sets of Items in Large Databases.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| Mining Association Rules between     | 1                                    |
+| Sets of Items in Large Databases.    |                                      |
++--------------------------------------+--------------------------------------+
+| Fast Algorithms for Mining           | 0.684                                |
+| Association Rules in Large           |                                      |
+| Databases.                           |                                      |
++--------------------------------------+--------------------------------------+
+| Mining Sequential Patterns.          | 0.465                                |
++--------------------------------------+--------------------------------------+
+| Beyond Market Baskets: Generalizing  | 0.457                                |
+| Association Rules to Correlations.   |                                      |
++--------------------------------------+--------------------------------------+
+| An Effective Hash Based Algorithm    | 0.438                                |
+| for Mining Association Rules.        |                                      |
++--------------------------------------+--------------------------------------+
+| BIRCH: An Efficient Data Clustering  | 0.427                                |
+| Method for Very Large Databases.     |                                      |
++--------------------------------------+--------------------------------------+
+| Mining Frequent Patterns without     | 0.417                                |
+| Candidate Generation.                |                                      |
++--------------------------------------+--------------------------------------+
+| Discovery of Multiple-Level          | 0.394                                |
+| Association Rules from Large         |                                      |
+| Databases.                           |                                      |
++--------------------------------------+--------------------------------------+
+| Exploratory Mining and Pruning       | 0.390                                |
+| Optimizations of Constrained         |                                      |
+| Association Rules.                   |                                      |
++--------------------------------------+--------------------------------------+
+| Mining Quantitative Association      | 0.384                                |
+| Rules in Large Relational Tables.    |                                      |
++--------------------------------------+--------------------------------------+
+Most Similar to "R-Trees: A Dynamic Index Structure for Spatial Searching.":
++--------------------------------------+--------------------------------------+
+|                Paper                 |                Score                 |
++======================================+======================================+
+| R-Trees: A Dynamic Index Structure   | 1                                    |
+| for Spatial Searching.               |                                      |
++--------------------------------------+--------------------------------------+
+| A Raster Approximation For           | 0.560                                |
+| Processing of Spatial Joins.         |                                      |
++--------------------------------------+--------------------------------------+
+| A New Method for Similarity Indexing | 0.483                                |
+| of Market Basket Data.               |                                      |
++--------------------------------------+--------------------------------------+
+| A Fast Algorithm to Cluster High     | 0.444                                |
+| Dimensional Basket Data.             |                                      |
++--------------------------------------+--------------------------------------+
+| Correlating XML data streams using   | 0.400                                |
+| tree-edit distance embeddings.       |                                      |
++--------------------------------------+--------------------------------------+
+| Multidimensional Access Methods:     | 0.348                                |
+| Trees Have Grown Everywhere.         |                                      |
++--------------------------------------+--------------------------------------+
+| Efficient and Tunable Similar Set    | 0.348                                |
+| Retrieval.                           |                                      |
++--------------------------------------+--------------------------------------+
+| Performance Characteristics of       | 0.333                                |
+| Protocols With Ordered Shared Locks. |                                      |
++--------------------------------------+--------------------------------------+
+| Duplicate detection in click         | 0.308                                |
+| streams.                             |                                      |
++--------------------------------------+--------------------------------------+
+| The A-tree: An Index Structure for   | 0.294                                |
+| High-Dimensional Spaces Using        |                                      |
+| Relative Approximation.              |                                      |
++--------------------------------------+--------------------------------------+
+Most Similar to "Efficient Reasoning in Qualitative Probabilistic Networks.":
++-------+-------+
+| Paper | Score |
++=======+=======+
++-------+-------+
+Most Similar to "Self-Tuning Database Systems: A Decade of Progress.":
++-------+-------+
+| Paper | Score |
++=======+=======+
++-------+-------+
+Most Similar to "R-trees with Update Memos.":
++------------------------------------------------------------------+-------+
+|                              Paper                               | Score |
++==================================================================+=======+
+| Handling frequent updates of moving objects.                     | 1     |
++------------------------------------------------------------------+-------+
+| R-trees with Update Memos.                                       | 1     |
++------------------------------------------------------------------+-------+
+| Supporting Frequent Updates in R-Trees: A Bottom-Up Approach.    | 1     |
++------------------------------------------------------------------+-------+
+| An Evaluation of Generic Bulk Loading Techniques.                | 0.750 |
++------------------------------------------------------------------+-------+
+| R-Tree Based Indexing of Now-Relative Bitemporal Data.           | 0.444 |
++------------------------------------------------------------------+-------+
+| The Geometry of Uncertainty in Moving Objects Databases.         | 0.400 |
++------------------------------------------------------------------+-------+
+| TIP: A Temporal Extension to Informix.                           | 0.333 |
++------------------------------------------------------------------+-------+
+| Efficient integration and aggregation of historical information. | 0.333 |
++------------------------------------------------------------------+-------+
+| Towards Optimal Indexing for Segment Databases.                  | 0.333 |
++------------------------------------------------------------------+-------+
+| Database Snapshots.                                              | 0.333 |
++------------------------------------------------------------------+-------+
