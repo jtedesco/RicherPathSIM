@@ -2,11 +2,11 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.BareBonesHelper import  getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore
+from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore
 
 __author__ = 'jontedesco'
 
-class NeighborSimAPPAExperiment(Experiment):
+class AuthorsNeighborSimAPPAExperiment(Experiment):
     """
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
@@ -24,7 +24,7 @@ class NeighborSimAPPAExperiment(Experiment):
 
 
 if __name__ == '__main__':
-    experiment = NeighborSimAPPAExperiment(
+    experiment = AuthorsNeighborSimAPPAExperiment(
         None, 'Most Similar APPA NeighborSim Authors', outputFilePath='results/appaNeighborSim')
 
     # Compute once, since these never change

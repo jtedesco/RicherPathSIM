@@ -3,11 +3,11 @@ import os
 from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.BareBonesHelper import  getMetaPathAdjacencyData, findMostSimilarNodes
+from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes
 
 __author__ = 'jontedesco'
 
-class PathSimAPCPAExperiment(Experiment):
+class AuthorsPathSimAPCPAExperiment(Experiment):
     """
       Runs some experiments with PathSim on author similarity for the 'four area' dataset
     """
@@ -24,7 +24,7 @@ class PathSimAPCPAExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
 if __name__ == '__main__':
-    experiment = PathSimAPCPAExperiment(
+    experiment = AuthorsPathSimAPCPAExperiment(
         None, 'Most Similar APCPA PathSim Authors', outputFilePath='results/apcpaPathSim')
 
     # Compute once, since these never change
