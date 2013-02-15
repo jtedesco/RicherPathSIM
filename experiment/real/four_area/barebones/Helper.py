@@ -145,7 +145,7 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, rows = False):
         col.append(toNodesIndex[path[-1]])
         data.append(1)
     matrixType = csr_matrix if rows else csc_matrix
-    adjMatrix = matrixType((data, (row,col)), shape=(len(fromNodes), len(toNodes)), dtype=numpy.float16)
+    adjMatrix = matrixType((data, (row,col)), shape=(len(fromNodes), len(toNodes)))
 
     extraData = {
         'fromNodes': fromNodes,
