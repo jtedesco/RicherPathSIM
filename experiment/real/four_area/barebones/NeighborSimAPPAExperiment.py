@@ -31,8 +31,12 @@ if __name__ == '__main__':
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
     appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper'])
 
-    # Run for all authors
-    experiment.runFor('Christos Faloutsos', appaAdjMatrix, extraData)
-    experiment.runFor('Jiawei Han', appaAdjMatrix, extraData)
-    experiment.runFor('Sergey Brin', appaAdjMatrix, extraData)
-    experiment.runFor('Sanjay Ghemawat', appaAdjMatrix, extraData)
+    # Run for all authors (counts as of 2/15/2013)
+
+    # Productive researchers
+    experiment.runFor('Christos Faloutsos', appaAdjMatrix, extraData) # 8,279 citations, 311 papers
+    experiment.runFor('Jiawei Han', appaAdjMatrix, extraData) # 12,410 citations, 420 papers
+
+    # Industry researchers
+    experiment.runFor('Sergey Brin', appaAdjMatrix, extraData) # 3,621 citations, 13 papers
+    experiment.runFor('Sanjay Ghemawat', appaAdjMatrix, extraData) # 2,950 citations, 18 papers
