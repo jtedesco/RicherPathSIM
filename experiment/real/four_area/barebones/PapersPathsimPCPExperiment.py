@@ -28,7 +28,7 @@ if __name__ == '__main__':
         None, 'Most Similar PCP PathSim Papers', outputFilePath='results/pcpPathSim')
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithHalfCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
 
     # Compute APCPA adjacency matrix
     pcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['paper', 'conference'], rows=True)
