@@ -24,7 +24,7 @@ class PapersNeighborSimAPPExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
 
-if __name__ == '__main__':
+def run():
     experiment = PapersNeighborSimAPPExperiment(
         None, 'Most Similar APP NeighborSim Authors', outputFilePath='results/appNeighborSim')
 
@@ -36,3 +36,5 @@ if __name__ == '__main__':
 
     for testPaper in testPapers:
         experiment.runFor(testPaper, appAdjMatrix, extraData)
+
+if __name__ == '__main__': run()

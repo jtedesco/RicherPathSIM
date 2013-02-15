@@ -6,7 +6,7 @@ from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData
 
 __author__ = 'jontedesco'
 
-class PapersNeighborSimAPPExperiment(Experiment):
+class PapersNeighborSimCPPExperiment(Experiment):
     """
       Runs some experiments with NeighborSim on paper similarity for the 'four area' dataset
     """
@@ -24,8 +24,8 @@ class PapersNeighborSimAPPExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
 
-if __name__ == '__main__':
-    experiment = PapersNeighborSimAPPExperiment(
+def run():
+    experiment = PapersNeighborSimCPPExperiment(
         None, 'Most Similar CPP NeighborSim Authors', outputFilePath='results/cppNeighborSim')
 
     # Compute once, since these never change
@@ -36,3 +36,5 @@ if __name__ == '__main__':
 
     for testPaper in testPapers:
         experiment.runFor(testPaper, cppAdjMatrix, extraData)
+
+if __name__ == '__main__': run()
