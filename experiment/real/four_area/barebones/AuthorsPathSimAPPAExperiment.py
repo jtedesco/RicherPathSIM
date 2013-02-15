@@ -12,6 +12,7 @@ class AuthorsPathSimAPPAExperiment(Experiment):
     """
 
     def runFor(self, author, adjMatrix, extraData):
+        print("Running for %s..." % author)
 
         # Find the top 10 most similar nodes to some given node
         mostSimilar, scores = findMostSimilarNodes(adjMatrix, author, extraData)
