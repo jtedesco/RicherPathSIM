@@ -37,8 +37,8 @@ def run():
     papAdjMatrix = lil_matrix(paAdjMatrix * apAdjMatrix)
 
     # Correct the toNodes content in extraData
-    extraData['toNodes'] = data['fromNodes']
-    extraData['toNodesIndex'] = data['fromNodesIndex']
+    extraData['toNodes'] = data['toNodes']
+    extraData['toNodesIndex'] = data['toNodesIndex']
 
     for testPaper in testPapers:
         experiment.runFor(testPaper, papAdjMatrix, extraData)
