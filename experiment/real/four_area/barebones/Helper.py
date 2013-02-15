@@ -89,7 +89,7 @@ def parseFourAreaDataset():
         term = stemmer.stemWord(term)
         topic = term if term not in stopWords else None
         return topicId, topic
-    __parseNodeType(termLineParser, 'topic', 'term.txt', graph, nodeIndex)
+    __parseNodeType(termLineParser, 'term', 'term.txt', graph, nodeIndex)
 
     # Add edges to the graph
     def __parseEdgeType(nodeTypeAMap, nodeTypeBMap, graph, fileName):
