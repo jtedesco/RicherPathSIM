@@ -14,7 +14,7 @@ class AuthorsPathSimAPPAExperiment(Experiment):
     def runFor(self, author, adjMatrix, extraData):
 
         # Find the top 10 most similar nodes to some given node
-        mostSimilar = findMostSimilarNodes(adjMatrix, author, extraData)
+        mostSimilar, scores = findMostSimilarNodes(adjMatrix, author, extraData)
         self.output('\nMost Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
         rows = [['Author', 'Score']]
