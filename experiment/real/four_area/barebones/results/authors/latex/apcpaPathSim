@@ -3,7 +3,8 @@
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Author & Citation Count & Score\\\hline
+Rank & Author & Citation Count & Score\\
+\hline
 1 & Christos Faloutsos & 1862 & 1 \\
 2 & Jiawei Han & 2213 & 0.906 \\
 3 & Rakesh Agrawal & 4557 & 0.901 \\
@@ -19,7 +20,8 @@ Rank & Author & Citation Count & Score\\\hline
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Author & Citation Count & Score\\\hline
+Rank & Author & Citation Count & Score\\
+\hline
 1 & Jiawei Han & 2213 & 1 \\
 2 & Philip S. Yu & 1746 & 0.920 \\
 3 & Christos Faloutsos & 1862 & 0.906 \\
@@ -35,7 +37,8 @@ Rank & Author & Citation Count & Score\\\hline
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Author & Citation Count & Score\\\hline
+Rank & Author & Citation Count & Score\\
+\hline
 1 & Sergey Brin & 503 & 1 \\
 2 & Nicola Onose & 17 & 0.944 \\
 3 & Larry Kerschberg & 19 & 0.933 \\
@@ -51,7 +54,8 @@ Rank & Author & Citation Count & Score\\\hline
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Author & Citation Count & Score\\\hline
+Rank & Author & Citation Count & Score\\
+\hline
 1 & Luciano Resende & 0 & 1 \\
 2 & Irina Kogan & 7 & 1 \\
 3 & Ryan Kennedy & 0 & 1 \\

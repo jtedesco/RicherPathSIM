@@ -3,7 +3,8 @@
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Author & Citation Count & Score\\\hline
+Rank & Author & Citation Count & Score\\
+\hline
 1 & Christos Faloutsos & 1862 & 1 \\
 2 & Nick Roussopoulos & 1003 & 0.384 \\
 3 & Bernhard Seeger & 1239 & 0.336 \\
@@ -19,7 +20,8 @@ Rank & Author & Citation Count & Score\\\hline
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Author & Citation Count & Score\\\hline
+Rank & Author & Citation Count & Score\\
+\hline
 1 & Jiawei Han & 2213 & 1 \\
 2 & Rakesh Agrawal & 4557 & 0.846 \\
 3 & Ramakrishnan Srikant & 2140 & 0.662 \\
@@ -35,7 +37,8 @@ Rank & Author & Citation Count & Score\\\hline
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Author & Citation Count & Score\\\hline
+Rank & Author & Citation Count & Score\\
+\hline
 1 & Ashok Savasere & 180 & 4 \\
 2 & Rahul Gupta & 78 & 2 \\
 3 & Hannu Toivonen & 337 & 2 \\
@@ -51,7 +54,8 @@ Rank & Author & Citation Count & Score\\\hline
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Author & Citation Count & Score\\\hline
+Rank & Author & Citation Count & Score\\
+\hline
 1 & Daniel T. Schuh & 155 & inf \\
 2 & Umesh Maheshwari & 21 & 2 \\
 3 & Robert Gruber & 21 & 2 \\
