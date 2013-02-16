@@ -10,7 +10,7 @@ for filename in os.listdir('.'):
             if line.startswith('Most Similar'):
                 rank = 0
                 latexContent += '\hline\n\end{tabular}\n\n'
-                latexContent += '\\begin{tabular}{|c|c|c|c|}\n\hline\nRank & Author & Citation Count & Score\\\\\hline\n'
+                latexContent += '\\begin{tabular}{|c|c|c|c|}\n\hline\nRank & Author & Citation Count & Score\\\\\n\hline\n'
             elif line.startswith('+='):
                 continue
             elif 'Author' in line:
