@@ -3,12 +3,12 @@ from experiment.real.four_area.barebones import AuthorsNeighborSimAPPAExperiment
 __author__ = 'jontedesco'
 
 print("Running NeighborSim APPA experiment:")
-AuthorsNeighborSimAPPAExperiment.run()
+citationCounts = AuthorsNeighborSimAPPAExperiment.run()
 print("Running NeighborSim CPPA experiment:")
-AuthorsNeighborSimCPPAExperiment.run()
+AuthorsNeighborSimCPPAExperiment.run(citationCounts = citationCounts)
 print("Running PathSim APCPA experiment:")
-AuthorsPathSimAPCPAExperiment.run()
+AuthorsPathSimAPCPAExperiment.run(citationCounts = citationCounts)
 print("Running PathSim APPA experiment:")
-AuthorsPathSimAPPAExperiment.run()
+AuthorsPathSimAPPAExperiment.run(citationCounts = citationCounts)
 print("Running PathSim APTPA experiment:")
-AuthorsPathSimAPTPAExperiment.run()
+AuthorsPathSimAPTPAExperiment.run(citationCounts = citationCounts)

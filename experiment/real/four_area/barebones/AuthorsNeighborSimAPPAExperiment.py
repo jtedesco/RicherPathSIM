@@ -12,15 +12,19 @@ class AuthorsNeighborSimAPPAExperiment(Experiment):
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
 
-    def runFor(self, author, adjMatrix, extraData):
+    def runFor(self, author, adjMatrix, extraData, citationCounts = None):
         print("Running for %s..." % author)
 
         # Find the top 10 most similar nodes to some given node
         mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData, method = getNeighborSimScore)
         self.output('Most Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
-        rows = [['Author', 'Score']]
-        rows += [[name, score] for name, score in mostSimilar]
+        if citationCounts is None:
+            rows = [['Author', 'Score']]
+            rows += [[name, score] for name, score in mostSimilar]
+        else:
+            rows = [['Author', 'Score', 'Citations']]
+            rows += [[name, score, citationCounts[name]] for name, score in mostSimilar]
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
@@ -46,6 +50,8 @@ def run():
         map(lambda (author, count): file.write('%d: %s\n' % (int(count), author)), citationCountsList)
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, appaAdjMatrix, extraData)
+        experiment.runFor(testAuthor, appaAdjMatrix, extraData, citationCounts)
+
+    return citationCounts
 
 if __name__ == '__main__': run()

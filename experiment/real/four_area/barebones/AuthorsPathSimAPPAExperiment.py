@@ -11,20 +11,24 @@ class AuthorsPathSimAPPAExperiment(Experiment):
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
 
-    def runFor(self, author, adjMatrix, extraData):
+    def runFor(self, author, adjMatrix, extraData, citationCounts):
         print("Running for %s..." % author)
 
         # Find the top 10 most similar nodes to some given node
         mostSimilar, scores = findMostSimilarNodes(adjMatrix, author, extraData)
         self.output('\nMost Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
-        rows = [['Author', 'Score']]
-        rows += [[name, score] for name, score in mostSimilar]
+        if citationCounts is None:
+            rows = [['Author', 'Score']]
+            rows += [[name, score] for name, score in mostSimilar]
+        else:
+            rows = [['Author', 'Score', 'Citations']]
+            rows += [[name, score, citationCounts[name]] for name, score in mostSimilar]
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
 
-def run():
+def run(citationCounts = None):
     experiment = AuthorsPathSimAPPAExperiment(
         None, 'Most Similar APPA PathSim Authors', outputFilePath='results/appaPathSim')
 
@@ -34,6 +38,6 @@ def run():
 
     # Run for all authors
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, appaAdjMatrix, extraData)
+        experiment.runFor(testAuthor, appaAdjMatrix, extraData, citationCounts)
 
 if __name__ == '__main__': run()
