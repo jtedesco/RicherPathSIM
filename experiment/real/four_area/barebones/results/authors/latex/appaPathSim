@@ -1,0 +1,64 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Christos Faloutsos & 1862 & 1 \\
+2 & Nick Roussopoulos & 1003 & 0.384 \\
+3 & Bernhard Seeger & 1239 & 0.336 \\
+4 & Hans-Peter Kriegel & 1889 & 0.312 \\
+5 & Jack A. Orenstein & 313 & 0.288 \\
+6 & Ralf Schneider & 777 & 0.281 \\
+7 & Timos K. Sellis & 641 & 0.279 \\
+8 & Norbert Beckmann & 671 & 0.275 \\
+9 & H. V. Jagadish & 1679 & 0.275 \\
+10 & Jon M. Kleinberg & 420 & 0.226 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Jiawei Han & 2213 & 1 \\
+2 & Rakesh Agrawal & 4557 & 0.846 \\
+3 & Ramakrishnan Srikant & 2140 & 0.662 \\
+4 & Jian Pei & 919 & 0.562 \\
+5 & Raghu Ramakrishnan & 1985 & 0.408 \\
+6 & Rajeev Motwani & 1691 & 0.357 \\
+7 & Xifeng Yan & 405 & 0.323 \\
+8 & Jeffrey D. Ullman & 1268 & 0.291 \\
+9 & Philip S. Yu & 1746 & 0.272 \\
+10 & Laks V. S. Lakshmanan & 684 & 0.263 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Ashok Savasere & 180 & 4 \\
+2 & Rahul Gupta & 78 & 2 \\
+3 & Hannu Toivonen & 337 & 2 \\
+4 & Jong Soo Park & 275 & 2 \\
+5 & Brian Lent & 46 & 2 \\
+6 & Harpreet S. Sawhney & 150 & 2 \\
+7 & Vikas Khandelwal & 36 & 2 \\
+8 & Pirjo Ronkainen & 145 & 2 \\
+9 & A. Inkeri Verkamo & 134 & 2 \\
+10 & Mika Klemettinen & 147 & 2 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Daniel T. Schuh & 155 & inf \\
+2 & Umesh Maheshwari & 21 & 2 \\
+3 & Robert Gruber & 21 & 2 \\
+4 & Manolis M. Tsangaris & 61 & 2 \\
+5 & Nancy E. Hall & 183 & 2 \\
+6 & Michael J. Zwilling & 192 & 2 \\
+7 & Odysseas G. Tsatalos & 180 & 2 \\
+8 & Barbara Liskov & 28 & 2 \\
+9 & C. K. Tan & 192 & 2 \\
+10 & Atul Adya & 35 & 2 \\

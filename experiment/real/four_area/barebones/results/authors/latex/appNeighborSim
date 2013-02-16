@@ -1,0 +1,88 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Paper &  & Score \\
+2 & Mining Association Rules between &  & 1 \\
+3 & Sets of Items in Large Databases. &  &  \\
+4 & Fast Algorithms for Mining &  & 0.684 \\
+5 & Association Rules in Large &  &  \\
+6 & Databases. &  &  \\
+7 & Mining Sequential Patterns. &  & 0.465 \\
+8 & Beyond Market Baskets: Generalizing &  & 0.457 \\
+9 & Association Rules to Correlations. &  &  \\
+10 & An Effective Hash Based Algorithm &  & 0.438 \\
+11 & for Mining Association Rules. &  &  \\
+12 & BIRCH: An Efficient Data Clustering &  & 0.427 \\
+13 & Method for Very Large Databases. &  &  \\
+14 & Mining Frequent Patterns without &  & 0.417 \\
+15 & Candidate Generation. &  &  \\
+16 & Discovery of Multiple-Level &  & 0.394 \\
+17 & Association Rules from Large &  &  \\
+18 & Databases. &  &  \\
+19 & Exploratory Mining and Pruning &  & 0.390 \\
+20 & Optimizations of Constrained &  &  \\
+21 & Association Rules. &  &  \\
+22 & Mining Quantitative Association &  & 0.384 \\
+23 & Rules in Large Relational Tables. &  &  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Paper &  & Score \\
+2 & R-Trees: A Dynamic Index Structure &  & 1 \\
+3 & for Spatial Searching. &  &  \\
+4 & A Raster Approximation For &  & 0.560 \\
+5 & Processing of Spatial Joins. &  &  \\
+6 & A New Method for Similarity Indexing &  & 0.483 \\
+7 & of Market Basket Data. &  &  \\
+8 & A Fast Algorithm to Cluster High &  & 0.444 \\
+9 & Dimensional Basket Data. &  &  \\
+10 & Correlating XML data streams using &  & 0.400 \\
+11 & tree-edit distance embeddings. &  &  \\
+12 & Multidimensional Access Methods: &  & 0.348 \\
+13 & Trees Have Grown Everywhere. &  &  \\
+14 & Efficient and Tunable Similar Set &  & 0.348 \\
+15 & Retrieval. &  &  \\
+16 & Performance Characteristics of &  & 0.333 \\
+17 & Protocols With Ordered Shared Locks. &  &  \\
+18 & Duplicate detection in click &  & 0.308 \\
+19 & streams. &  &  \\
+20 & The A-tree: An Index Structure for &  & 0.294 \\
+21 & High-Dimensional Spaces Using &  &  \\
+22 & Relative Approximation. &  &  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Paper &  & Score \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Paper &  & Score \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Paper &  & Score \\
+2 & Handling frequent updates of moving objects. &  & 1 \\
+3 & R-trees with Update Memos. &  & 1 \\
+4 & Supporting Frequent Updates in R-Trees: A Bottom-Up Approach. &  & 1 \\
+5 & An Evaluation of Generic Bulk Loading Techniques. &  & 0.750 \\
+6 & R-Tree Based Indexing of Now-Relative Bitemporal Data. &  & 0.444 \\
+7 & The Geometry of Uncertainty in Moving Objects Databases. &  & 0.400 \\
+8 & TIP: A Temporal Extension to Informix. &  & 0.333 \\
+9 & Efficient integration and aggregation of historical information. &  & 0.333 \\
+10 & Towards Optimal Indexing for Segment Databases. &  & 0.333 \\
+11 & Database Snapshots. &  & 0.333 \\

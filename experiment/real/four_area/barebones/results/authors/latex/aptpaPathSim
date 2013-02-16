@@ -1,0 +1,64 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Christos Faloutsos & 1862 & 1 \\
+2 & Haixun Wang & 326 & 0.563 \\
+3 & Philip S. Yu & 1746 & 0.559 \\
+4 & Beng Chin Ooi & 435 & 0.539 \\
+5 & Hans-Peter Kriegel & 1889 & 0.520 \\
+6 & H. V. Jagadish & 1679 & 0.511 \\
+7 & Wei Wang & 458 & 0.508 \\
+8 & Jeffrey Xu Yu & 186 & 0.487 \\
+9 & Eamonn J. Keogh & 442 & 0.474 \\
+10 & Kian-Lee Tan & 416 & 0.470 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Jiawei Han & 2213 & 1 \\
+2 & Philip S. Yu & 1746 & 0.678 \\
+3 & Wei Wang & 458 & 0.636 \\
+4 & Jian Pei & 919 & 0.550 \\
+5 & Hans-Peter Kriegel & 1889 & 0.533 \\
+6 & Rakesh Agrawal & 4557 & 0.489 \\
+7 & Hongjun Lu & 419 & 0.482 \\
+8 & H. V. Jagadish & 1679 & 0.469 \\
+9 & Haixun Wang & 326 & 0.465 \\
+10 & Christos Faloutsos & 1862 & 0.454 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Sergey Brin & 503 & 1 \\
+2 & Craig Silverstein & 255 & 0.459 \\
+3 & Ulrich R?ckert & 18 & 0.360 \\
+4 & Takeshi Tokuyama & 74 & 0.357 \\
+5 & Vikram Pudi & 0 & 0.354 \\
+6 & Jeffrey A. Barnett & 0 & 0.353 \\
+7 & Takeshi Fukuda & 74 & 0.350 \\
+8 & Shiby Thomas & 0 & 0.342 \\
+9 & Rodney W. Topor & 4 & 0.337 \\
+10 & Younkyung Cha Kang & 122 & 0.336 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\\hline
+1 & Mark Day & 6 & 1 \\
+2 & Andrew C. Myers & 6 & 1 \\
+3 & Miguel Castro & 6 & 1 \\
+4 & Sanjay Ghemawat & 6 & 1 \\
+5 & Gilles Barbedette & 0 & 0.533 \\
+6 & Robert Gruber & 21 & 0.519 \\
+7 & Thomas Keller & 0 & 0.500 \\
+8 & Umesh Maheshwari & 21 & 0.455 \\
+9 & Michael Ranft & 3 & 0.432 \\
+10 & Simone Rehm & 3 & 0.432 \\
