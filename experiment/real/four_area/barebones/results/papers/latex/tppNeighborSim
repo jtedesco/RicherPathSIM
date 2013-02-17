@@ -1,0 +1,65 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Paper & Citation Count & Score\\
+\hline
+1 & Mining Association Rules between Sets of Items in Large Databases. & 258 & 1.0 \\
+2 & Fast Algorithms for Mining Association Rules in Large Databases. & 305 & 0.969 \\
+3 & An Effective Hash Based Algorithm for Mining Association Rules. & 60 & 0.628 \\
+4 & Mining Quantitative Association Rules in Large Relational Tables. & 65 & 0.575 \\
+5 & An Efficient Algorithm for Mining Association Rules in Large Databases. & 57 & 0.543 \\
+6 & Discovery of Multiple-Level Association Rules from Large Databases. & 46 & 0.503 \\
+7 & Dynamic Itemset Counting and Implication Rules for Market Basket Data. & 57 & 0.447 \\
+8 & Finding Interesting Rules from Large Sets of Discovered Association Rules. & 48 & 0.432 \\
+9 & Sampling Large Databases for Association Rules. & 50 & 0.425 \\
+10 & Beyond Market Baskets: Generalizing Association Rules to Correlations. & 54 & 0.397 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Paper & Citation Count & Score\\
+\hline
+1 & R-Trees: A Dynamic Index Structure for Spatial Searching. & 3 & 1.0 \\
+2 & A Raster Approximation For Processing of Spatial Joins. & 2 & 0.527 \\
+3 & An Evaluation of Generic Bulk Loading Techniques. & 2 & 0.476 \\
+4 & Efficient and Tunable Similar Set Retrieval. & 3 & 0.476 \\
+5 & The Impact of Global Clustering on Spatial Database Systems. & 2 & 0.465 \\
+6 & A New Method for Similarity Indexing of Market Basket Data. & 4 & 0.449 \\
+7 & Polynomial filtering in latent semantic indexing for information retrieval. & 1 & 0.444 \\
+8 & Closure-Tree: An Index Structure for Graph Queries. & 4 & 0.419 \\
+9 & Density-Based Indexing for Approximate Nearest-Neighbor Queries. & 8 & 0.416 \\
+10 & Substructure Similarity Search in Graph Databases. & 3 & 0.415 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Paper & Citation Count & Score\\
+\hline
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Paper & Citation Count & Score\\
+\hline
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Paper & Citation Count & Score\\
+\hline
+1 & R-trees with Update Memos. & 1 & 1.0 \\
+2 & Handling frequent updates of moving objects. & 1 & 1.0 \\
+3 & Supporting Frequent Updates in R-Trees: A Bottom-Up Approach. & 1 & 1.0 \\
+4 & An Evaluation of Generic Bulk Loading Techniques. & 2 & 0.79 \\
+5 & Performance of Data-Parallel Spatial Operations. & 1 & 0.611 \\
+6 & Logical Logging to Extend Recovery to New Domains. & 2 & 0.562 \\
+7 & HD-Eye - Visual Clustering of High dimensional Data. & 1 & 0.549 \\
+8 & Analyzing Quantitative Databases: Image is Everything. & 1 & 0.549 \\
+9 & Comments on Experiments with Retrieval of Legal Information in Full Text. & 1 & 0.545 \\
+10 & On the Construction of Effective Vocabularies for Information Retrieval. & 1 & 0.545 \\
