@@ -26,7 +26,7 @@ class PapersNeighborSimCPPExperiment(Experiment):
 
 def run():
     experiment = PapersNeighborSimCPPExperiment(
-        None, 'Most Similar CPP NeighborSim Authors', outputFilePath='results/cppNeighborSim')
+        None, 'Most Similar CPP NeighborSim Authors', outputFilePath='results/papers/cppNeighborSim')
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))

@@ -30,7 +30,7 @@ class AuthorsNeighborSimCPPAExperiment(Experiment):
 
 def run(citationCounts = None):
     experiment = AuthorsNeighborSimCPPAExperiment(
-        None, 'Most Similar CPPA NeighborSim Authors', outputFilePath='results/cppaNeighborSim')
+        None, 'Most Similar CPPA NeighborSim Authors', outputFilePath='results/authors/cppaNeighborSim')
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))

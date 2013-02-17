@@ -26,7 +26,7 @@ class PapersPathSimPAPExperiment(Experiment):
 
 def run():
     experiment = PapersPathSimPAPExperiment(
-        None, 'Most Similar PAP PathSim Papers', outputFilePath='results/papPathSim')
+        None, 'Most Similar PAP PathSim Papers', outputFilePath='results/papers/papPathSim')
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))

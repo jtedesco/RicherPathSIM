@@ -30,7 +30,7 @@ class AuthorsPathSimAPPAExperiment(Experiment):
 
 def run(citationCounts = None):
     experiment = AuthorsPathSimAPPAExperiment(
-        None, 'Most Similar APPA PathSim Authors', outputFilePath='results/appaPathSim')
+        None, 'Most Similar APPA PathSim Authors', outputFilePath='results/authors/appaPathSim')
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
