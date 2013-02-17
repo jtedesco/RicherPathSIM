@@ -37,5 +37,5 @@ graphs/cs225comotodata*
 comotodata
 
 # Too big to commit..
-data
+^data
 graphs
