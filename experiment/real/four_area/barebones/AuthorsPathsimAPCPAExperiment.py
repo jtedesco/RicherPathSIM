@@ -12,19 +12,23 @@ class AuthorsPathSimAPCPAExperiment(Experiment):
       Runs some experiments with PathSim on author similarity for the 'four area' dataset
     """
 
-    def runFor(self, author, adjMatrix, extraData):
+    def runFor(self, author, adjMatrix, extraData, citationCounts):
         print("Running for %s..." % author)
 
         # Find the top 10 most similar nodes to some given node
         mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData)
         self.output('\nMost Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
-        rows = [['Author', 'Score']]
-        rows += [[name, score] for name, score in mostSimilar]
+        if citationCounts is None:
+            rows = [['Author', 'Score']]
+            rows += [[name, score] for name, score in mostSimilar]
+        else:
+            rows = [['Author', 'Score', 'Citations']]
+            rows += [[name, score, citationCounts[name]] for name, score in mostSimilar]
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
-def run():
+def run(citationCounts = None):
     experiment = AuthorsPathSimAPCPAExperiment(
         None, 'Most Similar APCPA PathSim Authors', outputFilePath='results/apcpaPathSim')
 
@@ -41,6 +45,6 @@ def run():
     extraData['toNodesIndex'] = data['toNodesIndex']
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, apcpaAdjMatrix, extraData)
+        experiment.runFor(testAuthor, apcpaAdjMatrix, extraData, citationCounts)
 
 if __name__ == '__main__': run()
