@@ -34,7 +34,7 @@ for filename in os.listdir('.'):
             elif line.startswith('+-') and len(titleBuffer) > 0:
                 rank += 1
                 strippedTitle = titleBuffer.strip().replace(' ','')
-                title = titleBuffer.strip()
+                title = titleBuffer.strip().rstrip('.')
                 latexContent += '%d & %s & %s & %s \\\\\n' % (rank, title, citationCounts[strippedTitle], score)
                 titleBuffer = ""
                 score = 0

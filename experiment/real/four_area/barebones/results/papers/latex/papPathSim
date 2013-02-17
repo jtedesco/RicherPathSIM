@@ -5,16 +5,16 @@
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & Mining Association Rules between Sets of Items in Large Databases. & 258 & 1.0 \\
-2 & An Interval Classifier for Database Mining Applications. & 25 & 0.75 \\
-3 & Relative Knowledge in a Distributed Database. & 1 & 0.5 \\
-4 & Database Technologies for E- Commerce. & 0 & 0.5 \\
-5 & Optimization of Large Join Queries: Combining Heuristic and Combinatorial Techniques. & 18 & 0.5 \\
-6 & Next frontier. & 0 & 0.5 \\
-7 & Results on Translating Defaults to Circumscription. & 0 & 0.5 \\
-8 & Query Processing in Deductive Databases with Incomplete Information. & 2 & 0.5 \\
-9 & Building knowledge-based applications with cooperating databases. & 0 & 0.5 \\
-10 & Privacy in data systems. & 0 & 0.5 \\
+1 & Mining Association Rules between Sets of Items in Large Databases & 258 & 1.0 \\
+2 & An Interval Classifier for Database Mining Applications & 25 & 0.75 \\
+3 & Relative Knowledge in a Distributed Database & 1 & 0.5 \\
+4 & Database Technologies for E- Commerce & 0 & 0.5 \\
+5 & Optimization of Large Join Queries: Combining Heuristic and Combinatorial Techniques & 18 & 0.5 \\
+6 & Next frontier & 0 & 0.5 \\
+7 & Results on Translating Defaults to Circumscription & 0 & 0.5 \\
+8 & Query Processing in Deductive Databases with Incomplete Information & 2 & 0.5 \\
+9 & Building knowledge-based applications with cooperating databases & 0 & 0.5 \\
+10 & Privacy in data systems & 0 & 0.5 \\
 \hline
 \end{tabular}
 
@@ -22,7 +22,7 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & R-Trees: A Dynamic Index Structure for Spatial Searching. & 3 & 1.0 \\
+1 & R-Trees: A Dynamic Index Structure for Spatial Searching & 3 & 1.0 \\
 \hline
 \end{tabular}
 
@@ -30,10 +30,10 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & Efficient Reasoning in Qualitative Probabilistic Networks. & 0 & 1.0 \\
-2 & An Experimental Comparison of Knowledge Engineering for Expert Systems and for Decision Analysis. & 0 & 0.5 \\
-3 & Generalized Evidence Pre-propagated Importance Sampling for Hybrid Bayesian Networks. & 0 & 0.5 \\
-4 & Dynamic Weighting A* Search-Based MAP Algorithm for Bayesian Networks. & 0 & 0.4 \\
+1 & Efficient Reasoning in Qualitative Probabilistic Networks & 0 & 1.0 \\
+2 & An Experimental Comparison of Knowledge Engineering for Expert Systems and for Decision Analysis & 0 & 0.5 \\
+3 & Generalized Evidence Pre-propagated Importance Sampling for Hybrid Bayesian Networks & 0 & 0.5 \\
+4 & Dynamic Weighting A* Search-Based MAP Algorithm for Bayesian Networks & 0 & 0.4 \\
 \hline
 \end{tabular}
 
@@ -41,16 +41,16 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & An Efficient Cost-Driven Index Selection Tool for Microsoft SQL Server. & 28 & 1.0 \\
-2 & Automating Statistics Management for Query Optimizers. & 5 & 1.0 \\
-3 & Self-Tuning Database Systems: A Decade of Progress. & 0 & 1.0 \\
-4 & Microsoft Index Tuning Wizard for SQL Server 7.0. & 7 & 1.0 \\
-5 & Index Merging. & 0 & 1.0 \\
-6 & AutoAdmin 'What-if' Index Analysis Utility. & 0 & 1.0 \\
-7 & Efficient Evaluation of Queries with Mining Predicates. & 0 & 0.8 \\
-8 & Bridging the Application and DBMS Profiling Divide for Database Application Developers. & 0 & 0.8 \\
+1 & An Efficient Cost-Driven Index Selection Tool for Microsoft SQL Server & 28 & 1.0 \\
+2 & Automating Statistics Management for Query Optimizers & 5 & 1.0 \\
+3 & Self-Tuning Database Systems: A Decade of Progress & 0 & 1.0 \\
+4 & Microsoft Index Tuning Wizard for SQL Server 7.0 & 7 & 1.0 \\
+5 & Index Merging & 0 & 1.0 \\
+6 & AutoAdmin 'What-if' Index Analysis Utility & 0 & 1.0 \\
+7 & Efficient Evaluation of Queries with Mining Predicates & 0 & 0.8 \\
+8 & Bridging the Application and DBMS Profiling Divide for Database Application Developers & 0 & 0.8 \\
 9 & Random Sampling for Histogram Construction: How much is enough? & 27 & 0.8 \\
-10 & A Robust, Optimization-Based Approach for Approximate Answering of Aggregate Queries. & 11 & 0.8 \\
+10 & A Robust, Optimization-Based Approach for Approximate Answering of Aggregate Queries & 11 & 0.8 \\
 \hline
 \end{tabular}
 
@@ -58,13 +58,13 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & R-trees with Update Memos. & 1 & 1.0 \\
-2 & SINA: Scalable Incremental Processing of Continuous Queries in Spatio-temporal Databases. & 11 & 0.8 \\
-3 & SEA-CNN: Scalable Processing of Continuous K-Nearest Neighbor Queries in Spatio-temporal Databases. & 4 & 0.8 \\
-4 & Hashing by Proximity to Process Duplicates in Spatial Databases. & 0 & 0.5 \\
-5 & Optimization for Spatial Query Processing. & 9 & 0.5 \\
-6 & Efficient Processing of Window Queries in The Pyramid Data Structure. & 2 & 0.5 \\
-7 & Irregularity in Multi-Dimensional Space-Filling Curves with Applications in Multimedia Databases. & 0 & 0.5 \\
-8 & Rank-Aware Query Processing and Optimization. & 0 & 0.5 \\
-9 & PLACE: A Query Processor for Handling Real-time Spatio-temporal Data Streams. & 0 & 0.5 \\
-10 & Joining Ranked Inputs in Practice. & 0 & 0.4 \\
+1 & R-trees with Update Memos & 1 & 1.0 \\
+2 & SINA: Scalable Incremental Processing of Continuous Queries in Spatio-temporal Databases & 11 & 0.8 \\
+3 & SEA-CNN: Scalable Processing of Continuous K-Nearest Neighbor Queries in Spatio-temporal Databases & 4 & 0.8 \\
+4 & Hashing by Proximity to Process Duplicates in Spatial Databases & 0 & 0.5 \\
+5 & Optimization for Spatial Query Processing & 9 & 0.5 \\
+6 & Efficient Processing of Window Queries in The Pyramid Data Structure & 2 & 0.5 \\
+7 & Irregularity in Multi-Dimensional Space-Filling Curves with Applications in Multimedia Databases & 0 & 0.5 \\
+8 & Rank-Aware Query Processing and Optimization & 0 & 0.5 \\
+9 & PLACE: A Query Processor for Handling Real-time Spatio-temporal Data Streams & 0 & 0.5 \\
+10 & Joining Ranked Inputs in Practice & 0 & 0.4 \\
