@@ -5,16 +5,16 @@
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & Mining Association Rules between Sets of Items in Large Databases. & 9000 & 1.0 \\
-2 & The Rough Set Approach to Association Rule Mining. & 22 & 0.722 \\
-3 & Mining Association Rules in Hypertext Databases. & 79 & 0.71 \\
-4 & Sampling Large Databases for Association Rules. & 1095 & 0.706 \\
-5 & Ordinal Association Rules for Error Identification in Data Sets. & 20 & 0.703 \\
-6 & Association Rules in Incomplete Databases. & 13 & 0.688 \\
-7 & Mining Association Rules with Item Constraints. & 629 & 0.688 \\
-8 & Fast Algorithms for Mining Association Rules in Large Databases. & 3462 & 0.686 \\
-9 & Discovering Association Rules in Large, Dense Databases. & 6 & 0.667 \\
-10 & Association Rules. & -1 & 0.667 \\
+1 & Mining Association Rules between Sets of Items in Large Databases. & 258 & 1.0 \\
+2 & The Rough Set Approach to Association Rule Mining. & 0 & 0.722 \\
+3 & Mining Association Rules in Hypertext Databases. & 0 & 0.71 \\
+4 & Sampling Large Databases for Association Rules. & 50 & 0.706 \\
+5 & Ordinal Association Rules for Error Identification in Data Sets. & 1 & 0.703 \\
+6 & Association Rules in Incomplete Databases. & 0 & 0.688 \\
+7 & Mining Association Rules with Item Constraints. & 0 & 0.688 \\
+8 & Fast Algorithms for Mining Association Rules in Large Databases. & 305 & 0.686 \\
+9 & Discovering Association Rules in Large, Dense Databases. & 0 & 0.667 \\
+10 & Association Rules. & 0 & 0.667 \\
 \hline
 \end{tabular}
 
@@ -22,16 +22,16 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & R-Trees: A Dynamic Index Structure for Spatial Searching. & 4950 & 1.0 \\
-2 & The K-D-B-Tree: A Search Structure For Large Multidimensional Dynamic Indexes. & 899 & 0.877 \\
-3 & The DC-Tree: A Fully Dynamic Index Structure for Data Warehouses. & 36 & 0.778 \\
-4 & ViST: A Dynamic Index Method for Querying XML Data by Tree Structures. & 261 & 0.7 \\
-5 & On the Sequencing of Tree Structures for XML Indexing. & 65 & 0.68 \\
-6 & Mining, Indexing, and Similarity Search in Graphs and Complex Structures. & 1 & 0.679 \\
-7 & Dynamic authenticated index structures for outsourced databases. & 99 & 0.679 \\
-8 & The X-tree : An Index Structure for High-Dimensional Data & 1292 & 0.654 \\
-9 & H-trees: A Dynamic Associative Search Index for OODB. & 44 & 0.643 \\
-10 & Incremental Maintenance of XML Structural Indexes. & 36 & 0.638 \\
+1 & R-Trees: A Dynamic Index Structure for Spatial Searching. & 3 & 1.0 \\
+2 & The K-D-B-Tree: A Search Structure For Large Multidimensional Dynamic Indexes. & 63 & 0.877 \\
+3 & The DC-Tree: A Fully Dynamic Index Structure for Data Warehouses. & 0 & 0.778 \\
+4 & ViST: A Dynamic Index Method for Querying XML Data by Tree Structures. & 18 & 0.7 \\
+5 & On the Sequencing of Tree Structures for XML Indexing. & 5 & 0.68 \\
+6 & Mining, Indexing, and Similarity Search in Graphs and Complex Structures. & 0 & 0.679 \\
+7 & Dynamic authenticated index structures for outsourced databases. & 5 & 0.679 \\
+8 & The X-tree : An Index Structure for High-Dimensional Data & 0 & 0.654 \\
+9 & H-trees: A Dynamic Associative Search Index for OODB. & 6 & 0.643 \\
+10 & Incremental Maintenance of XML Structural Indexes. & 2 & 0.638 \\
 \hline
 \end{tabular}
 
@@ -39,16 +39,16 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & Efficient Reasoning in Qualitative Probabilistic Networks. & 123 & 1.0 \\
-2 & Reasoning and Learning in Probabilistic and Possibilistic Networks: An Overview. & 4 & 0.667 \\
-3 & Towards Efficient Default Reasoning. & 58 & 0.643 \\
-4 & Off-line Reasoning for On-line Efficiency. & 13 & 0.643 \\
-5 & Efficiency Considerations on Built- in Taxonomic Reasoning in PROLOG. & 11 & 0.621 \\
-6 & Efficient Temporal Reasoning through Timegraphs. & 46 & 0.621 \\
-7 & Qualitative Spatial and Temporal Reasoning: Efficient Algorithms for Everyone. & 13 & 0.595 \\
-8 & Probabilistic Temporal Reasoning. & 183 & 0.593 \\
-9 & Qualitative Mathematical Reasoning. & 23 & 0.571 \\
-10 & Qualitative Reasoning with Microscopic Theories. & 8 & 0.571 \\
+1 & Efficient Reasoning in Qualitative Probabilistic Networks. & 0 & 1.0 \\
+2 & Reasoning and Learning in Probabilistic and Possibilistic Networks: An Overview. & 0 & 0.667 \\
+3 & Towards Efficient Default Reasoning. & 0 & 0.643 \\
+4 & Off-line Reasoning for On-line Efficiency. & 0 & 0.643 \\
+5 & Efficiency Considerations on Built- in Taxonomic Reasoning in PROLOG. & 0 & 0.621 \\
+6 & Efficient Temporal Reasoning through Timegraphs. & 0 & 0.621 \\
+7 & Qualitative Spatial and Temporal Reasoning: Efficient Algorithms for Everyone. & 0 & 0.595 \\
+8 & Probabilistic Temporal Reasoning. & 0 & 0.593 \\
+9 & Qualitative Mathematical Reasoning. & 0 & 0.571 \\
+10 & Qualitative Reasoning with Microscopic Theories. & 0 & 0.571 \\
 \hline
 \end{tabular}
 
@@ -56,16 +56,16 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & Self-Tuning Database Systems: A Decade of Progress. & 45 & 1.0 \\
-2 & A Decade of Progress in Indexing and Mining Large Time Series Databases. & 22 & 0.5 \\
-3 & Database Tuning. & 72 & 0.5 \\
-4 & Rethinking Database System Architecture: Towards a Self-Tuning RISC-Style Database System. & 172 & 0.483 \\
-5 & LINGOL-A Progress Report. & -1 & 0.48 \\
-6 & Mining progressive confident rules. & 3 & 0.48 \\
-7 & How to Progress a Database II: The STRIPS Connection. & 33 & 0.471 \\
+1 & Self-Tuning Database Systems: A Decade of Progress. & 0 & 1.0 \\
+2 & A Decade of Progress in Indexing and Mining Large Time Series Databases. & 2 & 0.5 \\
+3 & Database Tuning. & 0 & 0.5 \\
+4 & Rethinking Database System Architecture: Towards a Self-Tuning RISC-Style Database System. & 6 & 0.483 \\
+5 & LINGOL-A Progress Report. & 0 & 0.48 \\
+6 & Mining progressive confident rules. & 0 & 0.48 \\
+7 & How to Progress a Database II: The STRIPS Connection. & 0 & 0.471 \\
 8 & Disease progression modeling from historical clinical databases. & 0 & 0.471 \\
-9 & Progressive Modeling. & -1 & 0.462 \\
-10 & On progressive sequential pattern mining. & 4 & 0.462 \\
+9 & Progressive Modeling. & 2 & 0.462 \\
+10 & On progressive sequential pattern mining. & 0 & 0.462 \\
 \hline
 \end{tabular}
 
@@ -73,13 +73,13 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & R-trees with Update Memos. & 45 & 1.0 \\
-2 & ODMG Update. & -1 & 0.737 \\
-3 & SQL3 Update. & 3 & 0.737 \\
-4 & Updating XML. & 364 & 0.737 \\
-5 & Cumulative Updates. & 1 & 0.7 \\
-6 & Sequential update of ADtrees. & 4 & 0.667 \\
-7 & Sometimes Updates Are Circumscription. & 32 & 0.667 \\
-8 & Updating a cracked database. & 14 & 0.667 \\
-9 & Database Updates through Abduction. & 207 & 0.636 \\
-10 & Conflicting XML Updates. & 12 & 0.636 \\
+1 & R-trees with Update Memos. & 1 & 1.0 \\
+2 & ODMG Update. & 0 & 0.737 \\
+3 & SQL3 Update. & 0 & 0.737 \\
+4 & Updating XML. & 16 & 0.737 \\
+5 & Cumulative Updates. & 0 & 0.7 \\
+6 & Sequential update of ADtrees. & 1 & 0.667 \\
+7 & Sometimes Updates Are Circumscription. & 0 & 0.667 \\
+8 & Updating a cracked database. & 1 & 0.667 \\
+9 & Database Updates through Abduction. & 1 & 0.636 \\
+10 & Conflicting XML Updates. & 0 & 0.636 \\

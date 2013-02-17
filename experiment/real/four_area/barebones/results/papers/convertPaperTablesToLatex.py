@@ -1,10 +1,11 @@
+from collections import defaultdict
 import os
 
 __author__ = 'jontedesco'
 
 # Construct the dictionary of number of citations for each paper
 paperCitationFile = open('../../data/paperCitationCounts')
-citationCounts = {}
+citationCounts = defaultdict(int)
 for line in paperCitationFile:
     index = line.find(': ')
     count, title = line[:index], line[index+2:]

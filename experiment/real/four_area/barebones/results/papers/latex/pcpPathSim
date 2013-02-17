@@ -5,16 +5,16 @@
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & IDEA: Interactive Data Exploration and Analysis. & 43 & 1.0 \\
+1 & IDEA: Interactive Data Exploration and Analysis. & 1 & 1.0 \\
 2 & XML Data Management Go Native or Spruce up Relational Systems? (Panel Abstract). & 0 & 1.0 \\
-3 & A System for Semantic Query Optimization. & -1 & 1.0 \\
-4 & Dynamic Itemset Counting and Implication Rules for Market Basket Data. & 1357 & 1.0 \\
-5 & TREX: DTD-Conforming XML to XML Transformations. & 11 & 1.0 \\
-6 & Configuration-parametric query optimization for physical design tuning. & 12 & 1.0 \\
-7 & File-Level Operations on Network Data Structures. & 8 & 1.0 \\
-8 & Global Query Optimization. & 0 & 1.0 \\
-9 & Finding Candidate Keys for Relational Data Bases. & 21 & 1.0 \\
-10 & Enhanced Hypertext Categorization Using Hyperlinks. & 727 & 1.0 \\
+3 & A System for Semantic Query Optimization. & 5 & 1.0 \\
+4 & Dynamic Itemset Counting and Implication Rules for Market Basket Data. & 57 & 1.0 \\
+5 & TREX: DTD-Conforming XML to XML Transformations. & 0 & 1.0 \\
+6 & Configuration-parametric query optimization for physical design tuning. & 0 & 1.0 \\
+7 & File-Level Operations on Network Data Structures. & 0 & 1.0 \\
+8 & Global Query Optimization. & 12 & 1.0 \\
+9 & Finding Candidate Keys for Relational Data Bases. & 1 & 1.0 \\
+10 & Enhanced Hypertext Categorization Using Hyperlinks. & 55 & 1.0 \\
 \hline
 \end{tabular}
 
@@ -22,16 +22,16 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & IDEA: Interactive Data Exploration and Analysis. & 43 & 1.0 \\
+1 & IDEA: Interactive Data Exploration and Analysis. & 1 & 1.0 \\
 2 & XML Data Management Go Native or Spruce up Relational Systems? (Panel Abstract). & 0 & 1.0 \\
-3 & A System for Semantic Query Optimization. & -1 & 1.0 \\
-4 & Dynamic Itemset Counting and Implication Rules for Market Basket Data. & 1357 & 1.0 \\
-5 & TREX: DTD-Conforming XML to XML Transformations. & 11 & 1.0 \\
-6 & Configuration-parametric query optimization for physical design tuning. & 12 & 1.0 \\
-7 & File-Level Operations on Network Data Structures. & 8 & 1.0 \\
-8 & Global Query Optimization. & 0 & 1.0 \\
-9 & Finding Candidate Keys for Relational Data Bases. & 21 & 1.0 \\
-10 & Enhanced Hypertext Categorization Using Hyperlinks. & 727 & 1.0 \\
+3 & A System for Semantic Query Optimization. & 5 & 1.0 \\
+4 & Dynamic Itemset Counting and Implication Rules for Market Basket Data. & 57 & 1.0 \\
+5 & TREX: DTD-Conforming XML to XML Transformations. & 0 & 1.0 \\
+6 & Configuration-parametric query optimization for physical design tuning. & 0 & 1.0 \\
+7 & File-Level Operations on Network Data Structures. & 0 & 1.0 \\
+8 & Global Query Optimization. & 12 & 1.0 \\
+9 & Finding Candidate Keys for Relational Data Bases. & 1 & 1.0 \\
+10 & Enhanced Hypertext Categorization Using Hyperlinks. & 55 & 1.0 \\
 \hline
 \end{tabular}
 
@@ -39,16 +39,16 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & Modeling Human Decision Making in Cliff-Edge Environments. & 1 & 1.0 \\
-2 & Exploration of the Robustness of Plans. & 10 & 1.0 \\
-3 & Adaptive Localization in a Dynamic WiFi Environment through Multi-view Learning. & 14 & 1.0 \\
-4 & Acquiring Visibly Intelligent Behavior with Example-Guided Neuroevolution. & 12 & 1.0 \\
-5 & Fibring Neural Networks. & 21 & 1.0 \\
-6 & Abstract Explanations of Strategy in a Diagnostic Consultation System. & 13 & 1.0 \\
-7 & Informed Case Base Maintenance: A Complexity Profiling Approach. & 3 & 1.0 \\
+1 & Modeling Human Decision Making in Cliff-Edge Environments. & 0 & 1.0 \\
+2 & Exploration of the Robustness of Plans. & 0 & 1.0 \\
+3 & Adaptive Localization in a Dynamic WiFi Environment through Multi-view Learning. & 0 & 1.0 \\
+4 & Acquiring Visibly Intelligent Behavior with Example-Guided Neuroevolution. & 0 & 1.0 \\
+5 & Fibring Neural Networks. & 0 & 1.0 \\
+6 & Abstract Explanations of Strategy in a Diagnostic Consultation System. & 0 & 1.0 \\
+7 & Informed Case Base Maintenance: A Complexity Profiling Approach. & 0 & 1.0 \\
 8 & A Demonstration of ScriptEase Interruptible and Resumable Behaviors for CRPGs. & 0 & 1.0 \\
-9 & Interleaving Temporal Planning and Execution in Robotics Domains. & 51 & 1.0 \\
-10 & Modeling Reciprocal Behavior in Human Bilateral Negotiation. & 3 & 1.0 \\
+9 & Interleaving Temporal Planning and Execution in Robotics Domains. & 0 & 1.0 \\
+10 & Modeling Reciprocal Behavior in Human Bilateral Negotiation. & 0 & 1.0 \\
 \hline
 \end{tabular}
 
@@ -56,16 +56,16 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & Scheduling of Page-Fetches in Join Operations & 61 & 1.0 \\
-2 & EntityRank: Searching Entities Directly and Holistically. & 73 & 1.0 \\
-3 & A Simple and Efficient Estimation Method for Stream Expression Cardinalities. & 5 & 1.0 \\
-4 & The Long-Term Preservation of Authentic Electronic Records. & 4 & 1.0 \\
-5 & Inverse Functions in the AquaLogic Data Services Platform. & 1 & 1.0 \\
-6 & On Semantic Issues Connected with Incomplete Information Data Bases (Abstract). & 356 & 1.0 \\
-7 & Integrating SQL Databases with Content-Specific Search Engines. & 49 & 1.0 \\
-8 & PM3: An Orthogonal Persistent Systems Programming Language - Design, Implementation, Performance. & 11 & 1.0 \\
-9 & A Generalized End-User Facility Architecture for Relational Database Systems. & -1 & 1.0 \\
-10 & An Evaluation of Buffer Management Strategies for Relational Database Systems. & 331 & 1.0 \\
+1 & Scheduling of Page-Fetches in Join Operations & 0 & 1.0 \\
+2 & EntityRank: Searching Entities Directly and Holistically. & 1 & 1.0 \\
+3 & A Simple and Efficient Estimation Method for Stream Expression Cardinalities. & 0 & 1.0 \\
+4 & The Long-Term Preservation of Authentic Electronic Records. & 0 & 1.0 \\
+5 & Inverse Functions in the AquaLogic Data Services Platform. & 0 & 1.0 \\
+6 & On Semantic Issues Connected with Incomplete Information Data Bases (Abstract). & 0 & 1.0 \\
+7 & Integrating SQL Databases with Content-Specific Search Engines. & 6 & 1.0 \\
+8 & PM3: An Orthogonal Persistent Systems Programming Language - Design, Implementation, Performance. & 0 & 1.0 \\
+9 & A Generalized End-User Facility Architecture for Relational Database Systems. & 0 & 1.0 \\
+10 & An Evaluation of Buffer Management Strategies for Relational Database Systems. & 0 & 1.0 \\
 \hline
 \end{tabular}
 
@@ -73,13 +73,13 @@ Rank & Paper & Citation Count & Score\\
 \hline
 Rank & Paper & Citation Count & Score\\
 \hline
-1 & Tuning an SQL-Based PDM System in a Worldwide Client/Server Environment. & 11 & 1.0 \\
-2 & Batch Scheduling in Parallel Database Systems. & 36 & 1.0 \\
-3 & Determining Beneficial Semijoins for a Join Sequence in Distributed Query Processing. & 9 & 1.0 \\
-4 & Global Integration of Visual Databases. & 3 & 1.0 \\
-5 & A Theory of Data: Implications for Information Retrieval. & 2 & 1.0 \\
-6 & Assuring Security Properties in Third-party Architectures. & 7 & 1.0 \\
-7 & Performance Analysis of Several Algorithms for Processing Joins between Textual Attributes. & -1 & 1.0 \\
-8 & AttentionAttractor: efficient video stream similarity query processing in real time. & 2 & 1.0 \\
-9 & Interactive-Time Similarity Search for Large Image Collections Using Parallel VA-Files. & 19 & 1.0 \\
-10 & Distance-Associated Join Indices for Spatial Range Search. & 53 & 1.0 \\
+1 & Tuning an SQL-Based PDM System in a Worldwide Client/Server Environment. & 0 & 1.0 \\
+2 & Batch Scheduling in Parallel Database Systems. & 2 & 1.0 \\
+3 & Determining Beneficial Semijoins for a Join Sequence in Distributed Query Processing. & 1 & 1.0 \\
+4 & Global Integration of Visual Databases. & 0 & 1.0 \\
+5 & A Theory of Data: Implications for Information Retrieval. & 0 & 1.0 \\
+6 & Assuring Security Properties in Third-party Architectures. & 0 & 1.0 \\
+7 & Performance Analysis of Several Algorithms for Processing Joins between Textual Attributes. & 0 & 1.0 \\
+8 & AttentionAttractor: efficient video stream similarity query processing in real time. & 0 & 1.0 \\
+9 & Interactive-Time Similarity Search for Large Image Collections Using Parallel VA-Files. & 0 & 1.0 \\
+10 & Distance-Associated Join Indices for Spatial Range Search. & 3 & 1.0 \\

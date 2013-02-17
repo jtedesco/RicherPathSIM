@@ -1,5 +1,5 @@
 from Stemmer import Stemmer
-from heapq import heappush, nlargest
+from collections import defaultdict
 import json
 import os
 import re
@@ -177,9 +177,6 @@ def addCitationsToGraph(graph, nodeIndex):
     fileStart = file.tell()
     paperTitles = set(nodeIndex['paper'].values())
 
-    # Heap of papers sorted by their citation counts
-    bestPapers = []
-
     # Build an index of int -> paper title (including only papers found in the graph)
     dblpPaperIndex = {}
 
@@ -194,21 +191,14 @@ def addCitationsToGraph(graph, nodeIndex):
                 dblpPaperIndex[i] = lastTitle
         elif len(__removeControlCharacters(line)) == 0:
             lastTitle = None
-        elif line.startswith('#citation'):
-            if lastTitle is not None:
-                citationCount = int(__removeControlCharacters(line[len('#citation'):]))
-                heappush(bestPapers, (citationCount, lastTitle))
-
-    # Output papers ordered by number of citations
-    bestKPapers = nlargest(len(bestPapers), bestPapers)
-    paperCitationsFile = open(os.path.join('data', 'paperCitationCounts'), 'w')
-    for i in xrange(0, len(bestKPapers)):
-        paperCitationsFile.write('%d: %s\n' % (bestKPapers[i][0], bestKPapers[i][1]))
 
     file.seek(fileStart)
 
     # Use to perform error checking
     existingNodes = set(graph.nodes())
+
+    # Dictionary of paper titles to their citation counts
+    citationCounts = defaultdict(int)
 
     # Add citations to the papers in the graph
     for line in file:
@@ -236,12 +226,20 @@ def addCitationsToGraph(graph, nodeIndex):
                     raise FourAreaParseError('Cited paper not found in graph: %s' % dblpPaperIndex[citationIndex])
 
                 graph.add_edge(lastTitle, dblpPaperIndex[citationIndex])
+                citationCounts[dblpPaperIndex[citationIndex]] += 1
 
         # Reached end of the paper block, reset title if no citation was found (error check)
         elif len(__removeControlCharacters(line)) == 0:
             lastTitle = None
 
     file.close()
+
+    # Output papers ordered by number of citations
+    bestPapers = sorted(citationCounts.iteritems(), key=operator.itemgetter(1))
+    bestPapers.reverse()
+    paperCitationsFile = open(os.path.join('data', 'paperCitationCounts'), 'w')
+    for i in xrange(0, len(bestPapers)):
+        paperCitationsFile.write('%d: %s\n' % (bestPapers[i][1], bestPapers[i][0]))
 
 
 def getPathSimScore(adjacencyMatrix, sI, dI):
