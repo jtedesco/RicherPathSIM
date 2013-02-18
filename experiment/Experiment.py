@@ -25,7 +25,7 @@ class Experiment(threading.Thread):
 
         # Remove output path if it already exists
         self.outputFilePath = outputFilePath
-        if os.path.exists(self.outputFilePath):
+        if self.outputFilePath is not None and os.path.exists(self.outputFilePath):
             os.remove(self.outputFilePath)
 
         logging.setLoggerClass(ColoredLogger)
