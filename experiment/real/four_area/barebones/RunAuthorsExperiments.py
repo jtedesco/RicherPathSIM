@@ -16,4 +16,4 @@ AuthorsPathSimAPTPAExperiment.run(citationCounts = citationCounts)
 
 # Combined/lazy experiments
 print("Running NeighborSim APPA - PathSim APCPA experiment:")
-citationCounts = AuthorsNeighborSimAPPAAPCPAExperiment.run()
+citationCounts = AuthorsNeighborSimAPPAAPCPAExperiment.run(citationCounts = citationCounts)
