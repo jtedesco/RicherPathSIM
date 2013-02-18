@@ -28,16 +28,9 @@ class AuthorsPathSimAPTPAExperiment(Experiment):
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
-        # Output all similarity scores
-        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-pathsim-aptpa' % author.replace(' ', ''))
-        cPickle.dump(similarityScores, open(outputPath, 'wb'))
-
 def run(citationCounts = None):
     experiment = AuthorsPathSimAPTPAExperiment(
-        None,
-        'Most Similar APTPA PathSim Authors',
-        outputFilePath = os.path.join('results','authors','aptpaPathSim')
-    )
+        None, 'Most Similar APCPA PathSim Authors', outputFilePath='results/authors/aptpaPathSim')
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
