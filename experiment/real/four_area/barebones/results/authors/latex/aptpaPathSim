@@ -66,3 +66,37 @@ Rank & Author & Citation Count & Score\\
 8 & Umesh Maheshwari & 21 & 0.455 \\
 9 & Michael Ranft & 3 & 0.432 \\
 10 & Simone Rehm & 3 & 0.432 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & Philip S. Yu & 1746 & 1 \\
+2 & Jiawei Han & 2213 & 0.678 \\
+3 & Hans-Peter Kriegel & 1889 & 0.586 \\
+4 & Wei Wang & 458 & 0.568 \\
+5 & Christos Faloutsos & 1862 & 0.559 \\
+6 & Haixun Wang & 326 & 0.555 \\
+7 & Charu C. Aggarwal & 700 & 0.517 \\
+8 & Beng Chin Ooi & 435 & 0.516 \\
+9 & Divesh Srivastava & 1550 & 0.478 \\
+10 & Hongjun Lu & 419 & 0.471 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & AnHai Doan & 410 & 1 \\
+2 & Kevin Chen-Chuan Chang & 361 & 0.624 \\
+3 & Bin He & 125 & 0.613 \\
+4 & Alon Y. Halevy & 808 & 0.588 \\
+5 & Warren Shen & 41 & 0.537 \\
+6 & Luis Gravano & 674 & 0.508 \\
+7 & Craig A. Knoblock & 146 & 0.499 \\
+8 & Ji-Rong Wen & 496 & 0.491 \\
+9 & Sunita Sarawagi & 769 & 0.462 \\
+10 & Ren?e J. Miller & 484 & 0.457 \\

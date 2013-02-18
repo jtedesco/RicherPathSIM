@@ -66,3 +66,37 @@ Rank & Author & Citation Count & Score\\
 8 & Barbara Liskov & 28 & 2 \\
 9 & C. K. Tan & 192 & 2 \\
 10 & Atul Adya & 35 & 2 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & Philip S. Yu & 1746 & 1 \\
+2 & Rakesh Agrawal & 4557 & 0.795 \\
+3 & Ramakrishnan Srikant & 2140 & 0.522 \\
+4 & Charu C. Aggarwal & 700 & 0.503 \\
+5 & Jiawei Han & 2213 & 0.416 \\
+6 & Arun N. Swami & 1214 & 0.378 \\
+7 & Dimitrios Gunopulos & 788 & 0.331 \\
+8 & Johannes Gehrke & 993 & 0.323 \\
+9 & Ming-Syan Chen & 322 & 0.317 \\
+10 & Inderjit S. Dhillon & 416 & 0.293 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & AnHai Doan & 410 & 1 \\
+2 & Jayant Madhavan & 310 & 0.750 \\
+3 & Warren Shen & 41 & 0.583 \\
+4 & Alon Y. Halevy & 808 & 0.556 \\
+5 & Sunita Sarawagi & 769 & 0.529 \\
+6 & Shivakumar Vaithyanathan & 101 & 0.455 \\
+7 & Fei Chen 0002 & 29 & 0.400 \\
+8 & Ren?e J. Miller & 484 & 0.400 \\
+9 & Joann J. Ordille & 251 & 0.381 \\
+10 & Pedro DeRose & 26 & 0.381 \\

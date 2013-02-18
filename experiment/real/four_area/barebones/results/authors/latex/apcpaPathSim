@@ -66,3 +66,39 @@ Rank & Author & Citation Count & Score\\
 8 & James N. Etheredge & 2 & 1 \\
 9 & Wayne E. Moore & 0 & 1 \\
 10 & Kenneth C. Wilner & 0 & 1 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & Philip S. Yu & 1746 & 1 \\
+2 & Jiawei Han & 2213 & 0.920 \\
+3 & Christos Faloutsos & 1862 & 0.759 \\
+4 & Hans-Peter Kriegel & 1889 & 0.689 \\
+5 & Wei Wang & 458 & 0.679 \\
+6 & Rakesh Agrawal & 4557 & 0.645 \\
+7 & Divesh Srivastava & 1550 & 0.639 \\
+8 & Beng Chin Ooi & 435 & 0.606 \\
+9 & Hector Garcia-Molina & 2036 & 0.593 \\
+10 & Nick Koudas & 1164 & 0.592 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & AnHai Doan & 410 & 1 \\
+2 & Jignesh M. Patel & 319 & 0.976 \\
+3 & Xuemin Lin & 173 & 0.961 \\
+4 & Balakrishna R. Iyer & 366 & 0.957 \\
+5 & Jayant R. Haritsa & 146 & 0.955 \\
+6 & Jun Yang & 315 & 0.948 \\
+7 & Walid G. Aref & 213 & 0.947 \\
+8 & Ming-Chien Shan & 120 & 0.941 \\
+9 & Won Kim & 420 & 0.938 \\
+10 & Anastassia Ailamaki & 242 & 0.938 \\
+\hline
+\end{tabular}

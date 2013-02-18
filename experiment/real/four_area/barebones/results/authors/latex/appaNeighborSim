@@ -66,3 +66,37 @@ Rank & Author & Citation Count & Score\\
 8 & Umesh Maheshwari & 21 & 0.533 \\
 9 & Robert Gruber & 21 & 0.533 \\
 10 & Chong-Sun Hwang & 6 & 0.500 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & Philip S. Yu & 1746 & 1 \\
+2 & Charu C. Aggarwal & 700 & 0.618 \\
+3 & Rakesh Agrawal & 4557 & 0.573 \\
+4 & Ramakrishnan Srikant & 2140 & 0.565 \\
+5 & Jiawei Han & 2213 & 0.554 \\
+6 & Arun N. Swami & 1214 & 0.395 \\
+7 & Johannes Gehrke & 993 & 0.390 \\
+8 & Jian Pei & 919 & 0.383 \\
+9 & Rajeev Motwani & 1691 & 0.382 \\
+10 & Raghu Ramakrishnan & 1985 & 0.350 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & AnHai Doan & 410 & 1 \\
+2 & Jayant Madhavan & 310 & 0.769 \\
+3 & Alon Y. Halevy & 808 & 0.718 \\
+4 & Erhard Rahm & 268 & 0.532 \\
+5 & Philip A. Bernstein & 498 & 0.436 \\
+6 & Bin He & 125 & 0.421 \\
+7 & Pedro Domingos & 903 & 0.410 \\
+8 & Kevin Chen-Chuan Chang & 361 & 0.388 \\
+9 & Ren?e J. Miller & 484 & 0.366 \\
+10 & Joann J. Ordille & 251 & 0.343 \\

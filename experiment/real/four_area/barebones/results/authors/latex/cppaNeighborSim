@@ -66,3 +66,37 @@ Rank & Author & Citation Count & Score\\
 8 & Rajeev Gupta & 5 & 1 \\
 9 & Farnoush Banaei Kashani & 5 & 1 \\
 10 & Sundar Saiprasad & 7 & 1 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & Philip S. Yu & 1746 & 1 \\
+2 & Jiawei Han & 2213 & 0.946 \\
+3 & Ramakrishnan Srikant & 2140 & 0.941 \\
+4 & Arun N. Swami & 1214 & 0.899 \\
+5 & Christos Faloutsos & 1862 & 0.893 \\
+6 & Rajeev Motwani & 1691 & 0.884 \\
+7 & Tomasz Imielinski & 995 & 0.843 \\
+8 & Johannes Gehrke & 993 & 0.842 \\
+9 & Hans-Peter Kriegel & 1889 & 0.831 \\
+10 & Jian Pei & 919 & 0.798 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Author & Citation Count & Score\\
+\hline
+1 & AnHai Doan & 410 & 1 \\
+2 & Moni Naor & 411 & 0.978 \\
+3 & Anant Jhingran & 290 & 0.977 \\
+4 & Kevin Chen-Chuan Chang & 361 & 0.973 \\
+5 & Stefano Ceri & 314 & 0.957 \\
+6 & Krithi Ramamritham & 383 & 0.956 \\
+7 & Venkatesh Ganti & 384 & 0.955 \\
+8 & Qiong Luo & 454 & 0.954 \\
+9 & Erhard Rahm & 268 & 0.952 \\
+10 & Narain H. Gehani & 241 & 0.941 \\
