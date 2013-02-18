@@ -17,7 +17,9 @@ testAuthors = [
     'Christos Faloutsos',
     'Jiawei Han',
     'Sergey Brin',
-    'Sanjay Ghemawat'
+    'Sanjay Ghemawat',
+    'Philip S. Yu',
+    'AnHai Doan'
 ]
 testPapers = [
     'Mining Association Rules between Sets of Items in Large Databases.',
