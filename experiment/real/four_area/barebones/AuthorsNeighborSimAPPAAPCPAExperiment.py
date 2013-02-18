@@ -1,11 +1,9 @@
 import cPickle
-from collections import defaultdict
 import os
-import operator
 from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors, evenWeightMostSimilarNodes
+from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, getNeighborSimScore, testAuthors, evenWeightMostSimilarNodes
 
 __author__ = 'jontedesco'
 
@@ -36,15 +34,10 @@ def run(citationCounts = None):
     experiment = AuthorsNeighborSimAPPAAPCPAExperiment(
         None, 'Most Similar APPA-APCPA NeighborSim Authors', outputFilePath='results/appa-apcpaNeighborSim')
 
-    print 0
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
-
-    print 1
 
     # APPA path data
     appaAdjMatrix, extraData1 = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
-
-    print 2
 
     # APCPA path data
     apcAdjMatrix, extraData2 = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference'], rows=True)
@@ -52,8 +45,6 @@ def run(citationCounts = None):
     apcpaAdjMatrix = lil_matrix(apcAdjMatrix * cpaAdjMatrix)
     extraData2['toNodes'] = data['toNodes']
     extraData2['toNodesIndex'] = data['toNodesIndex']
-
-    print 3
 
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, appaAdjMatrix, apcpaAdjMatrix, extraData1, extraData2, citationCounts=citationCounts)
