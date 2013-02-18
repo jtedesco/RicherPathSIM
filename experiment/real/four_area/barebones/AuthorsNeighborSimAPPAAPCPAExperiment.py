@@ -1,9 +1,9 @@
 import cPickle
 import os
-from scipy.sparse import lil_matrix
+import operator
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, getNeighborSimScore, testAuthors, evenWeightMostSimilarNodes
+from experiment.real.four_area.barebones.Helper import   testAuthors
 
 __author__ = 'jontedesco'
 
@@ -12,13 +12,30 @@ class AuthorsNeighborSimAPPAAPCPAExperiment(Experiment):
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
 
-    def runFor(self, author, adjMatrix1, adjMatrix2, extraData1, extraData2, citationCounts = None):
+    def runFor(self, author, citationCounts = None):
         print("Running for %s..." % author)
 
-        # Find most similar along two paths & weight evenly together
-        mostSimilar, similarityScores = evenWeightMostSimilarNodes(adjMatrix1, adjMatrix2, author, extraData1, extraData2, method = getNeighborSimScore)
+        # Read similarity scores for this author for both measures
+        appaPath = os.path.join('results', 'authors', 'intermediate', '%s-neighborsim-appa' % author.replace(' ', ''))
+        appaSimilarityScores = cPickle.load(open(appaPath))
+        apcpaPath = os.path.join('results', 'authors', 'intermediate', '%s-pathsim-apcpa' % author.replace(' ', ''))
+        apcpaSimilarityScores = cPickle.load(open(apcpaPath))
 
-        self.output('Most Similar to "%s":' % author)
+        # Combine similarity scores (NOTE: Assumes we only care about nodes in both similarity score dicts)
+        similarityScores = {}
+        for node in apcpaSimilarityScores:
+            if node in appaSimilarityScores:
+                similarityScores[node] = 0.5 * apcpaSimilarityScores[node] + 0.5 * appaSimilarityScores[node]
+
+        # Get the most similar nodes
+        k = 10
+        mostSimilar = sorted(similarityScores.iteritems(), key=operator.itemgetter(1))
+        mostSimilar.reverse()
+        number = min([k, len(mostSimilar)])
+        mostSimilar = mostSimilar[:number]
+
+        # Output most similar nodes
+        self.output('\nMost Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
         if citationCounts is None:
             rows = [['Author', 'Score']]
@@ -32,21 +49,12 @@ class AuthorsNeighborSimAPPAAPCPAExperiment(Experiment):
 
 def run(citationCounts = None):
     experiment = AuthorsNeighborSimAPPAAPCPAExperiment(
-        None, 'Most Similar APPA-APCPA NeighborSim Authors', outputFilePath='results/appa-apcpaNeighborSim')
-
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
-
-    # APPA path data
-    appaAdjMatrix, extraData1 = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
-
-    # APCPA path data
-    apcAdjMatrix, extraData2 = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference'], rows=True)
-    cpaAdjMatrix, data = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'author'])
-    apcpaAdjMatrix = lil_matrix(apcAdjMatrix * cpaAdjMatrix)
-    extraData2['toNodes'] = data['toNodes']
-    extraData2['toNodesIndex'] = data['toNodesIndex']
+        None,
+        'Most Similar APPA-APCPA NeighborSim Authors',
+        outputFilePath = os.path.join('results','authors','appa-apcpaNeighborSim')
+    )
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, appaAdjMatrix, apcpaAdjMatrix, extraData1, extraData2, citationCounts=citationCounts)
+        experiment.runFor(testAuthor, citationCounts=citationCounts)
 
 if __name__ == '__main__': run()

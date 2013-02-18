@@ -15,7 +15,7 @@ class AuthorsPathSimAPPAExperiment(Experiment):
         print("Running for %s..." % author)
 
         # Find the top 10 most similar nodes to some given node
-        mostSimilar, scores = findMostSimilarNodes(adjMatrix, author, extraData)
+        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData)
         self.output('\nMost Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
         if citationCounts is None:
@@ -27,10 +27,16 @@ class AuthorsPathSimAPPAExperiment(Experiment):
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
+        # Output all similarity scores
+        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-pathsim-appa' % author.replace(' ', ''))
+        cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
 def run(citationCounts = None):
     experiment = AuthorsPathSimAPPAExperiment(
-        None, 'Most Similar APPA PathSim Authors', outputFilePath='results/authors/appaPathSim')
+        None,
+        'Most Similar APPA PathSim Authors',
+        outputFilePath = os.path.join('results','authors','appaPathSim')
+    )
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))

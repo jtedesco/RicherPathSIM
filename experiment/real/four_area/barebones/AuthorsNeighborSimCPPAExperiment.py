@@ -27,10 +27,16 @@ class AuthorsNeighborSimCPPAExperiment(Experiment):
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
+        # Output all similarity scores
+        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-neighborsim-cppa' % author.replace(' ', ''))
+        cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
 def run(citationCounts = None):
     experiment = AuthorsNeighborSimCPPAExperiment(
-        None, 'Most Similar CPPA NeighborSim Authors', outputFilePath='results/authors/cppaNeighborSim')
+        None,
+        'Most Similar CPPA NeighborSim Authors',
+        outputFilePath = os.path.join('results','authors','cppaNeighborSim')
+    )
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))

@@ -28,10 +28,17 @@ class AuthorsNeighborSimAPPAExperiment(Experiment):
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
+        # Output all similarity scores
+        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-neighborsim-appa' % author.replace(' ', ''))
+        cPickle.dump(similarityScores, open(outputPath, 'wb'))
+
 
 def run():
     experiment = AuthorsNeighborSimAPPAExperiment(
-        None, 'Most Similar APPA NeighborSim Authors', outputFilePath='results/appaNeighborSim')
+        None,
+        'Most Similar APPA NeighborSim Authors',
+        outputFilePath = os.path.join('results', 'authors', 'appaNeighborSim')
+    )
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
