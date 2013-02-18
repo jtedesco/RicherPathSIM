@@ -1,0 +1,1617 @@
+(dp1
+S'Goetz Graefe'
+p2
+cnumpy.core.multiarray
+scalar
+p3
+(cnumpy
+dtype
+p4
+(S'f8'
+I0
+I1
+tRp5
+(I3
+S'<'
+NNNI-1
+I-1
+I0
+tbS'\xae\x9e\xd4\x97\xecCb?'
+tRp6
+sS'Divesh Srivastava'
+p7
+g3
+(g5
+S'UUUUUUU?'
+tRp8
+sS'Utkarsh Srivastava'
+p9
+g3
+(g5
+S'@\x7f\x01\xfd\x05\xf4\x87?'
+tRp10
+sS'Kaushik Chakrabarti'
+p11
+g3
+(g5
+S'\r\xc6\x9a\x11\x08yg?'
+tRp12
+sS'Mariano P. Consens'
+p13
+g3
+(g5
+S'\x94\xae1h\xb3\x14\x86?'
+tRp14
+sS'Anne Rogers'
+p15
+g3
+(g5
+S'\x84\x10B\x08!\x84\xa0?'
+tRp16
+sS'Marvin H. Solomon'
+p17
+g3
+(g5
+S'E\xa1\x9b\x92\xea\x10\x8b?'
+tRp18
+sS'Tova Milo'
+p19
+g3
+(g5
+S'\xf2\xab&\xa7UtT?'
+tRp20
+sS'Xuemin Lin'
+p21
+g3
+(g5
+S'\x84\xd6\x1b\x19\x8awq?'
+tRp22
+sS'Yixiu Huang'
+p23
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xc8?'
+tRp24
+sS'Alfons Kemper'
+p25
+g3
+(g5
+S'f#N\xdb\xc4\xb8\x84?'
+tRp26
+sS'HongJiang Zhang'
+p27
+g3
+(g5
+S'H~\xc7\x9a\xdd\x95\x87?'
+tRp28
+sS'Jennifer Widom'
+p29
+g3
+(g5
+S'-:{\xacb\xd5B?'
+tRp30
+sS'Thanaa M. Ghanem'
+p31
+g3
+(g5
+S'\x11\x11\x11\x11\x11\x11\xb1?'
+tRp32
+sS'Ramakrishnan Srikant'
+p33
+g3
+(g5
+S'\x98\xcc\xb9\xe5\xda\xeb$?'
+tRp34
+sS'Nick Koudas'
+p35
+g3
+(g5
+S'\x9c\x91\xeb\x19JFM?'
+tRp36
+sS'Stratis Viglas'
+p37
+g3
+(g5
+S'\xe2R|\xba\x97c\x85?'
+tRp38
+sS'Oliver Po'
+p39
+g3
+(g5
+S'\x84\xfdV\x1bC\xd3\xad?'
+tRp40
+sS'Haifeng Jiang'
+p41
+g3
+(g5
+S'\x9e\x12\xe4)A\x9e\xa2?'
+tRp42
+sS'Kamesh Munagala'
+p43
+g3
+(g5
+S'\x15\xf8\xe2\xea\x07\x1d\x85?'
+tRp44
+sS'Euthimios Panagos'
+p45
+g3
+(g5
+S'(\xaf\xa1\xbc\x86\xf2\xca?'
+tRp46
+sS'Xiaopeng Xiong'
+p47
+g3
+(g5
+S'\xdd\xbe\xb2z\x97<\x88?'
+tRp48
+sS'Jos\xc3\xa9 A. Blakeley'
+p49
+g3
+(g5
+S';\xda\xbcOq\xc9`?'
+tRp50
+sS'Swarup Acharya'
+p51
+g3
+(g5
+S'\xf7\x06\x94\x89+\xdd[?'
+tRp52
+sS'Vram Kouramajian'
+p53
+g3
+(g5
+S'h/\xa1\xbd\x84\xf6\xb2?'
+tRp54
+sS'Berthold Reinwald'
+p55
+g3
+(g5
+S'\x9e\x12\xe4)A\x9e\x82?'
+tRp56
+sS'Ioana Manolescu'
+p57
+g3
+(g5
+S'\xb6\xeb\xe9Xw\x18c?'
+tRp58
+sS'Lawrence A. Rowe'
+p59
+g3
+(g5
+S't\xe5\x01\xc9:W\x8e?'
+tRp60
+sS'Jian Yin'
+p61
+g3
+(g5
+S'\x18z\xa1\x17z\xa1\xb7?'
+tRp62
+sS'Han Shen'
+p63
+g3
+(g5
+S'\x92$I\x92$I\xb2?'
+tRp64
+sS'Kaushik Dutta'
+p65
+g3
+(g5
+S'AL\xae &W\xa0?'
+tRp66
+sS'Michail Vlachos'
+p67
+g3
+(g5
+S'\x90qA\xc6\x05\x19\x87?'
+tRp68
+sS'Tok Wang Ling'
+p69
+g3
+(g5
+S'\xc0\xec\x01\xb3\x07\xcc\x8e?'
+tRp70
+sS'Mayur Datar'
+p71
+g3
+(g5
+S'\x9e\x8b56OR\\?'
+tRp72
+sS'Wei-Ying Ma'
+p73
+g3
+(g5
+S'\x02\xad\x07%\x1c\xddQ?'
+tRp74
+sS'Seth J. White'
+p75
+g3
+(g5
+S'\xad\xc0\xfcu\x96\xfa\x99?'
+tRp76
+sS'Miguel Castro'
+p77
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xf0?'
+tRp78
+sS'Mohamed H. Ali'
+p79
+g3
+(g5
+S'\x96{\x1aa\xb9\xa7\xb1?'
+tRp80
+sS"Shin'ichi Satoh"
+p81
+g3
+(g5
+S'\x15\xf8\xe2\xea\x07\x1d\x85?'
+tRp82
+sS'Beng Chin Ooi'
+p83
+g3
+(g5
+S'\x9d3\x9a\x92\xc2CT?'
+tRp84
+sS'Markos Zaharioudakis'
+p85
+g3
+(g5
+S'g\xb7\xf0\xab1\x91\xae?'
+tRp86
+sS'Anna C. Gilbert'
+p87
+g3
+(g5
+S'M\xce\xa18\xfa}r?'
+tRp88
+sS'David J. DeWitt'
+p89
+g3
+(g5
+S'\xdf\x18\x00\x9d\x10\xdfX?'
+tRp90
+sS'Mohamed G. Elfeky'
+p91
+g3
+(g5
+S'{\x14\xaeG\xe1z\xb4?'
+tRp92
+sS'Yiu-Cheong Poon'
+p93
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xc0?'
+tRp94
+sS'Robert Gruber'
+p95
+g3
+(g5
+S'\x11\x11\x11\x11\x11\x11\xe1?'
+tRp96
+sS'Divyakant Agrawal'
+p97
+g3
+(g5
+S'\xc3\xec\xe0\x08"\xadg?'
+tRp98
+sS'C. Mohan'
+p99
+g3
+(g5
+S'`\xaf\xbdTV\xf5A?'
+tRp100
+sS'Anindya Datta'
+p101
+g3
+(g5
+S'\xae\x94\xdf\xd8f\xd4\x9a?'
+tRp102
+sS'David Goldberg'
+p103
+g3
+(g5
+S'\x96{\x1aa\xb9\xa7\xa1?'
+tRp104
+sS'Yuhan Cai'
+p105
+g3
+(g5
+S'\x9a\x99\x99\x99\x99\x99\xb9?'
+tRp106
+sS'Ronald C. Unrau'
+p107
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xd8?'
+tRp108
+sS'Arvind Arasu'
+p109
+g3
+(g5
+S'\xd9\x80l@6 {?'
+tRp110
+sS'Johannes Gehrke'
+p111
+g3
+(g5
+S'0\x1d\xe8\x8c7\x9fA?'
+tRp112
+sS'Bernhard Seeger'
+p113
+g3
+(g5
+S'\x14\x1c2\x1e\xb5\xec<?'
+tRp114
+sS'Samuel Madden'
+p115
+g3
+(g5
+S'\xea_\x8a\xe7\xbd\x96Q?'
+tRp116
+sS'Debra E. VanderMeer'
+p117
+g3
+(g5
+S'&\x87\xb8\xca\x140\x9f?'
+tRp118
+sS'Arun Iyengar'
+p119
+g3
+(g5
+S'\xe8d\xfa*al\xb6?'
+tRp120
+sS'Gail Mitchell'
+p121
+g3
+(g5
+S'\xfa\x18\x9c\x8f\xc1\xf9\xa8?'
+tRp122
+sS'Helen M. Thomas'
+p123
+g3
+(g5
+S'\x1c\xc7q\x1c\xc7q\x9c?'
+tRp124
+sS'Jerry Kiernan'
+p125
+g3
+(g5
+S'\x9a\x99\x99\x99\x99\x99y?'
+tRp126
+sS'Benjamin Bin Yao'
+p127
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xb0?'
+tRp128
+sS'Norio Katayama'
+p129
+g3
+(g5
+S':kP<\xedq\x85?'
+tRp130
+sS'Itaru Nishizawa'
+p131
+g3
+(g5
+S'\x1c\xc7q\x1c\xc7q\x9c?'
+tRp132
+sS'Qiong Luo'
+p133
+g3
+(g5
+S'ml;!2\x06b?'
+tRp134
+sS'Douglas B. Terry'
+p135
+g3
+(g5
+S'\x96{\x1aa\xb9\xa7\xa1?'
+tRp136
+sS'Panagiotis G. Ipeirotis'
+p137
+g3
+(g5
+S'\xe4P\x97\xa5\x1atn?'
+tRp138
+sS'Philip S. Yu'
+p139
+g3
+(g5
+S'\xb1\x98(b\xacc3?'
+tRp140
+sS'R. Gwadera'
+p141
+g3
+(g5
+S'{\x14\xaeG\xe1z\xb4?'
+tRp142
+sS'Joseph Pasquale'
+p143
+g3
+(g5
+S'\x9a\x99\x99\x99\x99\x99\xd9?'
+tRp144
+sS'Yannis Kotidis'
+p145
+g3
+(g5
+S'\x15@\x15@\x15@e?'
+tRp146
+sS'Nancy E. Hall'
+p147
+g3
+(g5
+S'\xc8AX\xc5\x08P\x8a?'
+tRp148
+sS'George Kollios'
+p149
+g3
+(g5
+S'\x03xN\xb3W\xb9f?'
+tRp150
+sS'Mark L. McAuliffe'
+p151
+g3
+(g5
+S'\xfa\x85\x8d\xb9\x0f1\x8e?'
+tRp152
+sS'Andrew Lim'
+p153
+g3
+(g5
+S'\x84\x10B\x08!\x84\xa0?'
+tRp154
+sS'David A. White'
+p155
+g3
+(g5
+S'\x18\x86a\x18\x86a\x88?'
+tRp156
+sS'Eugene J. Shekita'
+p157
+g3
+(g5
+S'\x80\x1b\x01n\x04\xb8q?'
+tRp158
+sS'Chun Zhang'
+p159
+g3
+(g5
+S'4\x13\xcc\t\xac\x14i?'
+tRp160
+sS'Brian Babcock'
+p161
+g3
+(g5
+S'\x90rS\xd1<\xa1f?'
+tRp162
+sS'Haran Boral'
+p163
+g3
+(g5
+S'\xc0Z\x01k\x05\xac\x85?'
+tRp164
+sS'Ahmed K. Elmagarmid'
+p165
+g3
+(g5
+S'\x17h\x81\x16h\x81v?'
+tRp166
+sS'Nasser Yazdani'
+p167
+g3
+(g5
+S'\x1c\xc7q\x1c\xc7q\xbc?'
+tRp168
+sS'Hans-J\xc3\xb6rg Schek'
+p169
+g3
+(g5
+S'A\xb8\xbc\xec\xf0\xddQ?'
+tRp170
+sS'William J. McKenna'
+p171
+g3
+(g5
+S'\xc1\xce\xa1~\x84\x03y?'
+tRp172
+sS'Lorenzo Alvisi'
+p173
+g3
+(g5
+S'\xdb\xb6m\xdb\xb6m\xbb?'
+tRp174
+sS'Bruce G. Lindsay'
+p175
+g3
+(g5
+S'\xe2\xea\xb8)\x9f{P?'
+tRp176
+sS'Dimitrios Gunopulos'
+p177
+g3
+(g5
+S't\xb8?;\xef\xe2a?'
+tRp178
+sS'Subbu N. Subramanian'
+p179
+g3
+(g5
+S'O\x1b\xe8\xb4\x81N\x9b?'
+tRp180
+sS'Jianjun Chen'
+p181
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00p?'
+tRp182
+sS'Wei Fan'
+p183
+g3
+(g5
+S'\x8d\xfeA\xc5\xf04g?'
+tRp184
+sS'Alin Dobra'
+p185
+g3
+(g5
+S'\x9e\x12\xe4)A\x9e\x82?'
+tRp186
+sS'Mirette S. Marzouk'
+p187
+g3
+(g5
+S'{\x14\xaeG\xe1z\xb4?'
+tRp188
+sS'Moustafa A. Hammad'
+p189
+g3
+(g5
+S'{\x14\xaeG\xe1z\xb4?'
+tRp190
+sS'Mark Day'
+p191
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xf0?'
+tRp192
+sS'C. K. Tan'
+p193
+g3
+(g5
+S'l?J\xe0\xda\x8f\x92?'
+tRp194
+sS'Barbara Liskov'
+p195
+g3
+(g5
+S'a\xb9\xa7\x11\x96{\xda?'
+tRp196
+sS'Yannis Theodoridis'
+p197
+g3
+(g5
+S'\x98\xa1\x1d\xc6\x17\rf?'
+tRp198
+sS'Odysseas G. Tsatalos'
+p199
+g3
+(g5
+S'\xf9\x1d\x88\xdf\x81\xf8\x8d?'
+tRp200
+sS'S. Muthukrishnan'
+p201
+g3
+(g5
+S'\xcf\x8b\x8dy_\x8bR?'
+tRp202
+sS'Michael Tan'
+p203
+g3
+(g5
+S'-)\x07D\x86{\xa5?'
+tRp204
+sS'Jon McAlister'
+p205
+g3
+(g5
+S'\x18\x86a\x18\x86a\xb8?'
+tRp206
+sS'Ravi Krishnamurthy'
+p207
+g3
+(g5
+S'\r\xc6\x9a\x11\x08yW?'
+tRp208
+sS'Jiawei Han'
+p209
+g3
+(g5
+S'{N[c\xb9\xce\x1a?'
+tRp210
+sS'Ting Chen'
+p211
+g3
+(g5
+S'\xc0Z\x01k\x05\xac\x95?'
+tRp212
+sS'Joseph M. Hellerstein'
+p213
+g3
+(g5
+S'\xfd|\r\xd4\x9cM<?'
+tRp214
+sS'Marios Hadjieleftheriou'
+p215
+g3
+(g5
+S'\xfb\x13\xb0?\x01\xfbs?'
+tRp216
+sS'Atul Adya'
+p217
+g3
+(g5
+S'XG\x9b\xf7).\xd9?'
+tRp218
+sS'JongMin Lee'
+p219
+g3
+(g5
+S'UUUUUU\xe5?'
+tRp220
+sS'Lei Gao'
+p221
+g3
+(g5
+S'333333\xc3?'
+tRp222
+sS'Michael Dahlin'
+p223
+g3
+(g5
+S'"5\xc1x+\xfb\xbc?'
+tRp224
+sS'Ning Zhang 0002'
+p225
+g3
+(g5
+S'\xbecj`\xef\x98\x9a?'
+tRp226
+sS'Stanley B. Zdonik'
+p227
+g3
+(g5
+S't\xbfrP\xc6\xf4c?'
+tRp228
+sS'Krithi Ramamritham'
+p229
+g3
+(g5
+S'7&\r nLj?'
+tRp230
+sS'Alexandros Biliris'
+p231
+g3
+(g5
+S'XG\x9b\xf7).\xb9?'
+tRp232
+sS'Anna Lipka'
+p233
+g3
+(g5
+S'\x1c\xc7q\x1c\xc7q\xcc?'
+tRp234
+sS'Andrew C. Myers'
+p235
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xf0?'
+tRp236
+sS'Jiandan Zheng'
+p237
+g3
+(g5
+S'UUUUUU\xc5?'
+tRp238
+sS'Chee Yong Chan'
+p239
+g3
+(g5
+S'\xce\x06\xd8JH7k?'
+tRp240
+sS'Duane Szafron'
+p241
+g3
+(g5
+S'{\x14\xaeG\xe1z\xc4?'
+tRp242
+sS'Wang-Pin Hsiung'
+p243
+g3
+(g5
+S'\x1c\xc7q\x1c\xc7q\x8c?'
+tRp244
+sS'David A. Nichols'
+p245
+g3
+(g5
+S'\x96{\x1aa\xb9\xa7\xa1?'
+tRp246
+sS'Syed Waheed'
+p247
+g3
+(g5
+S'\x1c\xc7q\x1c\xc7q\xcc?'
+tRp248
+sS'Alberto O. Mendelzon'
+p249
+g3
+(g5
+S"'\x01\xd6|\xb3hb?"
+tRp250
+sS'Umeshwar Dayal'
+p251
+g3
+(g5
+S'\xb5\x99\xd0\x88p\x06K?'
+tRp252
+sS'Henry F. Korth'
+p253
+g3
+(g5
+S'\x16\x13.\x05\xc7ra?'
+tRp254
+sS'Tamer Kahveci'
+p255
+g3
+(g5
+S'9\x05/\xa7\xe0\xe5\x94?'
+tRp256
+sS'Eamonn J. Keogh'
+p257
+g3
+(g5
+S'\x91\x8d\xf9\xd7\xbc\xc9i?'
+tRp258
+sS'Chen Qun'
+p259
+g3
+(g5
+S'\x84\x10B\x08!\x84\xa0?'
+tRp260
+sS'Patrick Valduriez'
+p261
+g3
+(g5
+S'\xfa\x18\x9c\x8f\xc1\xf9h?'
+tRp262
+sS'H. V. Jagadish'
+p263
+g3
+(g5
+S'\xba=\xdf\x9d\xe7\x07S?'
+tRp264
+sS'Christian S. Jensen'
+p265
+g3
+(g5
+S'\x8b\x8d\x86\xee\x83\xf5k?'
+tRp266
+sS'Shaul Dar'
+p267
+g3
+(g5
+S'\xfakC\x13*U\x88?'
+tRp268
+sS'Christos Faloutsos'
+p269
+g3
+(g5
+S'\x0bn\x90\xcd\x1dW2?'
+tRp270
+sS'Sanjay Ghemawat'
+p271
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xf0?'
+tRp272
+sS'Varun Kacholia'
+p273
+g3
+(g5
+S'\xe0\xc0\x81\x03\x07\x0e\x8c?'
+tRp274
+sS'Manolis Koubarakis'
+p275
+g3
+(g5
+S'\x1e\x1e\x1e\x1e\x1e\x1e\x9e?'
+tRp276
+sS'Carsten Andreas Gerlhof'
+p277
+g3
+(g5
+S'a\xb9\xa7\x11\x96{\xca?'
+tRp278
+sS'Aris M. Ouksel'
+p279
+g3
+(g5
+S'\xc8\xa4x\x81L\x8a\x97?'
+tRp280
+sS'Hongzhi Wang'
+p281
+g3
+(g5
+S'\x92$I\x92$I\xc2?'
+tRp282
+sS'Umesh Maheshwari'
+p283
+g3
+(g5
+S'\x11\x11\x11\x11\x11\x11\xe1?'
+tRp284
+sS'Surajit Chaudhuri'
+p285
+g3
+(g5
+S'\xe0F\xf5A\x9b\x90\x18?'
+tRp286
+sS'Walid G. Aref'
+p287
+g3
+(g5
+S'\x00\xff\x01\xfc\x07\xf0o?'
+tRp288
+sS'Haim Kaplan'
+p289
+g3
+(g5
+S'\x1a\xa4A\x1a\xa4A\x9a?'
+tRp290
+sS'Corinna Cortes'
+p291
+g3
+(g5
+S'\xfc\xa9\xf1\xd2Mb\x90?'
+tRp292
+sS'Yuan Wang'
+p293
+g3
+(g5
+S'N \xfa\xa3\xb3So?'
+tRp294
+sS'Sridhar Ramaswamy'
+p295
+g3
+(g5
+S'\x8a\x86\xf8\xe3\xd6\xe5]?'
+tRp296
+sS'Ouri Wolfson'
+p297
+g3
+(g5
+S"\r'u_\x1e[\x91?"
+tRp298
+sS'Michael J. Carey'
+p299
+g3
+(g5
+S'\xe2\xd7\xae5\x9f\x8dp?'
+tRp300
+sS'Jeffrey F. Naughton'
+p301
+g3
+(g5
+S'hI\xe0\r\xeb@S?'
+tRp302
+sS'Z. Meral \xc3\x96zsoyoglu'
+p303
+g3
+(g5
+S'\x1d\x81\xa2\xad\x06\xcf\x81?'
+tRp304
+sS'Richard T. Snodgrass'
+p305
+g3
+(g5
+S'\xac\xc0\xed\x89\x8b,q?'
+tRp306
+sS'Michael J. Zwilling'
+p307
+g3
+(g5
+S'l?J\xe0\xda\x8f\x92?'
+tRp308
+sS'Hamid Pirahesh'
+p309
+g3
+(g5
+S'7\x16\x02\xf3\x92;A?'
+tRp310
+sS'Nitin Khandelwal'
+p311
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xb0?'
+tRp312
+sS'Peter Scheuermann'
+p313
+g3
+(g5
+S'\x06\x16X`\x81\x05\x86?'
+tRp314
+sS'Jayavel Shanmugasundaram'
+p315
+g3
+(g5
+S'{l\xffC\xa8pb?'
+tRp316
+sS'Daryl Pregibon'
+p317
+g3
+(g5
+S'\xd0\xba\xc1\x14\xf9\xac\x8b?'
+tRp318
+sS'Kristian Torp'
+p319
+g3
+(g5
+S'\x9a\x99\x99\x99\x99\x99\xc9?'
+tRp320
+sS'Attila Barta'
+p321
+g3
+(g5
+S'\x11\x11\x11\x11\x11\x11\xc1?'
+tRp322
+sS'Ramez Elmasri'
+p323
+g3
+(g5
+S'F\x17]t\xd1E\x87?'
+tRp324
+sS'Vijayshankar Raman'
+p325
+g3
+(g5
+S'\x15\xf8\xe2\xea\x07\x1de?'
+tRp326
+sS'Kathleen Fisher'
+p327
+g3
+(g5
+S'\x84\x10B\x08!\x84\xa0?'
+tRp328
+sS'K. Sel\xc3\xa7uk Candan'
+p329
+g3
+(g5
+S'\xae\x94\xdf\xd8f\xd4z?'
+tRp330
+sS'Scott L. Vandenberg'
+p331
+g3
+(g5
+S'\xf0\x07\xfc\x01\x7f\xc0\x8f?'
+tRp332
+sS'Praveen Rao'
+p333
+g3
+(g5
+S'\xc1x+\xfb\x1cR\xa3?'
+tRp334
+sS'Tolga Bozkaya'
+p335
+g3
+(g5
+S'\x94\xae1h\xb3\x14v?'
+tRp336
+sS'Rosana S. G. Lanzelotte'
+p337
+g3
+(g5
+S"5'\x81\xb8Ps\x92?"
+tRp338
+sS'Ahmed Ayad'
+p339
+g3
+(g5
+S'd!\x0bY\xc8B\xb6?'
+tRp340
+sS'Jianzhong Li'
+p341
+g3
+(g5
+S'd!\x0bY\xc8B\xa6?'
+tRp342
+sS'Peter J. Haas'
+p343
+g3
+(g5
+S'\xaf\xbdt\x0f\xa5\xb7/?'
+tRp344
+sS'Ann Christine Catlin'
+p345
+g3
+(g5
+S'{\x14\xaeG\xe1z\xb4?'
+tRp346
+sS'Daniela Florescu'
+p347
+g3
+(g5
+S'm\x1a\xd0\xa6\x01mZ?'
+tRp348
+sS'Shivnath Babu'
+p349
+g3
+(g5
+S'D*\xec\x8e\xb9\xcbq?'
+tRp350
+sS'Rajeev Motwani'
+p351
+g3
+(g5
+S'6\x90\x05=\x8d\xd3=?'
+tRp352
+sS'Nicolas Bruno'
+p353
+g3
+(g5
+S'\t\xf5\xae9\x9f\x82n?'
+tRp354
+sS'Jiaheng Lu'
+p355
+g3
+(g5
+S'n\xaf%\x87\xb8\xca\x94?'
+tRp356
+sS'Hans-Peter Kriegel'
+p357
+g3
+(g5
+S'\x15\x8a\x11\xb4\x1d\xbd(?'
+tRp358
+sS'Rajeev Rastogi'
+p359
+g3
+(g5
+S'\xc0\xdd\x93\x93\xda\xa0h?'
+tRp360
+sS'Donald R. Slutz'
+p361
+g3
+(g5
+S'(\xaf\xa1\xbc\x86\xf2\x9a?'
+tRp362
+sS'Rico Wind'
+p363
+g3
+(g5
+S'\x9a\x99\x99\x99\x99\x99\xc9?'
+tRp364
+sS'Rakesh Agrawal'
+p365
+g3
+(g5
+S'\x1f\x8e\x9a\xb2a&\x07?'
+tRp366
+sS'Shashi K. Gadia'
+p367
+g3
+(g5
+S'`\x02\xc4*\xc8\x01s?'
+tRp368
+sS'Sunil S. Nair'
+p369
+g3
+(g5
+S'F\x17]t\xd1E\xb7?'
+tRp370
+sS'Sushil Jajodia'
+p371
+g3
+(g5
+S'\x11\xf0\xfe\x10\xf0\xfe\x90?'
+tRp372
+sS'Kaladhar Voruganti'
+p373
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xd8?'
+tRp374
+sS'Wen-Syan Li'
+p375
+g3
+(g5
+S'n\xaf%\x87\xb8\xca\x84?'
+tRp376
+sS'Claudio Bettini'
+p377
+g3
+(g5
+S'\x18\x86a\x18\x86a\xb8?'
+tRp378
+sS'Ihab F. Ilyas'
+p379
+g3
+(g5
+S':\x9e5VD\xd2p?'
+tRp380
+sS'M. Tamer \xc3\x96zsu'
+p381
+g3
+(g5
+S'N\x02q\xa1\xe6$\xa0?'
+tRp382
+sS'Mohamed F. Mokbel'
+p383
+g3
+(g5
+S'{>\x88e\xfd\xc4{?'
+tRp384
+sS'Hans-Werner Six'
+p385
+g3
+(g5
+S'H\x07\xde\xf3\x8dis?'
+tRp386
+sS'Philip Bohannon'
+p387
+g3
+(g5
+S'\x9a\xcf\xf5\xc7\xcb`t?'
+tRp388
+sS'Donald Kossmann'
+p389
+g3
+(g5
+S'#24\xf0\xb3x\x8b?'
+tRp390
+sS'Kevin S. Beyer'
+p391
+g3
+(g5
+S'\xf7\x06\x94\x89+\xdd[?'
+tRp392
+sS'Manolis M. Tsangaris'
+p393
+g3
+(g5
+S' tT\xe0\x8b\xab\xaf?'
+tRp394
+sS'Andreas Hutflesz'
+p395
+g3
+(g5
+S'\xedX\x810\xd2\x8e\x95?'
+tRp396
+sS'Gail M. Shaw'
+p397
+g3
+(g5
+S'{\x14\xaeG\xe1z\xb4?'
+tRp398
+sS'Flip Korn'
+p399
+g3
+(g5
+S'&F9\x0b\x84 U?'
+tRp400
+sS'Peter Widmayer'
+p401
+g3
+(g5
+S'\x08\x1f|\xf0\xc1\x07o?'
+tRp402
+sS'Li Yu'
+p403
+g3
+(g5
+S'\x92$I\x92$I\xc2?'
+tRp404
+sS'Ramesh Jain'
+p405
+g3
+(g5
+S'UUUUUU\x85?'
+tRp406
+sS'Kristin Tufte'
+p407
+g3
+(g5
+S'\xa2%\xb3\xfa\xed\xf5p?'
+tRp408
+sS'Brian M. Oki'
+p409
+g3
+(g5
+S'\x96{\x1aa\xb9\xa7\xa1?'
+tRp410
+sS'Gautam Das'
+p411
+g3
+(g5
+S'\xe2eu\xb3\xab\x8cp?'
+tRp412
+sS'Johann Christoph Freytag'
+p413
+g3
+(g5
+S'\x12 \x01\x12 \x01\x82?'
+tRp414
+sS'Yongdong Wang'
+p415
+g3
+(g5
+S'\x9a\x99\x99\x99\x99\x99\xa9?'
+tRp416
+sS'Phillip B. Gibbons'
+p417
+g3
+(g5
+S'\x8b\xe1G\xa8?~3?'
+tRp418
+sS'Mohamed Y. Eltabakh'
+p419
+g3
+(g5
+S'{\x14\xaeG\xe1z\xb4?'
+tRp420
+sS'Jesse Steinberg'
+p421
+g3
+(g5
+S'\x9a\x99\x99\x99\x99\x99\xd9?'
+tRp422
+sS'Minos N. Garofalakis'
+p423
+g3
+(g5
+S'\x1e\x9d\x06\xcd\xd3\xa5D?'
+tRp424
+sS'Gang He'
+p425
+g3
+(g5
+S'\xe7\xab{\xa4\x95\xc9s?'
+tRp426
+sS'Inderpal Narang'
+p427
+g3
+(g5
+S'\x92\xb1\xa8\x86\xd9\xc1\x81?'
+tRp428
+sS'Sylvia L. Osborn'
+p429
+g3
+(g5
+S'\x92$I\x92$I\xc2?'
+tRp430
+sS'Laura M. Haas'
+p431
+g3
+(g5
+S'\xb5\n#D\xf6%O?'
+tRp432
+sS'Randal J. Peters'
+p433
+g3
+(g5
+S'UUUUUU\xc5?'
+tRp434
+sS'Kenneth Houkj\xc3\xa6r'
+p435
+g3
+(g5
+S'\x9a\x99\x99\x99\x99\x99\xc9?'
+tRp436
+sS'Carlo Zaniolo'
+p437
+g3
+(g5
+S'*\x8e\xb9;\xc2U`?'
+tRp438
+sS'Ibrahim Kamel'
+p439
+g3
+(g5
+S'\x19@\xb6\x18@\xb6h?'
+tRp440
+sS'Raghav Kaushik'
+p441
+g3
+(g5
+S"\x1a[\xfc\xa3,'m?"
+tRp442
+sS'Philippe Futtersack'
+p443
+g3
+(g5
+S'\x1f\x99@\xef\xd4\xb5\xac?'
+tRp444
+sS'Wei Wang'
+p445
+g3
+(g5
+S'\xbc\xdeF\x7f($W?'
+tRp446
+sS'Haixun Wang'
+p447
+g3
+(g5
+S':nc;\\\xcb\\?'
+tRp448
+sS'Suresha'
+p449
+g3
+(g5
+S'\xc6\x18c\x8c1\xc6\xa8?'
+tRp450
+sS'Chong-Sun Hwang'
+p451
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xe0?'
+tRp452
+sS'Hongjun Lu'
+p453
+g3
+(g5
+S':.\xa9\xa5\xea\x08n?'
+tRp454
+sS'Raymond T. Ng'
+p455
+g3
+(g5
+S'\xc4\xf3\xc9\xb2\x91\xabI?'
+tRp456
+sS'Michael J. Pazzani'
+p457
+g3
+(g5
+S'\xe9)w\xfcd(\x80?'
+tRp458
+sS'Miron Livny'
+p459
+g3
+(g5
+S'\xb8\x1e\x85\xebQ\xb8^?'
+tRp460
+sS'Guy M. Lohman'
+p461
+g3
+(g5
+S'\x8c\x8e"\x10\x9fdX?'
+tRp462
+sS'Roger Weber'
+p463
+g3
+(g5
+S'\x12 \x01\x12 \x01r?'
+tRp464
+sS'Daniel T. Schuh'
+p465
+g3
+(g5
+S'\xfaw\xec\xa3\xbb\xbd\x90?'
+tRp466
+sS'Yuri Leontiev'
+p467
+g3
+(g5
+S'\x92$I\x92$I\xc2?'
+tRp468
+sS'Kian Win Ong'
+p469
+g3
+(g5
+S'\x84\x10B\x08!\x84\xa0?'
+tRp470
+sS'Xiaoyang Sean Wang'
+p471
+g3
+(g5
+S'\xb1\xa94\xe4\xdcg\x97?'
+tRp472
+sS'Abdullah Uz Tansel'
+p473
+g3
+(g5
+S'\xf0\x07\xfc\x01\x7f\xc0\x8f?'
+tRp474
+sS'Martin Strauss'
+p475
+g3
+(g5
+S'\xf1\x92\x80p"^r?'
+tRp476
+sS'Viswanath Poosala'
+p477
+g3
+(g5
+S'\x03\x06\xe1\xff\xa8\xa6$?'
+tRp478
+sS'Elisa Bertino'
+p479
+g3
+(g5
+S'\xd9\xc0g\x0cG\x0b\x82?'
+tRp480
+sS'Albert Croker'
+p481
+g3
+(g5
+S'9\x05/\xa7\xe0\xe5\xa4?'
+tRp482
+sS'Iqbal A. Goralwalla'
+p483
+g3
+(g5
+S'\x92$I\x92$I\xc2?'
+tRp484
+sS'Amol Nayate'
+p485
+g3
+(g5
+S'333333\xc3?'
+tRp486
+sS'Fernando V\xc3\xa9lez'
+p487
+g3
+(g5
+S'\x1f\x99@\xef\xd4\xb5\xac?'
+tRp488
+sS'Mehul A. Shah'
+p489
+g3
+(g5
+S'7zQ6$\x18p?'
+tRp490
+sS'V. S. Subrahmanian'
+p491
+g3
+(g5
+S'\x86\x92\xb7&t\\e?'
+tRp492
+sS'Luis Gravano'
+p493
+g3
+(g5
+S'\xfai\x07mR\xe9K?'
+tRp494
+sS'Bongki Moon'
+p495
+g3
+(g5
+S'\x95\xce\xd0\x15q~l?'
+tRp496
+sS'Won Kim'
+p497
+g3
+(g5
+S'\x1c@\x89\x1b@\x89[?'
+tRp498
+sS'Feng Tian'
+p499
+g3
+(g5
+S'\xf0\x07\xfc\x01\x7f\xc0o?'
+tRp500
+sS'Sharad Mehrotra'
+p501
+g3
+(g5
+S'\xa3J;\x85ORf?'
+tRp502
+sS'Ralf Schneider'
+p503
+g3
+(g5
+S'\x9f\xf4\xf8P>\xd1C?'
+tRp504
+sS'David Maier'
+p505
+g3
+(g5
+S'\xd3\x180\x8d\x01\xd3\x88?'
+tRp506
+sS'Edith Cohen'
+p507
+g3
+(g5
+S'9\x05/\xa7\xe0\xe5\x94?'
+tRp508
+sS'IlYoung Chung'
+p509
+g3
+(g5
+S'UUUUUU\xe5?'
+tRp510
+sS'Rimon Barr'
+p511
+g3
+(g5
+S'qBJ\x9eeD\x8f?'
+tRp512
+sS'Xifeng Yan'
+p513
+g3
+(g5
+S'\x8e\x1c%\xf7|xY?'
+tRp514
+sS'Sanghyun Park'
+p515
+g3
+(g5
+S'p\x1f\xc1}\x04\xf7\x81?'
+tRp516
+sS'Ambuj K. Singh'
+p517
+g3
+(g5
+S'\x87\x1f\xd5%f-t?'
+tRp518
+sS'Yu Chen'
+p519
+g3
+(g5
+S'w\xc4\x1dqG\xdc\xc1?'
+tRp520
+sS'Liuba Shrira'
+p521
+g3
+(g5
+S'\x9a\x99\x99\x99\x99\x99\xe9?'
+tRp522
+sS'Byoung-Kee Yi'
+p523
+g3
+(g5
+S'\x11`\x82U\x06\xe4\x80?'
+tRp524
+sS'Igor Tatarinov'
+p525
+g3
+(g5
+S'\xec\x8c\x9b\x85&5o?'
+tRp526
+sS'Dieter Pfoser'
+p527
+g3
+(g5
+S'\x00\x00\x00\x00\x00\x00\xa0?'
+tRp528
+sS'Michael J. Franklin'
+p529
+g3
+(g5
+S'\x97\xea\x1d\xacc\xc5\x82?'
+tRp530
+sS'Stephen Blott'
+p531
+g3
+(g5
+S'\xeb\x0f\xf4H\t9u?'
+tRp532
+sS'Bj\xc3\xb6rn \xc3\x9e\xc3\xb3r J\xc3\xb3nsson'
+p533
+g3
+(g5
+S'\xd6\x87\xc6\xfa\xd0X\xaf?'
+tRp534
+sS'James Clifford'
+p535
+g3
+(g5
+S'\xa7\x10h\n\x81\xa6\x80?'
+tRp536
+sS'Norbert Beckmann'
+p537
+g3
+(g5
+S'>@\xa5\xc2\x19]K?'
+tRp538
+s.
