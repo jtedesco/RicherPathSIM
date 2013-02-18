@@ -293,34 +293,6 @@ def findMostSimilarNodes(adjMatrix, source, extraData, method=getPathSimScore, k
 
     return mostSimilarNodes, similarityScores
 
-def evenWeightMostSimilarNodes(adjMatrix1, adjMatrix2, source, extraData1, extraData2, method=getPathSimScore, k=10, skipZeros=True):
-    sourceIndex1 = extraData1['fromNodesIndex'][source]
-    toNodes1 = extraData1['toNodes']
-    sourceIndex2 = extraData2['fromNodesIndex'][source]
-    toNodes2 = extraData2['toNodes']
-
-    # Find all similarity scores, optionally skipping nonzero scores for memory usage
-    if skipZeros:
-        similarityScores = {}
-        for i in xrange(max(len(toNodes1), len(toNodes2))):
-            sim1 = method(adjMatrix1, sourceIndex1, i) if i < len(toNodes1) else 0
-            sim2 = method(adjMatrix2, sourceIndex2, i) if i < len(toNodes2) else 0
-            if sim1+sim2 > 0: similarityScores[toNodes1[i]] = sim1+sim2
-    else:
-        similarityScores = {}
-        for i in xrange(max(len(toNodes1), len(toNodes2))):
-            sim1 = method(adjMatrix1, sourceIndex1, i) if i < len(toNodes1) else 0
-            sim2 = method(adjMatrix2, sourceIndex2, i) if i < len(toNodes2) else 0
-            similarityScores[toNodes1[i]] = sim1+sim2
-
-    # Sort according to most similar (descending order)
-    mostSimilarNodes = sorted(similarityScores.iteritems(), key=operator.itemgetter(1))
-    mostSimilarNodes.reverse()
-    number = min([k, len(mostSimilarNodes)])
-    mostSimilarNodes = mostSimilarNodes[:number]
-
-    return mostSimilarNodes, similarityScores
-
 def pathSimPaperExample():
 
     def add_apc_to_graph(graph, author, conference, n):
