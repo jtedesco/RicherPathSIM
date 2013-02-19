@@ -96,6 +96,8 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-ConstantPropagation-2")
         propagatedNeighborsimStrategy = NeighborSimConstantPropagationStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 3)
         self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-ConstantPropagation-3")
+        propagatedNeighborsimStrategy = NeighborSimConstantPropagationStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 4)
+        self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-ConstantPropagation-4")
         propagatedNeighborsimStrategy = NeighborSimConstantPropagationStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 50)
         self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-ConstantPropagation-50")
 
@@ -104,6 +106,8 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-WeightedPropagation-2")
         propagatedNeighborsimStrategy = NeighborSimConstantPreferentialAttachmentStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 3)
         self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-WeightedPropagation-3")
+        propagatedNeighborsimStrategy = NeighborSimConstantPreferentialAttachmentStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 4)
+        self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-WeightedPropagation-4")
         propagatedNeighborsimStrategy = NeighborSimConstantPreferentialAttachmentStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 50)
         self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-WeightedPropagation-50")
 
