@@ -57,8 +57,7 @@ def run():
     allAuthors = set(nodeIndex['author'].values())
     publicationCounts = {}
     for author in allAuthors:
-        publicationCount = sum([1 if node in allPapers else 0 for node in graph.successors(author)])
-        publicationCounts[author] = publicationCount
+        publicationCounts[author] = sum([1 if node in allPapers else 0 for node in graph.successors(author)])
 
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, appaAdjMatrix, extraData, citationCounts, publicationCounts)
