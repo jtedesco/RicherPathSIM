@@ -1,5 +1,5 @@
 import os
-from experiment.real.four_area.barebones import   AuthorsPathSimAPCPAExperiment, AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimPPAAPCPAExperiment, AuthorsNeighborSimTPPAExperiment, AggregateAuthorsExperiment
+from experiment.real.four_area.barebones import AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimTPPAExperiment, AuthorsPathSimAPCPAExperiment, AggregateAuthorsExperiment
 
 __author__ = 'jontedesco'
 
