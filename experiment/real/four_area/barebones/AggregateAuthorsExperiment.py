@@ -36,7 +36,7 @@ class AggregateAuthorsExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
 
-def run(title, outputPath, citationCounts, publicationCounts, weights = (0.5, 0.5)):
+def run(title, outputPath, citationCounts, publicationCounts, pathsAndWeights):
     experiment = AggregateAuthorsExperiment(None, title, outputPath)
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, citationCounts, publicationCounts, weights)
+        experiment.runFor(testAuthor, citationCounts, publicationCounts, pathsAndWeights)
