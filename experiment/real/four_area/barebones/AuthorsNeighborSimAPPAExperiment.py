@@ -1,6 +1,5 @@
 import cPickle
 import os
-import operator
 import texttable
 from experiment.Experiment import Experiment
 from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
@@ -29,7 +28,7 @@ class AuthorsNeighborSimAPPAExperiment(Experiment):
         cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
 
-def run():
+def run(citationCounts, publicationCounts):
     experiment = AuthorsNeighborSimAPPAExperiment(
         None,
         'Most Similar APPA NeighborSim Authors',
@@ -40,28 +39,5 @@ def run():
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
     appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
 
-    # Compute author citation counts
-    citationCounts = {}
-    for author in extraData['toNodes']:
-        i = extraData['toNodesIndex'][author]
-        citationCounts[author] = sum(appaAdjMatrix.getcol(i).data)
-    citationCountsList = sorted(citationCounts.iteritems(), key=operator.itemgetter(1))
-    citationCountsList.reverse()
-
-    # Output author citation counts
-    with open(os.path.join('data', 'authorCitationCounts'), 'w') as file:
-        map(lambda (author, count): file.write('%d: %s\n' % (int(count), author)), citationCountsList)
-
-    # Compute author publication counts
-    allPapers = set(nodeIndex['paper'].values())
-    allAuthors = set(nodeIndex['author'].values())
-    publicationCounts = {}
-    for author in allAuthors:
-        publicationCounts[author] = sum([1 if node in allPapers else 0 for node in graph.successors(author)])
-
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, appaAdjMatrix, extraData, citationCounts, publicationCounts)
-
-    return citationCounts, publicationCounts
-
-if __name__ == '__main__': run()
