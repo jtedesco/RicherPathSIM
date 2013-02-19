@@ -1,4 +1,5 @@
 import cPickle
+from collections import defaultdict
 import os
 import operator
 import texttable
@@ -41,24 +42,29 @@ def run():
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
 
-    # Compute author citation counts
-    citationCounts = {}
-    for author in extraData['toNodes']:
-        i = extraData['toNodesIndex'][author]
-        citationCounts[author] = sum(ppaAdjMatrix.getcol(i).data)
-    citationCountsList = sorted(citationCounts.iteritems(), key=operator.itemgetter(1))
-    citationCountsList.reverse()
-
-    # Output author citation counts
-    with open(os.path.join('data', 'authorCitationCounts'), 'w') as file:
-        map(lambda (author, count): file.write('%d: %s\n' % (int(count), author)), citationCountsList)
+    # Read paper citation counts
+    paperCitationsFile = open(os.path.join('data', 'paperCitationCounts'))
+    paperCitationCounts = {}
+    for line in paperCitationsFile:
+        count, title = line[:-1].split(': ')
+        paperCitationCounts[title] = int(count)
 
     # Compute author publication counts
     allPapers = set(nodeIndex['paper'].values())
     allAuthors = set(nodeIndex['author'].values())
-    publicationCounts = {}
+    publicationCounts, citationCounts = defaultdict(int), defaultdict(int)
     for author in allAuthors:
-        publicationCounts[author] = sum([1 if node in allPapers else 0 for node in graph.successors(author)])
+        for node in graph.successors(author):
+            if node in allPapers:
+                publicationCounts[author] += 1
+                citationCounts[author] += paperCitationCounts[node]
+
+    # Output author citation counts
+    citationCountsList = sorted(citationCounts.iteritems(), key=operator.itemgetter(1))
+    citationCountsList.reverse()
+    with open(os.path.join('data', 'authorCitationCounts'), 'w') as file:
+        map(lambda (author, count): file.write('%d: %s\n' % (int(count), author)), citationCountsList)
+
 
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, ppaAdjMatrix, extraData, citationCounts, publicationCounts)
