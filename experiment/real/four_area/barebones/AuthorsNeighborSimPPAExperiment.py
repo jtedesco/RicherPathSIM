@@ -46,7 +46,8 @@ def run():
     paperCitationsFile = open(os.path.join('data', 'paperCitationCounts'))
     paperCitationCounts = {}
     for line in paperCitationsFile:
-        count, title = line[:-1].split(': ')
+        lineData = line[:-1].split(': ')
+        count, title = int(lineData[0]), ': '.join(lineData[1:])
         paperCitationCounts[title] = int(count)
 
     # Compute author publication counts
