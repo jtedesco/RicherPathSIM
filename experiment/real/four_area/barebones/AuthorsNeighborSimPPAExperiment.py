@@ -46,8 +46,8 @@ def run():
     paperCitationsFile = open(os.path.join('data', 'paperCitationCounts'))
     paperCitationCounts = {}
     for line in paperCitationsFile:
-        lineData = line.split(': ')
-        count, title = int(lineData[0]), ': '.join(lineData[1:])
+        splitIndex = line.find(': ')
+        count, title = int(line[:splitIndex]), line[splitIndex+2:].strip()
         paperCitationCounts[title] = int(count)
 
     # Compute author publication counts
@@ -66,8 +66,9 @@ def run():
     with open(os.path.join('data', 'authorCitationCounts'), 'w') as file:
         map(lambda (author, count): file.write('%d: %s\n' % (int(count), author)), citationCountsList)
 
-
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, ppaAdjMatrix, extraData, citationCounts, publicationCounts)
 
     return publicationCounts, citationCounts
+
+if __name__ == '__main__': run()
