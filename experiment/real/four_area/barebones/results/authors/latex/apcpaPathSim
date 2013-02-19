@@ -5,16 +5,16 @@
 \hline
 Rank & Author & Citations & Publications & PathSim Score\\
 \hline
-1 & Christos Faloutsos & 127 & 127 & 1 \\
-2 & Jiawei Han & 168 & 168 & 0.906 \\
-3 & Rakesh Agrawal & 105 & 105 & 0.901 \\
-4 & Hans-Peter Kriegel & 102 & 102 & 0.839 \\
-5 & Jian Pei & 70 & 70 & 0.831 \\
-6 & Raghu Ramakrishnan & 95 & 95 & 0.809 \\
-7 & H. V. Jagadish & 106 & 106 & 0.804 \\
-8 & Nick Koudas & 79 & 79 & 0.788 \\
-9 & Hector Garcia-Molina & 98 & 98 & 0.779 \\
-10 & Divesh Srivastava & 103 & 103 & 0.775 \\
+1 & Christos Faloutsos & 127 & 634 & 1 \\
+2 & Jiawei Han & 168 & 665 & 0.906 \\
+3 & Rakesh Agrawal & 105 & 1512 & 0.901 \\
+4 & Hans-Peter Kriegel & 102 & 617 & 0.839 \\
+5 & Jian Pei & 70 & 270 & 0.831 \\
+6 & Raghu Ramakrishnan & 95 & 652 & 0.809 \\
+7 & H. V. Jagadish & 106 & 546 & 0.804 \\
+8 & Nick Koudas & 79 & 351 & 0.788 \\
+9 & Hector Garcia-Molina & 98 & 613 & 0.779 \\
+10 & Divesh Srivastava & 103 & 464 & 0.775 \\
 \hline
 \end{tabular}
 
@@ -22,16 +22,16 @@ Rank & Author & Citations & Publications & PathSim Score\\
 \hline
 Rank & Author & Citations & Publications & PathSim Score\\
 \hline
-1 & Sergey Brin & 7 & 7 & 1 \\
-2 & Nicola Onose & 7 & 7 & 0.944 \\
-3 & Larry Kerschberg & 7 & 7 & 0.933 \\
-4 & Ion Stoica & 5 & 5 & 0.929 \\
-5 & Yannis Vassiliou & 5 & 5 & 0.929 \\
-6 & Boon Thau Loo & 5 & 5 & 0.929 \\
-7 & Fatma ?zcan & 6 & 6 & 0.914 \\
-8 & Xin Dong & 6 & 6 & 0.914 \\
-9 & Abhijit Pol & 6 & 6 & 0.914 \\
-10 & Chun Zhang & 6 & 6 & 0.914 \\
+1 & Sergey Brin & 7 & 166 & 1 \\
+2 & Nicola Onose & 7 & 6 & 0.944 \\
+3 & Larry Kerschberg & 7 & 10 & 0.933 \\
+4 & Ion Stoica & 5 & 10 & 0.929 \\
+5 & Yannis Vassiliou & 5 & 35 & 0.929 \\
+6 & Boon Thau Loo & 5 & 28 & 0.929 \\
+7 & Fatma ?zcan & 6 & 24 & 0.914 \\
+8 & Xin Dong & 6 & 21 & 0.914 \\
+9 & Abhijit Pol & 6 & 7 & 0.914 \\
+10 & Chun Zhang & 6 & 181 & 0.914 \\
 \hline
 \end{tabular}
 
@@ -39,16 +39,16 @@ Rank & Author & Citations & Publications & PathSim Score\\
 \hline
 Rank & Author & Citations & Publications & PathSim Score\\
 \hline
-1 & Philip S. Yu & 216 & 216 & 1 \\
-2 & Jiawei Han & 168 & 168 & 0.920 \\
-3 & Christos Faloutsos & 127 & 127 & 0.759 \\
-4 & Hans-Peter Kriegel & 102 & 102 & 0.689 \\
-5 & Wei Wang & 83 & 83 & 0.679 \\
-6 & Rakesh Agrawal & 105 & 105 & 0.645 \\
-7 & Divesh Srivastava & 103 & 103 & 0.639 \\
-8 & Beng Chin Ooi & 70 & 70 & 0.606 \\
-9 & Hector Garcia-Molina & 98 & 98 & 0.593 \\
-10 & Nick Koudas & 79 & 79 & 0.592 \\
+1 & Philip S. Yu & 216 & 556 & 1 \\
+2 & Jiawei Han & 168 & 665 & 0.920 \\
+3 & Christos Faloutsos & 127 & 634 & 0.759 \\
+4 & Hans-Peter Kriegel & 102 & 617 & 0.689 \\
+5 & Wei Wang & 83 & 135 & 0.679 \\
+6 & Rakesh Agrawal & 105 & 1512 & 0.645 \\
+7 & Divesh Srivastava & 103 & 464 & 0.639 \\
+8 & Beng Chin Ooi & 70 & 130 & 0.606 \\
+9 & Hector Garcia-Molina & 98 & 613 & 0.593 \\
+10 & Nick Koudas & 79 & 351 & 0.592 \\
 \hline
 \end{tabular}
 
@@ -56,13 +56,13 @@ Rank & Author & Citations & Publications & PathSim Score\\
 \hline
 Rank & Author & Citations & Publications & PathSim Score\\
 \hline
-1 & AnHai Doan & 26 & 26 & 1 \\
-2 & Jignesh M. Patel & 25 & 25 & 0.976 \\
-3 & Xuemin Lin & 25 & 25 & 0.961 \\
-4 & Balakrishna R. Iyer & 23 & 23 & 0.957 \\
-5 & Jayant R. Haritsa & 35 & 35 & 0.955 \\
-6 & Jun Yang & 34 & 34 & 0.948 \\
-7 & Walid G. Aref & 33 & 33 & 0.947 \\
-8 & Ming-Chien Shan & 23 & 23 & 0.941 \\
-9 & Won Kim & 30 & 30 & 0.938 \\
-10 & Anastassia Ailamaki & 25 & 25 & 0.938 \\
+1 & AnHai Doan & 26 & 118 & 1 \\
+2 & Jignesh M. Patel & 25 & 92 & 0.976 \\
+3 & Xuemin Lin & 25 & 53 & 0.961 \\
+4 & Balakrishna R. Iyer & 23 & 122 & 0.957 \\
+5 & Jayant R. Haritsa & 35 & 44 & 0.955 \\
+6 & Jun Yang & 34 & 94 & 0.948 \\
+7 & Walid G. Aref & 33 & 63 & 0.947 \\
+8 & Ming-Chien Shan & 23 & 38 & 0.941 \\
+9 & Won Kim & 30 & 162 & 0.938 \\
+10 & Anastassia Ailamaki & 25 & 71 & 0.938 \\

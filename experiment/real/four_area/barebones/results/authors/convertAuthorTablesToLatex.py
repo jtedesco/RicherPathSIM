@@ -22,7 +22,7 @@ for filename in os.listdir('.'):
             author = tokens[0].strip()
             score = tokens[1].strip()
             citations = tokens[2].strip()
-            publications = tokens[2].strip()
+            publications = tokens[3].strip()
             latexContent += '%d & %s & %s & %s & %s \\\\\n' % (rank, author, citations, publications, score)
     with open(os.path.join('latex', filename), 'w') as outputFile:
         outputFile.write(latexContent)
