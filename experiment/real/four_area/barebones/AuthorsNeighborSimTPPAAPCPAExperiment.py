@@ -7,7 +7,7 @@ from experiment.real.four_area.barebones.Helper import   testAuthors
 
 __author__ = 'jontedesco'
 
-class AuthorsNeighborSimAPPAAPCPAExperiment(Experiment):
+class AuthorsNeighborSimTPPAAPCPAExperiment(Experiment):
     """
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
@@ -16,7 +16,7 @@ class AuthorsNeighborSimAPPAAPCPAExperiment(Experiment):
         print("Running for %s..." % author)
 
         # Read similarity scores for this author for both measures
-        appaPath = os.path.join('results', 'authors', 'intermediate', '%s-neighborsim-appa' % author.replace(' ', ''))
+        appaPath = os.path.join('results', 'authors', 'intermediate', '%s-neighborsim-tppa' % author.replace(' ', ''))
         appaSimilarityScores = cPickle.load(open(appaPath))
         apcpaPath = os.path.join('results', 'authors', 'intermediate', '%s-pathsim-apcpa' % author.replace(' ', ''))
         apcpaSimilarityScores = cPickle.load(open(apcpaPath))
@@ -44,10 +44,10 @@ class AuthorsNeighborSimAPPAAPCPAExperiment(Experiment):
 
 
 def run(citationCounts, publicationCounts, weights = (0.5, 0.5)):
-    experiment = AuthorsNeighborSimAPPAAPCPAExperiment(
+    experiment = AuthorsNeighborSimTPPAAPCPAExperiment(
         None,
-        'Most Similar APPA-APCPA NeighborSim Authors',
-        outputFilePath = os.path.join('results','authors','appa-apcpaNeighborSim-%1.1f-%1.1f' % weights)
+        'Most Similar TPPA-APCPA NeighborSim Authors',
+        outputFilePath = os.path.join('results','authors','tppa-apcpaNeighborSim-%1.1f-%1.1f' % weights)
     )
 
     for testAuthor in testAuthors:

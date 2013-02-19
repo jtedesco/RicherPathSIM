@@ -2,11 +2,11 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testAuthors
+from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
 
 __author__ = 'jontedesco'
 
-class AuthorsPathSimAPPAExperiment(Experiment):
+class AuthorsNeighborSimTPPAExperiment(Experiment):
     """
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
@@ -15,8 +15,8 @@ class AuthorsPathSimAPPAExperiment(Experiment):
         print("Running for %s..." % author)
 
         # Find the top 10 most similar nodes to some given node
-        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData)
-        self.output('\nMost Similar to "%s":' % author)
+        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData, method = getNeighborSimScore)
+        self.output('Most Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
         rows = [['Author', 'Score', 'Citations', 'Publications']]
         rows += [[name, score, citationCounts[name], publicationCounts[name]] for name, score in mostSimilar]
@@ -24,20 +24,21 @@ class AuthorsPathSimAPPAExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
         # Output all similarity scores
-        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-pathsim-appa' % author.replace(' ', ''))
+        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-neighborsim-tppa' % author.replace(' ', ''))
         cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
 def run(citationCounts, publicationCounts):
-    experiment = AuthorsPathSimAPPAExperiment(
+    experiment = AuthorsNeighborSimTPPAExperiment(
         None,
-        'Most Similar APPA PathSim Authors',
-        outputFilePath = os.path.join('results','authors','appaPathSim')
+        'Most Similar TPPA NeighborSim Authors',
+        outputFilePath = os.path.join('results','authors','tppaNeighborSim')
     )
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
-    appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
+    ppaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['term', 'paper', 'paper', 'author'])
+    extraData['fromNodes'] = extraData['toNodes']
+    extraData['fromNodesIndex'] = extraData['toNodesIndex']
 
-    # Run for all authors
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, appaAdjMatrix, extraData, citationCounts, publicationCounts)
+        experiment.runFor(testAuthor, ppaAdjMatrix, extraData, citationCounts, publicationCounts)
