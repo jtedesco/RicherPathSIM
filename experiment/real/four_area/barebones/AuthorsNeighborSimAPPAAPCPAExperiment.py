@@ -12,7 +12,7 @@ class AuthorsNeighborSimAPPAAPCPAExperiment(Experiment):
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
 
-    def runFor(self, author, citationCounts = None, weights = (0.5, 0.5)):
+    def runFor(self, author, citationCounts, weights):
         print("Running for %s..." % author)
 
         # Read similarity scores for this author for both measures
@@ -55,6 +55,6 @@ def run(citationCounts = None, weights = (0.5, 0.5)):
     )
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, citationCounts = citationCounts, weights = weights)
+        experiment.runFor(testAuthor, citationCounts, weights)
 
 if __name__ == '__main__': run()
