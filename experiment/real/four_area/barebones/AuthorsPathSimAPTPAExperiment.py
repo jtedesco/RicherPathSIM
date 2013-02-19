@@ -12,19 +12,15 @@ class AuthorsPathSimAPTPAExperiment(Experiment):
       Runs some experiments with PathSim on author similarity for the 'four area' dataset
     """
 
-    def runFor(self, author, adjMatrix, extraData, citationCounts):
+    def runFor(self, author, adjMatrix, extraData, citationCounts, publicationCounts):
         print("Running for %s..." % author)
 
         # Find the top 10 most similar nodes to some given node
         mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData)
         self.output('\nMost Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
-        if citationCounts is None:
-            rows = [['Author', 'Score']]
-            rows += [[name, score] for name, score in mostSimilar]
-        else:
-            rows = [['Author', 'Score', 'Citations']]
-            rows += [[name, score, citationCounts[name]] for name, score in mostSimilar]
+        rows = [['Author', 'Score', 'Citations', 'Publications']]
+        rows += [[name, score, citationCounts[name], publicationCounts[name]] for name, score in mostSimilar]
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
@@ -32,7 +28,7 @@ class AuthorsPathSimAPTPAExperiment(Experiment):
         outputPath = os.path.join('results', 'authors', 'intermediate', '%s-pathsim-aptpa' % author.replace(' ', ''))
         cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
-def run(citationCounts = None):
+def run(citationCounts, publicationCounts):
     experiment = AuthorsPathSimAPTPAExperiment(
         None,
         'Most Similar APTPA PathSim Authors',
@@ -52,6 +48,4 @@ def run(citationCounts = None):
     extraData['toNodesIndex'] = data['toNodesIndex']
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, aptpaAdjMatrix, extraData, citationCounts)
-
-if __name__ == '__main__': run()
+        experiment.runFor(testAuthor, aptpaAdjMatrix, extraData, citationCounts, publicationCounts)
