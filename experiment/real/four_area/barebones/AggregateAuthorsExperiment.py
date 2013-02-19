@@ -39,4 +39,6 @@ class AggregateAuthorsExperiment(Experiment):
 def run(title, outputPath, citationCounts, publicationCounts, pathsAndWeights):
     experiment = AggregateAuthorsExperiment(None, title, outputPath)
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, citationCounts, publicationCounts, pathsAndWeights)
+        abbreviatedAuthor = testAuthor.replace(' ', '')
+        newPathAndWeights = [(path % abbreviatedAuthor, score) for path,score in pathsAndWeights]
+        experiment.runFor(testAuthor, citationCounts, publicationCounts, newPathAndWeights)
