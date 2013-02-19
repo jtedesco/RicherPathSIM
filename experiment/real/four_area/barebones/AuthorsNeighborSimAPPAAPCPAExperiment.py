@@ -51,10 +51,10 @@ def run(citationCounts = None, weights = (0.5, 0.5)):
     experiment = AuthorsNeighborSimAPPAAPCPAExperiment(
         None,
         'Most Similar APPA-APCPA NeighborSim Authors',
-        outputFilePath = os.path.join('results','authors','appa-apcpaNeighborSim%1.1f%1.1f' % weights)
+        outputFilePath = os.path.join('results','authors','appa-apcpaNeighborSim-%1.1f-%1.1f' % weights)
     )
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, citationCounts=citationCounts, weights=weights)
+        experiment.runFor(testAuthor, citationCounts = citationCounts, weights = weights)
 
 if __name__ == '__main__': run()
