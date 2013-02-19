@@ -11,7 +11,7 @@ for filename in os.listdir('.'):
         if line.startswith('Most Similar'):
             rank = 0
             latexContent += '\hline\n\end{tabular}\n\n'
-            latexContent += '\\begin{tabular}{|c|c|c|c|}\n\hline\nRank & Author & Citations & %s Score\\\\\n\hline\n' % measure
+            latexContent += '\\begin{tabular}{|c|c|c|c|c|}\n\hline\nRank & Author & Citations & Publications & %s Score\\\\\n\hline\n' % measure
         elif line.startswith('+='):
             continue
         elif 'Author' in line:
@@ -22,6 +22,7 @@ for filename in os.listdir('.'):
             author = tokens[0].strip()
             score = tokens[1].strip()
             citations = tokens[2].strip()
-            latexContent += '%d & %s & %s & %s \\\\\n' % (rank, author, citations, score)
+            publications = tokens[2].strip()
+            latexContent += '%d & %s & %s & %s & %s \\\\\n' % (rank, author, citations, publications, score)
     with open(os.path.join('latex', filename), 'w') as outputFile:
         outputFile.write(latexContent)
