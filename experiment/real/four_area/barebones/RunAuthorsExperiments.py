@@ -1,4 +1,5 @@
-from experiment.real.four_area.barebones import   AuthorsPathSimAPCPAExperiment, AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimPPAAPCPAExperiment, AuthorsNeighborSimTPPAExperiment
+import os
+from experiment.real.four_area.barebones import   AuthorsPathSimAPCPAExperiment, AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimPPAAPCPAExperiment, AuthorsNeighborSimTPPAExperiment, AggregateAuthorsExperiment
 
 __author__ = 'jontedesco'
 
@@ -12,10 +13,32 @@ AuthorsPathSimAPCPAExperiment.run(citationCounts, publicationCounts)
 
 # Combined/lazy experiments
 print("Running NeighborSim PPA - PathSim APCPA experiment:")
-AuthorsNeighborSimPPAAPCPAExperiment.run(citationCounts, publicationCounts)
+AggregateAuthorsExperiment.run(
+    'Most Similar PPA-APCPA NeighborSim Authors',
+    os.path.join('results','authors','ppa-apcpaNeighborSim-%1.1f-%1.1f' % (0.5, 0.5)),
+    citationCounts,
+    publicationCounts
+)
 print("Running NeighborSim PPA - PathSim APCPA experiment (0.3, 0.7):")
-AuthorsNeighborSimPPAAPCPAExperiment.run(citationCounts, publicationCounts, weights = (0.3,0.7))
+AggregateAuthorsExperiment.run(
+    'Most Similar PPA-APCPA NeighborSim Authors',
+    os.path.join('results','authors','ppa-apcpaNeighborSim-%1.1f-%1.1f' % (0.3, 0.7)),
+    citationCounts,
+    publicationCounts,
+    (0.3, 0.7)
+)
 print("Running NeighborSim TPPA - PathSim APCPA experiment:")
-AuthorsNeighborSimPPAAPCPAExperiment.run(citationCounts, publicationCounts)
+AggregateAuthorsExperiment.run(
+    'Most Similar TPPA-APCPA NeighborSim Authors',
+    os.path.join('results','authors','tppa-apcpaNeighborSim-%1.1f-%1.1f' % (0.5, 0.5)),
+    citationCounts,
+    publicationCounts
+)
 print("Running NeighborSim TPPA - PathSim APCPA experiment (0.3, 0.7):")
-AuthorsNeighborSimPPAAPCPAExperiment.run(citationCounts, publicationCounts, weights = (0.3,0.7))
+AggregateAuthorsExperiment.run(
+    'Most Similar TPPA-APCPA NeighborSim Authors',
+    os.path.join('results','authors','tppa-apcpaNeighborSim-%1.1f-%1.1f' % (0.3, 0.7)),
+    citationCounts,
+    publicationCounts,
+    (0.3, 0.7)
+)
