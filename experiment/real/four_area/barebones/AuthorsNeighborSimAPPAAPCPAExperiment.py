@@ -12,7 +12,7 @@ class AuthorsNeighborSimAPPAAPCPAExperiment(Experiment):
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
 
-    def runFor(self, author, citationCounts = None):
+    def runFor(self, author, citationCounts = None, weights = (0.5, 0.5)):
         print("Running for %s..." % author)
 
         # Read similarity scores for this author for both measures
@@ -25,7 +25,7 @@ class AuthorsNeighborSimAPPAAPCPAExperiment(Experiment):
         similarityScores = {}
         for node in apcpaSimilarityScores:
             if node in appaSimilarityScores:
-                similarityScores[node] = 0.5 * apcpaSimilarityScores[node] + 0.5 * appaSimilarityScores[node]
+                similarityScores[node] =  weights[0] * appaSimilarityScores[node] + weights[1] * apcpaSimilarityScores[node]
 
         # Get the most similar nodes
         k = 10
@@ -47,14 +47,14 @@ class AuthorsNeighborSimAPPAAPCPAExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
 
-def run(citationCounts = None):
+def run(citationCounts = None, weights = (0.5, 0.5)):
     experiment = AuthorsNeighborSimAPPAAPCPAExperiment(
         None,
         'Most Similar APPA-APCPA NeighborSim Authors',
-        outputFilePath = os.path.join('results','authors','appa-apcpaNeighborSim')
+        outputFilePath = os.path.join('results','authors','appa-apcpaNeighborSim%1.1f%1.1f' % weights)
     )
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, citationCounts=citationCounts)
+        experiment.runFor(testAuthor, citationCounts=citationCounts, weights=weights)
 
 if __name__ == '__main__': run()
