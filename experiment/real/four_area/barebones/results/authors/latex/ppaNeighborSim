@@ -22,12 +22,29 @@ Rank & Author & Citations & Publications & NeighborSim Score\\
 \hline
 Rank & Author & Citations & Publications & NeighborSim Score\\
 \hline
+1 & Rakesh Agrawal & 1511 & 105 & 1 \\
+2 & Ramakrishnan Srikant & 696 & 34 & 0.690 \\
+3 & Arun N. Swami & 404 & 15 & 0.395 \\
+4 & Tomasz Imielinski & 343 & 30 & 0.362 \\
+5 & Jiawei Han & 665 & 168 & 0.344 \\
+6 & Philip S. Yu & 556 & 216 & 0.221 \\
+7 & Raghu Ramakrishnan & 652 & 95 & 0.204 \\
+8 & Jeffrey D. Ullman & 438 & 43 & 0.191 \\
+9 & Rajeev Motwani & 542 & 36 & 0.190 \\
+10 & Jian Pei & 270 & 70 & 0.188 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations & Publications & NeighborSim Score\\
+\hline
 1 & Sergey Brin & 166 & 7 & 1 \\
 2 & Craig Silverstein & 84 & 5 & 0.676 \\
 3 & Shalom Tsur & 96 & 12 & 0.500 \\
 4 & Rajeev Motwani & 542 & 36 & 0.412 \\
 5 & Ashok Savasere & 68 & 3 & 0.297 \\
-6 & Jeffrey D. Ullman & 439 & 43 & 0.289 \\
+6 & Jeffrey D. Ullman & 438 & 43 & 0.289 \\
 7 & Tomasz Imielinski & 343 & 30 & 0.280 \\
 8 & Arun N. Swami & 404 & 15 & 0.267 \\
 9 & Hannu Toivonen & 120 & 18 & 0.265 \\
@@ -46,7 +63,7 @@ Rank & Author & Citations & Publications & NeighborSim Score\\
 5 & Haixun Wang & 100 & 67 & 0.273 \\
 6 & Jong Soo Park & 94 & 4 & 0.255 \\
 7 & Joel L. Wolf & 71 & 8 & 0.228 \\
-8 & Rakesh Agrawal & 1512 & 105 & 0.221 \\
+8 & Rakesh Agrawal & 1511 & 105 & 0.221 \\
 9 & Ramakrishnan Srikant & 696 & 34 & 0.185 \\
 10 & Johannes Gehrke & 320 & 56 & 0.182 \\
 \hline
