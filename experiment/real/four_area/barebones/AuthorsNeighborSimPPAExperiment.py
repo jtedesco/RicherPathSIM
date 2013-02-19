@@ -69,6 +69,6 @@ def run():
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, ppaAdjMatrix, extraData, citationCounts, publicationCounts)
 
-    return publicationCounts, citationCounts
+    return citationCounts, publicationCounts
 
 if __name__ == '__main__': run()
