@@ -13,30 +13,31 @@ for line in paperCitationFile:
     citationCounts[title] = int(count)
 
 for filename in os.listdir('.'):
-    if 'PathSim' in filename or 'NeighborSim' in filename:
-        content = open(filename).read()
-        latexContent = ""
+    if 'PathSim' not in filename and 'NeighborSim' not in filename: continue
+    measure = 'PathSim' if 'PathSim' in filename else 'NeighborSim'
+    content = open(filename).read()
+    latexContent = ""
 
-        titleBuffer = ""
-        score = 0
+    titleBuffer = ""
+    score = 0
 
-        for line in content.split('\n'):
-            if line.startswith('Most Similar'):
-                rank = 0
-                latexContent += '\hline\n\end{tabular}\n\n'
-                latexContent += '\\begin{tabular}{|c|c|c|c|}\n\hline\nRank & Paper & Citation Count & Score\\\\\n\hline\n'
-            elif 'Paper' in line:
-                continue
-            elif line.startswith('| '):
-                tokens = line[1:].split('|')
-                titleBuffer += ' ' + tokens[0].strip()
-                if len(tokens[1].strip()) > 0: score = float(tokens[1].strip())
-            elif line.startswith('+-') and len(titleBuffer) > 0:
-                rank += 1
-                strippedTitle = titleBuffer.strip().replace(' ','')
-                title = titleBuffer.strip().rstrip('.')
-                latexContent += '%d & %s & %s & %s \\\\\n' % (rank, title, citationCounts[strippedTitle], score)
-                titleBuffer = ""
-                score = 0
-        with open(os.path.join('latex', filename), 'w') as outputFile:
-            outputFile.write(latexContent)
+    for line in content.split('\n'):
+        if line.startswith('Most Similar'):
+            rank = 0
+            latexContent += '\hline\n\end{tabular}\n\n'
+            latexContent += '\\begin{tabular}{|c|c|c|c|}\n\hline\nRank & Paper & Citations & %s Score\\\\\n\hline\n' % measure
+        elif 'Paper' in line:
+            continue
+        elif line.startswith('| '):
+            tokens = line[1:].split('|')
+            titleBuffer += ' ' + tokens[0].strip()
+            if len(tokens[1].strip()) > 0: score = float(tokens[1].strip())
+        elif line.startswith('+-') and len(titleBuffer) > 0:
+            rank += 1
+            strippedTitle = titleBuffer.strip().replace(' ','')
+            title = titleBuffer.strip().rstrip('.')
+            latexContent += '%d & %s & %s & %s \\\\\n' % (rank, title, citationCounts[strippedTitle], score)
+            titleBuffer = ""
+            score = 0
+    with open(os.path.join('latex', filename), 'w') as outputFile:
+        outputFile.write(latexContent)
