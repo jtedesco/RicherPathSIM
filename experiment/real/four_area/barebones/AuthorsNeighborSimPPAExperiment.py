@@ -46,7 +46,7 @@ def run():
     paperCitationsFile = open(os.path.join('data', 'paperCitationCounts'))
     paperCitationCounts = {}
     for line in paperCitationsFile:
-        lineData = line[:-1].split(': ')
+        lineData = line.split(': ')
         count, title = int(lineData[0]), ': '.join(lineData[1:])
         paperCitationCounts[title] = int(count)
 
@@ -58,7 +58,7 @@ def run():
         for node in graph.successors(author):
             if node in allPapers:
                 publicationCounts[author] += 1
-                citationCounts[author] += paperCitationCounts[node]
+                citationCounts[author] += paperCitationCounts[node] if node in paperCitationCounts else 0
 
     # Output author citation counts
     citationCountsList = sorted(citationCounts.iteritems(), key=operator.itemgetter(1))
