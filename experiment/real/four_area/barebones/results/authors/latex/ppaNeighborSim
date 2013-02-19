@@ -1,0 +1,68 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations & Publications & NeighborSim Score\\
+\hline
+1 & Christos Faloutsos & 634 & 634 & 1 \\
+2 & Nick Roussopoulos & 336 & 336 & 0.452 \\
+3 & Hans-Peter Kriegel & 617 & 617 & 0.451 \\
+4 & Timos K. Sellis & 230 & 230 & 0.406 \\
+5 & Bernhard Seeger & 389 & 389 & 0.402 \\
+6 & Ralf Schneider & 242 & 242 & 0.350 \\
+7 & Norbert Beckmann & 210 & 210 & 0.330 \\
+8 & Ibrahim Kamel & 88 & 88 & 0.321 \\
+9 & H. V. Jagadish & 546 & 546 & 0.287 \\
+10 & Stefan Berchtold & 110 & 110 & 0.197 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations & Publications & NeighborSim Score\\
+\hline
+1 & Sergey Brin & 166 & 166 & 1 \\
+2 & Craig Silverstein & 84 & 84 & 0.676 \\
+3 & Shalom Tsur & 96 & 96 & 0.500 \\
+4 & Rajeev Motwani & 542 & 542 & 0.412 \\
+5 & Ashok Savasere & 68 & 68 & 0.297 \\
+6 & Jeffrey D. Ullman & 439 & 439 & 0.289 \\
+7 & Tomasz Imielinski & 343 & 343 & 0.280 \\
+8 & Arun N. Swami & 404 & 404 & 0.267 \\
+9 & Hannu Toivonen & 120 & 120 & 0.265 \\
+10 & Edward Omiecinski & 93 & 93 & 0.261 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations & Publications & NeighborSim Score\\
+\hline
+1 & Philip S. Yu & 556 & 556 & 1 \\
+2 & Charu C. Aggarwal & 238 & 238 & 0.449 \\
+3 & Ming-Syan Chen & 116 & 116 & 0.332 \\
+4 & Jiawei Han & 665 & 665 & 0.291 \\
+5 & Haixun Wang & 100 & 100 & 0.273 \\
+6 & Jong Soo Park & 94 & 94 & 0.255 \\
+7 & Joel L. Wolf & 71 & 71 & 0.228 \\
+8 & Rakesh Agrawal & 1512 & 1512 & 0.221 \\
+9 & Ramakrishnan Srikant & 696 & 696 & 0.185 \\
+10 & Johannes Gehrke & 320 & 320 & 0.182 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations & Publications & NeighborSim Score\\
+\hline
+1 & AnHai Doan & 118 & 118 & 1 \\
+2 & Jayant Madhavan & 98 & 98 & 0.718 \\
+3 & Alon Y. Halevy & 236 & 236 & 0.593 \\
+4 & Erhard Rahm & 89 & 89 & 0.451 \\
+5 & Philip A. Bernstein & 171 & 171 & 0.388 \\
+6 & Pedro Domingos & 291 & 291 & 0.374 \\
+7 & Bin He & 41 & 41 & 0.320 \\
+8 & Ren?e J. Miller & 152 & 152 & 0.265 \\
+9 & Kevin Chen-Chuan Chang & 112 & 112 & 0.257 \\
+10 & Jaewoo Kang & 25 & 25 & 0.225 \\
