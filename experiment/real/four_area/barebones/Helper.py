@@ -15,9 +15,9 @@ __author__ = 'jontedesco'
 # Authors & papers to use for experiments
 testAuthors = [
     'Christos Faloutsos',
-    'Jiawei Han',
+#    'Jiawei Han',
     'Sergey Brin',
-    'Sanjay Ghemawat',
+#    'Sanjay Ghemawat',
     'Philip S. Yu',
     'AnHai Doan'
 ]
