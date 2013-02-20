@@ -240,18 +240,29 @@ def parseArnetminerDataset():
 
     # Add citations to the graph
     papersProcessed = 0
+    citationsProcessed = 0
+    citationsSkipped = 0
     for title, index, citations in __citationsFromFile(inputFile):
 
         # Check that index exists in indices
-        assert all([index in indexToPaperIdMap for index in citations])
+        if not all([index in indexToPaperIdMap for index in citations]):
+            if citationsSkipped < 5: print("Citations missing for %s" % title)
 
         citingId = '%d----%s' % (index, title)
         for citationIndex in citations:
-            graph.add_edge(citingId, indexToPaperIdMap[citationIndex])
+            if citationIndex in indexToPaperIdMap:
+                citationsProcessed += 1
+                graph.add_edge(citingId, indexToPaperIdMap[citationIndex])
+            else:
+                citationsSkipped += 1
 
         # Output progress
         papersProcessed += 1
         sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
+
+    totalCitations = citationsSkipped + citationsProcessed
+    print("\nCitations Processed: %d / %d (%2.2f%%)" % (citationsProcessed, totalCitations, float(citationsProcessed) / totalCitations))
+    print("\nCitations Skipped: %d / %d (%2.2f%%)" % (citationsProcessed, totalCitations, float(citationsProcessed) / totalCitations))
 
     return graph
 
