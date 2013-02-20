@@ -268,7 +268,7 @@ def parseArnetminerDataset():
 
         # Output progress
         papersProcessed += 1
-        sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
+        sys.stdout.write("\r Processed Citations for %d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
     totalCitations = citationsSkipped + citationsProcessed
     print("Citations Processed: %d / %d (%2.2f%%)" % (
