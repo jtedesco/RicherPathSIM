@@ -2,6 +2,7 @@ from Stemmer import Stemmer
 import json
 import os
 import re
+import cPickle
 from networkx import MultiDiGraph
 import sys
 
@@ -118,7 +119,7 @@ def __papersFromFile(file):
             citationCount = None
 
     # Basic statistics about Cleanliness of data
-    print("Papers processed: %d (%2.2f%%)" % (processed, 100.0 * (float(processed) / totalPapers)))
+    print("\nPapers processed: %d (%2.2f%%)" % (processed, 100.0 * (float(processed) / totalPapers)))
     print("Papers ignored (bad titles): %d (%2.2f%%)" % (ignored, 100.0 * (float(ignored) / totalPapers)))
     print("Papers skipped: %d (%2.2f%%)" % (skipped, 100.0 * (float(skipped) / totalPapers)))
     print("Papers invalid: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
@@ -167,9 +168,9 @@ def parseArnetminerDataset():
 def constructGraphAndDumpToFile():
 
     # Parse 4-area dataset graph & dump it to disk
-    parseArnetminerDataset()
+    graph = parseArnetminerDataset()
 
-#    cPickle.dump((graph, nodeIndex), open(os.path.join('data', 'graphWithoutCitations'), 'w'))
+    cPickle.dump(graph, open(os.path.join('data', 'graphWithoutCitations'), 'w'))
 
 # When run as script, runs through pathsim papers example experiment
 if __name__ == '__main__':
