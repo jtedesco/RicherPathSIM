@@ -129,11 +129,11 @@ def __papersFromFile(file, skippedPaperIndices, invalidPaperIndices):
     skippedBadTitlePercent = 100.0 * (float(skippedBadTitle) / totalPapers)
     skippedMissingConferencePercent = 100.0 * (float(skippedMissingConference) / totalPapers)
     invalidPercent = 100.0 * (float(invalid) / totalPapers)
-    print("\n\nTotal Papers: %d" % totalPapers)
-    print("  Added (Successful): %d (%2.2f%%)", (successful, successfulPercent))
-    print("  Ignored (Bad Title): %d (%2.2f%%)" % (skippedBadTitle, skippedBadTitlePercent))
-    print("  Skipped (Missing Conference): %d (%2.2f%%)" % (skippedMissingConference, skippedMissingConferencePercent))
-    print("  Invalid (Unknown): %d (%2.2f%%)", (invalid, invalidPercent))
+    print "\n\nTotal Papers: %d" % totalPapers
+    print "  Added (Successful): %d (%2.2f%%)", (successful, successfulPercent)
+    print "  Ignored (Bad Title): %d (%2.2f%%)" % (skippedBadTitle, skippedBadTitlePercent)
+    print "  Skipped (Missing Conference): %d (%2.2f%%)" % (skippedMissingConference, skippedMissingConferencePercent)
+    print "  Invalid (Unknown): %d (%2.2f%%)", (invalid, invalidPercent)
 
 
 def __citationsFromFile(file):
@@ -196,10 +196,10 @@ def __citationsFromFile(file):
     # Output some basic statistics about papers with/without citations
     withCitationsPercent = 100.0 * (float(withCitations) / totalPapers)
     withoutCitationsPercent = 100.0 * (float(withoutCitations) / totalPapers)
-    print("\n\nTotal Papers: %d" % totalPapers)
-    print("  With References: %d (%2.2f%%)\n  Without References: %d (%2.2f%%)" % (
+    print "\n\nTotal Papers: %d" % totalPapers
+    print "  With References: %d (%2.2f%%)\n  Without References: %d (%2.2f%%)" % (
         withCitations, withCitationsPercent, withoutCitations, withoutCitationsPercent
-    ))
+    )
 
 
 def parseArnetminerDataset():
@@ -222,7 +222,7 @@ def parseArnetminerDataset():
 
     beginning = inputFile.tell()
 
-    print("Parsing nodes for graph...")
+    print "Parsing nodes for graph..."
 
     # Counts for statistics
     VALID_PAPERS = 1566322 # 99.62% of total papers in DBLP dataset
@@ -256,7 +256,7 @@ def parseArnetminerDataset():
     # Rewind file
     inputFile.seek(beginning)
 
-    print("Parsing citations for graph...")
+    print "Parsing citations for graph..."
 
     # Counts for statistics
     papersProcessed = 0
@@ -281,7 +281,7 @@ def parseArnetminerDataset():
             elif citationIndex in invalidPaperIndices:
                 invalidPaperCitations += 1
             else:
-                print("\nCitation '%d' not found for '%s'" % (citationIndex, title))
+                print "\nCitation '%d' not found for '%s'" % (citationIndex, title)
                 invalidCitations += 1
 
         # Output progress
@@ -294,11 +294,11 @@ def parseArnetminerDataset():
     omittedPaperCitationsPercent = 100 * float(omittedPaperCitations) / totalCitations
     invalidPaperCitationsPercent = 100 * float(invalidPaperCitations) / totalCitations
     invalidCitationsPercent = 100 * float(invalidCitations) / totalCitations
-    print("\n\nTotal Citations: %d", totalCitations)
-    print("  Citations Added (Successful): %d (%2.2f%%)" % (successfulCitations, successfulCitationsPercent))
-    print("  Citations Skipped (Skipped Paper): %d (%2.2f%%)" % (omittedPaperCitations, omittedPaperCitationsPercent))
-    print("  Citations Skipped (Invalid Paper): %d (%2.2f%%)" % (invalidPaperCitations, invalidPaperCitationsPercent))
-    print("  Citations Invalid (Unknown): %d (%2.2f%%)" % (invalidCitations, invalidCitationsPercent))
+    print "\n\nTotal Citations: %d", totalCitations
+    print "  Citations Added (Successful): %d (%2.2f%%)" % (successfulCitations, successfulCitationsPercent)
+    print "  Citations Skipped (Skipped Paper): %d (%2.2f%%)" % (omittedPaperCitations, omittedPaperCitationsPercent)
+    print "  Citations Skipped (Invalid Paper): %d (%2.2f%%)" % (invalidPaperCitations, invalidPaperCitationsPercent)
+    print "  Citations Invalid (Unknown): %d (%2.2f%%)" % (invalidCitations, invalidCitationsPercent)
 
     return graph
 
