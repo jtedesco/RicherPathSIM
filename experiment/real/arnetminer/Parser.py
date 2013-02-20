@@ -39,6 +39,91 @@ def __removeControlCharacters(string):
     string = string.strip('\xef\xbb\xbf')
     return controlCharactersRegex.sub('', string)
 
+
+def __papersFromFile(file):
+    """
+      Generator function over papers (gets the next set of title, terms, author, and conference)
+    """
+
+    # Tokens for parsing
+    titleToken = '#*'
+    authorToken = '#@'
+    confToken = '#conf'
+    indexToken = '#index'
+    citationToken = '#citation'
+
+    # Predicates for error checking
+    noneNone = lambda *items: all([item is not None for item in items])
+    allNone = lambda *items: all([item is None for item in items])
+
+    title = None
+    authors = None
+    conference = None
+    index = None
+    citationCount = None
+    terms = None
+
+    skipped = 0
+    ignored = 0
+    invalid = 0
+    processed = 0
+    totalPapers = 0
+
+    for line in file:
+        line = line.strip()
+
+        # Parse entry, asserting that entries appear in title -> authors -> conference order
+        if line.startswith(titleToken):
+            assert allNone(title, authors, conference, terms, index, citationCount)
+            title = line[len(titleToken):].strip('.')
+            terms = __getTermsFromString(title)
+
+        elif line.startswith(authorToken):
+            assert noneNone(title, terms) and allNone(authors, conference, index, citationCount)
+            authors = [author.strip() for author in line[len(authorToken):].split(',')]
+
+        elif line.startswith(confToken):
+            assert noneNone(title, terms, authors) and allNone(conference, index, citationCount)
+            conference = line[len(confToken):]
+
+        elif line.startswith(citationToken):
+            assert noneNone(title, terms, authors, conference) and allNone(citationCount, index)
+            citationCount = max(int(line[len(citationToken):]), 0)
+
+        elif line.startswith(indexToken):
+            assert noneNone(title, terms, authors, conference, citationCount) and allNone(index)
+            index = max(int(line[len(indexToken):]), 0)
+
+        # We've reached the end of the entry
+        elif len(line) == 0:
+            totalPapers += 1
+
+            # Only output if all data is good (is not None), ignoring citation count
+            if all((title, authors, conference, terms, index)):
+                processed += 1
+                yield title, authors, conference, terms, citationCount, index
+            else:
+                if len(conference) == 0:
+                    skipped += 1
+                elif len(title) >= 3 and len(terms) == 0:
+                    ignored += 1
+                else:
+                    invalid += 1
+
+            title = None
+            authors = None
+            conference = None
+            terms = None
+            index = None
+            citationCount = None
+
+    # Basic statistics about Cleanliness of data
+    print("Papers processed: %d (%2.2f%%)" % (processed, 100.0 * (float(processed) / totalPapers)))
+    print("Papers ignored (bad titles): %d (%2.2f%%)" % (ignored, 100.0 * (float(ignored) / totalPapers)))
+    print("Papers skipped: %d (%2.2f%%)" % (skipped, 100.0 * (float(skipped) / totalPapers)))
+    print("Papers invalid: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
+
+
 def parseArnetminerDataset():
     """
       Parse the four area dataset, and use only barebones structures to keep everything efficient
@@ -52,93 +137,10 @@ def parseArnetminerDataset():
     citationCountMap = {}
     indexSet = set()
 
-    # Tokens for parsing
-    titleToken = '#*'
-    authorToken = '#@'
-    confToken = '#conf'
-    indexToken = '#index'
-    citationToken = '#citation'
-
-    # Predicates for error checking
-    noneNone = lambda *items: all([item is not None for item in items])
-    allNone = lambda *items: all([item is None for item in items])
-
-    def papersFromFile(file):
-        """
-          Generator function over papers (gets the next set of title, terms, author, and conference)
-        """
-
-        title = None
-        authors = None
-        conference = None
-        index = None
-        citationCount = None
-        terms = None
-
-        skipped = 0
-        ignored = 0
-        invalid = 0
-        processed = 0
-        totalPapers = 0
-
-        for line in file:
-            line = line.strip()
-
-            # Parse entry, asserting that entries appear in title -> authors -> conference order
-            if line.startswith(titleToken):
-                assert allNone(title, authors, conference, terms, index, citationCount)
-                title = line[len(titleToken):].strip('.')
-                terms = __getTermsFromString(title)
-
-            elif line.startswith(authorToken):
-                assert noneNone(title, terms) and allNone(authors, conference, index, citationCount)
-                authors = [author.strip() for author in line[len(authorToken):].split(',')]
-
-            elif line.startswith(confToken):
-                assert noneNone(title, terms, authors) and allNone(conference, index, citationCount)
-                conference = line[len(confToken):]
-
-            elif line.startswith(citationToken):
-                assert noneNone(title, terms, authors, conference) and allNone(citationCount, index)
-                citationCount = max(int(line[len(citationToken):]), 0)
-
-            elif line.startswith(indexToken):
-                assert noneNone(title, terms, authors, conference, citationCount) and allNone(index)
-                index = max(int(line[len(indexToken):]), 0)
-
-            # We've reached the end of the entry
-            elif len(line) == 0:
-                totalPapers += 1
-
-                # Only output if all data is good (is not None), ignoring citation count
-                if all((title, authors, conference, terms, index)):
-                    processed += 1
-                    yield title, authors, conference, terms, citationCount, index
-                else:
-                    if len(conference) == 0:
-                        skipped += 1
-                    elif len(title) >= 3 and len(terms) == 0:
-                        ignored += 1
-                    else:
-                        invalid += 1
-
-                title = None
-                authors = None
-                conference = None
-                terms = None
-                index = None
-                citationCount = None
-
-        # Basic statistics about Cleanliness of data
-        print("Papers processed: %d (%2.2f%%)" % (processed, 100.0 * (float(processed) / totalPapers)))
-        print("Papers ignored (bad titles): %d (%2.2f%%)" % (ignored, 100.0 * (float(ignored) / totalPapers)))
-        print("Papers skipped: %d (%2.2f%%)" % (skipped, 100.0 * (float(skipped) / totalPapers)))
-        print("Papers invalid: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
-
     # Add each paper to graph (adding missing associated terms, authors, and conferences)
     VALID_PAPERS = 1566322 # 99.62% of total papers in DBLP dataset
     papersProcessed = 0
-    for title, authors, conference, terms, citationCount, index in papersFromFile(inputFile):
+    for title, authors, conference, terms, citationCount, index in __papersFromFile(inputFile):
 
         # Check that index is unique, and record it
         assert index not in indexSet
