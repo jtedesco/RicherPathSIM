@@ -43,7 +43,7 @@ def __removeControlCharacters(string):
 
 def __papersFromFile(file):
     """
-      Generator function over papers (gets the next set of title, terms, author, and conference)
+      Generator function over papers (gets data from the next entry)
     """
 
     # Tokens for parsing
@@ -57,18 +57,20 @@ def __papersFromFile(file):
     noneNone = lambda *items: all([item is not None for item in items])
     allNone = lambda *items: all([item is None for item in items])
 
+    # Basics stats for the number of papers processed
+    skipped = 0
+    ignored = 0
+    invalid = 0
+    processed = 0
+    totalPapers = 0
+
+    # Next entry data
     title = None
     authors = None
     conference = None
     index = None
     citationCount = None
     terms = None
-
-    skipped = 0
-    ignored = 0
-    invalid = 0
-    processed = 0
-    totalPapers = 0
 
     for line in file:
         line = line.strip()
@@ -162,6 +164,9 @@ def parseArnetminerDataset():
         # Output progress
         papersProcessed += 1
         sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
+
+
+
 
     return graph
 
