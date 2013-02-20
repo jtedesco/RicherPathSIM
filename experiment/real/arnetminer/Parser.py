@@ -294,7 +294,7 @@ def parseArnetminerDataset():
     omittedPaperCitationsPercent = 100 * float(omittedPaperCitations) / totalCitations
     invalidPaperCitationsPercent = 100 * float(invalidPaperCitations) / totalCitations
     invalidCitationsPercent = 100 * float(invalidCitations) / totalCitations
-    print "\n\nTotal Citations: %d", totalCitations
+    print "\n\nTotal Citations: %d" % totalCitations
     print "  Citations Added (Successful): %d (%2.2f%%)" % (successfulCitations, successfulCitationsPercent)
     print "  Citations Skipped (Skipped Paper): %d (%2.2f%%)" % (omittedPaperCitations, omittedPaperCitationsPercent)
     print "  Citations Skipped (Invalid Paper): %d (%2.2f%%)" % (invalidPaperCitations, invalidPaperCitationsPercent)
