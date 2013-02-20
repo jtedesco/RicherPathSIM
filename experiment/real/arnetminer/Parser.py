@@ -160,7 +160,7 @@ def parseArnetminerDataset():
 
         # Output progress
         papersProcessed += 1
-        sys.stdout.write("Processed \r%d / %d papers..." % (papersProcessed, VALID_PAPERS))
+        sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
     return graph
 
