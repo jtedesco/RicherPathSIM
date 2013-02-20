@@ -121,7 +121,7 @@ def __papersFromFile(file):
             citationCount = None
 
     # Basic statistics about Cleanliness of data
-    print("\nPapers processed: %d (%2.2f%%)" % (processed, 100.0 * (float(processed) / totalPapers)))
+    print("\n\nPapers processed: %d (%2.2f%%)" % (processed, 100.0 * (float(processed) / totalPapers)))
     print("Papers ignored (bad titles): %d (%2.2f%%)" % (ignored, 100.0 * (float(ignored) / totalPapers)))
     print("Papers skipped: %d (%2.2f%%)" % (skipped, 100.0 * (float(skipped) / totalPapers)))
     print("Papers invalid: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
@@ -186,7 +186,7 @@ def __citationsFromFile(file):
             index = None
             citations = []
 
-    print("\nPapers with citations: %d (%2.2f%%)" % (withCitations, 100.0 * (float(withCitations) / totalPapers)))
+    print("\n\nPapers with citations: %d (%2.2f%%)" % (withCitations, 100.0 * (float(withCitations) / totalPapers)))
     print("Papers without citations: %d (%2.2f%%)" % (withoutCitations, 100.0 * (float(withoutCitations) / totalPapers)))
     print("Invalid papers: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
 
@@ -246,7 +246,7 @@ def parseArnetminerDataset():
 
         # Check that index exists in indices
         if not all([index in indexToPaperIdMap for index in citations]):
-            if citationsSkipped < 5: print("\nCitations missing for %s" % title)
+            print("\nCitations missing for '%s'" % title)
 
         citingId = '%d----%s' % (index, title)
         for citationIndex in citations:
@@ -261,8 +261,8 @@ def parseArnetminerDataset():
         sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
     totalCitations = citationsSkipped + citationsProcessed
-    print("\nCitations Processed: %d / %d (%2.2f%%)" % (citationsProcessed, totalCitations, float(citationsProcessed) / totalCitations))
-    print("\nCitations Skipped: %d / %d (%2.2f%%)" % (citationsProcessed, totalCitations, float(citationsProcessed) / totalCitations))
+    print("Citations Processed: %d / %d (%2.2f%%)" % (citationsProcessed, totalCitations, float(citationsProcessed) / totalCitations))
+    print("Citations Skipped: %d / %d (%2.2f%%)" % (citationsProcessed, totalCitations, float(citationsSkipped) / totalCitations))
 
     return graph
 
