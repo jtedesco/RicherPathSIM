@@ -51,7 +51,7 @@ def __papersFromFile(file):
     authorToken = '#@'
     confToken = '#conf'
     indexToken = '#index'
-    citationToken = '#citation'
+    citationCountToken = '#citation'
 
     # Predicates for error checking
     noneNone = lambda *items: all([item is not None for item in items])
@@ -89,9 +89,9 @@ def __papersFromFile(file):
             assert noneNone(title, terms, authors) and allNone(conference, index, citationCount)
             conference = line[len(confToken):]
 
-        elif line.startswith(citationToken):
+        elif line.startswith(citationCountToken):
             assert noneNone(title, terms, authors, conference) and allNone(citationCount, index)
-            citationCount = max(int(line[len(citationToken):]), 0)
+            citationCount = max(int(line[len(citationCountToken):]), 0)
 
         elif line.startswith(indexToken):
             assert noneNone(title, terms, authors, conference, citationCount) and allNone(index)
@@ -126,6 +126,66 @@ def __papersFromFile(file):
     print("Papers skipped: %d (%2.2f%%)" % (skipped, 100.0 * (float(skipped) / totalPapers)))
     print("Papers invalid: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
 
+def __citationsFromFile(file):
+    """
+      Generator function that outputs the paper title, index, and citations for each entry
+    """
+
+    # Tokens for parsing
+    titleToken = '#*'
+    indexToken = '#index'
+    citationToken = '#%'
+
+    # Predicates for error checking
+    noneNone = lambda *items: all([item is not None for item in items])
+    allNone = lambda *items: all([item is None for item in items])
+
+    # Next entry data
+    title = None
+    index = None
+    citations = []
+
+    # Basic stats
+    withCitations = 0
+    withoutCitations = 0
+    invalid = 0
+    totalPapers = 0
+
+    for line in file:
+        line = line.strip()
+
+        # Parse entry, enforcing that data appears in title -> index -> citations order
+        if line.startswith(titleToken):
+            assert allNone(title, index) and len(citations) == 0
+            title = line[len(titleToken):].strip('.')
+
+        elif line.startswith(indexToken):
+            assert noneNone(title) and allNone(index) and len(citations) == 0
+            index = max(int(line[len(indexToken):]), 0)
+
+        elif line.startswith(citationToken):
+            assert noneNone(title, index)
+            newCitationId = max(int(line[len(citationToken):]), 0)
+            assert newCitationId > 0
+            citations.append(newCitationId)
+
+        elif len(line) == 0:
+            totalPapers += 1
+
+            # Yield this entry if it has any citations,
+            if noneNone(title, index):
+                if len(citations) > 0:
+                    withCitations += 1
+                    yield title, index, citations
+                else:
+                    withoutCitations += 1
+            else:
+                invalid += 1
+
+    print("\nPapers with citations: %d (%2.2f%%)" % (withCitations, 100.0 * (float(withCitations) / totalPapers)))
+    print("Papers without citations: %d (%2.2f%%)" % (withoutCitations, 100.0 * (float(withoutCitations) / totalPapers)))
+    print("Invalid papers: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
+
 
 def parseArnetminerDataset():
     """
@@ -139,6 +199,10 @@ def parseArnetminerDataset():
     indexToPaperIdMap = {}
     citationCountMap = {}
     indexSet = set()
+
+    beginning = inputFile.tell()
+
+    print("Parsing nodes for graph...")
 
     # Add each paper to graph (adding missing associated terms, authors, and conferences)
     VALID_PAPERS = 1566322 # 99.62% of total papers in DBLP dataset
@@ -165,17 +229,35 @@ def parseArnetminerDataset():
         papersProcessed += 1
         sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
+    # Rewind file
+    inputFile.seek(beginning)
 
+    print("Parsing citations for graph...")
 
+    # Add citations to the graph
+    papersProcessed = 0
+    for title, index, citations in __citationsFromFile(inputFile):
+
+        # Check that index exists in indices
+        assert all([index in indexToPaperIdMap for index in citations])
+
+        citingId = '%d----%s' % (index, title)
+        for citationIndex in citations:
+            graph.add_edge(citingId, indexToPaperIdMap[citationIndex])
+
+        # Output progress
+        papersProcessed += 1
+        sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
     return graph
+
 
 def constructGraphAndDumpToFile():
 
     # Parse 4-area dataset graph & dump it to disk
     graph = parseArnetminerDataset()
 
-    cPickle.dump(graph, open(os.path.join('data', 'graphWithoutCitations'), 'w'))
+    cPickle.dump(graph, open(os.path.join('data', 'arnetminerWithCitations'), 'w'))
 
 # When run as script, runs through pathsim papers example experiment
 if __name__ == '__main__':
