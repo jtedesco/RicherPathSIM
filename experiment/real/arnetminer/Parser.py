@@ -36,11 +36,13 @@ def __getTermsFromString(string):
 
     return terms
 
+
 def __removeControlCharacters(string):
     string = string.strip('\xef\xbb\xbf')
     return controlCharactersRegex.sub('', string)
 
-def __papersFromFile(file):
+
+def __papersFromFile(file, skippedPaperIndices, invalidPaperIndices):
     """
       Generator function over papers (gets data from the next entry)
     """
@@ -110,8 +112,10 @@ def __papersFromFile(file):
             else:
                 if len(conference) == 0:
                     skippedMissingConference += 1
+                    skippedPaperIndices.add(index)
                 else:
                     invalid += 1
+                    invalidPaperIndices.add(index)
 
             title = None
             authors = None
@@ -126,10 +130,11 @@ def __papersFromFile(file):
     skippedMissingConferencePercent = 100.0 * (float(skippedMissingConference) / totalPapers)
     invalidPercent = 100.0 * (float(invalid) / totalPapers)
     print("\n\nTotal Papers: %d" % totalPapers)
-    print("  Successfully Processed: %d (%2.2f%%)", (successful, successfulPercent))
+    print("  Added (Successful): %d (%2.2f%%)", (successful, successfulPercent))
     print("  Ignored (Bad Title): %d (%2.2f%%)" % (skippedBadTitle, skippedBadTitlePercent))
     print("  Skipped (Missing Conference): %d (%2.2f%%)" % (skippedMissingConference, skippedMissingConferencePercent))
     print("  Invalid (Unknown): %d (%2.2f%%)", (invalid, invalidPercent))
+
 
 def __citationsFromFile(file):
     """
@@ -153,7 +158,6 @@ def __citationsFromFile(file):
     # Basic stats
     withCitations = 0
     withoutCitations = 0
-    invalid = 0
     totalPapers = 0
 
     for line in file:
@@ -184,16 +188,18 @@ def __citationsFromFile(file):
                     yield title, index, citations
                 else:
                     withoutCitations += 1
-            else:
-                invalid += 1
 
             title = None
             index = None
             citations = []
 
-    print("\n\nPapers with citations: %d (%2.2f%%)" % (withCitations, 100.0 * (float(withCitations) / totalPapers)))
-    print("Papers without citations: %d (%2.2f%%)" % (withoutCitations, 100.0 * (float(withoutCitations) / totalPapers)))
-    print("Invalid papers: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
+    # Output some basic statistics about papers with/without citations
+    withCitationsPercent = 100.0 * (float(withCitations) / totalPapers)
+    withoutCitationsPercent = 100.0 * (float(withoutCitations) / totalPapers)
+    print("\n\nTotal Papers: %d" % totalPapers)
+    print("  With References: %d (%2.2f%%)\n  Without References: %d (%2.2f%%)" % (
+        withCitations, withCitationsPercent, withoutCitations, withoutCitationsPercent
+    ))
 
 
 def parseArnetminerDataset():
@@ -218,10 +224,14 @@ def parseArnetminerDataset():
 
     print("Parsing nodes for graph...")
 
-    # Add each paper to graph (adding missing associated terms, authors, and conferences)
+    # Counts for statistics
     VALID_PAPERS = 1566322 # 99.62% of total papers in DBLP dataset
     papersProcessed = 0
-    for title, authors, conference, terms, citationCount, index in __papersFromFile(inputFile):
+    skippedPaperIndices = set()
+    invalidPaperIndices = set()
+
+    # Add each paper to graph (adding missing associated terms, authors, and conferences)
+    for title, authors, conference, terms, citationCount, index in __papersFromFile(inputFile, skippedPaperIndices, invalidPaperIndices):
 
         # Check that index is unique, and record it
         assert index not in indexSet
@@ -248,35 +258,47 @@ def parseArnetminerDataset():
 
     print("Parsing citations for graph...")
 
-    # Add citations to the graph
+    # Counts for statistics
     papersProcessed = 0
-    citationsProcessed = 0
-    citationsSkipped = 0
+    successfulCitations = 0
+    omittedPaperCitations = 0
+    invalidPaperCitations = 0
+    invalidCitations = 0
+
+    # Add citations to the graph
     for title, index, citations in __citationsFromFile(inputFile):
-
-        # Check that index exists in indices
-        if not all([index in indexToPaperIdMap for index in citations]):
-            print("\nCitations missing for '%s'" % title)
-
         citingId = '%d----%s' % (index, title)
         for citationIndex in citations:
+
+            # Add citation edge if it was found
             if citationIndex in indexToPaperIdMap:
-                citationsProcessed += 1
+                successfulCitations += 1
                 graph.add_edge(citingId, indexToPaperIdMap[citationIndex])
+
+            # Tally missing citation appropriately
+            elif citationIndex in skippedPaperIndices:
+                omittedPaperCitations += 1
+            elif citationIndex in invalidPaperIndices:
+                invalidPaperCitations += 1
             else:
-                citationsSkipped += 1
+                print("\nCitation '%d' not found for '%s'" % (citationIndex, title))
+                invalidCitations += 1
 
         # Output progress
         papersProcessed += 1
         sys.stdout.write("\r Processed Citations for %d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
-    totalCitations = citationsSkipped + citationsProcessed
-    print("Citations Processed: %d / %d (%2.2f%%)" % (
-        citationsProcessed, totalCitations, 100 * float(citationsProcessed) / totalCitations)
-    )
-    print("Citations Skipped: %d / %d (%2.2f%%)" % (
-        citationsProcessed, totalCitations, 100 * float(citationsSkipped) / totalCitations)
-    )
+    # Basic statistics about cleanliness of citations
+    totalCitations = invalidCitations + successfulCitations
+    successfulCitationsPercent = 100 * float(successfulCitations) / totalCitations
+    omittedPaperCitationsPercent = 100 * float(omittedPaperCitations) / totalCitations
+    invalidPaperCitationsPercent = 100 * float(invalidPaperCitations) / totalCitations
+    invalidCitationsPercent = 100 * float(invalidCitations) / totalCitations
+    print("\n\nTotal Citations: %d", totalCitations)
+    print("  Citations Added (Successful): %d (%2.2f%%)" % (successfulCitations, successfulCitationsPercent))
+    print("  Citations Skipped (Skipped Paper): %d (%2.2f%%)" % (omittedPaperCitations, omittedPaperCitationsPercent))
+    print("  Citations Skipped (Invalid Paper): %d (%2.2f%%)" % (invalidPaperCitations, invalidPaperCitationsPercent))
+    print("  Citations Invalid (Unknown): %d (%2.2f%%)" % (invalidCitations, invalidCitationsPercent))
 
     return graph
 
