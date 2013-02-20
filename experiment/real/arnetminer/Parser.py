@@ -2,8 +2,8 @@ from Stemmer import Stemmer
 import json
 import os
 import re
-import cPickle
 from networkx import MultiDiGraph
+import sys
 
 __author__ = 'jontedesco'
 
@@ -48,9 +48,20 @@ def parseArnetminerDataset():
     graph = MultiDiGraph()
 
     # Sets for authors, papers, conferences, and terms found so far
-    paperTitleIndex = {}
+    indexToPaperIdMap = {}
     citationCountMap = {}
     indexSet = set()
+
+    # Tokens for parsing
+    titleToken = '#*'
+    authorToken = '#@'
+    confToken = '#conf'
+    indexToken = '#index'
+    citationToken = '#citation'
+
+    # Predicates for error checking
+    noneNone = lambda *items: all([item is not None for item in items])
+    allNone = lambda *items: all([item is None for item in items])
 
     def papersFromFile(file):
         """
@@ -64,24 +75,14 @@ def parseArnetminerDataset():
         citationCount = None
         terms = None
 
-        titleToken = '#*'
-        authorToken = '#@'
-        confToken = '#conf'
-        indexToken = '#index'
-        citationToken = '#citation'
-
         skipped = 0
         ignored = 0
         invalid = 0
         processed = 0
         totalPapers = 0
 
-        # Predicates for error checking
-        noneNone = lambda *items: all([item is not None for item in items])
-        allNone = lambda *items: all([item is None for item in items])
-
         for line in file:
-            line = line.strip() # Throw an exception on non-ascii text
+            line = line.strip()
 
             # Parse entry, asserting that entries appear in title -> authors -> conference order
             if line.startswith(titleToken):
@@ -109,8 +110,8 @@ def parseArnetminerDataset():
             elif len(line) == 0:
                 totalPapers += 1
 
-                # Only output if all data is good (is not None)
-                if all((title, authors, conference, terms, index, citationCount)):
+                # Only output if all data is good (is not None), ignoring citation count
+                if all((title, authors, conference, terms, index)):
                     processed += 1
                     yield title, authors, conference, terms, citationCount, index
                 else:
@@ -134,33 +135,39 @@ def parseArnetminerDataset():
         print("Papers skipped: %d (%2.2f%%)" % (skipped, 100.0 * (float(skipped) / totalPapers)))
         print("Papers invalid: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
 
-
     # Add each paper to graph (adding missing associated terms, authors, and conferences)
-    for paper, authors, conference, terms, citationCount, index in papersFromFile(inputFile):
+    VALID_PAPERS = 1566322 # 99.62% of total papers in DBLP dataset
+    papersProcessed = 0
+    for title, authors, conference, terms, citationCount, index in papersFromFile(inputFile):
 
-        # Check that index & title are unique, and record their occurrence
-        assert paper not in paperTitleIndex
+        # Check that index is unique, and record it
         assert index not in indexSet
-        paperTitleIndex[paper] = index
         indexSet.add(index)
 
-        citationCountMap[paper] = citationCount
+        # Create unique identifier with paper index & title
+        paperId = '%d----%s' % (index, title)
+        citationCountMap[paperId] = citationCount
+        indexToPaperIdMap[index] = paperId
 
         # Add symmetric edges & nodes (if they don't already exist in the network)
         for author in authors:
-            graph.add_edges_from([(author, paper), (paper, author)])
-        graph.add_edges_from([(conference, paper), (paper, conference)])
+            graph.add_edges_from([(author, paperId), (paperId, author)])
+        graph.add_edges_from([(conference, paperId), (paperId, conference)])
         for term in terms:
-            graph.add_edges_from([(term, paper), (paper, term)])
+            graph.add_edges_from([(term, paperId), (paperId, term)])
+
+        # Output progress
+        papersProcessed += 1
+        sys.stdout.write("Processed \r%d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
     return graph
 
 def constructGraphAndDumpToFile():
 
     # Parse 4-area dataset graph & dump it to disk
-    graph, nodeIndex = parseArnetminerDataset()
+    parseArnetminerDataset()
 
-    cPickle.dump((graph, nodeIndex), open(os.path.join('data', 'graphWithoutCitations'), 'w'))
+#    cPickle.dump((graph, nodeIndex), open(os.path.join('data', 'graphWithoutCitations'), 'w'))
 
 # When run as script, runs through pathsim papers example experiment
 if __name__ == '__main__':
