@@ -182,6 +182,10 @@ def __citationsFromFile(file):
             else:
                 invalid += 1
 
+            title = None
+            index = None
+            citations = []
+
     print("\nPapers with citations: %d (%2.2f%%)" % (withCitations, 100.0 * (float(withCitations) / totalPapers)))
     print("Papers without citations: %d (%2.2f%%)" % (withoutCitations, 100.0 * (float(withoutCitations) / totalPapers)))
     print("Invalid papers: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
