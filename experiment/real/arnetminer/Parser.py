@@ -95,7 +95,7 @@ def __papersFromFile(file):
 
         elif line.startswith(indexToken):
             assert noneNone(title, terms, authors, conference, citationCount) and allNone(index)
-            index = max(int(line[len(indexToken):]), 0)
+            index = int(line[len(indexToken):])
 
         # We've reached the end of the entry
         elif len(line) == 0:
@@ -161,12 +161,12 @@ def __citationsFromFile(file):
 
         elif line.startswith(indexToken):
             assert noneNone(title) and allNone(index) and len(citations) == 0
-            index = max(int(line[len(indexToken):]), 0)
+            index = int(line[len(indexToken):])
 
         elif line.startswith(citationToken):
             assert noneNone(title, index)
-            newCitationId = max(int(line[len(citationToken):]), 0)
-            assert newCitationId > 0
+            newCitationId = int(line[len(citationToken):])
+            assert newCitationId >= 0
             citations.append(newCitationId)
 
         elif len(line) == 0:
@@ -246,7 +246,7 @@ def parseArnetminerDataset():
 
         # Check that index exists in indices
         if not all([index in indexToPaperIdMap for index in citations]):
-            if citationsSkipped < 5: print("Citations missing for %s" % title)
+            if citationsSkipped < 5: print("\nCitations missing for %s" % title)
 
         citingId = '%d----%s' % (index, title)
         for citationIndex in citations:
