@@ -1,6 +1,7 @@
 from Stemmer import Stemmer
 import json
 import os
+from pprint import pprint
 import re
 import cPickle
 from networkx import MultiDiGraph
@@ -233,6 +234,11 @@ def parseArnetminerDataset():
         papersProcessed += 1
         sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
+    print "Index map looks like:"
+    indices = list(indexToPaperIdMap.keys())[:5]
+    for i in xrange(0,5):
+        print "\t%d: %s" % (indices[i], indexToPaperIdMap[indices[i]])
+
     # Rewind file
     inputFile.seek(beginning)
 
@@ -246,7 +252,10 @@ def parseArnetminerDataset():
 
         # Check that index exists in indices
         if not all([index in indexToPaperIdMap for index in citations]):
-            print("\nCitations missing for '%s'" % title)
+            if papersProcessed < 5:
+                citationsInMap = {index: (index in indexToPaperIdMap) for index in citations}
+                print("\nCitations missing for '%s'" % title)
+                pprint(citationsInMap)
 
         citingId = '%d----%s' % (index, title)
         for citationIndex in citations:
