@@ -1,7 +1,6 @@
 from Stemmer import Stemmer
 import json
 import os
-from pprint import pprint
 import re
 import cPickle
 from networkx import MultiDiGraph
@@ -41,7 +40,6 @@ def __removeControlCharacters(string):
     string = string.strip('\xef\xbb\xbf')
     return controlCharactersRegex.sub('', string)
 
-
 def __papersFromFile(file):
     """
       Generator function over papers (gets data from the next entry)
@@ -59,10 +57,10 @@ def __papersFromFile(file):
     allNone = lambda *items: all([item is None for item in items])
 
     # Basics stats for the number of papers processed
-    skipped = 0
-    ignored = 0
+    skippedMissingConference = 0
+    skippedBadTitle = 0
     invalid = 0
-    processed = 0
+    successful = 0
     totalPapers = 0
 
     # Next entry data
@@ -102,15 +100,16 @@ def __papersFromFile(file):
         elif len(line) == 0:
             totalPapers += 1
 
-            # Only output if all data is good (is not None), ignoring citation count
-            if all((title, authors, conference, terms, index)):
-                processed += 1
+            # Only output if:
+            #   (1) data is all not None
+            #   (2) title, authors, and conference are valid (non-empty)
+            #   (3) index are citation count were found
+            if all((title, authors, conference)) and index is not None and citationCount is not None:
+                successful += 1
                 yield title, authors, conference, terms, citationCount, index
             else:
                 if len(conference) == 0:
-                    skipped += 1
-                elif len(title) >= 3 and len(terms) == 0:
-                    ignored += 1
+                    skippedMissingConference += 1
                 else:
                     invalid += 1
 
@@ -121,11 +120,16 @@ def __papersFromFile(file):
             index = None
             citationCount = None
 
-    # Basic statistics about Cleanliness of data
-    print("\n\nPapers processed: %d (%2.2f%%)" % (processed, 100.0 * (float(processed) / totalPapers)))
-    print("Papers ignored (bad titles): %d (%2.2f%%)" % (ignored, 100.0 * (float(ignored) / totalPapers)))
-    print("Papers skipped: %d (%2.2f%%)" % (skipped, 100.0 * (float(skipped) / totalPapers)))
-    print("Papers invalid: %d (%2.2f%%)" % (invalid, 100.0 * (float(invalid) / totalPapers)))
+    # Basic statistics about cleanliness of data
+    successfulPercent = 100.0 * (float(successful) / totalPapers)
+    skippedBadTitlePercent = 100.0 * (float(skippedBadTitle) / totalPapers)
+    skippedMissingConferencePercent = 100.0 * (float(skippedMissingConference) / totalPapers)
+    invalidPercent = 100.0 * (float(invalid) / totalPapers)
+    print("\n\nTotal Papers: %d" % totalPapers)
+    print("  Successfully Processed: %d (%2.2f%%)", (successful, successfulPercent))
+    print("  Ignored (Bad Title): %d (%2.2f%%)" % (skippedBadTitle, skippedBadTitlePercent))
+    print("  Skipped (Missing Conference): %d (%2.2f%%)" % (skippedMissingConference, skippedMissingConferencePercent))
+    print("  Invalid (Unknown): %d (%2.2f%%)", (invalid, invalidPercent))
 
 def __citationsFromFile(file):
     """
@@ -194,7 +198,12 @@ def __citationsFromFile(file):
 
 def parseArnetminerDataset():
     """
-      Parse the four area dataset, and use only barebones structures to keep everything efficient
+      Parse the four area dataset, and use only barebones structures to keep everything efficient.
+
+        Skips papers that:
+            (1)
+
+        The final parsed network
     """
 
     inputFile = open(os.path.join(projectRoot, 'data','DBLP-citation-Feb21.txt'))
@@ -234,11 +243,6 @@ def parseArnetminerDataset():
         papersProcessed += 1
         sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
-    print "Index map looks like:"
-    indices = list(indexToPaperIdMap.keys())[:5]
-    for i in xrange(0,5):
-        print "\t%d: %s" % (indices[i], indexToPaperIdMap[indices[i]])
-
     # Rewind file
     inputFile.seek(beginning)
 
@@ -252,10 +256,7 @@ def parseArnetminerDataset():
 
         # Check that index exists in indices
         if not all([index in indexToPaperIdMap for index in citations]):
-            if papersProcessed < 5:
-                citationsInMap = {index: (index in indexToPaperIdMap) for index in citations}
-                print("\nCitations missing for '%s'" % title)
-                pprint(citationsInMap)
+            print("\nCitations missing for '%s'" % title)
 
         citingId = '%d----%s' % (index, title)
         for citationIndex in citations:
@@ -270,8 +271,12 @@ def parseArnetminerDataset():
         sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
 
     totalCitations = citationsSkipped + citationsProcessed
-    print("Citations Processed: %d / %d (%2.2f%%)" % (citationsProcessed, totalCitations, float(citationsProcessed) / totalCitations))
-    print("Citations Skipped: %d / %d (%2.2f%%)" % (citationsProcessed, totalCitations, float(citationsSkipped) / totalCitations))
+    print("Citations Processed: %d / %d (%2.2f%%)" % (
+        citationsProcessed, totalCitations, 100 * float(citationsProcessed) / totalCitations)
+    )
+    print("Citations Skipped: %d / %d (%2.2f%%)" % (
+        citationsProcessed, totalCitations, 100 * float(citationsSkipped) / totalCitations)
+    )
 
     return graph
 
