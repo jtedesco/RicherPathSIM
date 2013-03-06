@@ -17,10 +17,14 @@ __author__ = 'jontedesco'
 
 class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
 
-    def outputSimilarityScores(self, authorMap, authors, strategy, strategyName):
+    def outputSimilarityScores(self, authorMap, authors, strategy, strategyName, citationCounts = None):
         self.output('\n%s Scores (compared to D):' % strategyName)
+        if citationCounts is not None:
+            authorRow = ['%s (%d)' % (author.name, citationCounts[author.name]) for author in authors]
+        else:
+            authorRow = [author.name for author in authors]
         rows = [
-            [author.name for author in authors],
+            authorRow,
             ['%1.2f' % strategy.findSimilarityScore(authorMap['D'], author) for author in authors]
         ]
         pathSimTable = texttable.Texttable()
@@ -111,6 +115,9 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         propagatedNeighborsimStrategy = NeighborSimConstantPreferentialAttachmentStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 50)
         self.outputSimilarityScores(authorMap, authors, propagatedNeighborsimStrategy, "NeighborSim-WeightedPropagation-50")
 
+        # Neighbor citation count difference strategy
+        citeCountNeighborsimStrategy = NeighborSimStrategy(self.graph, [Paper, Paper, Author], commonNeighbors = False)
+        self.outputSimilarityScores(authorMap, authors, citeCountNeighborsimStrategy, "NeighborSim-CiteCountDiff", citationCounts = totalCitationCount)
 
 
 if __name__ == '__main__':
