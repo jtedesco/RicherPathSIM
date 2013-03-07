@@ -11,6 +11,8 @@ class AggregateAuthorsExperiment(Experiment):
     def runFor(self, queryNode, citationCounts, publicationCounts, partialResultsPaths):
         print("Running for %s..." % queryNode)
 
+        missingScores = 0
+
         # Combine the partial results with the given weights
         firstSimilarityScores, firstWeight = cPickle.load(open(partialResultsPaths[0][0])), partialResultsPaths[0][1]
         similarityScores = {node: firstWeight * firstSimilarityScores[node] for node in firstSimilarityScores}
@@ -18,10 +20,14 @@ class AggregateAuthorsExperiment(Experiment):
             partialResultsPath, weight = partialResultsPaths[i]
             scores = cPickle.load(open(partialResultsPath))
             for node in similarityScores:
+
+                # Assume other score to be zero if not found
                 if node in scores:
                     similarityScores[node] += weight * scores[node]
                 else:
-                    print "%s not in intermidiate scores!!!" % node
+                    missingScores += 1
+
+        self.output("Missing %d scores for %s" % (missingScores, queryNode))
 
         # Get the most similar nodes
         k = 10
