@@ -297,7 +297,7 @@ def getAbsNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
 
     similarityScore = total
     if total > 0:
-        similarityScore = 2 * total / float(sourceNormalization + destNormalization)
+        similarityScore = total / float(sourceNormalization + destNormalization)
 
     return similarityScore
 
