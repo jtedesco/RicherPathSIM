@@ -18,7 +18,10 @@ class AggregateAuthorsExperiment(Experiment):
             partialResultsPath, weight = partialResultsPaths[i]
             scores = cPickle.load(open(partialResultsPath))
             for node in similarityScores:
-                similarityScores[node] += weight * scores[node]
+                if node in scores:
+                    similarityScores[node] += weight * scores[node]
+                else:
+                    print "%s not in intermidiate scores!!!" % node
 
         # Get the most similar nodes
         k = 10
