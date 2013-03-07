@@ -4,11 +4,14 @@ import json
 import os
 import re
 import cPickle
-from networkx import MultiDiGraph
 import operator
+
+from networkx import MultiDiGraph
 from scipy.sparse import  csr_matrix, lil_matrix, csc_matrix
 import texttable
+
 from src.importer.error.FourAreaParseError import FourAreaParseError
+
 
 __author__ = 'jontedesco'
 
@@ -265,6 +268,32 @@ def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
     sourceNormalization += (sourceColumn.transpose() * sourceColumn)[0,0]
     destNormalization = 1 if smoothed else 0
     destNormalization += (destColumn.transpose() * destColumn)[0,0]
+
+    similarityScore = total
+    if total > 0:
+        similarityScore = 2 * total / float(sourceNormalization + destNormalization)
+
+    return similarityScore
+
+
+def getAbsNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
+
+    sourceColumn = adjacencyMatrix.getcol(xI)
+    destColumn = adjacencyMatrix.getcol(yI)
+
+    sourceNorm = (sourceColumn.transpose() * sourceColumn)[0,0]
+    destNorm = (destColumn.transpose() * destColumn)[0,0]
+
+    # Compute numerator
+    total = 1 if smoothed else 0
+    total += 2 * (max(destNorm, sourceNorm) - abs(destNorm - sourceNorm))
+    if total == 0: return 0
+
+    # Compute normalization
+    sourceNormalization = 1 if smoothed else 0
+    sourceNormalization += sourceNorm
+    destNormalization = 1 if smoothed else 0
+    destNormalization += destNorm
 
     similarityScore = total
     if total > 0:
