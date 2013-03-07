@@ -92,8 +92,12 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, pathsimStretegy, "PathSim")
 
         # Output the NeighborSim similarity scores
+        neighborsimStrategy = NeighborSimStrategy(self.graph, [Conference, Paper, Paper, Author])
+        self.outputSimilarityScores(authorMap, authors, neighborsimStrategy, "NeighborSim (CPPA)")
+
+        # Output the NeighborSim similarity scores
         neighborsimStrategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
-        self.outputSimilarityScores(authorMap, authors, neighborsimStrategy, "NeighborSim")
+        self.outputSimilarityScores(authorMap, authors, neighborsimStrategy, "NeighborSim (APPA)")
 
         # Constant weight propagation strategy
         propagatedNeighborsimStrategy = NeighborSimConstantPropagationStrategy(self.graph, [Author, Paper, Paper, Author], iterations = 2)
