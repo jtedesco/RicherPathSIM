@@ -1,5 +1,5 @@
 import os
-from experiment.real.four_area.barebones import AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimTPPAExperiment, AuthorsPathSimAPCPAExperiment, AggregateAuthorsExperiment, AuthorsNeighborSimAbsPPAExperiment
+from experiment.real.four_area.barebones import AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimTPPAExperiment, AuthorsPathSimAPCPAExperiment, AggregateAuthorsExperiment, AuthorsNeighborSimAbsPPAExperiment, AuthorsNeighborSimCPPAExperiment
 
 __author__ = 'jontedesco'
 
@@ -8,6 +8,8 @@ print("Running NeighborSim PPA experiment:")
 citationCounts, publicationCounts = AuthorsNeighborSimPPAExperiment.run()
 print("Running NeighborSim TPPA experiment:")
 AuthorsNeighborSimTPPAExperiment.run(citationCounts, publicationCounts)
+print("Running NeighborSim CPPA experiment:")
+AuthorsNeighborSimCPPAExperiment.run(citationCounts, publicationCounts)
 print("Running PathSim APCPA experiment:")
 AuthorsPathSimAPCPAExperiment.run(citationCounts, publicationCounts)
 print("Running Absolute PPA Experiment")
