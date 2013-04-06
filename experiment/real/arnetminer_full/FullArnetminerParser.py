@@ -64,6 +64,7 @@ def __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices)
     title_token = '#*'
     author_token = '#@'
     conf_token = '#conf'
+    citation_token = '#citation'
     index_token = '#index'
 
     # Predicates for error checking
@@ -83,6 +84,7 @@ def __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices)
     conference = None
     index = None
     terms = None
+    citation_count = None
 
     for line in input_file:
         line = line.strip()
@@ -100,6 +102,10 @@ def __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices)
         elif line.startswith(conf_token):
             assert none_none(title, terms, authors) and all_none(conference, index, citation_count)
             conference = line[len(conf_token):]
+
+        elif line.startswith(citation_token):
+            assert none_none(title, terms, authors, conference) and all_none(index, citation_count)
+            citation_count = int(line[len(citation_token):])
 
         elif line.startswith(index_token):
             assert none_none(title, terms, authors, conference, citation_count) and all_none(index)
