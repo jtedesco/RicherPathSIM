@@ -9,146 +9,151 @@ import sys
 __author__ = 'jontedesco'
 
 # Regex for stripping non-visible characters
-controlChars = ''.join(map(unichr, list(range(0,32)) + list(range(127,160))))
-controlCharactersRegex = re.compile('[%s]' % re.escape(controlChars))
+control_chars = ''.join(map(unichr, list(range(0, 32)) + list(range(127, 160))))
+control_characters_regex = re.compile('[%s]' % re.escape(control_chars))
 
 # HACK: Get the absolute project root, assuming top-level dir is named 'RicherPathSIM'
-projectRoot = str(os.getcwd())
-projectRoot = projectRoot[:projectRoot.find('RicherPathSIM') + len('RicherPathSIM')]
+project_root = str(os.getcwd())
+project_root = project_root[:project_root.find('RicherPathSIM') + len('RicherPathSIM')]
 
 # Get the stop words set & stemmer for text analysis
-stopWords = None
-with open(os.path.join(projectRoot, 'src', 'importer', 'stopWords.json')) as stopWordsFile:
-    stopWords = set(json.load(stopWordsFile))
+stop_words = None
+with open(os.path.join(project_root, 'src', 'importer', 'stopWords.json')) as stop_words_file:
+    stop_words = set(json.load(stop_words_file))
 stemmer = Stemmer('english')
-nonAsciiRegex = re.compile('\W')
+non_ascii_regex = re.compile('\W')
 
-def __getTermsFromString(string):
 
-    def isTerm(token, string):
-        if len(token) < 3 <= len(string): return False
-        if token in stopWords: return False
+def __get_terms_from_string(string):
+
+    def is_term(token, string):
+        if len(token) < 3 <= len(string):
+            return False
+        if token in stop_words:
+            return False
         return True
 
     string = string.lower()
-    tokens = nonAsciiRegex.sub(' ', string).strip().split()
-    terms = [stemmer.stemWord(token) for token in tokens if isTerm(token, string)]
+    tokens = non_ascii_regex.sub(' ', string).strip().split()
+    terms = [stemmer.stemWord(token) for token in tokens if is_term(token, string)]
 
     return terms
 
 
-def __removeControlCharacters(string):
+def __remove_control_characters(string):
     string = string.strip('\xef\xbb\xbf')
-    return controlCharactersRegex.sub('', string)
+    return control_characters_regex.sub('', string)
 
 
-def __papersFromFile(file, skippedPaperIndices, invalidPaperIndices):
+def __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices):
     """
       Generator function over papers (gets data from the next entry)
     """
 
     # Tokens for parsing
-    titleToken = '#*'
-    authorToken = '#@'
-    confToken = '#conf'
-    indexToken = '#index'
-    citationCountToken = '#citation'
+    title_token = '#*'
+    author_token = '#@'
+    conf_token = '#conf'
+    index_token = '#index'
+    citation_count_token = '#citation'
 
     # Predicates for error checking
-    noneNone = lambda *items: all([item is not None for item in items])
-    allNone = lambda *items: all([item is None for item in items])
+    none_none = lambda *items: all([item is not None for item in items])
+    all_none = lambda *items: all([item is None for item in items])
 
     # Basics stats for the number of papers processed
-    skippedMissingConference = 0
-    skippedBadTitle = 0
+    skipped_missing_conference = 0
+    skipped_bad_title = 0
     invalid = 0
     successful = 0
-    totalPapers = 0
+    total_papers = 0
 
     # Next entry data
     title = None
     authors = None
     conference = None
     index = None
-    citationCount = None
+    citation_count = None
     terms = None
 
-    for line in file:
+    for line in input_file:
         line = line.strip()
 
         # Parse entry, asserting that entries appear in title -> authors -> conference order
-        if line.startswith(titleToken):
-            assert allNone(title, authors, conference, terms, index, citationCount)
-            title = line[len(titleToken):].strip('.')
-            terms = __getTermsFromString(title)
+        if line.startswith(title_token):
+            assert all_none(title, authors, conference, terms, index, citation_count)
+            title = line[len(title_token):].strip('.')
+            terms = __get_terms_from_string(title)
 
-        elif line.startswith(authorToken):
-            assert noneNone(title, terms) and allNone(authors, conference, index, citationCount)
-            authors = [author.strip() for author in line[len(authorToken):].split(',')]
+        elif line.startswith(author_token):
+            assert none_none(title, terms) and all_none(authors, conference, index, citation_count)
+            authors = [author.strip() for author in line[len(author_token):].split(',')]
 
-        elif line.startswith(confToken):
-            assert noneNone(title, terms, authors) and allNone(conference, index, citationCount)
-            conference = line[len(confToken):]
+        elif line.startswith(conf_token):
+            assert none_none(title, terms, authors) and all_none(conference, index, citation_count)
+            conference = line[len(conf_token):]
 
-        elif line.startswith(citationCountToken):
-            assert noneNone(title, terms, authors, conference) and allNone(citationCount, index)
-            citationCount = max(int(line[len(citationCountToken):]), 0)
+        elif line.startswith(citation_count_token):
+            assert none_none(title, terms, authors, conference) and all_none(citation_count, index)
+            citation_count = max(int(line[len(citation_count_token):]), 0)
 
-        elif line.startswith(indexToken):
-            assert noneNone(title, terms, authors, conference, citationCount) and allNone(index)
-            index = int(line[len(indexToken):])
+        elif line.startswith(index_token):
+            assert none_none(title, terms, authors, conference, citation_count) and all_none(index)
+            index = int(line[len(index_token):])
 
         # We've reached the end of the entry
         elif len(line) == 0:
-            totalPapers += 1
+            total_papers += 1
 
             # Only output if:
             #   (1) data is all not None
             #   (2) title, authors, and conference are valid (non-empty)
             #   (3) index are citation count were found
-            if all((title, authors, conference)) and index is not None and citationCount is not None:
+            if all((title, authors, conference)) and index is not None and citation_count is not None:
                 successful += 1
-                yield title, authors, conference, terms, citationCount, index
+                yield title, authors, conference, terms, citation_count, index
             else:
                 if len(conference) == 0:
-                    skippedMissingConference += 1
-                    skippedPaperIndices.add(index)
+                    skipped_missing_conference += 1
+                    skipped_paper_indices.add(index)
                 else:
                     invalid += 1
-                    invalidPaperIndices.add(index)
+                    invalid_paper_indices.add(index)
 
             title = None
             authors = None
             conference = None
             terms = None
             index = None
-            citationCount = None
+            citation_count = None
 
     # Basic statistics about cleanliness of data
-    successfulPercent = 100.0 * (float(successful) / totalPapers)
-    skippedBadTitlePercent = 100.0 * (float(skippedBadTitle) / totalPapers)
-    skippedMissingConferencePercent = 100.0 * (float(skippedMissingConference) / totalPapers)
-    invalidPercent = 100.0 * (float(invalid) / totalPapers)
-    print "\n\nTotal Papers: %d" % totalPapers
-    print "  Added (Successful): %d (%2.2f%%)", (successful, successfulPercent)
-    print "  Ignored (Bad Title): %d (%2.2f%%)" % (skippedBadTitle, skippedBadTitlePercent)
-    print "  Skipped (Missing Conference): %d (%2.2f%%)" % (skippedMissingConference, skippedMissingConferencePercent)
-    print "  Invalid (Unknown): %d (%2.2f%%)", (invalid, invalidPercent)
+    successful_percent = 100.0 * (float(successful) / total_papers)
+    skipped_bad_title_percent = 100.0 * (float(skipped_bad_title) / total_papers)
+    skipped_missing_conference_percent = 100.0 * (float(skipped_missing_conference) / total_papers)
+    invalid_percent = 100.0 * (float(invalid) / total_papers)
+    print "\n\nTotal Papers: %d" % total_papers
+    print "  Added (Successful): %d (%2.2f%%)", (successful, successful_percent)
+    print "  Ignored (Bad Title): %d (%2.2f%%)" % (skipped_bad_title, skipped_bad_title_percent)
+    print "  Skipped (Missing Conference): %d (%2.2f%%)" % (
+        skipped_missing_conference, skipped_missing_conference_percent
+    )
+    print "  Invalid (Unknown): %d (%2.2f%%)", (invalid, invalid_percent)
 
 
-def __citationsFromFile(file):
+def __citations_from_file(input_file):
     """
       Generator function that outputs the paper title, index, and citations for each entry
     """
 
     # Tokens for parsing
-    titleToken = '#*'
-    indexToken = '#index'
-    citationToken = '#%'
+    title_token = '#*'
+    index_token = '#index'
+    citation_token = '#%'
 
     # Predicates for error checking
-    noneNone = lambda *items: all([item is not None for item in items])
-    allNone = lambda *items: all([item is None for item in items])
+    none_none = lambda *items: all([item is not None for item in items])
+    all_none = lambda *items: all([item is None for item in items])
 
     # Next entry data
     title = None
@@ -156,53 +161,53 @@ def __citationsFromFile(file):
     citations = []
 
     # Basic stats
-    withCitations = 0
-    withoutCitations = 0
-    totalPapers = 0
+    with_citations = 0
+    without_citations = 0
+    total_papers = 0
 
-    for line in file:
+    for line in input_file:
         line = line.strip()
 
         # Parse entry, enforcing that data appears in title -> index -> citations order
-        if line.startswith(titleToken):
-            assert allNone(title, index) and len(citations) == 0
-            title = line[len(titleToken):].strip('.')
+        if line.startswith(title_token):
+            assert all_none(title, index) and len(citations) == 0
+            title = line[len(title_token):].strip('.')
 
-        elif line.startswith(indexToken):
-            assert noneNone(title) and allNone(index) and len(citations) == 0
-            index = int(line[len(indexToken):])
+        elif line.startswith(index_token):
+            assert none_none(title) and all_none(index) and len(citations) == 0
+            index = int(line[len(index_token):])
 
-        elif line.startswith(citationToken):
-            assert noneNone(title, index)
-            newCitationId = int(line[len(citationToken):])
-            assert newCitationId >= 0
-            citations.append(newCitationId)
+        elif line.startswith(citation_token):
+            assert none_none(title, index)
+            new_citation_id = int(line[len(citation_token):])
+            assert new_citation_id >= 0
+            citations.append(new_citation_id)
 
         elif len(line) == 0:
-            totalPapers += 1
+            total_papers += 1
 
             # Yield this entry if it has any citations,
-            if noneNone(title, index):
+            if none_none(title, index):
                 if len(citations) > 0:
-                    withCitations += 1
+                    with_citations += 1
                     yield title, index, citations
                 else:
-                    withoutCitations += 1
+                    without_citations += 1
 
             title = None
             index = None
             citations = []
 
     # Output some basic statistics about papers with/without citations
-    withCitationsPercent = 100.0 * (float(withCitations) / totalPapers)
-    withoutCitationsPercent = 100.0 * (float(withoutCitations) / totalPapers)
-    print "\n\nTotal Papers: %d" % totalPapers
+    with_citations_percent = 100.0 * (float(with_citations) / total_papers)
+    without_citations_percent = 100.0 * (float(without_citations) / total_papers)
+    print "\n\nTotal Papers: %d" % total_papers
     print "  With References: %d (%2.2f%%)\n  Without References: %d (%2.2f%%)" % (
-        withCitations, withCitationsPercent, withoutCitations, withoutCitationsPercent
+        with_citations, with_citations_percent, without_citations, without_citations_percent
     )
 
 
-def parseArnetminerDataset():
+def parse_arnetminer_dataset():
     """
       Parse the four area dataset, and use only barebones structures to keep everything efficient.
 
@@ -212,93 +217,99 @@ def parseArnetminerDataset():
         The final parsed network
     """
 
-    inputFile = open(os.path.join(projectRoot, 'data','DBLP-citation-Feb21.txt'))
+    input_file = open(os.path.join(project_root, 'data', 'DBLP-citation-Feb21.txt'))
     graph = MultiDiGraph()
 
     # Sets for authors, papers, conferences, and terms found so far
-    indexToPaperIdMap = {}
-    citationCountMap = {}
-    indexSet = set()
+    # TODO: Reconsider more efficient approach
+    index_to_paper_id_map = {}
+    citation_count_map = {}
+    index_set = set()
 
-    beginning = inputFile.tell()
+    beginning = input_file.tell()
 
     print "Parsing nodes for graph..."
 
     # Counts for statistics
-    VALID_PAPERS = 1566322 # 99.62% of total papers in DBLP dataset
-    papersProcessed = 0
-    skippedPaperIndices = set()
-    invalidPaperIndices = set()
+    VALID_PAPERS = 1566322  # 99.62% of total papers in DBLP dataset
+    papers_processed = 0
+    skipped_paper_indices = set()
+    invalid_paper_indices = set()
 
     # Add each paper to graph (adding missing associated terms, authors, and conferences)
-    for title, authors, conference, terms, citationCount, index in __papersFromFile(inputFile, skippedPaperIndices, invalidPaperIndices):
+    for title, authors, conference, terms, citation_count, index in \
+            __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices):
 
         # Check that index is unique, and record it
-        assert index not in indexSet
-        indexSet.add(index)
+        assert index not in index_set
+        index_set.add(index)
 
         # Create unique identifier with paper index & title
-        paperId = '%d----%s' % (index, title)
-        citationCountMap[paperId] = citationCount
-        indexToPaperIdMap[index] = paperId
+        paper_id = '%d----%s' % (index, title)
+        citation_count_map[paper_id] = citation_count
+        index_to_paper_id_map[index] = paper_id
 
         # Add symmetric edges & nodes (if they don't already exist in the network)
         for author in authors:
-            graph.add_edges_from([(author, paperId), (paperId, author)])
-        graph.add_edges_from([(conference, paperId), (paperId, conference)])
+            graph.add_edges_from([(author, paper_id), (paper_id, author)])
+        graph.add_edges_from([(conference, paper_id), (paper_id, conference)])
         for term in terms:
-            graph.add_edges_from([(term, paperId), (paperId, term)])
+            graph.add_edges_from([(term, paper_id), (paper_id, term)])
 
         # Output progress
-        papersProcessed += 1
-        sys.stdout.write("\r Processed %d / %d papers..." % (papersProcessed, VALID_PAPERS))
+        papers_processed += 1
+        sys.stdout.write("\r Processed %d / %d papers..." % (papers_processed, VALID_PAPERS))
 
     # Rewind file
-    inputFile.seek(beginning)
+    input_file.seek(beginning)
 
     print "Parsing citations for graph..."
 
     # Counts for statistics
-    papersProcessed = 0
-    successfulCitations = 0
-    omittedPaperCitations = 0
-    invalidPaperCitations = 0
-    invalidCitations = 0
+    papers_processed = 0
+    successful_citations = 0
+    omitted_paper_citations = 0
+    invalid_paper_citations = 0
+    invalid_citations = 0
 
     # Add citations to the graph
-    for title, index, citations in __citationsFromFile(inputFile):
+    for title, index, citations in __citations_from_file(input_file):
         citingId = '%d----%s' % (index, title)
-        for citationIndex in citations:
+        for citation_index in citations:
 
             # Add citation edge if it was found
-            if citationIndex in indexToPaperIdMap:
-                successfulCitations += 1
-                graph.add_edge(citingId, indexToPaperIdMap[citationIndex])
+            if citation_index in index_to_paper_id_map:
+                successful_citations += 1
+                graph.add_edge(citingId, index_to_paper_id_map[citation_index])
 
             # Tally missing citation appropriately
-            elif citationIndex in skippedPaperIndices:
-                omittedPaperCitations += 1
-            elif citationIndex in invalidPaperIndices:
-                invalidPaperCitations += 1
+            elif citation_index in skipped_paper_indices:
+                omitted_paper_citations += 1
+            elif citation_index in invalid_paper_indices:
+                invalid_paper_citations += 1
             else:
-                print "\nCitation '%d' not found for '%s'" % (citationIndex, title)
-                invalidCitations += 1
+                print "\nCitation '%d' not found for '%s'" % (citation_index, title)
+                invalid_citations += 1
 
         # Output progress
-        papersProcessed += 1
-        sys.stdout.write("\r Processed Citations for %d / %d papers..." % (papersProcessed, VALID_PAPERS))
+        papers_processed += 1
+        sys.stdout.write("\r Processed Citations for %d / %d papers..." % (papers_processed, VALID_PAPERS))
 
     # Basic statistics about cleanliness of citations
-    totalCitations = invalidCitations + successfulCitations
-    successfulCitationsPercent = 100 * float(successfulCitations) / totalCitations
-    omittedPaperCitationsPercent = 100 * float(omittedPaperCitations) / totalCitations
-    invalidPaperCitationsPercent = 100 * float(invalidPaperCitations) / totalCitations
-    invalidCitationsPercent = 100 * float(invalidCitations) / totalCitations
-    print "\n\nTotal Citations: %d" % totalCitations
-    print "  Citations Added (Successful): %d (%2.2f%%)" % (successfulCitations, successfulCitationsPercent)
-    print "  Citations Skipped (Skipped Paper): %d (%2.2f%%)" % (omittedPaperCitations, omittedPaperCitationsPercent)
-    print "  Citations Skipped (Invalid Paper): %d (%2.2f%%)" % (invalidPaperCitations, invalidPaperCitationsPercent)
-    print "  Citations Invalid (Unknown): %d (%2.2f%%)" % (invalidCitations, invalidCitationsPercent)
+    total_citations = invalid_citations + successful_citations
+    successful_citations_percent = 100 * float(successful_citations) / total_citations
+    omitted_paper_citations_percent = 100 * float(omitted_paper_citations) / total_citations
+    invalid_paper_citations_percent = 100 * float(invalid_paper_citations) / total_citations
+    invalid_citations_percent = 100 * float(invalid_citations) / total_citations
+    print "\n\nTotal Citations: %d" % total_citations
+    print "  Citations Added (Successful): %d (%2.2f%%)" % (successful_citations, successful_citations_percent)
+    print "  Citations Skipped (Skipped Paper): %d (%2.2f%%)" % (
+        omitted_paper_citations, omitted_paper_citations_percent
+    )
+    print "  Citations Skipped (Invalid Paper): %d (%2.2f%%)" % (
+        invalid_paper_citations, invalid_paper_citations_percent
+    )
+    print "  Citations Invalid (Unknown): %d (%2.2f%%)" % (invalid_citations, invalid_citations_percent)
 
     return graph
 
@@ -306,9 +317,10 @@ def parseArnetminerDataset():
 def constructGraphAndDumpToFile():
 
     # Parse 4-area dataset graph & dump it to disk
-    graph = parseArnetminerDataset()
+    graph = parse_arnetminer_dataset()
 
     cPickle.dump(graph, open(os.path.join('data', 'arnetminerWithCitations'), 'w'))
+
 
 # When run as script, runs through pathsim papers example experiment
 if __name__ == '__main__':
