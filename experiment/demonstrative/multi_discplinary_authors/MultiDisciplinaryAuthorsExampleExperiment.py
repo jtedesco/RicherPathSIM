@@ -86,7 +86,7 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
 
 
         # Output the NeighborSim similarity scores
-        strategy = NeighborSimStrategy(self.graph, [Author, Paper, Paper, Author])
+        strategy = NeighborSimStrategy(self.graph, [Conference, Paper, Paper, Author])
         self.outputSimilarityScores(authorMap, authors, strategy, "NeighborSim")
 
         # Output the PathSim similarity scores
