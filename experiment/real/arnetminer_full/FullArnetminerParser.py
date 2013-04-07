@@ -1,11 +1,14 @@
+import cProfile
 from collections import defaultdict
 import json
 import os
 import re
 import sys
-import cPickle
-from networkx import MultiDiGraph
 from Stemmer import Stemmer
+import cPickle
+from igraph import Graph
+from networkx import MultiDiGraph
+import time
 
 __author__ = 'jontedesco'
 
@@ -33,6 +36,14 @@ test_papers = [
     'R-trees with Update Memos'
 ]
 
+# Basics stats for the number of papers processed
+skipped_missing_conference = 0
+skipped_bad_title = 0
+papers_with_references = 0
+invalid_papers = 0
+successful_papers = 0
+total_papers = 0
+
 
 def __get_terms_from_string(string):
 
@@ -55,7 +66,7 @@ def __remove_control_characters(string):
     return control_characters_regex.sub('', string)
 
 
-def __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices):
+def __papers_from_file(input_file, should_profile):
     """
       Generator function over papers (gets data from the next entry)
     """
@@ -71,13 +82,6 @@ def __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices)
     none_none = lambda *items: all([item is not None for item in items])
     all_none = lambda *items: all([item is None for item in items])
 
-    # Basics stats for the number of papers processed
-    skipped_missing_conference = 0
-    skipped_bad_title = 0
-    invalid = 0
-    successful = 0
-    total_papers = 0
-
     # Next entry data
     title = None
     authors = None
@@ -85,6 +89,9 @@ def __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices)
     index = None
     terms = None
     citation_count = None
+
+    # Import global stats
+    global total_papers, successful_papers, invalid_papers, skipped_missing_conference
 
     for line in input_file:
         line = line.strip()
@@ -119,16 +126,19 @@ def __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices)
             #   (1) data is all not None
             #   (2) title, authors, and conference are valid (non-empty)
             #   (3) index was found
-            if all((title, authors, conference)) and index is not None and citation_count is not None:
-                successful += 1
+            if all((title, authors, conference)) \
+                    and index is not None \
+                    and index > 0 \
+                    and citation_count is not None:
+                successful_papers += 1
                 yield title, authors, conference, terms, index
             else:
                 if len(conference) == 0:
                     skipped_missing_conference += 1
-                    skipped_paper_indices.add(index)
+                    # skipped_paper_indices.add(index)
                 else:
-                    invalid += 1
-                    invalid_paper_indices.add(index)
+                    invalid_papers += 1
+                    # invalid_paper_indices.add(index)
 
             title = None
             authors = None
@@ -137,21 +147,14 @@ def __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices)
             index = None
             citation_count = None
 
-    # Basic statistics about cleanliness of data
-    successful_percent = 100.0 * (float(successful) / total_papers)
-    skipped_bad_title_percent = 100.0 * (float(skipped_bad_title) / total_papers)
-    skipped_missing_conference_percent = 100.0 * (float(skipped_missing_conference) / total_papers)
-    invalid_percent = 100.0 * (float(invalid) / total_papers)
-    print "\n\nTotal Papers: %d" % total_papers
-    print "  Added (Successful): %d (%2.2f%%)", (successful, successful_percent)
-    print "  Ignored (Bad Title): %d (%2.2f%%)" % (skipped_bad_title, skipped_bad_title_percent)
-    print "  Skipped (Missing Conference): %d (%2.2f%%)" % (
-        skipped_missing_conference, skipped_missing_conference_percent
-    )
-    print "  Invalid (Unknown): %d (%2.2f%%)", (invalid, invalid_percent)
+    # Dump the memory usage if we should
+    if should_profile:
+        print "\n\nMemory Usage After Parsing Documents:"
+        from guppy import hpy
+        print hpy().heap()
 
 
-def __citations_from_file(input_file):
+def __citations_from_file(input_file, should_profile):
     """
       Generator function that outputs the paper index, and citations for each entry
     """
@@ -168,9 +171,8 @@ def __citations_from_file(input_file):
     index = None
     citations = []
 
-    # Basic stats
-    with_citations = 0
-    without_citations = 0
+    # Global stats
+    global papers_with_references
     total_papers = 0
 
     for line in input_file:
@@ -193,24 +195,20 @@ def __citations_from_file(input_file):
             # Yield this entry if it has any citations,
             if none_none(index):
                 if len(citations) > 0:
-                    with_citations += 1
+                    papers_with_references += 1
                     yield index, citations
-                else:
-                    without_citations += 1
 
             index = None
             citations = []
 
-    # Output some basic statistics about papers with/without citations
-    with_citations_percent = 100.0 * (float(with_citations) / total_papers)
-    without_citations_percent = 100.0 * (float(without_citations) / total_papers)
-    print "\n\nTotal Papers: %d" % total_papers
-    print "  With References: %d (%2.2f%%)\n  Without References: %d (%2.2f%%)" % (
-        with_citations, with_citations_percent, without_citations, without_citations_percent
-    )
+    # Dump the memory usage if we should
+    if should_profile:
+        print "\n\nMemory Usage After Parsing Document Citations:"
+        from guppy import hpy
+        print hpy().heap()
 
 
-def parse_full_arnetminer_dataset():
+def parse_full_arnetminer_dataset(should_profile, use_igraph):
     """
       Parse the full arnetminer dataset in plaintext format
     """
@@ -218,49 +216,79 @@ def parse_full_arnetminer_dataset():
     print "Parsing nodes for graph..."
     input_file = open(os.path.join(project_root, 'data', 'Arnetminer-Full.txt'))
     beginning = input_file.tell()
-    graph = MultiDiGraph()
+
+    # Use either igraph or networkx
+    if use_igraph:
+        graph = Graph(directed=True)
+    else:
+        graph = MultiDiGraph()
 
     # Sets for authors, papers, conferences, and terms found so far
-    # TODO: Remove index set check
     index_set = set()
-
-    # Map of paper titles to indices
-    paper_title_to_index_map = defaultdict(list)
 
     # Counts for statistics
     VALID_PAPERS = 8579222  # Most recent count of valid papers from Arnetminer
     papers_processed = 0
 
-    # TODO: Remove these sets? (Remove document error checking)
-    skipped_paper_indices = set()
-    invalid_paper_indices = set()
+    # Caches for vertices & edges to add (batch adds together when using igraph)
+    vertices_to_add = []
+    edges_to_add = []
+    FLUSH_FREQUENCY = 100000  # 'Flush' cached vertices and edges this often
 
     # Add each paper to graph (adding missing associated terms, authors, and conferences)
-    for title, authors, conference, terms, paper_index in \
-            __papers_from_file(input_file, skipped_paper_indices, invalid_paper_indices):
+    for title, authors, conference, terms, paper_index in __papers_from_file(input_file, should_profile):
 
         # Output any test paper indices found
         if title in test_papers:
             print "Found test paper '%s' by %s, index: %d" % (title, ','.join(authors), paper_index)
 
-        # Record this title - index combination in the paper index
-        paper_title_to_index_map[title].append(paper_index)
-
         # Check that index is unique, and record it
         assert paper_index not in index_set
         index_set.add(paper_index)
 
-        # Add symmetric edges & nodes (if they don't already exist in the network)
-        for author in authors:
-            graph.add_edges_from([(author, paper_index), (paper_index, author)])
-        graph.add_edges_from([(conference, paper_index), (paper_index, conference)])
-        for term in terms:
-            graph.add_edges_from([(term, paper_index), (paper_index, term)])
+        if use_igraph:
+
+            # Use string, because otherwise integer overflow in igraph
+            paper_index = str(paper_index)
+
+            # Collect vertices and edges to add
+            vertices_to_add += [paper_index, conference] + authors + terms
+            for author in authors:
+                edges_to_add += [(author, paper_index), (paper_index, author)]
+            edges_to_add += [(conference, paper_index), (paper_index, conference)]
+            for term in terms:
+                edges_to_add += [(term, paper_index), (paper_index, term)]
+
+            # Every so often, actually mutate the graph
+            if papers_processed % FLUSH_FREQUENCY == 0:
+                for vertex in vertices_to_add:
+                    graph.add_vertex(vertex)
+                graph.add_edges(edges_to_add)
+                vertices_to_add = []
+                edges_to_add = []
+
+        else:
+
+            # Add symmetric edges & nodes (if they don't already exist in the network)
+            for author in authors:
+                graph.add_edges_from([(author, paper_index), (paper_index, author)])
+            graph.add_edges_from([(conference, paper_index), (paper_index, conference)])
+            for term in terms:
+                graph.add_edges_from([(term, paper_index), (paper_index, term)])
 
         # Output progress
         papers_processed += 1
-        if papers_processed % 100 == 0:
+        if papers_processed % 10 == 0:
             sys.stdout.write("\r Processed %d / %d papers..." % (papers_processed, VALID_PAPERS))
+            sys.stdout.flush()
+
+    # Basic statistics about cleanliness of data
+    count_and_percent_of_papers = lambda a: (a, total_papers, 100 * float(a) / total_papers)
+    print "\n\nTotal Papers: %d" % total_papers
+    print "  Added (Successful): %d / %d (%2.2f%%)" % count_and_percent_of_papers(successful_papers)
+    print "  Ignored (Bad Title): %d / %d (%2.2f%%)" % count_and_percent_of_papers(skipped_bad_title)
+    print "  Skipped (Missing Conference): %d / %d (%2.2f%%)" % count_and_percent_of_papers(skipped_missing_conference)
+    print "  Invalid (Unknown): %d / %d (%2.2f%%)\n\n" % count_and_percent_of_papers(invalid_papers)
 
     # Rewind file
     input_file.seek(beginning)
@@ -274,40 +302,65 @@ def parse_full_arnetminer_dataset():
     invalid_paper_citations = 0
     invalid_citations = 0
 
+    # Cache for citations to add (batch graph actions for igraph)
+    citations_to_add = []
+
     # Add citations to the graph
-    for citing_id, citations in __citations_from_file(input_file):
+    for citing_id, citations in __citations_from_file(input_file, should_profile):
         for cited_id in citations:
 
             # Add citation edge if it was found
-            if cited_id in index_set:
-                successful_citations += 1
-                graph.add_edge(citing_id, cited_id)
+            if cited_id in index_set and citing_id in index_set:
 
-            # Tally failed citation appropriately
-            elif cited_id in skipped_paper_indices:
-                omitted_paper_citations += 1
-            elif cited_id in invalid_paper_indices:
-                invalid_paper_citations += 1
-            else:
+                # If using igraph, cache & add when necessary
+                if use_igraph:
+                    citations_to_add.append((str(citing_id), str(cited_id)))
+                    if successful_citations % FLUSH_FREQUENCY == 0:
+                        graph.add_edges(citations_to_add)
+                        citations_to_add = []
+                else:
+                    graph.add_edge(citing_id, cited_id)
+
+                successful_citations += 1
+        else:
                 invalid_citations += 1
 
         # Output progress
         papers_processed += 1
-        sys.stdout.write("\r Processed Citations for %d / %d papers..." % (papers_processed, VALID_PAPERS))
+        if papers_processed % 100 == 0:
+            sys.stdout.write("\r Processed Citations for %d / %d papers..." % (papers_processed, VALID_PAPERS))
 
     # Calculate basic statistics about cleanliness of citations
     total_citations = invalid_citations + successful_citations
     count_and_percent_of_citations = lambda a: (a, total_citations, 100 * float(a) / total_citations)
     print "\n\nTotal Citations: %d" % total_citations
-    print "  Citations Added (Successful): %d (%2.2f%%)" % count_and_percent_of_citations(successful_citations)
-    print "  Citations Skipped (Skipped Paper): %d (%2.2f%%)" % count_and_percent_of_citations(omitted_paper_citations)
-    print "  Citations Skipped (Invalid Paper): %d (%2.2f%%)" % count_and_percent_of_citations(invalid_paper_citations)
-    print "  Citations Invalid (Unknown): %d (%2.2f%%)" % count_and_percent_of_citations(invalid_citations)
+    print "  Citations Added (Successful): %d / %d (%2.2f%%)" % count_and_percent_of_citations(successful_citations)
+    print "  Citations Skipped (Skipped Paper): %d / %d (%2.2f%%)" % \
+          count_and_percent_of_citations(omitted_paper_citations)
+    print "  Citations Skipped (Invalid Paper): %d / %d (%2.2f%%)" % \
+          count_and_percent_of_citations(invalid_paper_citations)
+    print "  Citations Invalid (Unknown): %d / %d (%2.2f%%)" % count_and_percent_of_citations(invalid_citations)
 
-    return graph, paper_title_to_index_map
+    # Output some basic statistics about papers with/without citations
+    print "  Papers With References: %d / %d (%2.2f%%)" % count_and_percent_of_papers(papers_with_references)
+
+    # Dump memory usage if we should
+    if should_profile:
+        print "\n\nMemory Usage After Completing Parsing:"
+        from guppy import hpy
+        print hpy().heap()
+
+    return graph
 
 
 if __name__ == '__main__':
-    graph, paper_title_to_index_map = parse_full_arnetminer_dataset()
-    output_file = open(os.path.join('data', 'fullArnetminerWithCitations'), 'w')
-    cPickle.dump((graph, paper_title_to_index_map), output_file)
+
+    use_igraph = True
+    should_profile = len(sys.argv) > 1
+
+    start_time = time.time()
+    graph = parse_full_arnetminer_dataset(should_profile, use_igraph)
+    print "Completed in %d seconds" % (time.time() - start_time)
+
+    output_file = open('fullArnetminerWithCitations', 'w')
+    cPickle.dump(graph, output_file)
