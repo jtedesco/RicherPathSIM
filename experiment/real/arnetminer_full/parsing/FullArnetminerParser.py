@@ -1,14 +1,14 @@
-import cProfile
-from collections import defaultdict
 import json
 import os
 import re
 import sys
 from Stemmer import Stemmer
 import cPickle
+import time
+
 from igraph import Graph
 from networkx import MultiDiGraph
-import time
+
 
 __author__ = 'jontedesco'
 
@@ -210,7 +210,12 @@ def __citations_from_file(input_file, should_profile):
 
 def parse_full_arnetminer_dataset(should_profile, use_igraph):
     """
-      Parse the full arnetminer dataset in plaintext format
+      Parse the full arnetminer dataset in plaintext format. Vertex types in the graph are:
+
+        1: Authors
+        2: Papers
+        3: Conferences
+        4: Terms
     """
 
     print "Parsing nodes for graph..."
@@ -223,9 +228,6 @@ def parse_full_arnetminer_dataset(should_profile, use_igraph):
     else:
         graph = MultiDiGraph()
 
-    # Sets for authors, papers, conferences, and terms found so far
-    index_set = set()
-
     # Counts for statistics
     VALID_PAPERS = 8579222  # Most recent count of valid papers from Arnetminer
     papers_processed = 0
@@ -233,6 +235,7 @@ def parse_full_arnetminer_dataset(should_profile, use_igraph):
     # Caches for vertices & edges to add (batch adds together when using igraph)
     vertices_to_add = []
     edges_to_add = []
+    types_of_vertices_to_add = []
     FLUSH_FREQUENCY = 100000  # 'Flush' cached vertices and edges this often
 
     # Add each paper to graph (adding missing associated terms, authors, and conferences)
@@ -242,10 +245,6 @@ def parse_full_arnetminer_dataset(should_profile, use_igraph):
         if title in test_papers:
             print "Found test paper '%s' by %s, index: %d" % (title, ','.join(authors), paper_index)
 
-        # Check that index is unique, and record it
-        assert paper_index not in index_set
-        index_set.add(paper_index)
-
         if use_igraph:
 
             # Use string, because otherwise integer overflow in igraph
@@ -253,6 +252,7 @@ def parse_full_arnetminer_dataset(should_profile, use_igraph):
 
             # Collect vertices and edges to add
             vertices_to_add += [paper_index, conference] + authors + terms
+            types_of_vertices_to_add += [2, 3] + ([1] * len(authors)) + ([4] * len(terms))
             for author in authors:
                 edges_to_add += [(author, paper_index), (paper_index, author)]
             edges_to_add += [(conference, paper_index), (paper_index, conference)]
@@ -261,11 +261,12 @@ def parse_full_arnetminer_dataset(should_profile, use_igraph):
 
             # Every so often, actually mutate the graph
             if papers_processed % FLUSH_FREQUENCY == 0:
-                for vertex in vertices_to_add:
-                    graph.add_vertex(vertex)
+                for vertex, vertex_type in zip(vertices_to_add, types_of_vertices_to_add):
+                    graph.add_vertex(vertex, type=vertex_type)
                 graph.add_edges(edges_to_add)
                 vertices_to_add = []
                 edges_to_add = []
+                types_of_vertices_to_add = []
 
         else:
 
@@ -309,21 +310,18 @@ def parse_full_arnetminer_dataset(should_profile, use_igraph):
     for citing_id, citations in __citations_from_file(input_file, should_profile):
         for cited_id in citations:
 
-            # Add citation edge if it was found
-            if cited_id in index_set and citing_id in index_set:
+            # If using igraph, cache & add when necessary
+            if use_igraph:
+                citations_to_add.append((str(citing_id), str(cited_id)))
+                if successful_citations % FLUSH_FREQUENCY == 0:
+                    graph.add_edges(citations_to_add)
+                    citations_to_add = []
+            else:
+                graph.add_edge(citing_id, cited_id)
 
-                # If using igraph, cache & add when necessary
-                if use_igraph:
-                    citations_to_add.append((str(citing_id), str(cited_id)))
-                    if successful_citations % FLUSH_FREQUENCY == 0:
-                        graph.add_edges(citations_to_add)
-                        citations_to_add = []
-                else:
-                    graph.add_edge(citing_id, cited_id)
-
-                successful_citations += 1
+            successful_citations += 1
         else:
-                invalid_citations += 1
+            invalid_citations += 1
 
         # Output progress
         papers_processed += 1
