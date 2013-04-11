@@ -1,0 +1,17 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{1} \\
+2 & Viswanath Poosala & 361 &  1.000 \\
+3 & Jennifer Widom & 726 &  0.980 \\
+4 & Ramakrishnan Srikant & 696 &  0.940 \\
+5 & Hamid Pirahesh & 439 &  0.929 \\
+6 & Hans-Peter Kriegel & 617 &  0.889 \\
+7 & Joseph M. Hellerstein & 490 &  0.887 \\
+8 & John D. Lafferty & 463 &  0.886 \\
+9 & Rajeev Motwani & 542 &  0.866 \\
+10 & Raghu Ramakrishnan & 652 &  0.863 \\

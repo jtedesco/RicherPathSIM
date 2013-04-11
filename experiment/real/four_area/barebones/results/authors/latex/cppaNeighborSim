@@ -1,0 +1,85 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{1} \\
+2 & Hans-Peter Kriegel & 617 &  0.982 \\
+3 & Rajeev Motwani & 542 &  0.963 \\
+4 & Raghu Ramakrishnan & 652 &  0.957 \\
+5 & H. V. Jagadish & 546 &  0.944 \\
+6 & Divesh Srivastava & 464 &  0.924 \\
+7 & Jennifer Widom & 726 &  0.919 \\
+8 & Yannis E. Ioannidis & 439 &  0.913 \\
+9 & Surajit Chaudhuri & 581 &  0.912 \\
+10 & Hamid Pirahesh & 439 &  0.910 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{1} \\
+2 & Jiawei Han & 665 &  0.771 \\
+3 & Ramakrishnan Srikant & 696 &  0.753 \\
+4 & Christos Faloutsos & 634 &  0.683 \\
+5 & David J. DeWitt & 876 &  0.671 \\
+6 & Philip S. Yu & 556 &  0.671 \\
+7 & Jeffrey F. Naughton & 801 &  0.656 \\
+8 & Hans-Peter Kriegel & 617 &  0.653 \\
+9 & Jennifer Widom & 726 &  0.643 \\
+10 & Raghu Ramakrishnan & 652 &  0.639 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{1} \\
+2 & Heikki Mannila & 131 &  0.953 \\
+3 & Roberto J. Bayardo Jr. & 142 &  0.946 \\
+4 & Hannu Toivonen & 120 &  0.929 \\
+5 & Prabhakar Raghavan & 195 &  0.924 \\
+6 & Eamonn J. Keogh & 142 &  0.910 \\
+7 & Mohammed Javeed Zaki & 116 &  0.901 \\
+8 & Wei Wang & 135 &  0.898 \\
+9 & Ke Wang & 114 &  0.889 \\
+10 & Tian Zhang & 127 &  0.884 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{1} \\
+2 & Jiawei Han & 665 &  0.946 \\
+3 & Ramakrishnan Srikant & 696 &  0.941 \\
+4 & Arun N. Swami & 404 &  0.899 \\
+5 & Christos Faloutsos & 634 &  0.893 \\
+6 & Rajeev Motwani & 542 &  0.884 \\
+7 & Tomasz Imielinski & 343 &  0.843 \\
+8 & Johannes Gehrke & 320 &  0.842 \\
+9 & Hans-Peter Kriegel & 617 &  0.831 \\
+10 & Jian Pei & 270 &  0.798 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{1} \\
+2 & Moni Naor & 122 &  0.978 \\
+3 & Anant Jhingran & 92 &  0.977 \\
+4 & Kevin Chen-Chuan Chang & 112 &  0.973 \\
+5 & Stefano Ceri & 96 &  0.957 \\
+6 & Krithi Ramamritham & 114 &  0.956 \\
+7 & Venkatesh Ganti & 124 &  0.955 \\
+8 & Qiong Luo & 109 &  0.954 \\
+9 & Erhard Rahm & 89 &  0.952 \\
+10 & Narain H. Gehani & 80 &  0.941 \\
