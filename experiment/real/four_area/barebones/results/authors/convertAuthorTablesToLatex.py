@@ -7,7 +7,7 @@ firstNoPubsTemplate = '\\textbf{%d} & \\textbf{%s} & \\textbf{%s} & \\textbf{%s}
 middlePubsTemplate = '%d & %s & %s & %s & %s \\\\\n'
 middleNoPubsTemplate = '%d & %s & %s &  %s \\\\\n'
 
-showPublications = False
+showPublications = True
 
 for filename in os.listdir('.'):
     if 'PathSim' not in filename and 'NeighborSim' not in filename: continue

@@ -1,0 +1,85 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{127} & \textbf{1} \\
+2 & Hans-Peter Kriegel & 617 & 102 & 0.579 \\
+3 & Bernhard Seeger & 389 & 36 & 0.546 \\
+4 & Nick Roussopoulos & 336 & 35 & 0.506 \\
+5 & H. V. Jagadish & 546 & 106 & 0.436 \\
+6 & Ralf Schneider & 242 & 4 & 0.426 \\
+7 & Norbert Beckmann & 210 & 1 & 0.391 \\
+8 & Timos K. Sellis & 230 & 28 & 0.389 \\
+9 & Dimitrios Gunopulos & 264 & 46 & 0.297 \\
+10 & Philip S. Yu & 556 & 216 & 0.291 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{105} & \textbf{1} \\
+2 & Ramakrishnan Srikant & 696 & 34 & 0.746 \\
+3 & Jiawei Han & 665 & 168 & 0.701 \\
+4 & Philip S. Yu & 556 & 216 & 0.573 \\
+5 & Raghu Ramakrishnan & 652 & 95 & 0.482 \\
+6 & Arun N. Swami & 404 & 15 & 0.454 \\
+7 & Rajeev Motwani & 542 & 36 & 0.423 \\
+8 & Jian Pei & 270 & 70 & 0.418 \\
+9 & Tomasz Imielinski & 343 & 30 & 0.379 \\
+10 & Charu C. Aggarwal & 238 & 65 & 0.326 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{7} & \textbf{1} \\
+2 & Craig Silverstein & 84 & 5 & 0.817 \\
+3 & Hannu Toivonen & 120 & 18 & 0.645 \\
+4 & Jong Soo Park & 94 & 4 & 0.583 \\
+5 & Shalom Tsur & 96 & 12 & 0.568 \\
+6 & Tomasz Imielinski & 343 & 30 & 0.562 \\
+7 & Alex Pang & 57 & 2 & 0.560 \\
+8 & Heikki Mannila & 131 & 63 & 0.528 \\
+9 & Arun N. Swami & 404 & 15 & 0.516 \\
+10 & Yiwen Yin & 73 & 3 & 0.487 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{216} & \textbf{1} \\
+2 & Charu C. Aggarwal & 238 & 65 & 0.618 \\
+3 & Rakesh Agrawal & 1511 & 105 & 0.573 \\
+4 & Ramakrishnan Srikant & 696 & 34 & 0.565 \\
+5 & Jiawei Han & 665 & 168 & 0.554 \\
+6 & Arun N. Swami & 404 & 15 & 0.395 \\
+7 & Johannes Gehrke & 320 & 56 & 0.390 \\
+8 & Jian Pei & 270 & 70 & 0.383 \\
+9 & Rajeev Motwani & 542 & 36 & 0.382 \\
+10 & Raghu Ramakrishnan & 652 & 95 & 0.350 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{26} & \textbf{1} \\
+2 & Jayant Madhavan & 98 & 10 & 0.769 \\
+3 & Alon Y. Halevy & 236 & 34 & 0.718 \\
+4 & Erhard Rahm & 89 & 16 & 0.532 \\
+5 & Philip A. Bernstein & 171 & 44 & 0.436 \\
+6 & Bin He & 41 & 10 & 0.421 \\
+7 & Pedro Domingos & 291 & 47 & 0.410 \\
+8 & Kevin Chen-Chuan Chang & 112 & 32 & 0.388 \\
+9 & Ren?e J. Miller & 152 & 29 & 0.366 \\
+10 & Joann J. Ordille & 83 & 4 & 0.343 \\
