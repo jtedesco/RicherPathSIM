@@ -3,9 +3,9 @@
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
-1 & Mining Association Rules between Sets of Items in Large Databases & 258 & 1.0 \\
+\textbf{1} & \textbf{Mining Association Rules between Sets of Items in Large Databases} & \textbf{258} & \textbf{1.0} \\
 2 & Fast Algorithms for Mining Association Rules in Large Databases & 305 & 0.986 \\
 3 & BIRCH: An Efficient Data Clustering Method for Very Large Databases & 126 & 0.717 \\
 4 & Mining Sequential Patterns & 106 & 0.712 \\
@@ -20,9 +20,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
-1 & Abstract Machine for LDL & 3 & 1.0 \\
+\textbf{1} & \textbf{Abstract Machine for LDL} & \textbf{3} & \textbf{1.0} \\
 2 & Adaptive Data Broadcast in Hybrid Networks & 3 & 1.0 \\
 3 & Semantics Based Transaction Management Techniques for Replicated Data & 3 & 1.0 \\
 4 & An Evaluation Framework for Algebraic Object-Oriented Query Models & 3 & 1.0 \\
@@ -37,23 +37,23 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
-1 & Finding Candidate Keys for Relational Data Bases & 1 & 1.0 \\
+\textbf{1} & \textbf{Finding Candidate Keys for Relational Data Bases} & \textbf{1} & \textbf{1.0} \\
 2 & Percentile Finding Algorithm for Multiple Sorted Runs & 1 & 1.0 \\
 3 & Fast-Start: Quick Fault Recovery in Oracle & 1 & 1.0 \\
 4 & Performance Evaluation of Two Concurrency Control Mechanisms in a Distributed Database System & 2 & 1.0 \\

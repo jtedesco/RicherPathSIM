@@ -3,9 +3,9 @@
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & IDEA: Interactive Data Exploration and Analysis & 1 & 1.0 \\
+\textbf{1} & \textbf{IDEA: Interactive Data Exploration and Analysis} & \textbf{1} & \textbf{1.0} \\
 2 & XML Data Management Go Native or Spruce up Relational Systems? (Panel Abstract) & 0 & 1.0 \\
 3 & A System for Semantic Query Optimization & 5 & 1.0 \\
 4 & Dynamic Itemset Counting and Implication Rules for Market Basket Data & 57 & 1.0 \\
@@ -20,9 +20,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & IDEA: Interactive Data Exploration and Analysis & 1 & 1.0 \\
+\textbf{1} & \textbf{IDEA: Interactive Data Exploration and Analysis} & \textbf{1} & \textbf{1.0} \\
 2 & XML Data Management Go Native or Spruce up Relational Systems? (Panel Abstract) & 0 & 1.0 \\
 3 & A System for Semantic Query Optimization & 5 & 1.0 \\
 4 & Dynamic Itemset Counting and Implication Rules for Market Basket Data & 57 & 1.0 \\
@@ -37,9 +37,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & Modeling Human Decision Making in Cliff-Edge Environments & 0 & 1.0 \\
+\textbf{1} & \textbf{Modeling Human Decision Making in Cliff-Edge Environments} & \textbf{0} & \textbf{1.0} \\
 2 & Exploration of the Robustness of Plans & 0 & 1.0 \\
 3 & Adaptive Localization in a Dynamic WiFi Environment through Multi-view Learning & 0 & 1.0 \\
 4 & Acquiring Visibly Intelligent Behavior with Example-Guided Neuroevolution & 0 & 1.0 \\
@@ -54,9 +54,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & Scheduling of Page-Fetches in Join Operations & 0 & 1.0 \\
+\textbf{1} & \textbf{Scheduling of Page-Fetches in Join Operations} & \textbf{0} & \textbf{1.0} \\
 2 & EntityRank: Searching Entities Directly and Holistically & 1 & 1.0 \\
 3 & A Simple and Efficient Estimation Method for Stream Expression Cardinalities & 0 & 1.0 \\
 4 & The Long-Term Preservation of Authentic Electronic Records & 0 & 1.0 \\
@@ -71,9 +71,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & Tuning an SQL-Based PDM System in a Worldwide Client/Server Environment & 0 & 1.0 \\
+\textbf{1} & \textbf{Tuning an SQL-Based PDM System in a Worldwide Client/Server Environment} & \textbf{0} & \textbf{1.0} \\
 2 & Batch Scheduling in Parallel Database Systems & 2 & 1.0 \\
 3 & Determining Beneficial Semijoins for a Join Sequence in Distributed Query Processing & 1 & 1.0 \\
 4 & Global Integration of Visual Databases & 0 & 1.0 \\

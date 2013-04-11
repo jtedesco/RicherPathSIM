@@ -3,9 +3,9 @@
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
-1 & Mining Association Rules between Sets of Items in Large Databases & 258 & 1.0 \\
+\textbf{1} & \textbf{Mining Association Rules between Sets of Items in Large Databases} & \textbf{258} & \textbf{1.0} \\
 2 & Fast Algorithms for Mining Association Rules in Large Databases & 305 & 0.684 \\
 3 & Mining Sequential Patterns & 106 & 0.465 \\
 4 & Beyond Market Baskets: Generalizing Association Rules to Correlations & 54 & 0.457 \\
@@ -20,9 +20,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
-1 & R-Trees: A Dynamic Index Structure for Spatial Searching & 3 & 1.0 \\
+\textbf{1} & \textbf{R-Trees: A Dynamic Index Structure for Spatial Searching} & \textbf{3} & \textbf{1.0} \\
 2 & A Raster Approximation For Processing of Spatial Joins & 2 & 0.56 \\
 3 & A New Method for Similarity Indexing of Market Basket Data & 4 & 0.483 \\
 4 & A Fast Algorithm to Cluster High Dimensional Basket Data & 2 & 0.444 \\
@@ -37,23 +37,23 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & NeighborSim Score\\
 \hline
-1 & Handling frequent updates of moving objects & 1 & 1.0 \\
+\textbf{1} & \textbf{Handling frequent updates of moving objects} & \textbf{1} & \textbf{1.0} \\
 2 & R-trees with Update Memos & 1 & 1.0 \\
 3 & Supporting Frequent Updates in R-Trees: A Bottom-Up Approach & 1 & 1.0 \\
 4 & An Evaluation of Generic Bulk Loading Techniques & 2 & 0.75 \\

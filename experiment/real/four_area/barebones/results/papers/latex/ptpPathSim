@@ -3,9 +3,9 @@
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & Mining Association Rules between Sets of Items in Large Databases & 258 & 1.0 \\
+\textbf{1} & \textbf{Mining Association Rules between Sets of Items in Large Databases} & \textbf{258} & \textbf{1.0} \\
 2 & The Rough Set Approach to Association Rule Mining & 0 & 0.722 \\
 3 & Mining Association Rules in Hypertext Databases & 0 & 0.71 \\
 4 & Sampling Large Databases for Association Rules & 50 & 0.706 \\
@@ -20,9 +20,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & R-Trees: A Dynamic Index Structure for Spatial Searching & 3 & 1.0 \\
+\textbf{1} & \textbf{R-Trees: A Dynamic Index Structure for Spatial Searching} & \textbf{3} & \textbf{1.0} \\
 2 & The K-D-B-Tree: A Search Structure For Large Multidimensional Dynamic Indexes & 63 & 0.877 \\
 3 & The DC-Tree: A Fully Dynamic Index Structure for Data Warehouses & 0 & 0.778 \\
 4 & ViST: A Dynamic Index Method for Querying XML Data by Tree Structures & 18 & 0.7 \\
@@ -37,9 +37,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & Efficient Reasoning in Qualitative Probabilistic Networks & 0 & 1.0 \\
+\textbf{1} & \textbf{Efficient Reasoning in Qualitative Probabilistic Networks} & \textbf{0} & \textbf{1.0} \\
 2 & Reasoning and Learning in Probabilistic and Possibilistic Networks: An Overview & 0 & 0.667 \\
 3 & Towards Efficient Default Reasoning & 0 & 0.643 \\
 4 & Off-line Reasoning for On-line Efficiency & 0 & 0.643 \\
@@ -54,9 +54,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & Self-Tuning Database Systems: A Decade of Progress & 0 & 1.0 \\
+\textbf{1} & \textbf{Self-Tuning Database Systems: A Decade of Progress} & \textbf{0} & \textbf{1.0} \\
 2 & A Decade of Progress in Indexing and Mining Large Time Series Databases & 2 & 0.5 \\
 3 & Database Tuning & 0 & 0.5 \\
 4 & Rethinking Database System Architecture: Towards a Self-Tuning RISC-Style Database System & 6 & 0.483 \\
@@ -71,9 +71,9 @@ Rank & Paper & Citation Count & Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citation Count & Score\\
+Rank & Paper & Citations & PathSim Score\\
 \hline
-1 & R-trees with Update Memos & 1 & 1.0 \\
+\textbf{1} & \textbf{R-trees with Update Memos} & \textbf{1} & \textbf{1.0} \\
 2 & ODMG Update & 0 & 0.737 \\
 3 & SQL3 Update & 0 & 0.737 \\
 4 & Updating XML & 16 & 0.737 \\

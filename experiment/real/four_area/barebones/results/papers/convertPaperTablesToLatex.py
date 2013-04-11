@@ -20,6 +20,7 @@ for filename in os.listdir('.'):
 
     titleBuffer = ""
     score = 0
+    rank = 0
 
     for line in content.split('\n'):
         if line.startswith('Most Similar'):
@@ -36,7 +37,10 @@ for filename in os.listdir('.'):
             rank += 1
             strippedTitle = titleBuffer.strip().replace(' ','')
             title = titleBuffer.strip().rstrip('.')
-            latexContent += '%d & %s & %s & %s \\\\\n' % (rank, title, citationCounts[strippedTitle], score)
+            if rank == 1:
+                latexContent += '\\textbf{%d} & \\textbf{%s} & \\textbf{%s} & \\textbf{%s} \\\\\n' % (rank, title, citationCounts[strippedTitle], score)
+            else:
+                latexContent += '%d & %s & %s & %s \\\\\n' % (rank, title, citationCounts[strippedTitle], score)
             titleBuffer = ""
             score = 0
     with open(os.path.join('latex', filename), 'w') as outputFile:
