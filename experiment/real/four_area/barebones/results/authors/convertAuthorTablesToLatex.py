@@ -20,7 +20,8 @@ for filename in os.listdir('.'):
             rank = 0
             latexContent += '\hline\n\end{tabular}\n\n'
             latexContent += '\\begin{tabular}{|c|c|c|c|c|}\n\hline\nRank & Author & Citations \\footnotemark[1] ' \
-                            + ('& Publications ' if showPublications else '') +  '& %s Score\\\\\n\hline\n' % measure
+                            + ('& Publications \\footnotemark[1]' if showPublications else '')\
+                            + '& %s Score\\\\\n\hline\n' % measure
         elif line.startswith('+='):
             continue
         elif 'Author' in line:

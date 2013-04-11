@@ -3,7 +3,7 @@
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications & PathSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
 \hline
 \textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{127} & \textbf{1} \\
 2 & Jiawei Han & 665 & 168 & 0.906 \\
@@ -20,7 +20,7 @@ Rank & Author & Citations \footnotemark[1] & Publications & PathSim Score\\
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications & PathSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
 \hline
 \textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{105} & \textbf{1} \\
 2 & Hector Garcia-Molina & 613 & 98 & 0.958 \\
@@ -37,7 +37,7 @@ Rank & Author & Citations \footnotemark[1] & Publications & PathSim Score\\
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications & PathSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
 \hline
 \textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{7} & \textbf{1} \\
 2 & Nicola Onose & 6 & 7 & 0.944 \\
@@ -54,7 +54,7 @@ Rank & Author & Citations \footnotemark[1] & Publications & PathSim Score\\
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications & PathSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
 \hline
 \textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{216} & \textbf{1} \\
 2 & Jiawei Han & 665 & 168 & 0.920 \\
@@ -71,7 +71,7 @@ Rank & Author & Citations \footnotemark[1] & Publications & PathSim Score\\
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications & PathSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
 \hline
 \textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{26} & \textbf{1} \\
 2 & Jignesh M. Patel & 92 & 25 & 0.976 \\
