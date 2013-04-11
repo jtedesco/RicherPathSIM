@@ -1,11 +1,15 @@
 import os
-from experiment.real.four_area.barebones import AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimTPPAExperiment, AuthorsPathSimAPCPAExperiment, AggregateAuthorsExperiment, AuthorsNeighborSimAbsPPAExperiment, AuthorsNeighborSimCPPAExperiment
+from experiment.real.four_area.barebones import AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimTPPAExperiment, \
+    AuthorsPathSimAPCPAExperiment, AggregateAuthorsExperiment, AuthorsNeighborSimAbsPPAExperiment, \
+    AuthorsNeighborSimCPPAExperiment, AuthorsNeighborSimAPPAExperiment
 
 __author__ = 'jontedesco'
 
 # Standalone experiments
 print("Running NeighborSim PPA experiment:")
 citationCounts, publicationCounts = AuthorsNeighborSimPPAExperiment.run()
+print("Running NeighborSim APPA experiment:")
+AuthorsNeighborSimAPPAExperiment.run(citationCounts, publicationCounts)
 print("Running NeighborSim TPPA experiment:")
 AuthorsNeighborSimTPPAExperiment.run(citationCounts, publicationCounts)
 print("Running NeighborSim CPPA experiment:")
