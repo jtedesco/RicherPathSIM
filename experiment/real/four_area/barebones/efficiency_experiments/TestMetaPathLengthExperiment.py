@@ -67,7 +67,7 @@ def run():
             adjMatrices = []
             adjMatrix1, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart, rows=True)
             adjMatrices.append(adjMatrix1)
-            for i in repetitions:
+            for i in xrange(0, repetitions):
                 adjMatrices.append(adjMatrix1)
             partialPathsEndTime = datetime.now()
             partialTime = partialPathsEndTime - partialPathsStartTime
@@ -78,7 +78,7 @@ def run():
             # Multiply for full adj matrix
             multiplyStartTime = datetime.now()
             fullAdjMatrix = adjMatrix
-            for i in repetitions:
+            for i in xrange(0, repetitions):
                 fullAdjMatrix = fullAdjMatrix * fullAdjMatrix
             fullAdjMatrix = lil_matrix(fullAdjMatrix)
             multiplyEndTime = datetime.now()
