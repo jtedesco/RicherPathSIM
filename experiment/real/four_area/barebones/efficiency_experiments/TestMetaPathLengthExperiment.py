@@ -73,14 +73,13 @@ def run():
             partialTime = partialPathsEndTime - partialPathsStartTime
 
             # Get the number of bytes to store partial adj matrices
-            bytesForMatrices = sys.getsizeof(adjMatrix)
+            bytesForMatrices = sys.getsizeof(adjMatrix1)
 
             # Multiply for full adj matrix
             multiplyStartTime = datetime.now()
             fullAdjMatrix = adjMatrix
             for i in xrange(0, repetitions):
                 fullAdjMatrix = fullAdjMatrix * fullAdjMatrix
-            fullAdjMatrix = lil_matrix(fullAdjMatrix)
             multiplyEndTime = datetime.now()
             multiplyTime = multiplyEndTime - multiplyStartTime
 
