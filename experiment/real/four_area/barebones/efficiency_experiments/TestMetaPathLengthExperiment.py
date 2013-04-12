@@ -79,7 +79,7 @@ def run():
             multiplyStartTime = datetime.now()
             fullAdjMatrix = adjMatrix
             for i in xrange(0, repetitions):
-                fullAdjMatrix = fullAdjMatrix * fullAdjMatrix
+                fullAdjMatrix = fullAdjMatrix * adjMatrix
             multiplyEndTime = datetime.now()
             multiplyTime = multiplyEndTime - multiplyStartTime
 
