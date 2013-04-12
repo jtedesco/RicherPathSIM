@@ -1,11 +1,12 @@
 import cPickle
-from collections import defaultdict
-from datetime import datetime
 import os
-from scipy.sparse import lil_matrix
+import sys
 import texttable
+from datetime import datetime
+from collections import defaultdict
+from scipy.sparse import lil_matrix
 from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, \
-    getNeighborSimScore, testPapers
+    getNeighborSimScore
 
 __author__ = 'jontedesco'
 
@@ -85,6 +86,9 @@ def run():
             partialPathsEndTime = datetime.now()
             partialTime = partialPathsEndTime - partialPathsStartTime
 
+            # Get the number of bytes to store partial adj matrices
+            bytesForMatrices = sys.getsizeof(adjMatrix1) + sys.getsizeof(adjMatrix2)
+
             # Multiply for full adj matrix
             multiplyStartTime = datetime.now()
             fullAdjMatrix = lil_matrix(adjMatrix1 * adjMatrix2)
@@ -98,10 +102,10 @@ def run():
 
             # Output results
             metaPathLengthExperimentResults[pathLength].append((
-                secondsForFullPath, secondsForPartial, secondsForMultiplication
+                secondsForFullPath, secondsForPartial, secondsForMultiplication, bytesForMatrices
             ))
-            print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f  [%s]" % (
-                secondsForFullPath, secondsForPartial, secondsForMultiplication, ', '.join(metaPath)
+            print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f, Bytes: %d  [%s]" % (
+                secondsForFullPath, secondsForPartial, secondsForMultiplication, bytesForMatrices, ', '.join(metaPath)
             )
 
     cPickle.dump(metaPathLengthExperimentResults, open('results', 'w'))
