@@ -44,6 +44,8 @@ def run():
         ]
     }
 
+    graph, nodeIndex = cPickle.load(open(os.path.join('..', 'data', 'graphWithCitations')))
+
     # Map of experiment length to experiment, which contains a tuple of average time
     # without and with saving adj matrix
     metaPathLengthExperimentResults = defaultdict(list)
@@ -54,28 +56,26 @@ def run():
             print "Running for [%s] ..." % ', '.join(metaPath)
 
             # Get adjacency matrix directly
+            print "Running with full path..."
             fullPathStartTime = datetime.now()
-            graph, nodeIndex = cPickle.load(open(os.path.join('..', 'data', 'graphWithCitations')))
             adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPath)
             fullPathEndTime = datetime.now()
             fullTime = fullPathEndTime - fullPathStartTime
 
             # Split meta path
+            print "Finding partial path..."
             partialPathsStartTime = datetime.now()
             metaPathPart = [p, a, p] if metaPath[0] == p else [a, p, a]
             repetitions = (len(metaPath) - 1) / 2
-            adjMatrices = []
-            adjMatrix1, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart, rows=True)
-            adjMatrices.append(adjMatrix1)
-            for i in xrange(0, repetitions):
-                adjMatrices.append(adjMatrix1)
+            adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart)
             partialPathsEndTime = datetime.now()
             partialTime = partialPathsEndTime - partialPathsStartTime
 
             # Get the number of bytes to store partial adj matrices
-            bytesForMatrices = sys.getsizeof(adjMatrix1)
+            bytesForMatrices = sys.getsizeof(adjMatrix)
 
             # Multiply for full adj matrix
+            print "Multiplying partial path for full adjacency..."
             multiplyStartTime = datetime.now()
             fullAdjMatrix = adjMatrix
             for i in xrange(0, repetitions):
