@@ -28,35 +28,19 @@ def run():
     metaPathLengthExperiments = {
         3: [
             [p, a, p],
-            [p, c, p],
-            [p, t, p],
             [a, p, a],
-            [c, p, c],
-            [t, p, t],
         ],
         5: [
             [p, a, p, a, p],
-            [p, c, p, c, p],
-            [p, t, p, t, p],
             [a, p, a, p, a],
-            [c, p, c, p, c],
-            [t, p, t, p, t],
         ],
         7: [
             [p, a, p, a, p, a, p],
-            [p, c, p, c, p, c, p],
-            [p, t, p, t, p, t, p],
             [a, p, a, p, a, p, a],
-            [c, p, c, p, c, p, c],
-            [t, p, t, p, t, p, t],
         ],
         9: [
             [p, a, p, a, p, a, p, a, p],
-            [p, c, p, c, p, c, p, c, p],
-            [p, t, p, t, p, t, p, t, p],
             [a, p, a, p, a, p, a, p, a],
-            [c, p, c, p, c, p, c, p, c],
-            [t, p, t, p, t, p, t, p, t],
         ]
     }
 
@@ -78,20 +62,25 @@ def run():
 
             # Split meta path
             partialPathsStartTime = datetime.now()
-            metaPath1, metaPath2 = metaPath[:(pathLength / 2) + 1], metaPath[(pathLength / 2):]
-            adjMatrix1, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPath1, rows=True)
-            adjMatrix2, data = getMetaPathAdjacencyData(graph, nodeIndex, metaPath2)
-            extraData['toNodes'] = data['toNodes']
-            extraData['toNodesIndex'] = data['toNodesIndex']
+            metaPathPart = [p, a, p] if metaPath[0] == p else [a, p, a]
+            repititions = (len(metaPath) - 1) / 2
+            adjMatrices = []
+            adjMatrix1, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart, rows=True)
+            adjMatrices.append(adjMatrix1)
+            for i in repitions:
+                adjMatrices.append(adjMatrix1)
             partialPathsEndTime = datetime.now()
             partialTime = partialPathsEndTime - partialPathsStartTime
 
             # Get the number of bytes to store partial adj matrices
-            bytesForMatrices = sys.getsizeof(adjMatrix1) + sys.getsizeof(adjMatrix2)
+            bytesForMatrices = sys.getsizeof(adjMatrix)
 
             # Multiply for full adj matrix
             multiplyStartTime = datetime.now()
-            fullAdjMatrix = lil_matrix(adjMatrix1 * adjMatrix2)
+            fullAdjMatrix = adjMatrix
+            for i in repitions:
+                fullAdjMatrix = fullAdjMatrix * fullAdjMatrix
+            fullAdjMatrix = lil_matrix(fullAdjMatrix)
             multiplyEndTime = datetime.now()
             multiplyTime = multiplyEndTime - multiplyStartTime
 
