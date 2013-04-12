@@ -35,13 +35,9 @@ def run():
             [a, p, a, p, a],
         ],
         7: [
-            [p, a, p, a, p, a, p],
             [a, p, a, p, a, p, a],
+            [a, p, p, a, p, p, a]
         ],
-        9: [
-            [p, a, p, a, p, a, p, a, p],
-            [a, p, a, p, a, p, a, p, a],
-        ]
     }
 
     graph, nodeIndex = cPickle.load(open(os.path.join('..', 'data', 'graphWithCitations')))
@@ -66,7 +62,7 @@ def run():
             print "Finding partial path..."
             partialPathsStartTime = datetime.now()
             metaPathPart = [p, a, p] if metaPath[0] == p else [a, p, a]
-            repetitions = (len(metaPath) - 1) / 2
+            repetitions = ((len(metaPath) - 1) / 2)
             adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart)
             partialPathsEndTime = datetime.now()
             partialTime = partialPathsEndTime - partialPathsStartTime
