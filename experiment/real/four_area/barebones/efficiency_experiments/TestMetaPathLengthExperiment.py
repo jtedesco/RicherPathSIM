@@ -63,11 +63,11 @@ def run():
             # Split meta path
             partialPathsStartTime = datetime.now()
             metaPathPart = [p, a, p] if metaPath[0] == p else [a, p, a]
-            repititions = (len(metaPath) - 1) / 2
+            repetitions = (len(metaPath) - 1) / 2
             adjMatrices = []
             adjMatrix1, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart, rows=True)
             adjMatrices.append(adjMatrix1)
-            for i in repititions:
+            for i in repetitions:
                 adjMatrices.append(adjMatrix1)
             partialPathsEndTime = datetime.now()
             partialTime = partialPathsEndTime - partialPathsStartTime
@@ -78,7 +78,7 @@ def run():
             # Multiply for full adj matrix
             multiplyStartTime = datetime.now()
             fullAdjMatrix = adjMatrix
-            for i in repititions:
+            for i in repetitions:
                 fullAdjMatrix = fullAdjMatrix * fullAdjMatrix
             fullAdjMatrix = lil_matrix(fullAdjMatrix)
             multiplyEndTime = datetime.now()
