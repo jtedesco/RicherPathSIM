@@ -30,21 +30,32 @@ def run():
             [p, c, p],
             [p, t, p],
             [a, p, a],
-        ],
-        4: [
-            [a, p, p, a],
+            [c, p, c],
+            [t, p, t],
         ],
         5: [
-            [a, p, c, p, a],
+            [p, a, p, a, p],
+            [p, c, p, c, p],
+            [p, t, p, t, p],
             [a, p, a, p, a],
-            [p, a, c, a, p],
-            [a, p, t, p, a],
-            [p, p, t, p, p],
+            [c, p, c, p, c],
+            [t, p, t, p, t],
         ],
         7: [
-            [a, p, p, c, p, p, a],
-            [a, p, p, a, p, p, a],
-            [a, p, p, t, p, p, a],
+            [p, a, p, a, p, a, p],
+            [p, c, p, c, p, c, p],
+            [p, t, p, t, p, t, p],
+            [a, p, a, p, a, p, a],
+            [c, p, c, p, c, p, c],
+            [t, p, t, p, t, p, t],
+        ],
+        9: [
+            [p, a, p, a, p, a, p, a, p],
+            [p, c, p, c, p, c, p, c, p],
+            [p, t, p, t, p, t, p, t, p],
+            [a, p, a, p, a, p, a, p, a],
+            [c, p, c, p, c, p, c, p, c],
+            [t, p, t, p, t, p, t, p, t],
         ]
     }
 
