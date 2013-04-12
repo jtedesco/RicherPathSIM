@@ -63,8 +63,10 @@ def run():
     # without and with saving adj matrix
     metaPathLengthExperimentResults = defaultdict(list)
 
-    for pathLength in metaPathLengthExperiments:
+    for pathLength in sorted(metaPathLengthExperiments.keys()):
         for metaPath in metaPathLengthExperiments[pathLength]:
+
+            print "Running for [%s] ..." % ', '.join(metaPath)
 
             # Get adjacency matrix directly
             fullPathStartTime = datetime.now()
