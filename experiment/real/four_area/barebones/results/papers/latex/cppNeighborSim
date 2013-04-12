@@ -3,63 +3,89 @@
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & NeighborSim Score\\
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
-\textbf{1} & \textbf{Mining Association Rules between Sets of Items in Large Databases} & \textbf{258} & \textbf{1.0} \\
-2 & Fast Algorithms for Mining Association Rules in Large Databases & 305 & 0.986 \\
-3 & BIRCH: An Efficient Data Clustering Method for Very Large Databases & 126 & 0.717 \\
+\textbf{1} & \textbf{Mining Association Rules between Sets} & \textbf{258} & \textbf{1.0} \\
+ & \textbf{of Items in Large Databases} &  &  \\
+2 & Fast Algorithms for Mining & 305 & 0.986 \\
+ & Association Rules in Large Databases &  &  \\
+3 & BIRCH: An Efficient Data Clustering & 126 & 0.717 \\
+ & Method for Very Large Databases &  &  \\
 4 & Mining Sequential Patterns & 106 & 0.712 \\
-5 & Automatic Subspace Clustering of High Dimensional Data for Data Mining Applications & 89 & 0.626 \\
-6 & Mining Frequent Patterns without Candidate Generation & 73 & 0.561 \\
-7 & Text Categorization with Suport Vector Machines: Learning with Many Relevant Features & 161 & 0.553 \\
-8 & The R*-Tree: An Efficient and Robust Access Method for Points and Rectangles & 210 & 0.534 \\
-9 & Mining Quantitative Association Rules in Large Relational Tables & 65 & 0.472 \\
-10 & A Comparative Study on Feature Selection in Text Categorization & 112 & 0.47 \\
+5 & Automatic Subspace Clustering of High & 89 & 0.626 \\
+ & Dimensional Data for Data Mining Applications &  &  \\
+6 & Mining Frequent Patterns & 73 & 0.561 \\
+ & without Candidate Generation &  &  \\
+7 & Text Categorization with Suport Vector & 161 & 0.553 \\
+ & Machines: Learning with Many Relevant Features &  &  \\
+8 & The R*-Tree: An Efficient and Robust & 210 & 0.534 \\
+ & Access Method for Points and Rectangles &  &  \\
+9 & Mining Quantitative Association Rules & 65 & 0.472 \\
+ & in Large Relational Tables &  &  \\
+10 & A Comparative Study on & 112 & 0.47 \\
+ & Feature Selection in Text Categorization &  &  \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & NeighborSim Score\\
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
 \textbf{1} & \textbf{Abstract Machine for LDL} & \textbf{3} & \textbf{1.0} \\
-2 & Adaptive Data Broadcast in Hybrid Networks & 3 & 1.0 \\
-3 & Semantics Based Transaction Management Techniques for Replicated Data & 3 & 1.0 \\
-4 & An Evaluation Framework for Algebraic Object-Oriented Query Models & 3 & 1.0 \\
-5 & Local Disk Caching for Client-Server Database Systems & 3 & 1.0 \\
-6 & Clustering Techniques for Minimizing External Path Length & 3 & 1.0 \\
-7 & Prepare and Commit Certification for Decentralized Transaction Management in Rigorous Heterogeneous Multidatabases & 3 & 1.0 \\
+2 & Adaptive Data Broadcast & 3 & 1.0 \\
+ & in Hybrid Networks &  &  \\
+3 & Semantics Based Transaction Management & 3 & 1.0 \\
+ & Techniques for Replicated Data &  &  \\
+4 & An Evaluation Framework for & 3 & 1.0 \\
+ & Algebraic Object-Oriented Query Models &  &  \\
+5 & Local Disk Caching & 3 & 1.0 \\
+ & for Client-Server Database Systems &  &  \\
+6 & Clustering Techniques for & 3 & 1.0 \\
+ & Minimizing External Path Length &  &  \\
+7 & Prepare and Commit Certification for Decentralized & 3 & 1.0 \\
+ & Transaction Management in Rigorous Heterogeneous Multidatabases &  &  \\
 8 & Querying Database Knowledge & 3 & 1.0 \\
-9 & Handling Summary Information in a Database: Derivability & 3 & 1.0 \\
-10 & An Approach to Integrating Query Refinement in SQL & 3 & 1.0 \\
+9 & Handling Summary Information & 3 & 1.0 \\
+ & in a Database: Derivability &  &  \\
+10 & An Approach to Integrating & 3 & 1.0 \\
+ & Query Refinement in SQL &  &  \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & NeighborSim Score\\
-\hline
-\hline
-\end{tabular}
-
-\begin{tabular}{|c|c|c|c|}
-\hline
-Rank & Paper & Citations & NeighborSim Score\\
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & NeighborSim Score\\
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
-\textbf{1} & \textbf{Finding Candidate Keys for Relational Data Bases} & \textbf{1} & \textbf{1.0} \\
-2 & Percentile Finding Algorithm for Multiple Sorted Runs & 1 & 1.0 \\
-3 & Fast-Start: Quick Fault Recovery in Oracle & 1 & 1.0 \\
-4 & Performance Evaluation of Two Concurrency Control Mechanisms in a Distributed Database System & 2 & 1.0 \\
-5 & Forms Approach to Requirements Specification for Database Design & 1 & 1.0 \\
-6 & Dealing with Temporal Schema Anomalies in History Databases & 1 & 1.0 \\
-7 & V-Trees - A Storage Method for Long Vector Data & 1 & 1.0 \\
-8 & On B-Trees: Routing Schemes and Concurrency & 1 & 1.0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Finding Candidate Keys} & \textbf{1} & \textbf{1.0} \\
+ & \textbf{for Relational Data Bases} &  &  \\
+2 & Percentile Finding Algorithm & 1 & 1.0 \\
+ & for Multiple Sorted Runs &  &  \\
+3 & Fast-Start: Quick Fault & 1 & 1.0 \\
+ & Recovery in Oracle &  &  \\
+4 & Performance Evaluation of Two Concurrency Control & 2 & 1.0 \\
+ & Mechanisms in a Distributed Database System &  &  \\
+5 & Forms Approach to Requirements & 1 & 1.0 \\
+ & Specification for Database Design &  &  \\
+6 & Dealing with Temporal Schema & 1 & 1.0 \\
+ & Anomalies in History Databases &  &  \\
+7 & V-Trees - A Storage & 1 & 1.0 \\
+ & Method for Long Vector Data &  &  \\
+8 & On B-Trees: Routing & 1 & 1.0 \\
+ & Schemes and Concurrency &  &  \\
 9 & Compiling XSLT 2.0 into XQuery 1.0 & 1 & 1.0 \\
-10 & Self Maintenance of Multiple Views in Data Warehousing & 1 & 1.0 \\
+10 & Self Maintenance of Multiple & 1 & 1.0 \\
+ & Views in Data Warehousing &  &  \\

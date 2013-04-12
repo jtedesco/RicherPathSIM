@@ -26,7 +26,8 @@ for filename in os.listdir('.'):
         if line.startswith('Most Similar'):
             rank = 0
             latexContent += '\hline\n\end{tabular}\n\n'
-            latexContent += '\\begin{tabular}{|c|c|c|c|}\n\hline\nRank & Paper & Citations & %s Score\\\\\n\hline\n' % measure
+            latexContent += '\\begin{tabular}{|c|c|c|c|}\n\hline\nRank & Paper & Citations \\footnotemark[1] ' + \
+                            '& %s Score\\\\\n\hline\n' % measure
         elif 'Paper' in line:
             continue
         elif line.startswith('| '):
@@ -37,10 +38,28 @@ for filename in os.listdir('.'):
             rank += 1
             strippedTitle = titleBuffer.strip().replace(' ','')
             title = titleBuffer.strip().rstrip('.')
+
+            firstHalf = title
+            splitTitle = len(title) > 40
+            if splitTitle:
+                titleParts = title.split()
+                firstHalf = ' '.join(titleParts[:len(titleParts) / 2])
+                secondHalf = ' '.join(titleParts[len(titleParts) / 2:])
+
             if rank == 1:
-                latexContent += '\\textbf{%d} & \\textbf{%s} & \\textbf{%s} & \\textbf{%s} \\\\\n' % (rank, title, citationCounts[strippedTitle], score)
+                latexContent += '\\textbf{%d} & \\textbf{%s} & \\textbf{%s} & \\textbf{%s} \\\\\n' % (
+                    rank, firstHalf, citationCounts[strippedTitle], score
+                )
             else:
-                latexContent += '%d & %s & %s & %s \\\\\n' % (rank, title, citationCounts[strippedTitle], score)
+                latexContent += '%d & %s & %s & %s \\\\\n' % (rank, firstHalf, citationCounts[strippedTitle], score)
+
+            # Handle the second half of the title, if it was split
+            if splitTitle:
+                if rank == 1:
+                    latexContent += ' & \\textbf{%s} &  &  \\\\\n' % secondHalf
+                else:
+                    latexContent += ' & %s &  &  \\\\\n' % secondHalf
+
             titleBuffer = ""
             score = 0
     with open(os.path.join('latex', filename), 'w') as outputFile:

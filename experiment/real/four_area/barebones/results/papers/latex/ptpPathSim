@@ -3,67 +3,98 @@
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & PathSim Score\\
+Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
-\textbf{1} & \textbf{Mining Association Rules between Sets of Items in Large Databases} & \textbf{258} & \textbf{1.0} \\
-2 & The Rough Set Approach to Association Rule Mining & 0 & 0.722 \\
-3 & Mining Association Rules in Hypertext Databases & 0 & 0.71 \\
-4 & Sampling Large Databases for Association Rules & 50 & 0.706 \\
-5 & Ordinal Association Rules for Error Identification in Data Sets & 1 & 0.703 \\
-6 & Association Rules in Incomplete Databases & 0 & 0.688 \\
-7 & Mining Association Rules with Item Constraints & 0 & 0.688 \\
-8 & Fast Algorithms for Mining Association Rules in Large Databases & 305 & 0.686 \\
-9 & Discovering Association Rules in Large, Dense Databases & 0 & 0.667 \\
+\textbf{1} & \textbf{Mining Association Rules between Sets} & \textbf{258} & \textbf{1.0} \\
+ & \textbf{of Items in Large Databases} &  &  \\
+2 & The Rough Set Approach & 0 & 0.722 \\
+ & to Association Rule Mining &  &  \\
+3 & Mining Association Rules & 0 & 0.71 \\
+ & in Hypertext Databases &  &  \\
+4 & Sampling Large Databases & 50 & 0.706 \\
+ & for Association Rules &  &  \\
+5 & Ordinal Association Rules for & 1 & 0.703 \\
+ & Error Identification in Data Sets &  &  \\
+6 & Association Rules & 0 & 0.688 \\
+ & in Incomplete Databases &  &  \\
+7 & Mining Association Rules & 0 & 0.688 \\
+ & with Item Constraints &  &  \\
+8 & Fast Algorithms for Mining & 305 & 0.686 \\
+ & Association Rules in Large Databases &  &  \\
+9 & Discovering Association Rules & 0 & 0.667 \\
+ & in Large, Dense Databases &  &  \\
 10 & Association Rules & 0 & 0.667 \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & PathSim Score\\
+Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
-\textbf{1} & \textbf{R-Trees: A Dynamic Index Structure for Spatial Searching} & \textbf{3} & \textbf{1.0} \\
-2 & The K-D-B-Tree: A Search Structure For Large Multidimensional Dynamic Indexes & 63 & 0.877 \\
-3 & The DC-Tree: A Fully Dynamic Index Structure for Data Warehouses & 0 & 0.778 \\
-4 & ViST: A Dynamic Index Method for Querying XML Data by Tree Structures & 18 & 0.7 \\
-5 & On the Sequencing of Tree Structures for XML Indexing & 5 & 0.68 \\
-6 & Mining, Indexing, and Similarity Search in Graphs and Complex Structures & 0 & 0.679 \\
-7 & Dynamic authenticated index structures for outsourced databases & 5 & 0.679 \\
-8 & The X-tree : An Index Structure for High-Dimensional Data & 0 & 0.654 \\
-9 & H-trees: A Dynamic Associative Search Index for OODB & 6 & 0.643 \\
-10 & Incremental Maintenance of XML Structural Indexes & 2 & 0.638 \\
+\textbf{1} & \textbf{R-Trees: A Dynamic Index} & \textbf{3} & \textbf{1.0} \\
+ & \textbf{Structure for Spatial Searching} &  &  \\
+2 & The K-D-B-Tree: A Search Structure & 63 & 0.877 \\
+ & For Large Multidimensional Dynamic Indexes &  &  \\
+3 & The DC-Tree: A Fully Dynamic & 0 & 0.778 \\
+ & Index Structure for Data Warehouses &  &  \\
+4 & ViST: A Dynamic Index Method for & 18 & 0.7 \\
+ & Querying XML Data by Tree Structures &  &  \\
+5 & On the Sequencing of & 5 & 0.68 \\
+ & Tree Structures for XML Indexing &  &  \\
+6 & Mining, Indexing, and Similarity Search & 0 & 0.679 \\
+ & in Graphs and Complex Structures &  &  \\
+7 & Dynamic authenticated index & 5 & 0.679 \\
+ & structures for outsourced databases &  &  \\
+8 & The X-tree : An & 0 & 0.654 \\
+ & Index Structure for High-Dimensional Data &  &  \\
+9 & H-trees: A Dynamic Associative & 6 & 0.643 \\
+ & Search Index for OODB &  &  \\
+10 & Incremental Maintenance of & 2 & 0.638 \\
+ & XML Structural Indexes &  &  \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & PathSim Score\\
+Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
-\textbf{1} & \textbf{Efficient Reasoning in Qualitative Probabilistic Networks} & \textbf{0} & \textbf{1.0} \\
-2 & Reasoning and Learning in Probabilistic and Possibilistic Networks: An Overview & 0 & 0.667 \\
+\textbf{1} & \textbf{Efficient Reasoning in} & \textbf{0} & \textbf{1.0} \\
+ & \textbf{Qualitative Probabilistic Networks} &  &  \\
+2 & Reasoning and Learning in Probabilistic & 0 & 0.667 \\
+ & and Possibilistic Networks: An Overview &  &  \\
 3 & Towards Efficient Default Reasoning & 0 & 0.643 \\
-4 & Off-line Reasoning for On-line Efficiency & 0 & 0.643 \\
-5 & Efficiency Considerations on Built- in Taxonomic Reasoning in PROLOG & 0 & 0.621 \\
-6 & Efficient Temporal Reasoning through Timegraphs & 0 & 0.621 \\
-7 & Qualitative Spatial and Temporal Reasoning: Efficient Algorithms for Everyone & 0 & 0.595 \\
+4 & Off-line Reasoning & 0 & 0.643 \\
+ & for On-line Efficiency &  &  \\
+5 & Efficiency Considerations on Built- & 0 & 0.621 \\
+ & in Taxonomic Reasoning in PROLOG &  &  \\
+6 & Efficient Temporal & 0 & 0.621 \\
+ & Reasoning through Timegraphs &  &  \\
+7 & Qualitative Spatial and Temporal & 0 & 0.595 \\
+ & Reasoning: Efficient Algorithms for Everyone &  &  \\
 8 & Probabilistic Temporal Reasoning & 0 & 0.593 \\
 9 & Qualitative Mathematical Reasoning & 0 & 0.571 \\
-10 & Qualitative Reasoning with Microscopic Theories & 0 & 0.571 \\
+10 & Qualitative Reasoning & 0 & 0.571 \\
+ & with Microscopic Theories &  &  \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & PathSim Score\\
+Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
-\textbf{1} & \textbf{Self-Tuning Database Systems: A Decade of Progress} & \textbf{0} & \textbf{1.0} \\
-2 & A Decade of Progress in Indexing and Mining Large Time Series Databases & 2 & 0.5 \\
+\textbf{1} & \textbf{Self-Tuning Database Systems:} & \textbf{0} & \textbf{1.0} \\
+ & \textbf{A Decade of Progress} &  &  \\
+2 & A Decade of Progress in Indexing & 2 & 0.5 \\
+ & and Mining Large Time Series Databases &  &  \\
 3 & Database Tuning & 0 & 0.5 \\
-4 & Rethinking Database System Architecture: Towards a Self-Tuning RISC-Style Database System & 6 & 0.483 \\
+4 & Rethinking Database System Architecture: Towards & 6 & 0.483 \\
+ & a Self-Tuning RISC-Style Database System &  &  \\
 5 & LINGOL-A Progress Report & 0 & 0.48 \\
 6 & Mining progressive confident rules & 0 & 0.48 \\
-7 & How to Progress a Database II: The STRIPS Connection & 0 & 0.471 \\
-8 & Disease progression modeling from historical clinical databases & 0 & 0.471 \\
+7 & How to Progress a & 0 & 0.471 \\
+ & Database II: The STRIPS Connection &  &  \\
+8 & Disease progression modeling & 0 & 0.471 \\
+ & from historical clinical databases &  &  \\
 9 & Progressive Modeling & 2 & 0.462 \\
 10 & On progressive sequential pattern mining & 0 & 0.462 \\
 \hline
@@ -71,7 +102,7 @@ Rank & Paper & Citations & PathSim Score\\
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & PathSim Score\\
+Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
 \textbf{1} & \textbf{R-trees with Update Memos} & \textbf{1} & \textbf{1.0} \\
 2 & ODMG Update & 0 & 0.737 \\

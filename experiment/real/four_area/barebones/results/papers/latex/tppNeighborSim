@@ -3,63 +3,92 @@
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & NeighborSim Score\\
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
-\textbf{1} & \textbf{Mining Association Rules between Sets of Items in Large Databases} & \textbf{258} & \textbf{1.0} \\
-2 & Fast Algorithms for Mining Association Rules in Large Databases & 305 & 0.969 \\
-3 & An Effective Hash Based Algorithm for Mining Association Rules & 60 & 0.628 \\
-4 & Mining Quantitative Association Rules in Large Relational Tables & 65 & 0.575 \\
-5 & An Efficient Algorithm for Mining Association Rules in Large Databases & 57 & 0.543 \\
-6 & Discovery of Multiple-Level Association Rules from Large Databases & 46 & 0.503 \\
-7 & Dynamic Itemset Counting and Implication Rules for Market Basket Data & 57 & 0.447 \\
-8 & Finding Interesting Rules from Large Sets of Discovered Association Rules & 48 & 0.432 \\
-9 & Sampling Large Databases for Association Rules & 50 & 0.425 \\
-10 & Beyond Market Baskets: Generalizing Association Rules to Correlations & 54 & 0.397 \\
-\hline
-\end{tabular}
-
-\begin{tabular}{|c|c|c|c|}
-\hline
-Rank & Paper & Citations & NeighborSim Score\\
-\hline
-\textbf{1} & \textbf{R-Trees: A Dynamic Index Structure for Spatial Searching} & \textbf{3} & \textbf{1.0} \\
-2 & A Raster Approximation For Processing of Spatial Joins & 2 & 0.527 \\
-3 & An Evaluation of Generic Bulk Loading Techniques & 2 & 0.476 \\
-4 & Efficient and Tunable Similar Set Retrieval & 3 & 0.476 \\
-5 & The Impact of Global Clustering on Spatial Database Systems & 2 & 0.465 \\
-6 & A New Method for Similarity Indexing of Market Basket Data & 4 & 0.449 \\
-7 & Polynomial filtering in latent semantic indexing for information retrieval & 1 & 0.444 \\
-8 & Closure-Tree: An Index Structure for Graph Queries & 4 & 0.419 \\
-9 & Density-Based Indexing for Approximate Nearest-Neighbor Queries & 8 & 0.416 \\
-10 & Substructure Similarity Search in Graph Databases & 3 & 0.415 \\
+\textbf{1} & \textbf{Mining Association Rules between Sets} & \textbf{258} & \textbf{1.0} \\
+ & \textbf{of Items in Large Databases} &  &  \\
+2 & Fast Algorithms for Mining & 305 & 0.969 \\
+ & Association Rules in Large Databases &  &  \\
+3 & An Effective Hash Based & 60 & 0.628 \\
+ & Algorithm for Mining Association Rules &  &  \\
+4 & Mining Quantitative Association Rules & 65 & 0.575 \\
+ & in Large Relational Tables &  &  \\
+5 & An Efficient Algorithm for Mining & 57 & 0.543 \\
+ & Association Rules in Large Databases &  &  \\
+6 & Discovery of Multiple-Level Association & 46 & 0.503 \\
+ & Rules from Large Databases &  &  \\
+7 & Dynamic Itemset Counting and Implication & 57 & 0.447 \\
+ & Rules for Market Basket Data &  &  \\
+8 & Finding Interesting Rules from Large & 48 & 0.432 \\
+ & Sets of Discovered Association Rules &  &  \\
+9 & Sampling Large Databases & 50 & 0.425 \\
+ & for Association Rules &  &  \\
+10 & Beyond Market Baskets: Generalizing & 54 & 0.397 \\
+ & Association Rules to Correlations &  &  \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & NeighborSim Score\\
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{R-Trees: A Dynamic Index} & \textbf{3} & \textbf{1.0} \\
+ & \textbf{Structure for Spatial Searching} &  &  \\
+2 & A Raster Approximation For & 2 & 0.527 \\
+ & Processing of Spatial Joins &  &  \\
+3 & An Evaluation of & 2 & 0.476 \\
+ & Generic Bulk Loading Techniques &  &  \\
+4 & Efficient and Tunable & 3 & 0.476 \\
+ & Similar Set Retrieval &  &  \\
+5 & The Impact of Global & 2 & 0.465 \\
+ & Clustering on Spatial Database Systems &  &  \\
+6 & A New Method for Similarity & 4 & 0.449 \\
+ & Indexing of Market Basket Data &  &  \\
+7 & Polynomial filtering in latent & 1 & 0.444 \\
+ & semantic indexing for information retrieval &  &  \\
+8 & Closure-Tree: An Index & 4 & 0.419 \\
+ & Structure for Graph Queries &  &  \\
+9 & Density-Based Indexing for & 8 & 0.416 \\
+ & Approximate Nearest-Neighbor Queries &  &  \\
+10 & Substructure Similarity Search & 3 & 0.415 \\
+ & in Graph Databases &  &  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & NeighborSim Score\\
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rank & Paper & Citations & NeighborSim Score\\
+Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
 \textbf{1} & \textbf{R-trees with Update Memos} & \textbf{1} & \textbf{1.0} \\
-2 & Handling frequent updates of moving objects & 1 & 1.0 \\
-3 & Supporting Frequent Updates in R-Trees: A Bottom-Up Approach & 1 & 1.0 \\
-4 & An Evaluation of Generic Bulk Loading Techniques & 2 & 0.79 \\
-5 & Performance of Data-Parallel Spatial Operations & 1 & 0.611 \\
-6 & Logical Logging to Extend Recovery to New Domains & 2 & 0.562 \\
-7 & HD-Eye - Visual Clustering of High dimensional Data & 1 & 0.549 \\
-8 & Analyzing Quantitative Databases: Image is Everything & 1 & 0.549 \\
-9 & Comments on Experiments with Retrieval of Legal Information in Full Text & 1 & 0.545 \\
-10 & On the Construction of Effective Vocabularies for Information Retrieval & 1 & 0.545 \\
+2 & Handling frequent updates & 1 & 1.0 \\
+ & of moving objects &  &  \\
+3 & Supporting Frequent Updates in & 1 & 1.0 \\
+ & R-Trees: A Bottom-Up Approach &  &  \\
+4 & An Evaluation of & 2 & 0.79 \\
+ & Generic Bulk Loading Techniques &  &  \\
+5 & Performance of & 1 & 0.611 \\
+ & Data-Parallel Spatial Operations &  &  \\
+6 & Logical Logging to Extend & 2 & 0.562 \\
+ & Recovery to New Domains &  &  \\
+7 & HD-Eye - Visual Clustering & 1 & 0.549 \\
+ & of High dimensional Data &  &  \\
+8 & Analyzing Quantitative Databases: & 1 & 0.549 \\
+ & Image is Everything &  &  \\
+9 & Comments on Experiments with Retrieval & 1 & 0.545 \\
+ & of Legal Information in Full Text &  &  \\
+10 & On the Construction of & 1 & 0.545 \\
+ & Effective Vocabularies for Information Retrieval &  &  \\
