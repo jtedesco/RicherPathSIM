@@ -72,6 +72,12 @@ def run():
             print "Finding partial path..."
             partialPathsStartTime = datetime.now()
             adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart)
+            if metaPathPart[0] == metaPathPart[-1]:
+                adjMatrices = [adjMatrix] * repetitions
+            else:
+                print "HERE"
+                otherAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, reversed(metaPathPart))
+                adjMatrices = [adjMatrix, otherAdjMatrix]
             partialPathsEndTime = datetime.now()
             partialTime = partialPathsEndTime - partialPathsStartTime
 
@@ -81,9 +87,9 @@ def run():
             # Multiply for full adj matrix
             print "Multiplying partial path for full adjacency..."
             multiplyStartTime = datetime.now()
-            fullAdjMatrix = adjMatrix
-            for i in xrange(0, repetitions):
-                fullAdjMatrix = fullAdjMatrix * adjMatrix
+            fullAdjMatrix = adjMatrices[0]
+            for i in xrange(1, repetitions):
+                fullAdjMatrix = fullAdjMatrix * adjMatrices[i]
             multiplyEndTime = datetime.now()
             multiplyTime = multiplyEndTime - multiplyStartTime
 
