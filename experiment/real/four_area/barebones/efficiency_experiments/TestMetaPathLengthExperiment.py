@@ -75,8 +75,7 @@ def run():
             if metaPathPart[0] == metaPathPart[-1]:
                 adjMatrices = [adjMatrix] * repetitions
             else:
-                print "HERE"
-                otherAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, reversed(metaPathPart))
+                otherAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, list(reversed(metaPathPart)))
                 adjMatrices = [adjMatrix, otherAdjMatrix]
             partialPathsEndTime = datetime.now()
             partialTime = partialPathsEndTime - partialPathsStartTime
