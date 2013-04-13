@@ -27,14 +27,14 @@ def run():
     p, a, t, c = 'paper', 'author', 'term', 'conference'
     metaPathLengthExperiments = {
         3: [
-            [p, a, p],
+#            [p, a, p],
             [a, p, a],
         ],
         4: [
             [a, p, p, a]
         ],
         5: [
-            [p, a, p, a, p],
+            #[p, a, p, a, p],
             [a, p, a, p, a],
         ],
         7: [
@@ -66,6 +66,7 @@ def run():
                 repetitions = ((len(metaPath) - 1) / 2)
             else: # 4, 7 -- only repeat twice
                 metaPathPart = metaPath[:(len(metaPath)/2 + 1)]
+                print metaPathPart
                 repetitions = 2
 
             # Find the partial meta path adjacency list
