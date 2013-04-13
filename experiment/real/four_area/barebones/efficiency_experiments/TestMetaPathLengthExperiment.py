@@ -30,12 +30,14 @@ def run():
             [p, a, p],
             [a, p, a],
         ],
+        4: [
+            [a, p, p, a]
+        ],
         5: [
             [p, a, p, a, p],
             [a, p, a, p, a],
         ],
         7: [
-            [a, p, a, p, a, p, a],
             [a, p, p, a, p, p, a]
         ],
     }
@@ -59,10 +61,16 @@ def run():
             fullTime = fullPathEndTime - fullPathStartTime
 
             # Split meta path
+            if pathLength in {3, 5}:
+                metaPathPart = [p, a, p] if metaPath[0] == p else [a, p, a]
+                repetitions = ((len(metaPath) - 1) / 2)
+            else: # 4, 7 -- only repeat twice
+                metaPathPart = metaPath[:(len(metaPath)/2 + 1)]
+                repetitions = 2
+
+            # Find the partial meta path adjacency list
             print "Finding partial path..."
             partialPathsStartTime = datetime.now()
-            metaPathPart = [p, a, p] if metaPath[0] == p else [a, p, a]
-            repetitions = ((len(metaPath) - 1) / 2)
             adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart)
             partialPathsEndTime = datetime.now()
             partialTime = partialPathsEndTime - partialPathsStartTime
