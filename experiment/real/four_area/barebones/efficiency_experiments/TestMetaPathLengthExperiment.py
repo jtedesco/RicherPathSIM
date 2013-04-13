@@ -1,12 +1,14 @@
 import cPickle
 import os
 import sys
-import texttable
-from datetime import datetime
+import timeit
 from collections import defaultdict
-from scipy.sparse import lil_matrix
+
+import texttable
+
 from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, \
     getNeighborSimScore
+
 
 __author__ = 'jontedesco'
 
@@ -19,6 +21,22 @@ def runFor(author, adjMatrix, extraData):
     mostSimilarTable = texttable.Texttable()
     mostSimilarTable.add_rows([['Author', 'Score']] + [[name, score] for name, score in mostSimilar])
     print mostSimilarTable.draw()
+
+
+def getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions):
+    adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart)
+    if metaPathPart[0] == metaPathPart[-1]:
+        adjMatrices = [adjMatrix] * repetitions
+    else:
+        otherAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, list(reversed(metaPathPart)))
+        adjMatrices = [adjMatrix, otherAdjMatrix]
+    return adjMatrices, adjMatrix
+
+
+def multiplyFullAdjMatrix(adjMatrices, repetitions):
+    fullAdjMatrix = adjMatrices[0]
+    for i in xrange(1, repetitions):
+        fullAdjMatrix = fullAdjMatrix * adjMatrices[i]
 
 
 def run():
@@ -49,11 +67,8 @@ def run():
     for pathLength in sorted(metaPathLengthExperiments.keys()):
         for metaPath in metaPathLengthExperiments[pathLength]:
 
-            # Get adjacency matrix directly
-            fullPathStartTime = datetime.now()
-            adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPath)
-            fullPathEndTime = datetime.now()
-            fullTime = fullPathEndTime - fullPathStartTime
+            # Time getting adjacency matrix directly
+            fullTime = timeit.timeit('getMetaPathAdjacencyData(graph, nodeIndex, metaPath)', number=10)
 
             # Split meta path
             if pathLength in {3, 5}:
@@ -65,26 +80,14 @@ def run():
                 repetitions = 2
 
             # Find the partial meta path adjacency list
-            partialPathsStartTime = datetime.now()
-            adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart)
-            if metaPathPart[0] == metaPathPart[-1]:
-                adjMatrices = [adjMatrix] * repetitions
-            else:
-                otherAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, list(reversed(metaPathPart)))
-                adjMatrices = [adjMatrix, otherAdjMatrix]
-            partialPathsEndTime = datetime.now()
-            partialTime = partialPathsEndTime - partialPathsStartTime
+            adjMatrices, adjMatrix = getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions)
+            partialTime = timeit.timeit('getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions)', number=10)
 
             # Get the number of bytes to store partial adj matrices
             bytesForMatrices = sys.getsizeof(adjMatrix)
 
             # Multiply for full adj matrix
-            multiplyStartTime = datetime.now()
-            fullAdjMatrix = adjMatrices[0]
-            for i in xrange(1, repetitions):
-                fullAdjMatrix = fullAdjMatrix * adjMatrices[i]
-            multiplyEndTime = datetime.now()
-            multiplyTime = multiplyEndTime - multiplyStartTime
+            multiplyTime = timeit.timeit('multiplyFullAdjMatrix(adjMatrices, repetitions)', number=10)
 
             # Get seconds from time deltas
             secondsForFullPath = fullTime.seconds + (fullTime.microseconds / 1000000.0)
