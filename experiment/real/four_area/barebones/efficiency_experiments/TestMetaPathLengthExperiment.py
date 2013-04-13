@@ -33,6 +33,10 @@ def getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions):
     return adjMatrices, adjMatrix
 
 
+def getFullData(graph, nodeIndex, metaPath):
+    return getMetaPathAdjacencyData(graph, nodeIndex, metaPath)
+
+
 def multiplyFullAdjMatrix(adjMatrices, repetitions):
     fullAdjMatrix = adjMatrices[0]
     for i in xrange(1, repetitions):
@@ -68,7 +72,7 @@ def run():
         for metaPath in metaPathLengthExperiments[pathLength]:
 
             # Time getting adjacency matrix directly
-            fullTime = timeit.timeit('getMetaPathAdjacencyData(graph, nodeIndex, metaPath)', number=10)
+            fullTime = timeit.timeit('getFullData(graph, nodeIndex, metaPath)', number=10)
 
             # Split meta path
             if pathLength in {3, 5}:
