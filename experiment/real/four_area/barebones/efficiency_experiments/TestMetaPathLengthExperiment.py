@@ -27,14 +27,12 @@ def run():
     p, a, t, c = 'paper', 'author', 'term', 'conference'
     metaPathLengthExperiments = {
         3: [
-#            [p, a, p],
             [a, p, a],
         ],
         4: [
             [a, p, p, a]
         ],
         5: [
-            #[p, a, p, a, p],
             [a, p, a, p, a],
         ],
         7: [
@@ -51,10 +49,7 @@ def run():
     for pathLength in sorted(metaPathLengthExperiments.keys()):
         for metaPath in metaPathLengthExperiments[pathLength]:
 
-            print "Running for [%s] ..." % ', '.join(metaPath)
-
             # Get adjacency matrix directly
-            print "Running with full path..."
             fullPathStartTime = datetime.now()
             adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPath)
             fullPathEndTime = datetime.now()
@@ -70,7 +65,6 @@ def run():
                 repetitions = 2
 
             # Find the partial meta path adjacency list
-            print "Finding partial path..."
             partialPathsStartTime = datetime.now()
             adjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, metaPathPart)
             if metaPathPart[0] == metaPathPart[-1]:
@@ -85,7 +79,6 @@ def run():
             bytesForMatrices = sys.getsizeof(adjMatrix)
 
             # Multiply for full adj matrix
-            print "Multiplying partial path for full adjacency..."
             multiplyStartTime = datetime.now()
             fullAdjMatrix = adjMatrices[0]
             for i in xrange(1, repetitions):
