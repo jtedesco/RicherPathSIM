@@ -1,4 +1,5 @@
 from collections import defaultdict
+import random
 from src.graph.GraphFactory import GraphFactory
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Citation import Citation
@@ -143,7 +144,7 @@ class SampleGraphUtility(object):
 
 
     @staticmethod
-    def constructMultiDisciplinaryAuthorExample(indirectAuthor = False):
+    def constructMultiDisciplinaryAuthorExample(indirectAuthor=False, uneven=False):
         """
             Construct example DBLP graph where two authors are multi disciplinary, and no one else
         """
@@ -162,14 +163,14 @@ class SampleGraphUtility(object):
         g = Author(SampleGraphUtility.__getNextId(), 'G')
         h = Author(SampleGraphUtility.__getNextId(), 'H')
         i = Author(SampleGraphUtility.__getNextId(), 'I')
-        authors = [a,b,c,d,e,f,g,h,i]
+        authors = [a, b, c, d, e, f, g, h, i]
         if indirectAuthor:
             authors.append(Author(SampleGraphUtility.__getNextId(), 'J'))
         graph.addNodes(authors)
 
         # Add conferences
-        vldb = Conference(SampleGraphUtility.__getNextId(), 'VLDB') # Databases
-        kdd = Conference(SampleGraphUtility.__getNextId(), 'KDD') # Data mining
+        vldb = Conference(SampleGraphUtility.__getNextId(), 'VLDB')  # Databases
+        kdd = Conference(SampleGraphUtility.__getNextId(), 'KDD')  # Data mining
         conferences = [vldb, kdd]
         graph.addNodes(conferences)
 
@@ -181,7 +182,7 @@ class SampleGraphUtility(object):
 
         # Helper dictionary of total citation counts for each author (to fabricate) -- all divisible by 5, and multi-discipline authors divisible by 10
         # Results in the following total counts: {'A':100, 'B':80, 'C':10, 'D':120, 'E':60, 'F':100, 'G':80, 'H':10, 'I':24}
-        citationCounts = {'A':100, 'B':80, 'C':10, 'D':60, 'E':45, 'F':100, 'G':80, 'H':10, 'I':12, 'J':60} # Citations per paper
+        citationCounts = {'A': 100, 'B': 80, 'C': 10, 'D': 60, 'E': 45, 'F': 100, 'G': 80, 'H': 10, 'I': 12, 'J': 60}
 
         # Create two papers for each author, one paper in each conference in each area
         dmAuthorNames = ['D', 'E', 'F', 'G', 'H', 'I']
@@ -193,9 +194,11 @@ class SampleGraphUtility(object):
         dmConferenceNames = ['KDD']
         dbConferenceNames = ['VLDB']
 
+        def f(x):
+            totalCitationCount[x] = 0
+
         # Create equal number of citations from each other paper in the research area for each author's papers
         totalCitationCount = defaultdict(int)
-        def f(x): totalCitationCount[x] = 0
         map(f, set(dmAuthorNames).union(set(dbAuthorNames)))
         for authorNames, conferenceNames in [(dmAuthorNames, dmConferenceNames), (dbAuthorNames, dbConferenceNames)]:
             for authorName in authorNames:
@@ -239,6 +242,54 @@ class SampleGraphUtility(object):
                             # Add citation
                             graph.addEdge(citingPaper, citedPaperMap[conferenceName], Citation())
                             totalCitationCount[authorName] += 1
+
+        if not uneven:
+            return graph, authorMap, conferenceMap, totalCitationCount
+
+        # If this flag is set, add three papers per author in data mining, and citations from all other authors
+        for authorNamesList, conferenceNamesList in \
+                [(dmAuthorNames, dmConferenceNames), (dbAuthorNames, dbConferenceNames)]:
+
+            extraPapers = []
+
+            # Add publications
+            for authorName in authorNamesList:
+                for conferenceName in conferenceNamesList:
+
+                    # Add paper to be cited for author
+                    citedPaper = Paper(SampleGraphUtility.__getNextId(), '%sPaperIn%s' % (authorName, conferenceName))
+                    graph.addNode(citedPaper)
+                    graph.addBothEdges(citedPaper, conferenceMap[conferenceName], Publication())
+                    graph.addBothEdges(citedPaper, authorMap[authorName], Authorship())
+                    extraPapers.append((authorName, citedPaper))
+
+            random.seed()
+
+            # Add randomized citations from authors to these papers
+            for citingAuthorName in authorNamesList:
+                for conferenceName in conferenceNamesList:
+                    for citedAuthorName, citedPaper in extraPapers:
+
+                        # Skip papers authored by this author
+                        if citedAuthorName == citingAuthorName:
+                            continue
+
+                        # Randomly add a number of citations to this paper
+                        for i in xrange(0, random.randint(0, 3)):
+
+                            # Add fake paper for citing the other author
+                            citingPaper = Paper(SampleGraphUtility.__getNextId(), 'Citation%d%sPaperIn%s' % (
+                                i, citingAuthorName, conferenceName
+                            ))
+                            graph.addNode(citingPaper)
+                            graph.addBothEdges(authorMap[citingAuthorName], citingPaper, Authorship())
+                            graph.addBothEdges(citingPaper, conferenceMap[conferenceName], Publication())
+
+                            # Add citation
+                            graph.addEdge(citingPaper, citedPaper, Citation())
+                            totalCitationCount[citedAuthorName] += 1
+
+
 
         return graph, authorMap, conferenceMap, totalCitationCount
 

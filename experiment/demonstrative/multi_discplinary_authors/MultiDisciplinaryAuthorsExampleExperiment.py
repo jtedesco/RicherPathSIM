@@ -84,7 +84,6 @@ class MultiDisciplinaryAuthorsExampleExperiment(Experiment):
         citationCountTable.add_rows(rows)
         self.output(citationCountTable.draw())
 
-
         # Output the NeighborSim similarity scores
         strategy = NeighborSimStrategy(self.graph, [Conference, Paper, Paper, Author])
         self.outputSimilarityScores(authorMap, authors, strategy, "NeighborSim")
