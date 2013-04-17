@@ -5,25 +5,16 @@
 \hline
 Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
-\textbf{1} & \textbf{Mining Association Rules between Sets} & \textbf{258} & \textbf{1.0} \\
- & \textbf{of Items in Large Databases} &  &  \\
-2 & Fast Algorithms for Mining & 305 & 0.684 \\
- & Association Rules in Large Databases &  &  \\
+\textbf{1} & \textbf{Mining Association Rules between Sets of Items in Large Databases} & \textbf{258} & \textbf{1.0} \\
+2 & Fast Algorithms for Mining Association Rules in Large Databases & 305 & 0.684 \\
 3 & Mining Sequential Patterns & 106 & 0.465 \\
-4 & Beyond Market Baskets: Generalizing & 54 & 0.457 \\
- & Association Rules to Correlations &  &  \\
-5 & An Effective Hash Based & 60 & 0.438 \\
- & Algorithm for Mining Association Rules &  &  \\
-6 & BIRCH: An Efficient Data Clustering & 126 & 0.427 \\
- & Method for Very Large Databases &  &  \\
-7 & Mining Frequent Patterns & 73 & 0.417 \\
- & without Candidate Generation &  &  \\
-8 & Discovery of Multiple-Level Association & 46 & 0.394 \\
- & Rules from Large Databases &  &  \\
-9 & Exploratory Mining and Pruning & 47 & 0.39 \\
- & Optimizations of Constrained Association Rules &  &  \\
-10 & Mining Quantitative Association Rules & 65 & 0.384 \\
- & in Large Relational Tables &  &  \\
+4 & Beyond Market Baskets: Generalizing Association Rules to Correlations & 54 & 0.457 \\
+5 & An Effective Hash Based Algorithm for Mining Association Rules & 60 & 0.438 \\
+6 & BIRCH: An Efficient Data Clustering Method for Very Large Databases & 126 & 0.427 \\
+7 & Mining Frequent Patterns without Candidate Generation & 73 & 0.417 \\
+8 & Discovery of Multiple-Level Association Rules from Large Databases & 46 & 0.394 \\
+9 & Exploratory Mining and Pruning Optimizations of Constrained Association Rules & 47 & 0.39 \\
+10 & Mining Quantitative Association Rules in Large Relational Tables & 65 & 0.384 \\
 \hline
 \end{tabular}
 
@@ -31,25 +22,16 @@ Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
 Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
-\textbf{1} & \textbf{R-Trees: A Dynamic Index} & \textbf{3} & \textbf{1.0} \\
- & \textbf{Structure for Spatial Searching} &  &  \\
-2 & A Raster Approximation For & 2 & 0.56 \\
- & Processing of Spatial Joins &  &  \\
-3 & A New Method for Similarity & 4 & 0.483 \\
- & Indexing of Market Basket Data &  &  \\
-4 & A Fast Algorithm to & 2 & 0.444 \\
- & Cluster High Dimensional Basket Data &  &  \\
-5 & Correlating XML data streams & 1 & 0.4 \\
- & using tree-edit distance embeddings &  &  \\
-6 & Multidimensional Access Methods: & 3 & 0.348 \\
- & Trees Have Grown Everywhere &  &  \\
-7 & Efficient and Tunable & 3 & 0.348 \\
- & Similar Set Retrieval &  &  \\
-8 & Performance Characteristics of Protocols & 2 & 0.333 \\
- & With Ordered Shared Locks &  &  \\
+\textbf{1} & \textbf{R-Trees: A Dynamic Index Structure for Spatial Searching} & \textbf{3} & \textbf{1.0} \\
+2 & A Raster Approximation For Processing of Spatial Joins & 2 & 0.56 \\
+3 & A New Method for Similarity Indexing of Market Basket Data & 4 & 0.483 \\
+4 & A Fast Algorithm to Cluster High Dimensional Basket Data & 2 & 0.444 \\
+5 & Correlating XML data streams using tree-edit distance embeddings & 1 & 0.4 \\
+6 & Multidimensional Access Methods: Trees Have Grown Everywhere & 3 & 0.348 \\
+7 & Efficient and Tunable Similar Set Retrieval & 3 & 0.348 \\
+8 & Performance Characteristics of Protocols With Ordered Shared Locks & 2 & 0.333 \\
 9 & Duplicate detection in click streams & 3 & 0.308 \\
-10 & The A-tree: An Index Structure & 11 & 0.294 \\
- & for High-Dimensional Spaces Using Relative Approximation &  &  \\
+10 & The A-tree: An Index Structure for High-Dimensional Spaces Using Relative Approximation & 11 & 0.294 \\
 \hline
 \end{tabular}
 
@@ -71,20 +53,13 @@ Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
 Rank & Paper & Citations \footnotemark[1] & NeighborSim Score\\
 \hline
-\textbf{1} & \textbf{Handling frequent updates} & \textbf{1} & \textbf{1.0} \\
- & \textbf{of moving objects} &  &  \\
+\textbf{1} & \textbf{Handling frequent updates of moving objects} & \textbf{1} & \textbf{1.0} \\
 2 & R-trees with Update Memos & 1 & 1.0 \\
-3 & Supporting Frequent Updates in & 1 & 1.0 \\
- & R-Trees: A Bottom-Up Approach &  &  \\
-4 & An Evaluation of & 2 & 0.75 \\
- & Generic Bulk Loading Techniques &  &  \\
-5 & R-Tree Based Indexing & 2 & 0.444 \\
- & of Now-Relative Bitemporal Data &  &  \\
-6 & The Geometry of Uncertainty & 1 & 0.4 \\
- & in Moving Objects Databases &  &  \\
+3 & Supporting Frequent Updates in R-Trees: A Bottom-Up Approach & 1 & 1.0 \\
+4 & An Evaluation of Generic Bulk Loading Techniques & 2 & 0.75 \\
+5 & R-Tree Based Indexing of Now-Relative Bitemporal Data & 2 & 0.444 \\
+6 & The Geometry of Uncertainty in Moving Objects Databases & 1 & 0.4 \\
 7 & TIP: A Temporal Extension to Informix & 1 & 0.333 \\
-8 & Efficient integration and & 1 & 0.333 \\
- & aggregation of historical information &  &  \\
-9 & Towards Optimal Indexing & 1 & 0.333 \\
- & for Segment Databases &  &  \\
+8 & Efficient integration and aggregation of historical information & 1 & 0.333 \\
+9 & Towards Optimal Indexing for Segment Databases & 1 & 0.333 \\
 10 & Database Snapshots & 1 & 0.333 \\

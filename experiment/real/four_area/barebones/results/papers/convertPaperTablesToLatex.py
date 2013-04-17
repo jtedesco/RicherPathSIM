@@ -3,6 +3,8 @@ import os
 
 __author__ = 'jontedesco'
 
+allowSplitTitles = False
+
 # Construct the dictionary of number of citations for each paper
 paperCitationFile = open('../../data/paperCitationCounts')
 citationCounts = defaultdict(int)
@@ -40,7 +42,7 @@ for filename in os.listdir('.'):
             title = titleBuffer.strip().rstrip('.')
 
             firstHalf = title
-            splitTitle = len(title) > 40
+            splitTitle = (len(title) > 40) and allowSplitTitles
             if splitTitle:
                 titleParts = title.split()
                 firstHalf = ' '.join(titleParts[:len(titleParts) / 2])

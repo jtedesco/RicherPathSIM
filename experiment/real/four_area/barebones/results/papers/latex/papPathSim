@@ -5,22 +5,15 @@
 \hline
 Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
-\textbf{1} & \textbf{Mining Association Rules between Sets} & \textbf{258} & \textbf{1.0} \\
- & \textbf{of Items in Large Databases} &  &  \\
-2 & An Interval Classifier & 25 & 0.75 \\
- & for Database Mining Applications &  &  \\
-3 & Relative Knowledge in & 1 & 0.5 \\
- & a Distributed Database &  &  \\
+\textbf{1} & \textbf{Mining Association Rules between Sets of Items in Large Databases} & \textbf{258} & \textbf{1.0} \\
+2 & An Interval Classifier for Database Mining Applications & 25 & 0.75 \\
+3 & Relative Knowledge in a Distributed Database & 1 & 0.5 \\
 4 & Database Technologies for E- Commerce & 0 & 0.5 \\
-5 & Optimization of Large Join Queries: & 18 & 0.5 \\
- & Combining Heuristic and Combinatorial Techniques &  &  \\
+5 & Optimization of Large Join Queries: Combining Heuristic and Combinatorial Techniques & 18 & 0.5 \\
 6 & Next frontier & 0 & 0.5 \\
-7 & Results on Translating & 0 & 0.5 \\
- & Defaults to Circumscription &  &  \\
-8 & Query Processing in Deductive & 2 & 0.5 \\
- & Databases with Incomplete Information &  &  \\
-9 & Building knowledge-based applications & 0 & 0.5 \\
- & with cooperating databases &  &  \\
+7 & Results on Translating Defaults to Circumscription & 0 & 0.5 \\
+8 & Query Processing in Deductive Databases with Incomplete Information & 2 & 0.5 \\
+9 & Building knowledge-based applications with cooperating databases & 0 & 0.5 \\
 10 & Privacy in data systems & 0 & 0.5 \\
 \hline
 \end{tabular}
@@ -29,8 +22,7 @@ Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
 Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
-\textbf{1} & \textbf{R-Trees: A Dynamic Index} & \textbf{3} & \textbf{1.0} \\
- & \textbf{Structure for Spatial Searching} &  &  \\
+\textbf{1} & \textbf{R-Trees: A Dynamic Index Structure for Spatial Searching} & \textbf{3} & \textbf{1.0} \\
 \hline
 \end{tabular}
 
@@ -38,14 +30,10 @@ Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
 Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
-\textbf{1} & \textbf{Efficient Reasoning in} & \textbf{0} & \textbf{1.0} \\
- & \textbf{Qualitative Probabilistic Networks} &  &  \\
-2 & An Experimental Comparison of Knowledge Engineering & 0 & 0.5 \\
- & for Expert Systems and for Decision Analysis &  &  \\
-3 & Generalized Evidence Pre-propagated Importance & 0 & 0.5 \\
- & Sampling for Hybrid Bayesian Networks &  &  \\
-4 & Dynamic Weighting A* Search-Based & 0 & 0.4 \\
- & MAP Algorithm for Bayesian Networks &  &  \\
+\textbf{1} & \textbf{Efficient Reasoning in Qualitative Probabilistic Networks} & \textbf{0} & \textbf{1.0} \\
+2 & An Experimental Comparison of Knowledge Engineering for Expert Systems and for Decision Analysis & 0 & 0.5 \\
+3 & Generalized Evidence Pre-propagated Importance Sampling for Hybrid Bayesian Networks & 0 & 0.5 \\
+4 & Dynamic Weighting A* Search-Based MAP Algorithm for Bayesian Networks & 0 & 0.4 \\
 \hline
 \end{tabular}
 
@@ -53,25 +41,16 @@ Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
 Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
-\textbf{1} & \textbf{An Efficient Cost-Driven Index Selection} & \textbf{28} & \textbf{1.0} \\
- & \textbf{Tool for Microsoft SQL Server} &  &  \\
-2 & Automating Statistics Management & 5 & 1.0 \\
- & for Query Optimizers &  &  \\
-3 & Self-Tuning Database Systems: & 0 & 1.0 \\
- & A Decade of Progress &  &  \\
-4 & Microsoft Index Tuning Wizard & 7 & 1.0 \\
- & for SQL Server 7.0 &  &  \\
+\textbf{1} & \textbf{An Efficient Cost-Driven Index Selection Tool for Microsoft SQL Server} & \textbf{28} & \textbf{1.0} \\
+2 & Automating Statistics Management for Query Optimizers & 5 & 1.0 \\
+3 & Self-Tuning Database Systems: A Decade of Progress & 0 & 1.0 \\
+4 & Microsoft Index Tuning Wizard for SQL Server 7.0 & 7 & 1.0 \\
 5 & Index Merging & 0 & 1.0 \\
-6 & AutoAdmin 'What-if' & 0 & 1.0 \\
- & Index Analysis Utility &  &  \\
-7 & Efficient Evaluation of & 0 & 0.8 \\
- & Queries with Mining Predicates &  &  \\
-8 & Bridging the Application and DBMS & 0 & 0.8 \\
- & Profiling Divide for Database Application Developers &  &  \\
-9 & Random Sampling for Histogram & 27 & 0.8 \\
- & Construction: How much is enough? &  &  \\
-10 & A Robust, Optimization-Based Approach for & 11 & 0.8 \\
- & Approximate Answering of Aggregate Queries &  &  \\
+6 & AutoAdmin 'What-if' Index Analysis Utility & 0 & 1.0 \\
+7 & Efficient Evaluation of Queries with Mining Predicates & 0 & 0.8 \\
+8 & Bridging the Application and DBMS Profiling Divide for Database Application Developers & 0 & 0.8 \\
+9 & Random Sampling for Histogram Construction: How much is enough? & 27 & 0.8 \\
+10 & A Robust, Optimization-Based Approach for Approximate Answering of Aggregate Queries & 11 & 0.8 \\
 \hline
 \end{tabular}
 
@@ -80,20 +59,12 @@ Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 Rank & Paper & Citations \footnotemark[1] & PathSim Score\\
 \hline
 \textbf{1} & \textbf{R-trees with Update Memos} & \textbf{1} & \textbf{1.0} \\
-2 & SINA: Scalable Incremental Processing of & 11 & 0.8 \\
- & Continuous Queries in Spatio-temporal Databases &  &  \\
-3 & SEA-CNN: Scalable Processing of Continuous & 4 & 0.8 \\
- & K-Nearest Neighbor Queries in Spatio-temporal Databases &  &  \\
-4 & Hashing by Proximity to & 0 & 0.5 \\
- & Process Duplicates in Spatial Databases &  &  \\
-5 & Optimization for & 9 & 0.5 \\
- & Spatial Query Processing &  &  \\
-6 & Efficient Processing of Window Queries & 2 & 0.5 \\
- & in The Pyramid Data Structure &  &  \\
-7 & Irregularity in Multi-Dimensional Space-Filling Curves & 0 & 0.5 \\
- & with Applications in Multimedia Databases &  &  \\
-8 & Rank-Aware Query & 0 & 0.5 \\
- & Processing and Optimization &  &  \\
-9 & PLACE: A Query Processor for & 0 & 0.5 \\
- & Handling Real-time Spatio-temporal Data Streams &  &  \\
+2 & SINA: Scalable Incremental Processing of Continuous Queries in Spatio-temporal Databases & 11 & 0.8 \\
+3 & SEA-CNN: Scalable Processing of Continuous K-Nearest Neighbor Queries in Spatio-temporal Databases & 4 & 0.8 \\
+4 & Hashing by Proximity to Process Duplicates in Spatial Databases & 0 & 0.5 \\
+5 & Optimization for Spatial Query Processing & 9 & 0.5 \\
+6 & Efficient Processing of Window Queries in The Pyramid Data Structure & 2 & 0.5 \\
+7 & Irregularity in Multi-Dimensional Space-Filling Curves with Applications in Multimedia Databases & 0 & 0.5 \\
+8 & Rank-Aware Query Processing and Optimization & 0 & 0.5 \\
+9 & PLACE: A Query Processor for Handling Real-time Spatio-temporal Data Streams & 0 & 0.5 \\
 10 & Joining Ranked Inputs in Practice & 0 & 0.4 \\
