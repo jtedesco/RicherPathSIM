@@ -37,11 +37,11 @@ def run(citationCounts, publicationCounts):
 
     # Compute once, since these never change
     graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
-    cppaAdjMatrix, extraData = getMetaPathAdjacencyData(
-        graph, nodeIndex, ['conference', 'paper', 'conference', 'paper', 'paper', 'author']
-    )
+    cpcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'conference'])
+    cppaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'paper', 'author'])
+    cpcppaAdjMatrix = cpcAdjMatrix * cppaAdjMatrix
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, cppaAdjMatrix, extraData, citationCounts, publicationCounts)
+        experiment.runFor(testAuthor, cpcppaAdjMatrix, extraData, citationCounts, publicationCounts)
