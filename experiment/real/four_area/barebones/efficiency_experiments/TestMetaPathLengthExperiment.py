@@ -33,10 +33,6 @@ def getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions):
     return adjMatrices, adjMatrix
 
 
-def getFullData(graph, nodeIndex, metaPath):
-    return getMetaPathAdjacencyData(graph, nodeIndex, metaPath)
-
-
 def multiplyFullAdjMatrix(adjMatrices, repetitions):
     fullAdjMatrix = adjMatrices[0]
     for i in xrange(1, repetitions):
@@ -72,7 +68,7 @@ def run():
         for metaPath in metaPathLengthExperiments[pathLength]:
 
             # Time getting adjacency matrix directly
-            fullTime = timeit.timeit('getFullData(graph, nodeIndex, metaPath)', number=10)
+            fullTime = timeit.timeit(lambda: getMetaPathAdjacencyData(graph, nodeIndex, metaPath), number=10)
 
             # Split meta path
             if pathLength in {3, 5}:
@@ -85,25 +81,20 @@ def run():
 
             # Find the partial meta path adjacency list
             adjMatrices, adjMatrix = getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions)
-            partialTime = timeit.timeit('getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions)', number=10)
+            partialTime = timeit.timeit(lambda: getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions), number=10)
 
             # Get the number of bytes to store partial adj matrices
             bytesForMatrices = sys.getsizeof(adjMatrix)
 
             # Multiply for full adj matrix
-            multiplyTime = timeit.timeit('multiplyFullAdjMatrix(adjMatrices, repetitions)', number=10)
-
-            # Get seconds from time deltas
-            secondsForFullPath = fullTime.seconds + (fullTime.microseconds / 1000000.0)
-            secondsForPartial = partialTime.seconds + (partialTime.microseconds / 1000000.0)
-            secondsForMultiplication = multiplyTime.seconds + (multiplyTime.microseconds / 1000000.0)
+            multiplyTime = timeit.timeit(lambda: multiplyFullAdjMatrix(adjMatrices, repetitions), number=10)
 
             # Output results
             metaPathLengthExperimentResults[pathLength].append((
-                secondsForFullPath, secondsForPartial, secondsForMultiplication, bytesForMatrices
+                fullTime, partialTime, multiplyTime, bytesForMatrices
             ))
             print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f, Bytes: %d  [%s]" % (
-                secondsForFullPath, secondsForPartial, secondsForMultiplication, bytesForMatrices, ', '.join(metaPath)
+                fullTime, partialTime, multiplyTime, bytesForMatrices, ', '.join(metaPath)
             )
 
     cPickle.dump(metaPathLengthExperimentResults, open('results', 'w'))
