@@ -14,7 +14,7 @@ class NeighborPathShapeCount(MetaPathSimilarityStrategy):
     def __init__(self, graph, metaPath=None, symmetric=False, pathCountSimilarity=None, aggregateSimilarity=None):
         super(NeighborPathShapeCount, self).__init__(graph, metaPath, symmetric)
         self.similarityScores = defaultdict(dict)
-        self.pathSequenceSimilarity = self.__cosineSimilarity if pathCountSimilarity is None else pathCountSimilarity
+        self.pathSequenceSimilarity = self.__pathsimSimilarity if pathCountSimilarity is None else pathCountSimilarity
         self.aggregateSimilarity = (lambda v: sum(v) / float(len(v))) if aggregateSimilarity is None else aggregateSimilarity
 
     def findSimilarityScore(self, source, destination):
@@ -73,3 +73,10 @@ class NeighborPathShapeCount(MetaPathSimilarityStrategy):
           Default cosine similarity between two numpy vectors
         """
         return round(1 - cosine(vectorA, vectorB), 2)
+
+
+    def __pathsimSimilarity(self, _, vectorA, vectorB):
+        """
+          Normalized cosine similarity as computed by PathSim
+        """
+        return round(2 * vectorA.dot(vectorB) / float(vectorA.dot(vectorA) + vectorB.dot(vectorB)), 2)
