@@ -31,7 +31,7 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
     def run(self):
 
         self.graph, authorMap, conference, citationsPublications = \
-            SampleGraphUtility.constructSkewedCitationPublicationExample(introduceRandomness=True)
+            SampleGraphUtility.constructSkewedCitationPublicationExample(introduceRandomness=False)
 
         # Get the nodes we care about
         authors = [
