@@ -1,5 +1,6 @@
 from collections import defaultdict
 import random
+import itertools
 from src.graph.GraphFactory import GraphFactory
 from src.model.edge.dblp.Authorship import Authorship
 from src.model.edge.dblp.Citation import Citation
@@ -10,12 +11,93 @@ from src.model.node.dblp.Conference import Conference
 
 __author__ = 'jontedesco'
 
+
 class SampleGraphUtility(object):
     """
       Utility for creating sample graphs for unit testing and manual tests or experiments.
     """
 
     __nextId = 0
+
+    @staticmethod
+    def constructSkewedCitationPublicationExample(introduceRandomness=True):
+        """
+          Build the graph for an example with skewed citation / publication count ratios
+
+            NOTE: Extraneous authors are omitted
+        """
+
+        graph = GraphFactory.createInstance()
+        random.seed()
+
+        # Create the authors & conference
+        alice = Author(SampleGraphUtility.__getNextId(), 'Alice')
+        bob = Author(SampleGraphUtility.__getNextId(), 'Bob')
+        carol = Author(SampleGraphUtility.__getNextId(), 'Carol')
+        dave = Author(SampleGraphUtility.__getNextId(), 'Dave')
+        authorMap = {author.name: author for author in [alice, bob, carol, dave]}
+        conference = Conference(SampleGraphUtility.__getNextId(), 'KDD')
+
+        # Citation & publication count configuration
+        citationsPublications = {
+            'Alice': (100, 10),
+            'Bob': (100, 10),
+            'Carol': (100, 50),
+            'Dave': (50, 5)
+        }
+
+        actualCitationsPublications = defaultdict(lambda: (0, 0))
+
+        # Helper functions for repeatedly adding papers to the graph
+        addPapersToAuthor = lambda n, author: [addPublicationPaper(author) for _ in itertools.repeat(None, n)]
+        addCitationsToPaper = lambda n, paper, author: [addCitationPaper(paper, author) for _ in itertools.repeat(None, n)]
+
+        def addPublicationPaper(author):
+            """
+              Helper method to add a 'publication' paper, connected to both an author and a conference
+            """
+            nextId = SampleGraphUtility.__getNextId()
+            paper = Paper(nextId, "%s's Paper %d" % (author.name, nextId))
+            graph.addNode(paper)
+            graph.addBothEdges(author, paper)
+            graph.addBothEdges(paper, conference)
+
+            citationCount, publicationCount = actualCitationsPublications[author]
+            actualCitationsPublications[author] = (citationCount, publicationCount + 1)
+
+            return paper
+
+        def addCitationPaper(citedPaper, citedAuthor):
+            """
+              Helper method to add a 'citation' paper, which is only connected to the conference and the paper it cites
+            """
+            nextId = SampleGraphUtility.__getNextId()
+            citingPaper = Paper(nextId, "Citing Paper %d" % nextId)
+            graph.addNode(citingPaper)
+            graph.addBothEdges(citingPaper, conference)
+            graph.addEdge(citingPaper, citedPaper)
+
+            citationCount, publicationCount = actualCitationsPublications[citedAuthor]
+            actualCitationsPublications[citedAuthor] = (citationCount + 1, publicationCount)
+
+        # Construct the graph
+        graph.addNodes([alice, bob, carol, dave, conference])
+        for authorName in citationsPublications:
+            citationCount, publicationCount = citationsPublications[authorName]
+
+            # Optionally, introduce randomness
+            if introduceRandomness:
+                randomInterval = lambda x: (x + int(-0.1 * x), x + int(0.1 * x))
+                citationCount = random.randint(*randomInterval(citationCount))
+                publicationCount = random.randint(*randomInterval(publicationCount))
+
+            # Add citations & publications to author
+            authorPapers = addPapersToAuthor(publicationCount, authorMap[authorName])
+            citationsPerPaper = citationCount / publicationCount
+            for paper in authorPapers:
+                addCitationsToPaper(citationsPerPaper, paper, authorMap[authorName])
+
+        return graph, authorMap, conference, actualCitationsPublications
 
 
     @staticmethod
@@ -41,6 +123,8 @@ class SampleGraphUtility(object):
             joe = Author(SampleGraphUtility.__getNextId(), 'Joe')
             nancy = Author(SampleGraphUtility.__getNextId(), 'Nancy')
             authors += [joe, nancy]
+        else:
+            joe, nancy = None, None
         graph.addNodes(authors)
 
         # Add conferences
