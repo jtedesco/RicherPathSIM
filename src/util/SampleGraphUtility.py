@@ -35,7 +35,8 @@ class SampleGraphUtility(object):
         bob = Author(SampleGraphUtility.__getNextId(), 'Bob')
         carol = Author(SampleGraphUtility.__getNextId(), 'Carol')
         dave = Author(SampleGraphUtility.__getNextId(), 'Dave')
-        authorMap = {author.name: author for author in [alice, bob, carol, dave]}
+        ed = Author(SampleGraphUtility.__getNextId(), 'Ed')
+        authorMap = {author.name: author for author in [alice, bob, carol, dave, ed]}
         conference = Conference(SampleGraphUtility.__getNextId(), 'KDD')
 
         # Citation & publication count configuration
@@ -43,7 +44,8 @@ class SampleGraphUtility(object):
             'Alice': (100, 10),
             'Bob': (80, 10),
             'Carol': (100, 50),
-            'Dave': (50, 5)
+            'Dave': (50, 10),
+            'Ed': (10, 10)
         }
 
         actualCitationsPublications = defaultdict(lambda: (0, 0))
@@ -81,7 +83,7 @@ class SampleGraphUtility(object):
             actualCitationsPublications[citedAuthor] = (citationCount + 1, publicationCount)
 
         # Construct the graph
-        graph.addNodes([alice, bob, carol, dave, conference])
+        graph.addNodes([alice, bob, carol, dave, ed, conference])
         for authorName in citationsPublications:
             citationCount, publicationCount = citationsPublications[authorName]
 
@@ -101,7 +103,7 @@ class SampleGraphUtility(object):
 
 
     @staticmethod
-    def constructPathSimExampleThree(extraAuthorsAndCitations = False, citationMap = None):
+    def constructPathSimExampleThree(extraAuthorsAndCitations=False, citationMap=None):
         """
           Constructs "Example 3" from PathSim publication, ignoring topic nodes
 
