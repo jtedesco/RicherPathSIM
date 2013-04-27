@@ -11,11 +11,10 @@ class NeighborPathShapeCount(MetaPathSimilarityStrategy):
       Class that performs similarity on the path counts to shared neighbors
     """
 
-    def __init__(self, graph, metaPath=None, symmetric=False, pathCountSimilarity=None, aggregateSimilarity=None):
+    def __init__(self, graph, metaPath=None, symmetric=False, vectorSimilarity=None):
         super(NeighborPathShapeCount, self).__init__(graph, metaPath, symmetric)
         self.similarityScores = defaultdict(dict)
-        self.pathSequenceSimilarity = self.__pathsimSimilarity if pathCountSimilarity is None else pathCountSimilarity
-        self.aggregateSimilarity = (lambda v: sum(v) / float(len(v))) if aggregateSimilarity is None else aggregateSimilarity
+        self.vectorSimilarity = self.__pathsimSimilarity if vectorSimilarity is None else vectorSimilarity
 
     def findSimilarityScore(self, source, destination):
         """
@@ -33,22 +32,26 @@ class NeighborPathShapeCount(MetaPathSimilarityStrategy):
         sharedInNeighbors = sourceInMetaNeighbors.intersection(destinationInMetaNeighbors)
 
         # Find path count sequences from all shared neighbors to each object
-        sequenceSimilarities = []
+        sourceSequences, destinationSequences = [], []
         for neighbor in allNeighbors:
 
             # Tally this as a zero, since one has it and the other doesn't
             if neighbor not in sharedInNeighbors:
-                sequenceSimilarities.append(0.0)
+                sourceSequences.append([0.0] * len(self.metaPath))
+                destinationSequences.append([0.0] * len(self.metaPath))
                 continue
 
             # Otherwise, get the path sequence from this neighbor to each node, and find the cosine similarity
-            sourcePathSequence = self.__pathSequence(neighbor, source)
-            destinationPathSequence = self.__pathSequence(neighbor, destination)
-            sequenceSimilarities.append(
-                self.pathSequenceSimilarity(self.graph, sourcePathSequence, destinationPathSequence)
-            )
+            sourceSequences.append(self.__pathSequence(neighbor, source))
+            destinationSequences.append(self.__pathSequence(neighbor, destination))
 
-        self.similarityScores[source][destination] = self.aggregateSimilarity(sequenceSimilarities)
+        # Form the two matrices and flatten them into two vectors
+        sourceMatrix = numpy.array(sourceSequences, dtype=object)
+        destinationMatrix = numpy.array(destinationSequences, dtype=object)
+        sourceVector = numpy.hstack(sourceMatrix)
+        destinationVector = numpy.hstack(destinationMatrix)
+
+        self.similarityScores[source][destination] = self.vectorSimilarity(self.graph, sourceVector, destinationVector)
         return self.similarityScores[source][destination]
 
     def __pathSequence(self, source, destination):
@@ -73,7 +76,6 @@ class NeighborPathShapeCount(MetaPathSimilarityStrategy):
           Default cosine similarity between two numpy vectors
         """
         return round(1 - cosine(vectorA, vectorB), 2)
-
 
     def __pathsimSimilarity(self, _, vectorA, vectorB):
         """
