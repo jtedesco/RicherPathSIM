@@ -41,7 +41,7 @@ class SampleGraphUtility(object):
         # Citation & publication count configuration
         citationsPublications = {
             'Alice': (100, 10),
-            'Bob': (100, 10),
+            'Bob': (80, 10),
             'Carol': (100, 50),
             'Dave': (50, 5)
         }
