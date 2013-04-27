@@ -5,6 +5,7 @@ from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
 from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
+from src.similarity.heterogeneous.PathShapeCountStrategy import NeighborPathShapeCount
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 from src.util.SampleGraphUtility import SampleGraphUtility
@@ -78,6 +79,8 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'APPCPPA NeighborSim')
         pathsimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], symmetric=True)
         self.outputSimilarityScores(authorMap, authors, pathsimStrategy, 'APCPA PathSim')
+        neighborPathShapeStrategy = NeighborPathShapeCount(self.graph, [Conference, Paper, Paper, Author], symmetric=True)
+        self.outputSimilarityScores(authorMap, authors, neighborPathShapeStrategy, 'APPCPPA NeighborPathShapeSim')
 
 
 if __name__ == '__main__':
