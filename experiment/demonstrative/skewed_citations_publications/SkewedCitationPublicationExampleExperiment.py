@@ -31,14 +31,15 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
     def run(self):
 
         self.graph, authorMap, conference, citationsPublications = \
-            SampleGraphUtility.constructSkewedCitationPublicationExample(introduceRandomness=False)
+            SampleGraphUtility.constructSkewedCitationPublicationExample(introduceRandomness=True)
 
         # Get the nodes we care about
         authors = [
             authorMap['Alice'],
             authorMap['Bob'],
             authorMap['Carol'],
-            authorMap['Dave']
+            authorMap['Dave'],
+            authorMap['Ed']
         ]
         metaPathUtility = EdgeBasedMetaPathUtility()
 
