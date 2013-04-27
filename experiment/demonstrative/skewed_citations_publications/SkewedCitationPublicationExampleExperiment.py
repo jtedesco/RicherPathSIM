@@ -39,7 +39,8 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
             authorMap['Bob'],
             authorMap['Carol'],
             authorMap['Dave'],
-            authorMap['Ed']
+            authorMap['Ed'],
+            authorMap['Frank']
         ]
         metaPathUtility = EdgeBasedMetaPathUtility()
 

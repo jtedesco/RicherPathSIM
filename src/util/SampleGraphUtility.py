@@ -36,7 +36,9 @@ class SampleGraphUtility(object):
         carol = Author(SampleGraphUtility.__getNextId(), 'Carol')
         dave = Author(SampleGraphUtility.__getNextId(), 'Dave')
         ed = Author(SampleGraphUtility.__getNextId(), 'Ed')
-        authorMap = {author.name: author for author in [alice, bob, carol, dave, ed]}
+        frank = Author(SampleGraphUtility.__getNextId(), 'Frank')
+        authors = [alice, bob, carol, dave, ed, frank]
+        authorMap = {author.name: author for author in authors}
         conference = Conference(SampleGraphUtility.__getNextId(), 'KDD')
 
         # Citation & publication count configuration
@@ -45,7 +47,8 @@ class SampleGraphUtility(object):
             'Bob': (80, 10),
             'Carol': (100, 50),
             'Dave': (50, 10),
-            'Ed': (10, 10)
+            'Ed': (10, 10),
+            'Frank': (1000, 100)
         }
 
         actualCitationsPublications = defaultdict(lambda: (0, 0))
@@ -83,7 +86,7 @@ class SampleGraphUtility(object):
             actualCitationsPublications[citedAuthor] = (citationCount + 1, publicationCount)
 
         # Construct the graph
-        graph.addNodes([alice, bob, carol, dave, ed, conference])
+        graph.addNodes(authors + [conference])
         for authorName in citationsPublications:
             citationCount, publicationCount = citationsPublications[authorName]
 
