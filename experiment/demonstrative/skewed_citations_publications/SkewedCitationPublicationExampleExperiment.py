@@ -50,6 +50,17 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
         adjMatrixTable.add_rows(rows)
         self.output(adjMatrixTable.draw())
 
+        self.output('\nCPPA Adjacency Matrix:')
+        cpaadjMatrix, nodesIndex = metaPathUtility.getAdjacencyMatrixFromGraph(
+            self.graph, [Conference, Paper, Paper, Author], project=True
+        )
+        adjMatrixTable = texttable.Texttable()
+        rows = [['Conference'] + [author.name for author in authors]]
+        rows += [[conference.name] + [cpaadjMatrix[nodesIndex[conference]][nodesIndex[author]] for author in authors]]
+        adjMatrixTable.add_rows(rows)
+        self.output(adjMatrixTable.draw())
+
+        # Total citation & publication counts
         self.output('\nCitation & Publication Counts')
         adjMatrixTable = texttable.Texttable()
         rows = [['Measure'] + [author.name for author in authors]]
