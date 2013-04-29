@@ -1,4 +1,5 @@
 import numpy
+from scipy.spatial.distance import cosine
 import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
@@ -81,8 +82,21 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'APPCPPA NeighborSim')
         pathsimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], symmetric=True)
         self.outputSimilarityScores(authorMap, authors, pathsimStrategy, 'APCPA PathSim')
-        neighborPathShapeStrategy = NeighborPathShapeCount(self.graph, [Conference, Paper, Paper, Author], symmetric=True)
-        self.outputSimilarityScores(authorMap, authors, neighborPathShapeStrategy, 'APPCPPA NeighborPathShapeSim')
+
+        # Output variants of the shape-based score
+        neighborPathShapeStrategy = NeighborPathShapeCount(
+            self.graph, [Conference, Paper, Paper, Author], symmetric=True
+        )
+        self.outputSimilarityScores(
+            authorMap, authors, neighborPathShapeStrategy, 'APPCPPA ShapeSim (w/ PathSim score)'
+        )
+        cosineSimilarity = lambda _, vectorA, vectorB: round(1 - cosine(vectorA, vectorB), 4)
+        neighborPathShapeStrategy = NeighborPathShapeCount(
+            self.graph, [Conference, Paper, Paper, Author], symmetric=True, vectorSimilarity=cosineSimilarity
+        )
+        self.outputSimilarityScores(
+            authorMap, authors, neighborPathShapeStrategy, 'APPCPPA ShapeSim (w/ Cosine score)'
+        )
 
 
 if __name__ == '__main__':

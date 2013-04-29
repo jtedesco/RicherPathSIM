@@ -71,12 +71,6 @@ class NeighborPathShapeCount(MetaPathSimilarityStrategy):
 
         return numpy.array(edgeCuts)
 
-    def __cosineSimilarity(self, _, vectorA, vectorB):
-        """
-          Default cosine similarity between two numpy vectors
-        """
-        return round(1 - cosine(vectorA, vectorB), 2)
-
     def __pathsimSimilarity(self, _, vectorA, vectorB):
         """
           Normalized cosine similarity as computed by PathSim
