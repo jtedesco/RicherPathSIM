@@ -45,7 +45,7 @@ class SampleGraphUtility(object):
         citationsPublications = {
             'Alice': (100, 10),
             'Bob': (80, 10),
-            'Carol': (100, 50),
+            'Carol': (100, 100),
             'Dave': (50, 10),
             'Ed': (10, 10),
             'Frank': (1000, 100)
