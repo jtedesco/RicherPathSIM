@@ -1,14 +1,10 @@
-from collections import defaultdict
-from datetime import datetime
+import operator
 from itertools import product
+
 import numpy
-from scipy.spatial.distance import cosine
-from whoosh.query import Term
-from src.model.node.dblp.Author import Author
-from src.model.node.dblp.Conference import Conference
-from src.model.node.dblp.Paper import Paper
+
 from src.similarity.MetaPathSimilarityStrategy import MetaPathSimilarityStrategy
-from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
+
 
 __author__ = 'jontedesco'
 
@@ -20,13 +16,22 @@ class RecursivePathSimStrategy(MetaPathSimilarityStrategy):
         NOTE: Assumes meta paths are specified in the half-length format, with shared neighbors first
     """
 
+    def __init__(self, graph, metaPath=None, symmetric=False, k=None, compositionFunction=None):
+        super(RecursivePathSimStrategy, self).__init__(graph, metaPath, symmetric)
+
+        # Default the composition function to be multiplication
+        self.compositionFunction = operator.mul if compositionFunction is None else compositionFunction
+
+        # Default the k-length recursive limit to the length of the meta path
+        self.k = len(metaPath) if k is None else k
+
     # Cache of projected adjacency matrices (map from meta path -> (adjacency matrix, adjacency index))
     __projectedGraphCache = {}
 
     def findSimilarityScore(self, source, destination):
-        return self.__findSimilarityScoreHelper(source, destination, self.metaPath)
+        return self.__findSimilarityScoreHelper(source, destination, self.metaPath, self.k - 1)
 
-    def __findSimilarityScoreHelper(self, source, destination, metaPath):
+    def __findSimilarityScoreHelper(self, source, destination, metaPath, iterationsRemaining):
         """
           Recursive helper to calculate the similarity score between two objects
         """
@@ -37,6 +42,10 @@ class RecursivePathSimStrategy(MetaPathSimilarityStrategy):
         # Calculate initial similarity score, based on the current meta path
         initialScore = self.__pathSimSimilarityHelper(source, destination, metaPath)
 
+        # Abort if we've reached the limit for recursion
+        if iterationsRemaining == 0:
+            return initialScore
+
         # Get neighbors and meta path for next iteration
         nextMetaPath = metaPath[:-1]
         sourceNeighbors = self.graph.getPredecessorsOfType(source, nextMetaPath[-1])
@@ -45,10 +54,12 @@ class RecursivePathSimStrategy(MetaPathSimilarityStrategy):
         # Calculate the recursive score for partial meta path
         totalSimilarity = 0.0
         for sourceNeighbor, destinationNeighbor in product(sourceNeighbors, destinationNeighbors):
-            totalSimilarity += self.__findSimilarityScoreHelper(sourceNeighbor, destinationNeighbor, nextMetaPath)
+            totalSimilarity += self.__findSimilarityScoreHelper(
+                sourceNeighbor, destinationNeighbor, nextMetaPath, iterationsRemaining - 1)
         averageSimilarity = totalSimilarity / (len(sourceNeighbors) * len(destinationNeighbors))
 
-        similarityScore = initialScore * averageSimilarity
+        # Use the provided function to compose this similarity score with neighbors' average scores
+        similarityScore = self.compositionFunction(initialScore, averageSimilarity)
 
         return similarityScore
 

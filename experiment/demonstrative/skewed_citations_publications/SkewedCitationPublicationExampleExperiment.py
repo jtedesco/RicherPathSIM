@@ -1,7 +1,4 @@
-import cProfile
-import numpy
 from scipy.spatial.distance import cosine
-import sys
 import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
@@ -102,8 +99,19 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
         )
 
         # Output recursive pathsim strategy scores
+        recursivePathSimStrategy = RecursivePathSimStrategy(
+            self.graph, [Conference, Paper, Paper, Author], compositionFunction=(lambda x, y: 0.5 * x + 0.5 * y))
+        self.outputSimilarityScores(authorMap, authors, recursivePathSimStrategy, 'APPCPPA Recursive PathSim (avg\'d)')
+        recursivePathSimStrategy = RecursivePathSimStrategy(self.graph, [Conference, Paper, Paper, Author], k=1)
+        self.outputSimilarityScores(authorMap, authors, recursivePathSimStrategy, 'APPCPPA Recursive PathSim (top-1)')
+        recursivePathSimStrategy = RecursivePathSimStrategy(self.graph, [Conference, Paper, Paper, Author], k=2)
+        self.outputSimilarityScores(authorMap, authors, recursivePathSimStrategy, 'APPCPPA Recursive PathSim (top-2)')
+        recursivePathSimStrategy = RecursivePathSimStrategy(self.graph, [Conference, Paper, Paper, Author], k=3)
+        self.outputSimilarityScores(authorMap, authors, recursivePathSimStrategy, 'APPCPPA Recursive PathSim (top-3)')
         recursivePathSimStrategy = RecursivePathSimStrategy(self.graph, [Conference, Paper, Paper, Author])
         self.outputSimilarityScores(authorMap, authors, recursivePathSimStrategy, 'APPCPPA Recursive PathSim')
+
+
 
 if __name__ == '__main__':
     experiment = SkewedCitationPublicationExampleExperiment(
