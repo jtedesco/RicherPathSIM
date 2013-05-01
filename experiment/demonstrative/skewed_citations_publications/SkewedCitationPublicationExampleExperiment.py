@@ -1,5 +1,7 @@
+import cProfile
 import numpy
 from scipy.spatial.distance import cosine
+import sys
 import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
@@ -8,6 +10,7 @@ from src.model.node.dblp.Paper import Paper
 from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
 from src.similarity.heterogeneous.PathShapeCountStrategy import NeighborPathShapeCount
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
+from src.similarity.heterogeneous.RecursivePathSimStrategy import RecursivePathSimStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 from src.util.SampleGraphUtility import SampleGraphUtility
 
@@ -83,7 +86,7 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
         pathsimStrategy = PathSimStrategy(self.graph, [Author, Paper, Conference, Paper, Author], symmetric=True)
         self.outputSimilarityScores(authorMap, authors, pathsimStrategy, 'APCPA PathSim')
 
-        # Output variants of the shape-based score
+        # Output variants of the shape-based vector scores
         neighborPathShapeStrategy = NeighborPathShapeCount(
             self.graph, [Conference, Paper, Paper, Author], symmetric=True
         )
@@ -98,6 +101,9 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
             authorMap, authors, neighborPathShapeStrategy, 'APPCPPA ShapeSim (w/ Cosine score)'
         )
 
+        # Output recursive pathsim strategy scores
+        recursivePathSimStrategy = RecursivePathSimStrategy(self.graph, [Conference, Paper, Paper, Author])
+        self.outputSimilarityScores(authorMap, authors, recursivePathSimStrategy, 'APPCPPA Recursive PathSim')
 
 if __name__ == '__main__':
     experiment = SkewedCitationPublicationExampleExperiment(
