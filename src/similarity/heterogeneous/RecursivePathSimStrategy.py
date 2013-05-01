@@ -13,17 +13,6 @@ from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
 __author__ = 'jontedesco'
 
 
-def printMetaPath(metaPath):
-
-    replacements = {
-        Conference: 'C',
-        Author: 'A',
-        Paper: 'P',
-        Term: 'T'
-    }
-    return [replacements[t] for t in metaPath]
-
-
 class RecursivePathSimStrategy(MetaPathSimilarityStrategy):
     """
       Class that calculates a SimRank / PathSim amalgamation
