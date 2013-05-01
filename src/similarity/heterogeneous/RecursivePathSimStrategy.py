@@ -12,7 +12,8 @@ from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
 
 __author__ = 'jontedesco'
 
-def print_metapath(metaPath):
+
+def printMetaPath(metaPath):
 
     replacements = {
         Conference: 'C',
@@ -23,7 +24,6 @@ def print_metapath(metaPath):
     return [replacements[t] for t in metaPath]
 
 
-
 class RecursivePathSimStrategy(MetaPathSimilarityStrategy):
     """
       Class that calculates a SimRank / PathSim amalgamation
@@ -31,8 +31,8 @@ class RecursivePathSimStrategy(MetaPathSimilarityStrategy):
         NOTE: Assumes meta paths are specified in the half-length format, with shared neighbors first
     """
 
-    # Cache of similarity strategies, to avoid object creation
-    __neighborSimStrategyCache = {}
+    # Cache of projected adjacency matrices (map from meta path -> (adjacency matrix, adjacency index))
+    __projectedGraphCache = {}
 
     def findSimilarityScore(self, source, destination):
         return self.__findSimilarityScoreHelper(source, destination, self.metaPath)
@@ -42,13 +42,11 @@ class RecursivePathSimStrategy(MetaPathSimilarityStrategy):
           Recursive helper to calculate the similarity score between two objects
         """
 
-        print print_metapath(metaPath), tuple([(x.name if 'name' in x.toDict() else x.title) for x in (source, destination)])
-
         if len(metaPath) <= 1:
             return 1 if (source == destination) else 0
 
         # Calculate initial similarity score, based on the current meta path
-        initialScore = self.__getNeighborSimStrategy(metaPath).findSimilarityScore(source, destination)
+        initialScore = self.__pathSimSimilarityHelper(source, destination, metaPath)
 
         # Get neighbors and meta path for next iteration
         nextMetaPath = metaPath[:-1]
@@ -65,8 +63,30 @@ class RecursivePathSimStrategy(MetaPathSimilarityStrategy):
 
         return similarityScore
 
-    def __getNeighborSimStrategy(self, metaPath):
-        metaPath = tuple(metaPath)
-        if metaPath in RecursivePathSimStrategy.__neighborSimStrategyCache:
-            return RecursivePathSimStrategy.__neighborSimStrategyCache[metaPath]
-        return NeighborSimStrategy(self.graph, metaPath)
+    def __pathSimSimilarityHelper(self, source, destination, metaPath):
+        """
+          Get the PathSim similarity between two objects, given a particular meta path
+        """
+
+        # Cache the projected graph to avoid recomputation
+        if tuple(metaPath) in RecursivePathSimStrategy.__projectedGraphCache:
+            adjMatrix, adjIndex = RecursivePathSimStrategy.__projectedGraphCache[tuple(metaPath)]
+        else:
+            adjMatrix, adjIndex = self.metaPathUtility.getAdjacencyMatrixFromGraph(
+                self.graph, metaPath, project=True, symmetric=False
+            )
+            RecursivePathSimStrategy.__projectedGraphCache[tuple(metaPath)] = (adjMatrix, adjIndex)
+
+        transpAdjMatrix = adjMatrix.transpose()
+        sourceColumn = transpAdjMatrix[adjIndex[source]]
+        destColumn = transpAdjMatrix[adjIndex[destination]]
+
+        total = 2 * numpy.dot(destColumn.transpose(), sourceColumn)
+        sourceNormalization = numpy.dot(sourceColumn.transpose(), sourceColumn)
+        destNormalization = numpy.dot(destColumn.transpose(), destColumn)
+
+        similarityScore = total
+        if total > 0:
+            similarityScore = total / float(sourceNormalization + destNormalization)
+
+        return similarityScore
