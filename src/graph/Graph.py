@@ -108,7 +108,7 @@ class Graph(object):
         predecessors = self.getPredecessors(node)
         for predecessor in predecessors:
             if isinstance(predecessor, type):
-                predecessorsOfType.add(node)
+                predecessorsOfType.add(predecessor)
 
         return predecessorsOfType
 
