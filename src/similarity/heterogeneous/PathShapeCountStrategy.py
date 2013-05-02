@@ -6,15 +6,16 @@ from src.similarity.MetaPathSimilarityStrategy import MetaPathSimilarityStrategy
 __author__ = 'jontedesco'
 
 
-class NeighborPathShapeCount(MetaPathSimilarityStrategy):
+class WeightedPathShapeCount(MetaPathSimilarityStrategy):
     """
       Class that performs similarity on the path counts to shared neighbors
     """
 
-    def __init__(self, graph, metaPath=None, symmetric=False, vectorSimilarity=None):
-        super(NeighborPathShapeCount, self).__init__(graph, metaPath, symmetric)
+    def __init__(self, graph, weight=1.0, metaPath=None, symmetric=False, vectorSimilarity=None):
+        super(WeightedPathShapeCount, self).__init__(graph, metaPath, symmetric)
         self.similarityScores = defaultdict(dict)
         self.vectorSimilarity = self.__pathsimSimilarity if vectorSimilarity is None else vectorSimilarity
+        self.weight = weight
 
     def findSimilarityScore(self, source, destination):
         """
@@ -31,19 +32,29 @@ class NeighborPathShapeCount(MetaPathSimilarityStrategy):
         allNeighbors = sourceInMetaNeighbors.union(destinationInMetaNeighbors)
         sharedInNeighbors = sourceInMetaNeighbors.intersection(destinationInMetaNeighbors)
 
-        # Find path count sequences from all shared neighbors to each object
+        # Path count sequences and normalized sequences
         sourceSequences, destinationSequences = [], []
+        normalizedSourceSequences, normalizedDestinationSequences = [], []
+
         for neighbor in allNeighbors:
 
             # Tally this as a zero, since one has it and the other doesn't
             if neighbor not in sharedInNeighbors:
-                sourceSequences.append([0.0] * len(self.metaPath))
-                destinationSequences.append([0.0] * len(self.metaPath))
+                for sequences in [sourceSequences, destinationSequences,
+                                  normalizedSourceSequences, normalizedDestinationSequences]:
+                    sequences.append([0.0] * len(self.metaPath))
                 continue
 
-            # Otherwise, get the path sequence from this neighbor to each node, and find the cosine similarity
-            sourceSequences.append(self.__pathSequence(neighbor, source))
-            destinationSequences.append(self.__pathSequence(neighbor, destination))
+            # Otherwise, get the path sequence from this neighbor to each node and the corresponding unit vectors
+            newSourceSequence = self.__pathSequence(neighbor, source)
+            newDestinationSequence = self.__pathSequence(neighbor, destination)
+            normalizedSourceSequence = [el / float(sum(newSourceSequence)) for el in newSourceSequence]
+            normalizedDestinationSequence = [el / float(sum(newDestinationSequence)) for el in newDestinationSequence]
+
+            sourceSequences.append(newSourceSequence)
+            destinationSequences.append(newDestinationSequence)
+            normalizedSourceSequences.append(normalizedSourceSequence)
+            normalizedDestinationSequences.append(normalizedDestinationSequence)
 
         # Form the two matrices and flatten them into two vectors
         sourceMatrix = numpy.array(sourceSequences, dtype=object)
@@ -51,7 +62,17 @@ class NeighborPathShapeCount(MetaPathSimilarityStrategy):
         sourceVector = numpy.hstack(sourceMatrix)
         destinationVector = numpy.hstack(destinationMatrix)
 
-        self.similarityScores[source][destination] = self.vectorSimilarity(self.graph, sourceVector, destinationVector)
+        # Form the two normalized matrices and flatten them into two vectors
+        normalizedSourceMatrix = numpy.array(normalizedSourceSequences, dtype=object)
+        normalizedDestinationMatrix = numpy.array(normalizedDestinationSequences, dtype=object)
+        normalizedSourceVector = numpy.hstack(normalizedSourceMatrix)
+        normalizedDestinationVector = numpy.hstack(normalizedDestinationMatrix)
+
+        # Weight the absolute and relative similarity scores together
+        absSim = self.vectorSimilarity(self.graph, sourceVector, destinationVector)
+        relSim = self.vectorSimilarity(self.graph, normalizedSourceVector, normalizedDestinationVector)
+        self.similarityScores[source][destination] = (self.weight * absSim) + ((1 - self.weight) * relSim)
+
         return self.similarityScores[source][destination]
 
     def __pathSequence(self, source, destination):

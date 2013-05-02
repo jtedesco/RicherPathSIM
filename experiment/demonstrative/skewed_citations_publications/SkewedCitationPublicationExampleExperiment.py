@@ -1,11 +1,10 @@
-from scipy.spatial.distance import cosine
 import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
 from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
-from src.similarity.heterogeneous.PathShapeCountStrategy import NeighborPathShapeCount
+from src.similarity.heterogeneous.PathShapeCountStrategy import WeightedPathShapeCount
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
 from src.similarity.heterogeneous.RecursivePathSimStrategy import RecursivePathSimStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
@@ -84,19 +83,13 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, pathsimStrategy, 'APCPA PathSim')
 
         # Output variants of the shape-based vector scores
-        neighborPathShapeStrategy = NeighborPathShapeCount(
-            self.graph, [Conference, Paper, Paper, Author], symmetric=True
-        )
-        self.outputSimilarityScores(
-            authorMap, authors, neighborPathShapeStrategy, 'APPCPPA ShapeSim (w/ PathSim score)'
-        )
-        cosineSimilarity = lambda _, vectorA, vectorB: round(1 - cosine(vectorA, vectorB), 4)
-        neighborPathShapeStrategy = NeighborPathShapeCount(
-            self.graph, [Conference, Paper, Paper, Author], symmetric=True, vectorSimilarity=cosineSimilarity
-        )
-        self.outputSimilarityScores(
-            authorMap, authors, neighborPathShapeStrategy, 'APPCPPA ShapeSim (w/ Cosine score)'
-        )
+        for w in [1.0, 0.8, 0.5, 0.2, 0]:
+            neighborPathShapeStrategy = WeightedPathShapeCount(
+                self.graph, weight=w, metaPath=[Conference, Paper, Paper, Author], symmetric=True
+            )
+            self.outputSimilarityScores(
+                authorMap, authors, neighborPathShapeStrategy, 'APPCPPA ShapeSim (%1.2f weight)' % w
+            )
 
         # Output recursive pathsim strategy scores
         recursivePathSimStrategy = RecursivePathSimStrategy(
