@@ -88,6 +88,12 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
                 )
                 strategyTitle = 'APPCPPA %s ShapeSim (%1.2f weight)' % (generalStrategyTitle, w)
                 self.outputSimilarityScores(authorMap, authors, neighborPathShapeStrategy, strategyTitle)
+        w = 1.0
+        neighborPathShapeStrategy = VectorProductStrategy(
+            self.graph, weight=w, omit=[0], metaPath=[Conference, Paper, Paper, Author], symmetric=True
+        )
+        strategyTitle = 'APPCPPA VectorProduct ShapeSim omitting CPC (%1.2f weight)' % w
+        self.outputSimilarityScores(authorMap, authors, neighborPathShapeStrategy, strategyTitle)
 
         # Output recursive pathsim strategy score(s)
         recursivePathSimStrategy = RecursivePathSimStrategy(self.graph, [Conference, Paper, Paper, Author])
