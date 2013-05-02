@@ -1,13 +1,12 @@
-from itertools import product
 import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
 from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
-from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
 from src.similarity.heterogeneous.RecursivePathSimStrategy import RecursivePathSimStrategy
-from src.similarity.heterogeneous.WeightedPathShapeCountStrategy import WeightedPathShapeCountStrategy
+from src.similarity.heterogeneous.path_shape_count.FlattenedMatrixStrategy import FlattenedMatrixStrategy
+from src.similarity.heterogeneous.path_shape_count.VectorProductStrategy import VectorProductStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 from src.util.SampleGraphUtility import SampleGraphUtility
 
@@ -81,13 +80,14 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
         neighborSimStrategy = NeighborSimStrategy(self.graph, [Conference, Paper, Paper, Author])
         self.outputSimilarityScores(authorMap, authors, neighborSimStrategy, 'APPCPPA PathSim')
 
-        # Omit extra duplicate entry in path, and weight at different levels of 'relative
-        for w in [1.0, 0.5, 0]:
-            neighborPathShapeStrategy = WeightedPathShapeCountStrategy(
-                self.graph, weight=w, omit=[0], metaPath=[Conference, Paper, Paper, Author], symmetric=True
-            )
-            title = 'APPCPPA ShapeSim (%1.2f weight), omit C-P' % w
-            self.outputSimilarityScores(authorMap, authors, neighborPathShapeStrategy, title)
+        # Omit extra duplicate entry in path, and weight at different levels of 'relative'
+        for strategy, strategyTitle in [(FlattenedMatrixStrategy, 'FlatMat'), (VectorProductStrategy, 'VectorProduct')]:
+            for w in [1.0, 0.5, 0]:
+                neighborPathShapeStrategy = strategy(
+                    self.graph, weight=w, omit=[0], metaPath=[Conference, Paper, Paper, Author], symmetric=True
+                )
+                outputTitle = 'APPCPPA %s ShapeSim (%1.2f weight), omit C-P' % (strategyTitle, w)
+                self.outputSimilarityScores(authorMap, authors, neighborPathShapeStrategy, outputTitle)
 
         # Output recursive pathsim strategy score(s)
         recursivePathSimStrategy = RecursivePathSimStrategy(self.graph, [Conference, Paper, Paper, Author])
