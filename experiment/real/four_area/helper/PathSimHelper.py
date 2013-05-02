@@ -140,4 +140,4 @@ def pathSimPaperExample():
 
 # When run as script, runs through pathsim papers example experiment
 if __name__ == '__main__':
-   pathSimPaperExample()
+    pathSimPaperExample()
