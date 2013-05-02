@@ -6,13 +6,13 @@ from src.similarity.MetaPathSimilarityStrategy import MetaPathSimilarityStrategy
 __author__ = 'jontedesco'
 
 
-class WeightedPathShapeCount(MetaPathSimilarityStrategy):
+class WeightedPathShapeCountStrategy(MetaPathSimilarityStrategy):
     """
       Class that performs similarity on the path counts to shared neighbors
     """
 
     def __init__(self, graph, weight=1.0, metaPath=None, symmetric=False, vectorSimilarity=None):
-        super(WeightedPathShapeCount, self).__init__(graph, metaPath, symmetric)
+        super(WeightedPathShapeCountStrategy, self).__init__(graph, metaPath, symmetric)
         self.similarityScores = defaultdict(dict)
         self.vectorSimilarity = self.__pathsimSimilarity if vectorSimilarity is None else vectorSimilarity
         self.weight = weight
