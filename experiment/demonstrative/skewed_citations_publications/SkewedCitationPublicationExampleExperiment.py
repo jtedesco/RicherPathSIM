@@ -84,9 +84,9 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
         for strategy, strategyTitle in [(FlattenedMatrixStrategy, 'FlatMat'), (VectorProductStrategy, 'VectorProduct')]:
             for w in [1.0, 0.5, 0]:
                 neighborPathShapeStrategy = strategy(
-                    self.graph, weight=w, omit=[0], metaPath=[Conference, Paper, Paper, Author], symmetric=True
+                    self.graph, weight=w, omit=[], metaPath=[Conference, Paper, Paper, Author], symmetric=True
                 )
-                outputTitle = 'APPCPPA %s ShapeSim (%1.2f weight), omit C-P' % (strategyTitle, w)
+                outputTitle = 'APPCPPA %s ShapeSim (%1.2f weight)\n' % (strategyTitle, w)
                 self.outputSimilarityScores(authorMap, authors, neighborPathShapeStrategy, outputTitle)
 
         # Output recursive pathsim strategy score(s)
