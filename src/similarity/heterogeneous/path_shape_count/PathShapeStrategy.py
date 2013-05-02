@@ -1,18 +1,17 @@
 from collections import defaultdict
 import numpy
-from scipy.spatial.distance import cosine
 from src.similarity.MetaPathSimilarityStrategy import MetaPathSimilarityStrategy
 
 __author__ = 'jontedesco'
 
 
-class WeightedPathShapeCountStrategy(MetaPathSimilarityStrategy):
+class PathShapeStrategy(MetaPathSimilarityStrategy):
     """
-      Class that performs similarity on the path counts to shared neighbors
+      Abstract class that performs similarity on the path shape to shared neighbors
     """
 
     def __init__(self, graph, weight=1.0, omit=list(), metaPath=None, symmetric=False, vectorSimilarity=None):
-        super(WeightedPathShapeCountStrategy, self).__init__(graph, metaPath, symmetric)
+        super(PathShapeStrategy, self).__init__(graph, metaPath, symmetric)
         self.similarityScores = defaultdict(dict)
         self.vectorSimilarity = self.__pathsimSimilarity if vectorSimilarity is None else vectorSimilarity
         self.weight = weight
@@ -27,9 +26,9 @@ class WeightedPathShapeCountStrategy(MetaPathSimilarityStrategy):
             return self.similarityScores[source][destination]
 
         # Find shared neighbors
-        cppaProjectedGraph = self.metaPathUtility.createHeterogeneousProjection(self.graph, self.metaPath)
-        sourceInMetaNeighbors = set(cppaProjectedGraph.getPredecessors(source))
-        destinationInMetaNeighbors = set(cppaProjectedGraph.getPredecessors(destination))
+        projectedGraph = self.metaPathUtility.createHeterogeneousProjection(self.graph, self.metaPath)
+        sourceInMetaNeighbors = set(projectedGraph.getPredecessors(source))
+        destinationInMetaNeighbors = set(projectedGraph.getPredecessors(destination))
         allNeighbors = sourceInMetaNeighbors.union(destinationInMetaNeighbors)
         sharedInNeighbors = sourceInMetaNeighbors.intersection(destinationInMetaNeighbors)
 
@@ -64,24 +63,26 @@ class WeightedPathShapeCountStrategy(MetaPathSimilarityStrategy):
             normalizedSourceSequences.append(normalizedSourceSequence)
             normalizedDestinationSequences.append(normalizedDestinationSequence)
 
-        # Form the two matrices and flatten them into two vectors
+        # Form the two matrices original and two normalized matrices
         sourceMatrix = numpy.array(sourceSequences, dtype=object)
         destinationMatrix = numpy.array(destinationSequences, dtype=object)
-        sourceVector = numpy.hstack(sourceMatrix)
-        destinationVector = numpy.hstack(destinationMatrix)
-
-        # Form the two normalized matrices and flatten them into two vectors
         normalizedSourceMatrix = numpy.array(normalizedSourceSequences, dtype=object)
         normalizedDestinationMatrix = numpy.array(normalizedDestinationSequences, dtype=object)
-        normalizedSourceVector = numpy.hstack(normalizedSourceMatrix)
-        normalizedDestinationVector = numpy.hstack(normalizedDestinationMatrix)
 
-        # Weight the absolute and relative similarity scores together
-        absSim = self.vectorSimilarity(self.graph, sourceVector, destinationVector)
-        relSim = self.vectorSimilarity(self.graph, normalizedSourceVector, normalizedDestinationVector)
-        self.similarityScores[source][destination] = (self.weight * absSim) + ((1 - self.weight) * relSim)
+        # Get the similarity
+        self.similarityScores[source][destination] = self.getSimilarityScoreFromMatrices(
+            sourceMatrix, destinationMatrix, normalizedSourceMatrix, normalizedDestinationMatrix
+        )
 
         return self.similarityScores[source][destination]
+
+    def getSimilarityScoreFromMatrices(self, sourceMatrix, destinationMatrix,
+                                       normalizedDestinationMatrix, normalizedSourceMatrix):
+        """
+          Get the similarity score given the original and normalized matrices for each of the source and destination
+        """
+
+        raise NotImplementedError()
 
     def __pathSequence(self, source, destination):
         """
