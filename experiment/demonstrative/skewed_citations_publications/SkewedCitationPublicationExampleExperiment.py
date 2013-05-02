@@ -1,12 +1,13 @@
+from itertools import product
 import texttable
 from experiment.Experiment import Experiment
 from src.model.node.dblp.Author import Author
 from src.model.node.dblp.Conference import Conference
 from src.model.node.dblp.Paper import Paper
 from src.similarity.heterogeneous.NeighborSimStrategy import NeighborSimStrategy
-from src.similarity.heterogeneous.PathShapeCountStrategy import WeightedPathShapeCount
 from src.similarity.heterogeneous.PathSimStrategy import PathSimStrategy
 from src.similarity.heterogeneous.RecursivePathSimStrategy import RecursivePathSimStrategy
+from src.similarity.heterogeneous.WeightedPathShapeCountStrategy import WeightedPathShapeCountStrategy
 from src.util.EdgeBasedMetaPathUtility import EdgeBasedMetaPathUtility
 from src.util.SampleGraphUtility import SampleGraphUtility
 
@@ -83,13 +84,13 @@ class SkewedCitationPublicationExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, pathsimStrategy, 'APCPA PathSim')
 
         # Output variants of the shape-based vector scores
-        for w in [1.0, 0.8, 0.5, 0.2, 0]:
-            neighborPathShapeStrategy = WeightedPathShapeCount(
-                self.graph, weight=w, metaPath=[Conference, Paper, Paper, Author], symmetric=True
+        for w, omit in product([1.0, 0.8, 0.5, 0.2, 0], [None, 0, 1, 2]):
+            omitArray = [] if omit is None else [omit]
+            neighborPathShapeStrategy = WeightedPathShapeCountStrategy(
+                self.graph, weight=w, omit=omitArray, metaPath=[Conference, Paper, Paper, Author], symmetric=True
             )
-            self.outputSimilarityScores(
-                authorMap, authors, neighborPathShapeStrategy, 'APPCPPA ShapeSim (%1.2f weight)' % w
-            )
+            title = 'APPCPPA ShapeSim (%1.2f weight), omit %s' % (w, str(omitArray))
+            self.outputSimilarityScores(authorMap, authors, neighborPathShapeStrategy, title)
 
         # Output recursive pathsim strategy scores
         recursivePathSimStrategy = RecursivePathSimStrategy(

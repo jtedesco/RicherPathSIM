@@ -11,11 +11,12 @@ class WeightedPathShapeCountStrategy(MetaPathSimilarityStrategy):
       Class that performs similarity on the path counts to shared neighbors
     """
 
-    def __init__(self, graph, weight=1.0, metaPath=None, symmetric=False, vectorSimilarity=None):
+    def __init__(self, graph, weight=1.0, omit=list(), metaPath=None, symmetric=False, vectorSimilarity=None):
         super(WeightedPathShapeCountStrategy, self).__init__(graph, metaPath, symmetric)
         self.similarityScores = defaultdict(dict)
         self.vectorSimilarity = self.__pathsimSimilarity if vectorSimilarity is None else vectorSimilarity
         self.weight = weight
+        self.omit = omit
 
     def findSimilarityScore(self, source, destination):
         """
@@ -42,12 +43,19 @@ class WeightedPathShapeCountStrategy(MetaPathSimilarityStrategy):
             if neighbor not in sharedInNeighbors:
                 for sequences in [sourceSequences, destinationSequences,
                                   normalizedSourceSequences, normalizedDestinationSequences]:
-                    sequences.append([0.0] * len(self.metaPath))
+                    sequences.append([0.0] * (len(self.metaPath) - len(self.omit)))
                 continue
 
-            # Otherwise, get the path sequence from this neighbor to each node and the corresponding unit vectors
+            # Get the path sequence vectors for source & destination
             newSourceSequence = self.__pathSequence(neighbor, source)
             newDestinationSequence = self.__pathSequence(neighbor, destination)
+
+            # Remove the indices to ignore
+            for omitI in self.omit:
+                del newSourceSequence[omitI]
+                del newDestinationSequence[omitI]
+
+            # Create the normalized
             normalizedSourceSequence = [el / float(sum(newSourceSequence)) for el in newSourceSequence]
             normalizedDestinationSequence = [el / float(sum(newDestinationSequence)) for el in newDestinationSequence]
 
@@ -90,7 +98,7 @@ class WeightedPathShapeCountStrategy(MetaPathSimilarityStrategy):
             edgePairs = {(pathInstance[i], pathInstance[i+1]) for pathInstance in metaPathInstances}
             edgeCuts.append(len(edgePairs))
 
-        return numpy.array(edgeCuts)
+        return edgeCuts
 
     def __pathsimSimilarity(self, _, vectorA, vectorB):
         """
