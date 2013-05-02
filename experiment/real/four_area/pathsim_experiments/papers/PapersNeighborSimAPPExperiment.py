@@ -2,11 +2,11 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testPapers
+from experiment.real.four_area.helper.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testPapers
 
 __author__ = 'jontedesco'
 
-class PapersNeighborSimTPPExperiment(Experiment):
+class PapersNeighborSimAPPExperiment(Experiment):
     """
       Runs some experiments with NeighborSim on paper similarity for the 'four area' dataset
     """
@@ -25,12 +25,12 @@ class PapersNeighborSimTPPExperiment(Experiment):
 
 
 def run():
-    experiment = PapersNeighborSimTPPExperiment(
-        None, 'Most Similar TPP NeighborSim Authors', outputFilePath='results/papers/tppNeighborSim')
+    experiment = PapersNeighborSimAPPExperiment(
+        None, 'Most Similar APP NeighborSim Authors', outputFilePath='results/papers/appNeighborSim')
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
-    appAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['term', 'paper', 'paper'])
+    graph, nodeIndex = cPickle.load(open(os.path.join('../../data', 'graphWithCitations')))
+    appAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper'])
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
 

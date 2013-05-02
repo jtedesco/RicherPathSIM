@@ -2,7 +2,7 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testPapers
+from experiment.real.four_area.helper.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testPapers
 
 __author__ = 'jontedesco'
 
@@ -29,7 +29,7 @@ def run():
         None, 'Most Similar CPP NeighborSim Authors', outputFilePath='results/papers/cppNeighborSim')
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('../../data', 'graphWithCitations')))
     cppAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'paper'])
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']

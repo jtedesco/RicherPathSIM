@@ -3,13 +3,13 @@ import os
 from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testPapers
+from experiment.real.four_area.helper.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testPapers
 
 __author__ = 'jontedesco'
 
-class PapersPathSimPAPExperiment(Experiment):
+class PapersPathSimPTPExperiment(Experiment):
     """
-      Runs some experiments with PathSim on paper similarity for the 'four area' dataset
+      Runs some experiments with PathSim on author similarity for the 'four area' dataset
     """
 
     def runFor(self, paper, adjMatrix, extraData):
@@ -25,22 +25,22 @@ class PapersPathSimPAPExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
 def run():
-    experiment = PapersPathSimPAPExperiment(
-        None, 'Most Similar PAP PathSim Papers', outputFilePath='results/papers/papPathSim')
+    experiment = PapersPathSimPTPExperiment(
+        None, 'Most Similar PCP PathSim Papers', outputFilePath='results/papers/ptpPathSim')
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('../../data', 'graphWithCitations')))
 
     # Compute APCPA adjacency matrix
-    paAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['paper', 'author'], rows=True)
-    apAdjMatrix, data = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper'])
-    papAdjMatrix = lil_matrix(paAdjMatrix * apAdjMatrix)
+    ptAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['paper', 'term'], rows=True)
+    tpAdjMatrix, data = getMetaPathAdjacencyData(graph, nodeIndex, ['term', 'paper'])
+    ptpAdjMatrix = lil_matrix(ptAdjMatrix * tpAdjMatrix)
 
     # Correct the toNodes content in extraData
     extraData['toNodes'] = data['toNodes']
     extraData['toNodesIndex'] = data['toNodesIndex']
 
     for testPaper in testPapers:
-        experiment.runFor(testPaper, papAdjMatrix, extraData)
+        experiment.runFor(testPaper, ptpAdjMatrix, extraData)
 
 if __name__ == '__main__': run()

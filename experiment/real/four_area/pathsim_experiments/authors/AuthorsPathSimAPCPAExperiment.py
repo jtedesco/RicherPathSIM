@@ -3,7 +3,7 @@ import os
 from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testAuthors
+from experiment.real.four_area.helper.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testAuthors
 
 __author__ = 'jontedesco'
 
@@ -25,18 +25,18 @@ class AuthorsPathSimAPCPAExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
         # Output all similarity scores
-        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-pathsim-apcpa' % author.replace(' ', ''))
+        outputPath = os.path.join('../../results', 'authors', 'intermediate', '%s-pathsim-apcpa' % author.replace(' ', ''))
         cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
 def run(citationCounts, publicationCounts):
     experiment = AuthorsPathSimAPCPAExperiment(
         None,
         'Most Similar APCPA PathSim Authors',
-        outputFilePath = os.path.join('results','authors','apcpaPathSim')
+        outputFilePath = os.path.join('../../results','authors','apcpaPathSim')
     )
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('../../data', 'graphWithCitations')))
 
     # Compute APCPA adjacency matrix
     apcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'conference'], rows=True)

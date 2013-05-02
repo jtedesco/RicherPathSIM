@@ -6,7 +6,7 @@ __author__ = 'jontedesco'
 allowSplitTitles = False
 
 # Construct the dictionary of number of citations for each paper
-paperCitationFile = open('../../data/paperCitationCounts')
+paperCitationFile = open('../../../data/paperCitationCounts')
 citationCounts = defaultdict(int)
 for line in paperCitationFile:
     index = line.find(': ')

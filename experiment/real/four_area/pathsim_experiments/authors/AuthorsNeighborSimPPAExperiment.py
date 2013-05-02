@@ -4,7 +4,7 @@ import os
 import operator
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
+from experiment.real.four_area.helper.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
 
 __author__ = 'jontedesco'
 
@@ -26,24 +26,24 @@ class AuthorsNeighborSimPPAExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
         # Output all similarity scores
-        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-neighborsim-ppa' % author.replace(' ', ''))
+        outputPath = os.path.join('../../results', 'authors', 'intermediate', '%s-neighborsim-ppa' % author.replace(' ', ''))
         cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
 def run():
     experiment = AuthorsNeighborSimPPAExperiment(
         None,
         'Most Similar PPA NeighborSim Authors',
-        outputFilePath = os.path.join('results','authors','ppaNeighborSim')
+        outputFilePath = os.path.join('../../results','authors','ppaNeighborSim')
     )
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('../../data', 'graphWithCitations')))
     ppaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['paper', 'paper', 'author'])
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
 
     # Read paper citation counts
-    paperCitationsFile = open(os.path.join('data', 'paperCitationCounts'))
+    paperCitationsFile = open(os.path.join('../../data', 'paperCitationCounts'))
     paperCitationCounts = {}
     for line in paperCitationsFile:
         splitIndex = line.find(': ')
@@ -63,7 +63,7 @@ def run():
     # Output author citation counts
     citationCountsList = sorted(citationCounts.iteritems(), key=operator.itemgetter(1))
     citationCountsList.reverse()
-    with open(os.path.join('data', 'authorCitationCounts'), 'w') as file:
+    with open(os.path.join('../../data', 'authorCitationCounts'), 'w') as file:
         map(lambda (author, count): file.write('%d: %s\n' % (int(count), author)), citationCountsList)
 
     for testAuthor in testAuthors:

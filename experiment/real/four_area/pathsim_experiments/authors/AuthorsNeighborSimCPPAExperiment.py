@@ -2,11 +2,11 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
+from experiment.real.four_area.helper.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
 
 __author__ = 'jontedesco'
 
-class AuthorsNeighborSimTPPAExperiment(Experiment):
+class AuthorsNeighborSimCPPAExperiment(Experiment):
     """
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
@@ -24,21 +24,21 @@ class AuthorsNeighborSimTPPAExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
         # Output all similarity scores
-        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-neighborsim-tppa' % author.replace(' ', ''))
+        outputPath = os.path.join('../../results', 'authors', 'intermediate', '%s-neighborsim-cppa' % author.replace(' ', ''))
         cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
 def run(citationCounts, publicationCounts):
-    experiment = AuthorsNeighborSimTPPAExperiment(
+    experiment = AuthorsNeighborSimCPPAExperiment(
         None,
-        'Most Similar TPPA NeighborSim Authors',
-        outputFilePath = os.path.join('results','authors','tppaNeighborSim')
+        'Most Similar CPPA NeighborSim Authors',
+        outputFilePath = os.path.join('../../results','authors','cppaNeighborSim')
     )
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
-    ppaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['term', 'paper', 'paper', 'author'])
+    graph, nodeIndex = cPickle.load(open(os.path.join('../../data', 'graphWithCitations')))
+    cppaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'paper', 'author'])
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, ppaAdjMatrix, extraData, citationCounts, publicationCounts)
+        experiment.runFor(testAuthor, cppaAdjMatrix, extraData, citationCounts, publicationCounts)

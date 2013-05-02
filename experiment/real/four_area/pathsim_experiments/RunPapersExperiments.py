@@ -1,4 +1,5 @@
-from experiment.real.four_area.barebones import PapersNeighborSimCPPExperiment, PapersNeighborSimAPPExperiment, PapersPathSimPCPExperiment, PapersPathSimPAPExperiment, PapersPathSimPTPExperiment, PapersNeighborSimTPPExperiment
+from experiment.real.four_area.barebones import PapersPathSimPCPExperiment, PapersPathSimPAPExperiment, PapersPathSimPTPExperiment
+from experiment.real.four_area.pathsim_experiments.papers import PapersNeighborSimTPPExperiment, PapersNeighborSimCPPExperiment, PapersNeighborSimAPPExperiment
 
 __author__ = 'jontedesco'
 

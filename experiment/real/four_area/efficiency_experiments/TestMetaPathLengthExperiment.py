@@ -6,7 +6,7 @@ from collections import defaultdict
 
 import texttable
 
-from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, \
+from experiment.real.four_area.helper.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, \
     getNeighborSimScore
 
 
@@ -58,7 +58,7 @@ def run():
         ],
     }
 
-    graph, nodeIndex = cPickle.load(open(os.path.join('..', 'data', 'graphWithCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('../', 'data', 'graphWithCitations')))
 
     # Map of experiment length to experiment, which contains a tuple of average time
     # without and with saving adj matrix

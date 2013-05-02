@@ -3,7 +3,7 @@ import os
 from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testPapers
+from experiment.real.four_area.helper.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testPapers
 
 __author__ = 'jontedesco'
 
@@ -29,7 +29,7 @@ def run():
         None, 'Most Similar PCP PathSim Papers', outputFilePath='results/papers/pcpPathSim')
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('../../data', 'graphWithCitations')))
 
     # Compute APCPA adjacency matrix
     pcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['paper', 'conference'], rows=True)

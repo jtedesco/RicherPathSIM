@@ -2,12 +2,11 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.barebones.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
+from experiment.real.four_area.helper.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
 
 __author__ = 'jontedesco'
 
-
-class AuthorsNeighborSimCPCPPAExperiment(Experiment):
+class AuthorsNeighborSimAPPAExperiment(Experiment):
     """
       Runs some experiments with NeighborSim on author similarity for the 'four area' dataset
     """
@@ -25,23 +24,21 @@ class AuthorsNeighborSimCPCPPAExperiment(Experiment):
         self.output(mostSimilarTable.draw())
 
         # Output all similarity scores
-        outputPath = os.path.join('results', 'authors', 'intermediate', '%s-neighborsim-cpcppa' % author.replace(' ', ''))
+        outputPath = os.path.join('../../results', 'authors', 'intermediate', '%s-neighborsim-appa' % author.replace(' ', ''))
         cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
 def run(citationCounts, publicationCounts):
-    experiment = AuthorsNeighborSimCPCPPAExperiment(
+    experiment = AuthorsNeighborSimAPPAExperiment(
         None,
-        'Most Similar CPCPPA NeighborSim Authors',
-        outputFilePath = os.path.join('results','authors','cpcppaNeighborSim')
+        'Most Similar APPA NeighborSim Authors',
+        outputFilePath = os.path.join('../../results','authors','appaNeighborSim')
     )
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('data', 'graphWithCitations')))
-    cpcAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'conference'])
-    cppaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'paper', 'author'])
-    cpcppaAdjMatrix = cpcAdjMatrix * cppaAdjMatrix
+    graph, nodeIndex = cPickle.load(open(os.path.join('../../data', 'graphWithCitations')))
+    appaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['author', 'paper', 'paper', 'author'])
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
 
     for testAuthor in testAuthors:
-        experiment.runFor(testAuthor, cpcppaAdjMatrix, extraData, citationCounts, publicationCounts)
+        experiment.runFor(testAuthor, appaAdjMatrix, extraData, citationCounts, publicationCounts)
