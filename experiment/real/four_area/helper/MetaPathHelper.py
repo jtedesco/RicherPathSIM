@@ -23,6 +23,11 @@ testPapers = [
     'R-trees with Update Memos.'
 ]
 
+testConferences = [
+    'KDD',
+    'SIGIR',
+]
+
 
 def buildPathsMap(graph, metaPath, nodeIndex):
     """
