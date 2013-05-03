@@ -54,3 +54,7 @@ def run(conferenceCitations, conferencePublications):
     # Actually run the similarity experiments
     for testConference in testConferences:
         experiment.runFor(testConference, cppaAdjTensor, extraData, conferenceCitations, conferencePublications)
+
+if __name__ == '__main__':
+    confPublications, confCitations = cPickle.load(open(os.path.join('..', '..', 'data', 'conferenceStats')))
+    run(confCitations, confPublications)
