@@ -1,4 +1,6 @@
+from collections import defaultdict
 from scipy.sparse import csr_matrix, csc_matrix
+from experiment.real.four_area.helper.SparseArray import SparseArray
 
 __author__ = 'jontedesco'
 
@@ -21,6 +23,36 @@ testPapers = [
 ]
 
 
+def buildPathsMap(graph, metaPath, nodeIndex):
+    """
+      Build the path instances map for a particular meta path
+    """
+
+    # Build all of the paths
+    pathsMap = {node: [[node]] for node in nodeIndex[metaPath[0]].values()}
+    for nodeType in metaPath[1:]:
+        nextPathsMap = defaultdict(list)
+        eligibleNodes = set(nodeIndex[nodeType].values())
+
+        for startNode in pathsMap:
+            for path in pathsMap[startNode]:
+                for neighbor in graph.successors(path[-1]):
+
+                    # Do not check for repeated nodes... (could result in infinite loop?)
+                    if neighbor in eligibleNodes:
+                        nextPathsMap[startNode].append(path + [neighbor])
+
+        pathsMap = nextPathsMap
+
+    # Rebuild as a two-level dictionary, indexed by start and end node
+    newPathsMap = defaultdict(lambda: defaultdict(list))
+    for startNode in pathsMap:
+        for path in pathsMap[startNode]:
+            newPathsMap[startNode][path[-1]].append(path)
+
+    return newPathsMap
+
+
 def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, rows=False):
     """
       Get the adjacency matrix along some meta path (given by an array of keywords)
@@ -28,34 +60,13 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, rows=False):
 
     assert len(metaPath) >= 1
 
-    # Build all of the paths
-    paths = [[node] for node in nodeIndex[metaPath[0]].values()]
-    for nodeType in metaPath[1:]:
-        nextPaths = []
-        eligibleNodes = set(nodeIndex[nodeType].values())
-        for path in paths:
-            for neighbor in graph.successors(path[-1]):
-
-                # Do not check for repeated nodes... (could result in infinite loop if path/graph allows backtracking)
-                if neighbor in eligibleNodes:
-                    nextPaths.append(path + [neighbor])
-
-        paths = nextPaths
+    pathsMap = buildPathsMap(graph, metaPath, nodeIndex)
 
     # Build the index into the rows of the graph
     fromNodes = nodeIndex[metaPath[0]].values()
     fromNodesIndex = {fromNodes[i]: i for i in xrange(0, len(fromNodes))}
     toNodes = nodeIndex[metaPath[-1]].values()
     toNodesIndex = {toNodes[i]: i for i in xrange(0, len(toNodes))}
-
-    # Build the adjacency matrix (as a sparse array)
-    data, row, col = [], [], []
-    for path in paths:
-        row.append(fromNodesIndex[path[0]])
-        col.append(toNodesIndex[path[-1]])
-        data.append(1)
-    matrixType = csr_matrix if rows else csc_matrix
-    adjMatrix = matrixType((data, (row,col)), shape=(len(fromNodes), len(toNodes)))
 
     extraData = {
         'fromNodes': fromNodes,
@@ -64,4 +75,50 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, rows=False):
         'toNodesIndex': toNodesIndex
     }
 
+    # Build the adjacency matrix (as a sparse array)
+    data, row, col = [], [], []
+    for startNode in pathsMap:
+        for endNode in pathsMap[startNode]:
+            for _ in pathsMap[startNode][endNode]:
+                row.append(fromNodesIndex[startNode])
+                col.append(toNodesIndex[endNode])
+                data.append(1)
+    matrixType = csr_matrix if rows else csc_matrix
+    adjMatrix = matrixType((data, (row, col)), shape=(len(fromNodes), len(toNodes)))
+
     return adjMatrix, extraData
+
+
+def getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath, rows=False):
+    """
+      Get the adjacency tensor along some meta path
+    """
+
+    assert len(metaPath) >= 1
+
+    pathsMap = buildPathsMap(graph, metaPath, nodeIndex)
+
+    # Build the index into the rows of the graph
+    fromNodes = nodeIndex[metaPath[0]].values()
+    fromNodesIndex = {fromNodes[i]: i for i in xrange(0, len(fromNodes))}
+    toNodes = nodeIndex[metaPath[-1]].values()
+    toNodesIndex = {toNodes[i]: i for i in xrange(0, len(toNodes))}
+
+    # Build the adjacency tensor
+    adjacencyTensor = SparseArray((len(fromNodesIndex), len(toNodesIndex), len(metaPath)))  # M x N x K tensor
+    for startNode in pathsMap:
+        for endNode in pathsMap[startNode]:
+            pathInstances = pathsMap[startNode][endNode]
+
+            # Get the set of edge cuts for each step along the meta path
+            for i in xrange(0, len(metaPath)-1):
+                edgePairs = {(pathInstance[i], pathInstance[i+1]) for pathInstance in pathInstances}
+                adjacencyTensor[fromNodesIndex[startNode], toNodesIndex[endNode], i] = len(edgePairs)
+
+    extraData = {
+        'fromNodes': fromNodes,
+        'fromNodesIndex': fromNodesIndex,
+        'toNodes': toNodes,
+        'toNodesIndex': toNodesIndex
+    }
+    return adjacencyTensor, extraData

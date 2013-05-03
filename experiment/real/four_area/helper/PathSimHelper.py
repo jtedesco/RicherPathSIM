@@ -8,26 +8,29 @@ from experiment.real.four_area.helper.MetaPathHelper import getMetaPathAdjacency
 
 __author__ = 'jontedesco'
 
+
 def getPathSimScore(adjacencyMatrix, sI, dI):
-    if adjacencyMatrix[sI,dI] == 0: return 0
-    return (2.0 * adjacencyMatrix[sI,dI]) / float(adjacencyMatrix[sI,sI] + adjacencyMatrix[dI,dI])
+    if adjacencyMatrix[sI, dI] == 0:
+        return 0
+    return (2.0 * adjacencyMatrix[sI, dI]) / float(adjacencyMatrix[sI, sI] + adjacencyMatrix[dI, dI])
 
 
-def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
+def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed=False):
 
     sourceColumn = adjacencyMatrix.getcol(xI)
     destColumn = adjacencyMatrix.getcol(yI)
 
     # Compute numerator dot product
     total = 1 if smoothed else 0
-    total += (destColumn.transpose() * sourceColumn)[0,0]
-    if total == 0: return 0
+    total += (destColumn.transpose() * sourceColumn)[0, 0]
+    if total == 0:
+        return 0
 
     # Compute normalization dot products
     sourceNormalization = 1 if smoothed else 0
-    sourceNormalization += (sourceColumn.transpose() * sourceColumn)[0,0]
+    sourceNormalization += (sourceColumn.transpose() * sourceColumn)[0, 0]
     destNormalization = 1 if smoothed else 0
-    destNormalization += (destColumn.transpose() * destColumn)[0,0]
+    destNormalization += (destColumn.transpose() * destColumn)[0, 0]
 
     similarityScore = total
     if total > 0:
@@ -36,18 +39,19 @@ def getNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
     return similarityScore
 
 
-def getAbsNeighborSimScore(adjacencyMatrix, xI, yI, smoothed = False):
+def getAbsNeighborSimScore(adjacencyMatrix, xI, yI, smoothed=False):
 
     sourceColumn = adjacencyMatrix.getcol(xI)
     destColumn = adjacencyMatrix.getcol(yI)
 
-    sourceNorm = (sourceColumn.transpose() * sourceColumn)[0,0]
-    destNorm = (destColumn.transpose() * destColumn)[0,0]
+    sourceNorm = (sourceColumn.transpose() * sourceColumn)[0, 0]
+    destNorm = (destColumn.transpose() * destColumn)[0, 0]
 
     # Compute numerator
     total = 1 if smoothed else 0
     total += 2 * (max(destNorm, sourceNorm) - abs(destNorm - sourceNorm))
-    if total == 0: return 0
+    if total == 0:
+        return 0
 
     # Compute normalization
     sourceNormalization = 1 if smoothed else 0
@@ -71,7 +75,8 @@ def findMostSimilarNodes(adjMatrix, source, extraData, method=getPathSimScore, k
         similarityScores = {}
         for i in xrange(len(toNodes)):
             sim = method(adjMatrix, sourceIndex, i)
-            if sim > 0: similarityScores[toNodes[i]] = sim
+            if sim > 0:
+                similarityScores[toNodes[i]] = sim
     else:
         similarityScores = {toNodes[i]: method(adjMatrix, sourceIndex, i) for i in xrange(0, len(toNodes))}
 
@@ -83,6 +88,7 @@ def findMostSimilarNodes(adjMatrix, source, extraData, method=getPathSimScore, k
 
     return mostSimilarNodes, similarityScores
 
+
 def pathSimPaperExample():
 
     def add_apc_to_graph(graph, author, conference, n):
@@ -90,7 +96,9 @@ def pathSimPaperExample():
         for i in xrange(0, n):
             newPaper = '%s-%s-%d' % (author, conference, i)
             graph.add_node(newPaper)
-            graph.add_edges_from([(author, newPaper), (newPaper, author), (newPaper, conference), (conference, newPaper)])
+            graph.add_edges_from(
+                [(author, newPaper), (newPaper, author), (newPaper, conference), (conference, newPaper)]
+            )
             papers.append(newPaper)
         return papers
 
@@ -111,7 +119,7 @@ def pathSimPaperExample():
     nodeIndex = {
         'paper': {i: papers[i] for i in xrange(0, len(papers))},
         'conference': {0: 'SIGMOD', 1: 'VLDB', 2: 'ICDE', 3: 'KDD'},
-        'author': {0: 'Mike', 1: 'Jim', 2: 'Mary', 3: 'Bob'}
+        'author': {0: 'Mike', 1: 'Jim', 2: 'Mary', 3: 'Bob', 4: 'Ann'}
     }
 
     # Compute PathSim similarity scores
@@ -128,7 +136,9 @@ def pathSimPaperExample():
     data['fromNodes'] = data['toNodes']
     data['fromNodesIndex'] = data['toNodesIndex']
     author = 'Mike'
-    neighborSimMostSimilar, similarityScores = findMostSimilarNodes(cpaAdjMatrix, author, extraData, method=getNeighborSimScore)
+    neighborSimMostSimilar, similarityScores = findMostSimilarNodes(
+        cpaAdjMatrix, author, extraData, method=getNeighborSimScore
+    )
 
     for name, mostSimilar in [('PathSim', pathSimMostSimilar), ('NeighborSim', neighborSimMostSimilar)]:
         print('\n%s Most Similar to "%s":' % (name, author))
