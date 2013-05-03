@@ -56,5 +56,5 @@ def run(conferenceCitations, conferencePublications):
         experiment.runFor(testConference, cppaAdjTensor, extraData, conferenceCitations, conferencePublications)
 
 if __name__ == '__main__':
-    confPublications, confCitations = cPickle.load(open(os.path.join('..', '..', 'data', 'conferenceStats')))
+    confPublications, confCitations = cPickle.load(open(os.path.join('..', 'data', 'conferenceStats')))
     run(confCitations, confPublications)
