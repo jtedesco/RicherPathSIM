@@ -14,7 +14,7 @@ class ConferencesShapeSimTPPCExperimentRelative(Experiment):
       Runs some experiments with ShapeSim on conference similarity for the 'four area' dataset
     """
 
-    def runFor(self, conference, adjTensor, extraData, conferenceCitations, conferencePublications):
+    def runFor(self, conference, adjTensor, extraData, confCitations, confPublications):
         print("Running for %s..." % conference)
 
         # Find the top 10 most similar nodes to some given node
@@ -23,8 +23,9 @@ class ConferencesShapeSimTPPCExperimentRelative(Experiment):
         )
         self.output('Most Similar to "%s":' % conference)
         mostSimilarTable = texttable.Texttable()
-        rows = [['Conference', 'Score', 'Publications', 'Citations']]
-        rows += [[name, score, conferencePublications[name], conferenceCitations[name]] for name, score in mostSimilar]
+        rows = [['Conference', 'Score', 'Publications', 'Citations', 'Average Citation Per Paper']]
+        rows += [[name, score, confPublications[name], confCitations[name],
+                  (float(confCitations[name]) / confPublications[name])] for name, score in mostSimilar]
         mostSimilarTable.add_rows(rows)
         self.output(mostSimilarTable.draw())
 
