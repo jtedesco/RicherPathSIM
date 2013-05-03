@@ -9,7 +9,7 @@ from experiment.real.four_area.helper.MetaPathHelper import findMostSimilarNodes
 __author__ = 'jontedesco'
 
 
-class ConferencesShapeSimTPPCExperiment(Experiment):
+class ConferencesShapeSimTPPCExperimentRelative(Experiment):
     """
       Runs some experiments with ShapeSim on conference similarity for the 'four area' dataset
     """
@@ -19,7 +19,7 @@ class ConferencesShapeSimTPPCExperiment(Experiment):
 
         # Find the top 10 most similar nodes to some given node
         mostSimilar, similarityScores = findMostSimilarNodes(
-            adjTensor, conference, extraData, method=getShapeSimScore, alpha=1.0, omit=[]
+            adjTensor, conference, extraData, method=getShapeSimScore, alpha=0.0, omit=[]
         )
         self.output('Most Similar to "%s":' % conference)
         mostSimilarTable = texttable.Texttable()
@@ -30,20 +30,20 @@ class ConferencesShapeSimTPPCExperiment(Experiment):
 
         # Output all similarity scores
         outputPath = os.path.join(
-            '../results', 'conferences', 'intermediate', '%s-shapesim-tppc' % conference.replace(' ', '')
+            '..', 'results', 'conferences', 'intermediate', '%s-shapesim-relative-tppc' % conference.replace(' ', '')
         )
         cPickle.dump(similarityScores, open(outputPath, 'wb'))
 
 
 def run(conferenceCitations, conferencePublications):
-    experiment = ConferencesShapeSimTPPCExperiment(
+    experiment = ConferencesShapeSimTPPCExperimentRelative(
         None,
         'Most Similar TPPC ShapeSim Conferences',
-        outputFilePath=os.path.join('../results', 'conferences', 'tppcShapeSim')
+        outputFilePath=os.path.join('..', 'results', 'conferences', 'tppcShapeSimRelative')
     )
 
     # Compute once, since these never change
-    graph, nodeIndex = cPickle.load(open(os.path.join('../data', 'graphWithCitations')))
+    graph, nodeIndex = cPickle.load(open(os.path.join('..', 'data', 'graphWithCitations')))
     cppaAdjTensor, extraData = getMetaPathAdjacencyTensorData(
         graph, nodeIndex, ['term', 'paper', 'paper', 'conference']
     )

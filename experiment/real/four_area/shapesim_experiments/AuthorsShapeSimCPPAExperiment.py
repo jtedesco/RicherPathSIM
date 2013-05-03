@@ -54,7 +54,7 @@ def run():
 
     # Read paper citation counts
     paperCitationsFile = open(os.path.join('../data', 'paperCitationCounts'))
-    paperCitationCounts = {}
+    paperCitationCounts = defaultdict(int)
     for line in paperCitationsFile:
         splitIndex = line.find(': ')
         count, title = int(line[:splitIndex]), line[splitIndex+2:].strip()
@@ -70,7 +70,18 @@ def run():
                 publicationCounts[author] += 1
                 citationCounts[author] += paperCitationCounts[node] if node in paperCitationCounts else 0
 
-    # Output author citation counts
+    # Tally conference total publication and citation counts
+    conferencePublications, conferenceCitations = defaultdict(int), defaultdict(int)
+    allConferences = set(nodeIndex['conference'].values())
+    for conference in allConferences:
+        for node in graph.successors(conference):
+            if node in allPapers:
+                conferencePublications[conference] += 1
+                conferenceCitations[conference] += paperCitationCounts[node]
+    with open(os.path.join('..', 'data', 'conferenceStats'), 'w') as f:
+        cPickle.dump((conferencePublications, conferenceCitations), f)
+
+    # Output author citation counts in descending order
     citationCountsList = sorted(citationCounts.iteritems(), key=operator.itemgetter(1))
     citationCountsList.reverse()
     with open(os.path.join('../data', 'authorCitationCounts'), 'w') as outputFile:
@@ -80,6 +91,6 @@ def run():
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, cppaAdjTensor, extraData, citationCounts, publicationCounts)
 
-    return citationCounts, publicationCounts
+    return citationCounts, publicationCounts, conferenceCitations, conferencePublications
 
 if __name__ == '__main__': run()
