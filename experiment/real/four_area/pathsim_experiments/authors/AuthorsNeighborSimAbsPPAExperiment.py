@@ -2,7 +2,8 @@ import cPickle
 import os
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.helper.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, testAuthors, getAbsNeighborSimScore
+from experiment.real.four_area.helper.MetaPathHelper import getMetaPathAdjacencyData, testAuthors, findMostSimilarNodes
+from experiment.real.four_area.helper.PathSimHelper import getAbsNeighborSimScore
 
 __author__ = 'jontedesco'
 

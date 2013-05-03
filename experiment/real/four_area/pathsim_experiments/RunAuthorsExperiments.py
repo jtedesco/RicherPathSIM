@@ -1,6 +1,9 @@
 import os
 from experiment.real.four_area.pathsim_experiments import AggregateAuthorsExperiment
-from experiment.real.four_area.pathsim_experiments.authors import AuthorsNeighborSimAbsPPAExperiment, AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimCPAPPAExperiment, AuthorsPathSimAPCPAExperiment, AuthorsNeighborSimTPPAExperiment, AuthorsNeighborSimCPPAExperiment, AuthorsPathSimAPPCPPAExperiment, AuthorsNeighborSimCPCPPAExperiment, AuthorsNeighborSimAPPAExperiment
+from experiment.real.four_area.pathsim_experiments.authors import AuthorsNeighborSimAbsPPAExperiment,\
+    AuthorsNeighborSimPPAExperiment, AuthorsNeighborSimCPAPPAExperiment, AuthorsPathSimAPCPAExperiment,\
+    AuthorsNeighborSimTPPAExperiment, AuthorsNeighborSimCPPAExperiment, AuthorsPathSimAPPCPPAExperiment,\
+    AuthorsNeighborSimCPCPPAExperiment, AuthorsNeighborSimAPPAExperiment
 
 __author__ = 'jontedesco'
 

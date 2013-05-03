@@ -1,5 +1,6 @@
-from experiment.real.four_area.barebones import PapersPathSimPCPExperiment, PapersPathSimPAPExperiment, PapersPathSimPTPExperiment
-from experiment.real.four_area.pathsim_experiments.papers import PapersNeighborSimTPPExperiment, PapersNeighborSimCPPExperiment, PapersNeighborSimAPPExperiment
+from experiment.real.four_area.pathsim_experiments.papers import PapersNeighborSimTPPExperiment,\
+    PapersNeighborSimCPPExperiment, PapersNeighborSimAPPExperiment, PapersPathsimPAPExperiment,\
+    PapersPathsimPCPExperiment, PapersPathsimPTPExperiment
 
 __author__ = 'jontedesco'
 
@@ -10,8 +11,8 @@ PapersNeighborSimCPPExperiment.run()
 print("Running NeighborSim TPP Experiment:")
 PapersNeighborSimTPPExperiment.run()
 print("Running PathSim PAP Experiment:")
-PapersPathSimPAPExperiment.run()
+PapersPathsimPAPExperiment.run()
 print("Running PathSim PCP Experiment:")
-PapersPathSimPCPExperiment.run()
+PapersPathsimPCPExperiment.run()
 print("Running PathSim PTP Experiment:")
-PapersPathSimPTPExperiment.run()
+PapersPathsimPTPExperiment.run()

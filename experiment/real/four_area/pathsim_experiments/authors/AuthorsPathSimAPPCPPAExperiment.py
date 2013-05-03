@@ -3,7 +3,7 @@ import os
 from scipy.sparse import lil_matrix
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.helper.Helper import  getMetaPathAdjacencyData, findMostSimilarNodes, testAuthors
+from experiment.real.four_area.helper.MetaPathHelper import findMostSimilarNodes, getMetaPathAdjacencyData, testAuthors
 
 __author__ = 'jontedesco'
 

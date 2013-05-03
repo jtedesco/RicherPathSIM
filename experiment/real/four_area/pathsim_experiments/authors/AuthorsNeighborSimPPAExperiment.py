@@ -4,7 +4,8 @@ import os
 import operator
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.helper.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, getNeighborSimScore, testAuthors
+from experiment.real.four_area.helper.MetaPathHelper import getMetaPathAdjacencyData, testAuthors, findMostSimilarNodes
+from experiment.real.four_area.helper.PathSimHelper import getNeighborSimScore
 
 __author__ = 'jontedesco'
 
@@ -17,7 +18,7 @@ class AuthorsNeighborSimPPAExperiment(Experiment):
         print("Running for %s..." % author)
 
         # Find the top 10 most similar nodes to some given node
-        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData, method = getNeighborSimScore)
+        mostSimilar, similarityScores = findMostSimilarNodes(adjMatrix, author, extraData, method=getNeighborSimScore)
         self.output('Most Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
         rows = [['Author', 'Score', 'Citations', 'Publications']]
@@ -28,6 +29,7 @@ class AuthorsNeighborSimPPAExperiment(Experiment):
         # Output all similarity scores
         outputPath = os.path.join('../../results', 'authors', 'intermediate', '%s-neighborsim-ppa' % author.replace(' ', ''))
         cPickle.dump(similarityScores, open(outputPath, 'wb'))
+
 
 def run():
     experiment = AuthorsNeighborSimPPAExperiment(
@@ -63,8 +65,8 @@ def run():
     # Output author citation counts
     citationCountsList = sorted(citationCounts.iteritems(), key=operator.itemgetter(1))
     citationCountsList.reverse()
-    with open(os.path.join('../../data', 'authorCitationCounts'), 'w') as file:
-        map(lambda (author, count): file.write('%d: %s\n' % (int(count), author)), citationCountsList)
+    with open(os.path.join('../../data', 'authorCitationCounts'), 'w') as outputFile:
+        map(lambda (author, count): outputFile.write('%d: %s\n' % (int(count), author)), citationCountsList)
 
     for testAuthor in testAuthors:
         experiment.runFor(testAuthor, ppaAdjMatrix, extraData, citationCounts, publicationCounts)

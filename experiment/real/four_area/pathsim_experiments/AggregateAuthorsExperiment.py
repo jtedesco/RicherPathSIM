@@ -2,7 +2,7 @@ import cPickle
 import operator
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.helper.Helper import   testAuthors
+from experiment.real.four_area.helper.MetaPathHelper import testAuthors
 
 __author__ = 'jontedesco'
 
