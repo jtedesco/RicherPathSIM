@@ -8,6 +8,20 @@ from experiment.real.four_area.helper.PathSimHelper import getNeighborSimScore, 
 __author__ = 'jontedesco'
 
 
+def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0):
+    """
+      Calculate the ShapeSim score on the given tensor
+
+        @adjacencyTensor    The 3-dimensional tensor with path information
+        @alpha              The weight in [0,1] of the 'absolute' similarity score, accounting for vector magnitude
+    """
+
+    # TODO: Allow omitting portions of meta path
+    # TODO: Implement basic ShapeSim
+
+    return 1
+
+
 def imbalancedCitationsPublicationsExample():
     """
       Illustrative example of imbalanced citations / publications to verify ShapeSim is working correctly
@@ -81,12 +95,13 @@ def imbalancedCitationsPublicationsExample():
             citingPapers = addCitationsToPaper(citationsPerPaper, paper, authorName)
             allPapers.extend(citingPapers)
 
-    # Test PathSim / NeighborSim
     nodeIndex = {
         'paper': {i: allPapers[i] for i in xrange(0, len(allPapers))},
         'conference': {0: 'KDD'},
         'author': {0: 'Alice', 1: 'Bob', 2: 'Carol', 3: 'Dave', 4: 'Ed', 5: 'Frank'}
     }
+
+    # Test PathSim / NeighborSim
     cpaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'author'])
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
@@ -94,10 +109,16 @@ def imbalancedCitationsPublicationsExample():
         cpaAdjMatrix, 'Alice', extraData, method=getNeighborSimScore
     )
 
-    # TODO: Test ShapeSim on this example
+    # Test ShapeSim
+    cppaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'paper', 'author'])
+    extraData['fromNodes'] = extraData['toNodes']
+    extraData['fromNodesIndex'] = extraData['toNodesIndex']
+    shapeSimMostSimilar, similarityScores = findMostSimilarNodes(
+        cppaAdjMatrix, 'Alice', extraData, method=getShapeSimScore, alpha=1.0
+    )
 
     # Output similarity scores
-    for name, mostSimilar in [('NeighborSim', neighborSimMostSimilar)]:
+    for name, mostSimilar in [('NeighborSim', neighborSimMostSimilar), ('ShapeSim', shapeSimMostSimilar)]:
         print('\n%s Most Similar to "%s":' % (name, 'Alice'))
         mostSimilarTable = texttable.Texttable()
         rows = [['Author', 'Score']]
