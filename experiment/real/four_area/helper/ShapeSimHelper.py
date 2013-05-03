@@ -1,8 +1,9 @@
 from collections import defaultdict
 import itertools
 from networkx import MultiDiGraph
+from scipy.sparse import csc_matrix
 import texttable
-from experiment.real.four_area.helper.MetaPathHelper import getMetaPathAdjacencyData
+from experiment.real.four_area.helper.MetaPathHelper import getMetaPathAdjacencyData, getMetaPathAdjacencyTensorData
 from experiment.real.four_area.helper.PathSimHelper import getNeighborSimScore, findMostSimilarNodes
 
 __author__ = 'jontedesco'
@@ -17,9 +18,48 @@ def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0):
     """
 
     # TODO: Allow omitting portions of meta path
-    # TODO: Implement basic ShapeSim
 
-    return 1
+    # Configure based on tensor
+    numTensorRows = adjacencyTensor.shape[0]
+    metaPathLength = adjacencyTensor.shape[2]
+    vectorsIndices = list(xrange(0, metaPathLength-1))
+
+    # Build the non-normalized matrices for x and y
+    xRows, xCols, xData = [], [], []
+    yRows, yCols, yData = [], [], []
+    xPathSums, yPathSums = defaultdict(int), defaultdict(int)  # Maps of row to sum of path counts for each vector
+    for i, j in itertools.product(xrange(0, numTensorRows), vectorsIndices):
+        xEntry = adjacencyTensor[i, xI, j]
+        if xEntry > 0:
+            xRows.append(i)
+            xCols.append(j)
+            xData.append(xEntry)
+            xPathSums[i] += xEntry
+        yEntry = adjacencyTensor[i, yI, j]
+        if yEntry > 0:
+            yRows.append(i)
+            yCols.append(j)
+            yData.append(yEntry)
+            yPathSums[i] += yEntry
+    xMatrix = csc_matrix((xData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
+    yMatrix = csc_matrix((yData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
+
+    # Build the normalized matrices
+    normalizedXData = [xData[i] / float(xPathSums[xRows[i]]) for i in xrange(0, len(xData))]
+    normalizedYData = [yData[i] / float(yPathSums[yRows[i]]) for i in xrange(0, len(yData))]
+    normalizedXMatrix = csc_matrix((normalizedXData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
+    normalizedYMatrix = csc_matrix((normalizedYData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
+
+    # Normalized cosine similarity (PathSim score)
+    normalizedCosineScore = lambda u, v: round((2 * u.dot(v)[0, 0]) / float(u.dot(u)[0, 0] + v.dot(v)[0, 0]), 2)
+
+    # Calculate the absolute & relative similarity using the product of similarity along each step (vector product)
+    absSim, relSim = 1, 1
+    for i in vectorsIndices:
+        absSim *= normalizedCosineScore(xMatrix.getcol(i), yMatrix.getcol(i))
+        relSim *= normalizedCosineScore(normalizedXMatrix.getcol(i), normalizedYMatrix.getcol(i))
+
+    return (alpha * absSim) + ((1 - alpha) * relSim)
 
 
 def imbalancedCitationsPublicationsExample():
@@ -110,11 +150,13 @@ def imbalancedCitationsPublicationsExample():
     )
 
     # Test ShapeSim
-    cppaAdjMatrix, extraData = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'paper', 'author'])
+    cppaAdjTensor, extraData = getMetaPathAdjacencyTensorData(
+        graph, nodeIndex, ['conference', 'paper', 'paper', 'author']
+    )
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
     shapeSimMostSimilar, similarityScores = findMostSimilarNodes(
-        cppaAdjMatrix, 'Alice', extraData, method=getShapeSimScore, alpha=1.0
+        cppaAdjTensor, 'Alice', extraData, method=getShapeSimScore, alpha=1.0
     )
 
     # Output similarity scores
