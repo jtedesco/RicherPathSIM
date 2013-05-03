@@ -43,6 +43,10 @@ def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0, omit=list()):
     xMatrix = csc_matrix((xData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
     yMatrix = csc_matrix((yData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
 
+    # Abort if there are no paths to one of the objects (would result in missing column)
+    if len(xData) == 0 or len(yData) == 0:
+        return 0
+
     # Build the normalized matrices
     normalizedXData = [xData[i] / float(xPathSums[xRows[i]]) for i in xrange(0, len(xData))]
     normalizedYData = [yData[i] / float(yPathSums[yRows[i]]) for i in xrange(0, len(yData))]
@@ -50,7 +54,10 @@ def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0, omit=list()):
     normalizedYMatrix = csc_matrix((normalizedYData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
 
     # Normalized cosine similarity (PathSim score)
-    normalizedCosineScore = lambda u, v: round((2 * u.dot(v)[0, 0]) / float(u.dot(u)[0, 0] + v.dot(v)[0, 0]), 2)
+    def normalizedCosineScore(vectorA, vectorB):
+        cosineSim = (vectorA.transpose() * vectorB)[0, 0]
+        normalization = round(((vectorA.transpose() * vectorA)[0, 0] + (vectorB.transpose() * vectorB)[0, 0]), 2)
+        return 2 * cosineSim / normalization
 
     # Calculate the absolute & relative similarity using the product of similarity along each step (vector product)
     absSim, relSim = 1, 1
