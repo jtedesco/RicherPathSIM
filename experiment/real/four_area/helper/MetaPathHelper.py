@@ -90,7 +90,7 @@ def getMetaPathAdjacencyData(graph, nodeIndex, metaPath, rows=False):
     return adjMatrix, extraData
 
 
-def getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath, rows=False):
+def getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath):
     """
       Get the adjacency tensor along some meta path
     """
@@ -137,11 +137,11 @@ def findMostSimilarNodes(adjMatrix, source, extraData, method, k=10, skipZeros=T
     if skipZeros:
         similarityScores = {}
         for i in xrange(len(toNodes)):
-            sim = method(adjMatrix, sourceIndex, i, kwargs)
+            sim = method(adjMatrix, sourceIndex, i, **kwargs)
             if sim > 0:
                 similarityScores[toNodes[i]] = sim
     else:
-        similarityScores = {toNodes[i]: method(adjMatrix, sourceIndex, i, kwargs) for i in xrange(0, len(toNodes))}
+        similarityScores = {toNodes[i]: method(adjMatrix, sourceIndex, i, **kwargs) for i in xrange(0, len(toNodes))}
 
     # Sort according to most similar (descending order)
     mostSimilarNodes = sorted(similarityScores.iteritems(), key=operator.itemgetter(1))
