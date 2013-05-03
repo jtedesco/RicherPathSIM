@@ -9,7 +9,7 @@ from experiment.real.four_area.helper.PathSimHelper import getNeighborSimScore, 
 __author__ = 'jontedesco'
 
 
-def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0):
+def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0, omit=list()):
     """
       Calculate the ShapeSim score on the given tensor
 
@@ -17,12 +17,11 @@ def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0):
         @alpha              The weight in [0,1] of the 'absolute' similarity score, accounting for vector magnitude
     """
 
-    # TODO: Allow omitting portions of meta path
-
     # Configure based on tensor
     numTensorRows = adjacencyTensor.shape[0]
     metaPathLength = adjacencyTensor.shape[2]
     vectorsIndices = list(xrange(0, metaPathLength-1))
+    vectorsIndices = [i for i in vectorsIndices if i not in omit]
 
     # Build the non-normalized matrices for x and y
     xRows, xCols, xData = [], [], []
