@@ -8,12 +8,51 @@ from experiment.real.four_area.helper.PathSimHelper import getNeighborSimScore, 
 
 __author__ = 'jontedesco'
 
-# Caches to avoid recomputing the projected matrices
-matrices = {}
-normalizedMatrices = {}
-
 
 def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0, omit=list()):
+
+    # Configure based on tensor
+    numTensorRows = adjacencyTensor.shape[0]
+    metaPathLength = adjacencyTensor.shape[2]
+    vectorsIndices = list(xrange(0, metaPathLength-1))
+    vectorsIndices = [z for z in vectorsIndices if z not in omit]
+
+    # Calculate sums over layers in adjacency matrix
+    xRowSums, yRowSums = {}, {}
+    for row in xrange(numTensorRows):
+        xRowSums[row] = float(sum([adjacencyTensor[row, xI, layer] for layer in vectorsIndices]))
+        yRowSums[row] = float(sum([adjacencyTensor[row, yI, layer] for layer in vectorsIndices]))
+
+    # Calculate the PathSim measure on the original tensors
+    absSim, relSim = 1.0, 1.0
+    for z in vectorsIndices:
+
+        # Calculate PathSim normalized cosine similarity on the original tensor
+        dotProduct = sum([adjacencyTensor[row, xI, z] * adjacencyTensor[row, yI, z] for row in xrange(numTensorRows)])
+
+        # Abort if dot product is zero, since all similarity will then be zero
+        if dotProduct == 0:
+            return 0
+
+        xProduct = sum([adjacencyTensor[row, xI, z] * adjacencyTensor[row, xI, z] for row in xrange(numTensorRows)])
+        yProduct = sum([adjacencyTensor[row, yI, z] * adjacencyTensor[row, yI, z] for row in xrange(numTensorRows)])
+        absSim *= (2 * dotProduct) / float(xProduct + yProduct)
+
+        # Calculate PathSim normalized cosine similarity on the normalized tensor (with unit vectors)
+        normDot, normXDot, normYDot = 0.0, 0.0, 0.0
+        for row in xrange(numTensorRows):
+            normProd = adjacencyTensor[row, xI, z] * adjacencyTensor[row, yI, z]
+            normDot += (0 if normProd == 0 else normProd / (xRowSums[row] * yRowSums[row]))
+            normXProd = adjacencyTensor[row, xI, z] ** 2
+            normXDot += (0 if normProd == 0 else normXProd / xRowSums[row] ** 2)
+            normYProd = adjacencyTensor[row, yI, z] ** 2
+            normYDot += (0 if normYProd == 0 else normYProd / yRowSums[row] ** 2)
+        relSim *= (2 * normDot) / float(xProduct + yProduct)
+
+    return (alpha * absSim) + ((1 - alpha) * relSim)
+
+
+def getNumpyShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0, omit=list()):
     """
       Calculate the ShapeSim score on the given tensor
 
@@ -33,50 +72,34 @@ def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0, omit=list()):
     xPathSums, yPathSums = defaultdict(int), defaultdict(int)  # Maps of row to sum of path counts for each vector
 
     # Build or retrieve x matrix
-    if xI in matrices:
-        xMatrix = matrices[xI]
-    else:
-        for i, j in itertools.product(xrange(0, numTensorRows), vectorsIndices):
-            xEntry = adjacencyTensor[i, xI, j]
-            if xEntry > 0:
-                xRows.append(i)
-                xCols.append(j)
-                xData.append(xEntry)
-                xPathSums[i] += xEntry
-        xMatrix = csc_matrix((xData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
-        matrices[xI] = xMatrix
+    for i, j in itertools.product(xrange(0, numTensorRows), vectorsIndices):
+        xEntry = adjacencyTensor[i, xI, j]
+        if xEntry > 0:
+            xRows.append(i)
+            xCols.append(j)
+            xData.append(xEntry)
+            xPathSums[i] += xEntry
+    xMatrix = csc_matrix((xData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
 
     # Build or retrieve y matrix
-    if yI in matrices:
-        yMatrix = matrices[yI]
-    else:
-        for i, j in itertools.product(xrange(0, numTensorRows), vectorsIndices):
-            yEntry = adjacencyTensor[i, yI, j]
-            if yEntry > 0:
-                yRows.append(i)
-                yCols.append(j)
-                yData.append(yEntry)
-                yPathSums[i] += yEntry
-        yMatrix = csc_matrix((yData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
-        matrices[yI] = yMatrix
+    for i, j in itertools.product(xrange(0, numTensorRows), vectorsIndices):
+        yEntry = adjacencyTensor[i, yI, j]
+        if yEntry > 0:
+            yRows.append(i)
+            yCols.append(j)
+            yData.append(yEntry)
+            yPathSums[i] += yEntry
+    yMatrix = csc_matrix((yData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
 
     # Abort if there are no paths to one of the objects (would result in missing column)
     if len(xMatrix.data) == 0 or len(yMatrix.data) == 0:
         return 0
 
     # Build the normalized matrices or get them from the cache
-    if xI in normalizedMatrices:
-        normalizedXMatrix = normalizedMatrices[xI]
-    else:
-        normalizedXData = [xData[i] / float(xPathSums[xRows[i]]) for i in xrange(0, len(xData))]
-        normalizedXMatrix = csc_matrix((normalizedXData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
-        normalizedMatrices[xI] = normalizedXMatrix
-    if yI in normalizedMatrices:
-        normalizedYMatrix = normalizedMatrices[yI]
-    else:
-        normalizedYData = [yData[i] / float(yPathSums[yRows[i]]) for i in xrange(0, len(yData))]
-        normalizedYMatrix = csc_matrix((normalizedYData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
-        normalizedMatrices[yI] = normalizedYMatrix
+    normalizedXData = [xData[i] / float(xPathSums[xRows[i]]) for i in xrange(0, len(xData))]
+    normalizedXMatrix = csc_matrix((normalizedXData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
+    normalizedYData = [yData[i] / float(yPathSums[yRows[i]]) for i in xrange(0, len(yData))]
+    normalizedYMatrix = csc_matrix((normalizedYData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
 
     # Normalized cosine similarity (PathSim score)
     def normalizedCosineScore(vectorA, vectorB):
@@ -187,7 +210,7 @@ def imbalancedCitationsPublicationsExample():
     extraData['fromNodes'] = extraData['toNodes']
     extraData['fromNodesIndex'] = extraData['toNodesIndex']
     shapeSimMostSimilar, similarityScores = findMostSimilarNodes(
-        cppaAdjTensor, 'Alice', extraData, method=getShapeSimScore, alpha=1.0
+        cppaAdjTensor, 'Alice', extraData, method=getNumpyShapeSimScore, alpha=1.0
     )
 
     # Output similarity scores

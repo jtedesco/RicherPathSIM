@@ -4,8 +4,9 @@ import os
 import operator
 import texttable
 from experiment.Experiment import Experiment
-from experiment.real.four_area.helper.MetaPathHelper import findMostSimilarNodes, testAuthors, getMetaPathAdjacencyTensorData
 from experiment.real.four_area.helper.ShapeSimHelper import getShapeSimScore
+from experiment.real.four_area.helper.MetaPathHelper import findMostSimilarNodes, testAuthors, \
+    getMetaPathAdjacencyTensorData
 
 __author__ = 'jontedesco'
 
