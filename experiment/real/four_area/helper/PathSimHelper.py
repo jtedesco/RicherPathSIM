@@ -1,9 +1,7 @@
-import operator
-
 from networkx import MultiDiGraph
 from scipy.sparse import lil_matrix
 import texttable
-from experiment.real.four_area.helper.MetaPathHelper import getMetaPathAdjacencyData
+from experiment.real.four_area.helper.MetaPathHelper import getMetaPathAdjacencyData, findMostSimilarNodes
 
 
 __author__ = 'jontedesco'
@@ -66,29 +64,6 @@ def getAbsNeighborSimScore(adjacencyMatrix, xI, yI, smoothed=False):
     return similarityScore
 
 
-def findMostSimilarNodes(adjMatrix, source, extraData, method=getPathSimScore, k=10, skipZeros=True):
-    sourceIndex = extraData['fromNodesIndex'][source]
-    toNodes = extraData['toNodes']
-
-    # Find all similarity scores, optionally skipping nonzero scores for memory usage
-    if skipZeros:
-        similarityScores = {}
-        for i in xrange(len(toNodes)):
-            sim = method(adjMatrix, sourceIndex, i)
-            if sim > 0:
-                similarityScores[toNodes[i]] = sim
-    else:
-        similarityScores = {toNodes[i]: method(adjMatrix, sourceIndex, i) for i in xrange(0, len(toNodes))}
-
-    # Sort according to most similar (descending order)
-    mostSimilarNodes = sorted(similarityScores.iteritems(), key=operator.itemgetter(1))
-    mostSimilarNodes.reverse()
-    number = min([k, len(mostSimilarNodes)])
-    mostSimilarNodes = mostSimilarNodes[:number]
-
-    return mostSimilarNodes, similarityScores
-
-
 def pathSimPaperExample():
 
     def add_apc_to_graph(graph, author, conference, n):
@@ -129,7 +104,9 @@ def pathSimPaperExample():
     extraData['toNodes'] = data['toNodes']
     extraData['toNodesIndex'] = data['toNodesIndex']
     author = 'Mike'
-    pathSimMostSimilar, similarityScores = findMostSimilarNodes(apcpaAdjMatrix, author, extraData)
+    pathSimMostSimilar, similarityScores = findMostSimilarNodes(
+        apcpaAdjMatrix, author, extraData, method=getPathSimScore
+    )
 
     # Compute NeighborSim similarity scores
     cpaAdjMatrix, data = getMetaPathAdjacencyData(graph, nodeIndex, ['conference', 'paper', 'author'])

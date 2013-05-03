@@ -1,4 +1,5 @@
 from collections import defaultdict
+import operator
 from scipy.sparse import csr_matrix, csc_matrix
 from experiment.real.four_area.helper.SparseArray import SparseArray
 
@@ -122,3 +123,30 @@ def getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath, rows=False):
         'toNodesIndex': toNodesIndex
     }
     return adjacencyTensor, extraData
+
+
+def findMostSimilarNodes(adjMatrix, source, extraData, method, k=10, skipZeros=True):
+    """
+      Find the top-k most similar nodes using the given method
+    """
+
+    sourceIndex = extraData['fromNodesIndex'][source]
+    toNodes = extraData['toNodes']
+
+    # Find all similarity scores, optionally skipping nonzero scores for memory usage
+    if skipZeros:
+        similarityScores = {}
+        for i in xrange(len(toNodes)):
+            sim = method(adjMatrix, sourceIndex, i)
+            if sim > 0:
+                similarityScores[toNodes[i]] = sim
+    else:
+        similarityScores = {toNodes[i]: method(adjMatrix, sourceIndex, i) for i in xrange(0, len(toNodes))}
+
+    # Sort according to most similar (descending order)
+    mostSimilarNodes = sorted(similarityScores.iteritems(), key=operator.itemgetter(1))
+    mostSimilarNodes.reverse()
+    number = min([k, len(mostSimilarNodes)])
+    mostSimilarNodes = mostSimilarNodes[:number]
+
+    return mostSimilarNodes, similarityScores
