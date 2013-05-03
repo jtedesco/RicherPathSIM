@@ -8,6 +8,10 @@ from experiment.real.four_area.helper.PathSimHelper import getNeighborSimScore, 
 
 __author__ = 'jontedesco'
 
+# Caches to avoid recomputing the projected matrices
+matrices = {}
+normalizedMatrices = {}
+
 
 def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0, omit=list()):
     """
@@ -27,31 +31,52 @@ def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0, omit=list()):
     xRows, xCols, xData = [], [], []
     yRows, yCols, yData = [], [], []
     xPathSums, yPathSums = defaultdict(int), defaultdict(int)  # Maps of row to sum of path counts for each vector
-    for i, j in itertools.product(xrange(0, numTensorRows), vectorsIndices):
-        xEntry = adjacencyTensor[i, xI, j]
-        if xEntry > 0:
-            xRows.append(i)
-            xCols.append(j)
-            xData.append(xEntry)
-            xPathSums[i] += xEntry
-        yEntry = adjacencyTensor[i, yI, j]
-        if yEntry > 0:
-            yRows.append(i)
-            yCols.append(j)
-            yData.append(yEntry)
-            yPathSums[i] += yEntry
-    xMatrix = csc_matrix((xData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
-    yMatrix = csc_matrix((yData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
+
+    # Build or retrieve x matrix
+    if xI in matrices:
+        xMatrix = matrices[xI]
+    else:
+        for i, j in itertools.product(xrange(0, numTensorRows), vectorsIndices):
+            xEntry = adjacencyTensor[i, xI, j]
+            if xEntry > 0:
+                xRows.append(i)
+                xCols.append(j)
+                xData.append(xEntry)
+                xPathSums[i] += xEntry
+        xMatrix = csc_matrix((xData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
+        matrices[xI] = xMatrix
+
+    # Build or retrieve y matrix
+    if yI in matrices:
+        yMatrix = matrices[yI]
+    else:
+        for i, j in itertools.product(xrange(0, numTensorRows), vectorsIndices):
+            yEntry = adjacencyTensor[i, yI, j]
+            if yEntry > 0:
+                yRows.append(i)
+                yCols.append(j)
+                yData.append(yEntry)
+                yPathSums[i] += yEntry
+        yMatrix = csc_matrix((yData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
+        matrices[yI] = yMatrix
 
     # Abort if there are no paths to one of the objects (would result in missing column)
-    if len(xData) == 0 or len(yData) == 0:
+    if len(xMatrix.data) == 0 or len(yMatrix.data) == 0:
         return 0
 
-    # Build the normalized matrices
-    normalizedXData = [xData[i] / float(xPathSums[xRows[i]]) for i in xrange(0, len(xData))]
-    normalizedYData = [yData[i] / float(yPathSums[yRows[i]]) for i in xrange(0, len(yData))]
-    normalizedXMatrix = csc_matrix((normalizedXData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
-    normalizedYMatrix = csc_matrix((normalizedYData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
+    # Build the normalized matrices or get them from the cache
+    if xI in normalizedMatrices:
+        normalizedXMatrix = normalizedMatrices[xI]
+    else:
+        normalizedXData = [xData[i] / float(xPathSums[xRows[i]]) for i in xrange(0, len(xData))]
+        normalizedXMatrix = csc_matrix((normalizedXData, (xRows, xCols)), shape=(numTensorRows, metaPathLength))
+        normalizedMatrices[xI] = normalizedXMatrix
+    if yI in normalizedMatrices:
+        normalizedYMatrix = normalizedMatrices[yI]
+    else:
+        normalizedYData = [yData[i] / float(yPathSums[yRows[i]]) for i in xrange(0, len(yData))]
+        normalizedYMatrix = csc_matrix((normalizedYData, (yRows, yCols)), shape=(numTensorRows, metaPathLength))
+        normalizedMatrices[yI] = normalizedYMatrix
 
     # Normalized cosine similarity (PathSim score)
     def normalizedCosineScore(vectorA, vectorB):
