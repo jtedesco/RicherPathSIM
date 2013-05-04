@@ -36,6 +36,11 @@ class SparseArray(object):
             del(self.__data[index])
             
 
+    def __eq__(self, other):
+        return (self.shape == other.shape and self.dtype == other.dtype and self.__default == other.__default
+                and self.__data == other.__data)
+
+
     def __add__(self, other):
         """ Add two arrays. """
         
