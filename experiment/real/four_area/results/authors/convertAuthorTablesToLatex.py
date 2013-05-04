@@ -2,12 +2,13 @@ import os
 
 __author__ = 'jontedesco'
 
-firstPubsTemplate = '\\textbf{%d} & \\textbf{%s} & \\textbf{%s} & \\textbf{%s} & \\textbf{%s} \\\\\n'
-firstNoPubsTemplate = '\\textbf{%d} & \\textbf{%s} & \\textbf{%s} & \\textbf{%s} \\\\\n'
-middlePubsTemplate = '%d & %s & %s & %s & %s \\\\\n'
-middleNoPubsTemplate = '%d & %s & %s &  %s \\\\\n'
-
 showPublications = True
+showScore = False
+
+firstPubsTemplate = '\\textbf{%d} & \\textbf{%s} & \\textbf{%s} & \\textbf{%s} ' + ('& \\textbf{%s}' if showScore else '') + ' \\\\\n'
+firstNoPubsTemplate = '\\textbf{%d} & \\textbf{%s} & \\textbf{%s} ' + ('& \\textbf{%s}' if showScore else '') + ' \\\\\n'
+middlePubsTemplate = '%d & %s & %s & %s ' + ('& %s' if showScore else '') + ' \\\\\n'
+middleNoPubsTemplate = '%d & %s & %s & ' + ('& %s' if showScore else '') + ' \\\\\n'
 
 for filename in os.listdir('.'):
     if 'PathSim' not in filename and 'NeighborSim' not in filename and 'ShapeSim' not in filename:
@@ -22,7 +23,7 @@ for filename in os.listdir('.'):
             latexContent += '\hline\n\end{tabular}\n\n'
             latexContent += '\\begin{tabular}{|c|c|c|c|c|}\n\hline\nRank & Author & Citations \\footnotemark[1] ' \
                             + ('& Publications \\footnotemark[1]' if showPublications else '')\
-                            + '& %s Score\\\\\n\hline\n' % measure
+                            + ('& %s Score' % measure if showScore else '') + '\\\\\n\hline\n'
         elif line.startswith('+='):
             continue
         elif 'Author' in line:
@@ -36,13 +37,14 @@ for filename in os.listdir('.'):
             publications = tokens[3].strip()
             if rank == 1:
                 if showPublications:
-                    latexContent += firstPubsTemplate % (rank, author, citations, publications, score)
+                    latexContent += firstPubsTemplate % tuple(
+                        [rank, author, citations, publications] + ([score] if showScore else []))
                 else:
-                    latexContent += firstNoPubsTemplate % (rank, author, citations, score)
+                    latexContent += firstNoPubsTemplate % tuple([rank, author, citations] + ([score] if showScore else []))
             else:
                 if showPublications:
-                    latexContent += middlePubsTemplate % (rank, author, citations, publications, score)
+                    latexContent += middlePubsTemplate % tuple([rank, author, citations, publications] + ([score] if showScore else []))
                 else:
-                    latexContent += middleNoPubsTemplate % (rank, author, citations, score)
+                    latexContent += middleNoPubsTemplate % tuple([rank, author, citations] + ([score] if showScore else []))
     with open(os.path.join('latex', filename), 'w') as outputFile:
         outputFile.write(latexContent)

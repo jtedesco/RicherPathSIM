@@ -3,83 +3,83 @@
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \hline
-\textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{127} & \textbf{1} \\
-2 & Hans-Peter Kriegel & 617 & 102 & 0.914 \\
-3 & Bernhard Seeger & 389 & 36 & 0.831 \\
-4 & H. V. Jagadish & 546 & 106 & 0.831 \\
-5 & Nick Roussopoulos & 336 & 35 & 0.807 \\
-6 & Ralf Schneider & 242 & 4 & 0.719 \\
-7 & Jeffrey F. Naughton & 801 & 85 & 0.709 \\
-8 & Divesh Srivastava & 464 & 103 & 0.673 \\
-9 & Kyuseok Shim & 315 & 32 & 0.667 \\
-10 & Jennifer Widom & 726 & 64 & 0.666 \\
-\hline
-\end{tabular}
-
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
-\hline
-\textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{105} & \textbf{1} \\
-2 & Ramakrishnan Srikant & 696 & 34 & 0.763 \\
-3 & Jiawei Han & 665 & 168 & 0.656 \\
-4 & Arun N. Swami & 404 & 15 & 0.619 \\
-5 & Philip S. Yu & 556 & 216 & 0.547 \\
-6 & Rajeev Motwani & 542 & 36 & 0.525 \\
-7 & Tomasz Imielinski & 343 & 30 & 0.504 \\
-8 & Jeffrey F. Naughton & 801 & 85 & 0.496 \\
-9 & David J. DeWitt & 876 & 74 & 0.494 \\
-10 & Jennifer Widom & 726 & 64 & 0.480 \\
+\textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{127}  \\
+2 & Hans-Peter Kriegel & 617 & 102  \\
+3 & Bernhard Seeger & 389 & 36  \\
+4 & H. V. Jagadish & 546 & 106  \\
+5 & Nick Roussopoulos & 336 & 35  \\
+6 & Ralf Schneider & 242 & 4  \\
+7 & Jeffrey F. Naughton & 801 & 85  \\
+8 & Divesh Srivastava & 464 & 103  \\
+9 & Kyuseok Shim & 315 & 32  \\
+10 & Jennifer Widom & 726 & 64  \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \hline
-\textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{7} & \textbf{1} \\
-2 & Hannu Toivonen & 120 & 18 & 0.884 \\
-3 & Jong Soo Park & 94 & 4 & 0.816 \\
-4 & Heikki Mannila & 131 & 63 & 0.800 \\
-5 & Edward Omiecinski & 93 & 21 & 0.800 \\
-6 & Roberto J. Bayardo Jr. & 142 & 16 & 0.782 \\
-7 & Craig Silverstein & 84 & 5 & 0.780 \\
-8 & Shamkant B. Navathe & 114 & 38 & 0.771 \\
-9 & Ashok Savasere & 68 & 3 & 0.769 \\
-10 & Shalom Tsur & 96 & 12 & 0.757 \\
-\hline
-\end{tabular}
-
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
-\hline
-\textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{216} & \textbf{1} \\
-2 & Jiawei Han & 665 & 168 & 0.802 \\
-3 & Arun N. Swami & 404 & 15 & 0.713 \\
-4 & Rajeev Motwani & 542 & 36 & 0.709 \\
-5 & Raghu Ramakrishnan & 652 & 95 & 0.706 \\
-6 & Johannes Gehrke & 320 & 56 & 0.704 \\
-7 & Ramakrishnan Srikant & 696 & 34 & 0.704 \\
-8 & Dimitrios Gunopulos & 264 & 46 & 0.687 \\
-9 & Miron Livny & 277 & 35 & 0.673 \\
-10 & Tomasz Imielinski & 343 & 30 & 0.668 \\
+\textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{105}  \\
+2 & Ramakrishnan Srikant & 696 & 34  \\
+3 & Jiawei Han & 665 & 168  \\
+4 & Arun N. Swami & 404 & 15  \\
+5 & Philip S. Yu & 556 & 216  \\
+6 & Rajeev Motwani & 542 & 36  \\
+7 & Tomasz Imielinski & 343 & 30  \\
+8 & Jeffrey F. Naughton & 801 & 85  \\
+9 & David J. DeWitt & 876 & 74  \\
+10 & Jennifer Widom & 726 & 64  \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \hline
-\textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{26} & \textbf{1} \\
-2 & Jayant Madhavan & 98 & 10 & 0.931 \\
-3 & Erhard Rahm & 89 & 16 & 0.787 \\
-4 & Alon Y. Halevy & 236 & 34 & 0.747 \\
-5 & Philip A. Bernstein & 171 & 44 & 0.736 \\
-6 & Joann J. Ordille & 83 & 4 & 0.678 \\
-7 & Susan B. Davidson & 106 & 24 & 0.669 \\
-8 & Bin He & 41 & 10 & 0.663 \\
-9 & Mauricio A. Hern?ndez & 119 & 13 & 0.660 \\
-10 & Ren?e J. Miller & 152 & 29 & 0.644 \\
+\textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{7}  \\
+2 & Hannu Toivonen & 120 & 18  \\
+3 & Jong Soo Park & 94 & 4  \\
+4 & Heikki Mannila & 131 & 63  \\
+5 & Edward Omiecinski & 93 & 21  \\
+6 & Roberto J. Bayardo Jr. & 142 & 16  \\
+7 & Craig Silverstein & 84 & 5  \\
+8 & Shamkant B. Navathe & 114 & 38  \\
+9 & Ashok Savasere & 68 & 3  \\
+10 & Shalom Tsur & 96 & 12  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
+\hline
+\textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{216}  \\
+2 & Jiawei Han & 665 & 168  \\
+3 & Arun N. Swami & 404 & 15  \\
+4 & Rajeev Motwani & 542 & 36  \\
+5 & Raghu Ramakrishnan & 652 & 95  \\
+6 & Johannes Gehrke & 320 & 56  \\
+7 & Ramakrishnan Srikant & 696 & 34  \\
+8 & Dimitrios Gunopulos & 264 & 46  \\
+9 & Miron Livny & 277 & 35  \\
+10 & Tomasz Imielinski & 343 & 30  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
+\hline
+\textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{26}  \\
+2 & Jayant Madhavan & 98 & 10  \\
+3 & Erhard Rahm & 89 & 16  \\
+4 & Alon Y. Halevy & 236 & 34  \\
+5 & Philip A. Bernstein & 171 & 44  \\
+6 & Joann J. Ordille & 83 & 4  \\
+7 & Susan B. Davidson & 106 & 24  \\
+8 & Bin He & 41 & 10  \\
+9 & Mauricio A. Hern?ndez & 119 & 13  \\
+10 & Ren?e J. Miller & 152 & 29  \\

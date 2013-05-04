@@ -3,83 +3,83 @@
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \hline
-\textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{127} & \textbf{1} \\
-2 & Jiawei Han & 665 & 168 & 0.906 \\
-3 & Rakesh Agrawal & 1511 & 105 & 0.901 \\
-4 & Hans-Peter Kriegel & 617 & 102 & 0.839 \\
-5 & Jian Pei & 270 & 70 & 0.831 \\
-6 & Raghu Ramakrishnan & 652 & 95 & 0.809 \\
-7 & H. V. Jagadish & 546 & 106 & 0.804 \\
-8 & Nick Koudas & 351 & 79 & 0.788 \\
-9 & Hector Garcia-Molina & 613 & 98 & 0.779 \\
-10 & Divesh Srivastava & 464 & 103 & 0.775 \\
-\hline
-\end{tabular}
-
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
-\hline
-\textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{105} & \textbf{1} \\
-2 & Hector Garcia-Molina & 613 & 98 & 0.958 \\
-3 & H. V. Jagadish & 546 & 106 & 0.942 \\
-4 & Nick Koudas & 351 & 79 & 0.935 \\
-5 & Jeffrey F. Naughton & 801 & 85 & 0.927 \\
-6 & Surajit Chaudhuri & 581 & 96 & 0.927 \\
-7 & Divesh Srivastava & 464 & 103 & 0.924 \\
-8 & Michael Stonebraker & 463 & 74 & 0.922 \\
-9 & Raghu Ramakrishnan & 652 & 95 & 0.912 \\
-10 & Christos Faloutsos & 634 & 127 & 0.901 \\
+\textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{127}  \\
+2 & Jiawei Han & 665 & 168  \\
+3 & Rakesh Agrawal & 1511 & 105  \\
+4 & Hans-Peter Kriegel & 617 & 102  \\
+5 & Jian Pei & 270 & 70  \\
+6 & Raghu Ramakrishnan & 652 & 95  \\
+7 & H. V. Jagadish & 546 & 106  \\
+8 & Nick Koudas & 351 & 79  \\
+9 & Hector Garcia-Molina & 613 & 98  \\
+10 & Divesh Srivastava & 464 & 103  \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \hline
-\textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{7} & \textbf{1} \\
-2 & Nicola Onose & 6 & 7 & 0.944 \\
-3 & Larry Kerschberg & 10 & 7 & 0.933 \\
-4 & Ion Stoica & 10 & 5 & 0.929 \\
-5 & Yannis Vassiliou & 35 & 5 & 0.929 \\
-6 & Boon Thau Loo & 28 & 5 & 0.929 \\
-7 & Fatma ?zcan & 24 & 6 & 0.914 \\
-8 & Xin Dong & 21 & 6 & 0.914 \\
-9 & Abhijit Pol & 7 & 6 & 0.914 \\
-10 & Chun Zhang & 181 & 6 & 0.914 \\
-\hline
-\end{tabular}
-
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
-\hline
-\textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{216} & \textbf{1} \\
-2 & Jiawei Han & 665 & 168 & 0.920 \\
-3 & Christos Faloutsos & 634 & 127 & 0.759 \\
-4 & Hans-Peter Kriegel & 617 & 102 & 0.689 \\
-5 & Wei Wang & 135 & 83 & 0.679 \\
-6 & Rakesh Agrawal & 1511 & 105 & 0.645 \\
-7 & Divesh Srivastava & 464 & 103 & 0.639 \\
-8 & Beng Chin Ooi & 130 & 70 & 0.606 \\
-9 & Hector Garcia-Molina & 613 & 98 & 0.593 \\
-10 & Nick Koudas & 351 & 79 & 0.592 \\
+\textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{105}  \\
+2 & Hector Garcia-Molina & 613 & 98  \\
+3 & H. V. Jagadish & 546 & 106  \\
+4 & Nick Koudas & 351 & 79  \\
+5 & Jeffrey F. Naughton & 801 & 85  \\
+6 & Surajit Chaudhuri & 581 & 96  \\
+7 & Divesh Srivastava & 464 & 103  \\
+8 & Michael Stonebraker & 463 & 74  \\
+9 & Raghu Ramakrishnan & 652 & 95  \\
+10 & Christos Faloutsos & 634 & 127  \\
 \hline
 \end{tabular}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& PathSim Score\\
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \hline
-\textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{26} & \textbf{1} \\
-2 & Jignesh M. Patel & 92 & 25 & 0.976 \\
-3 & Xuemin Lin & 53 & 25 & 0.961 \\
-4 & Balakrishna R. Iyer & 122 & 23 & 0.957 \\
-5 & Jayant R. Haritsa & 44 & 35 & 0.955 \\
-6 & Jun Yang & 93 & 34 & 0.948 \\
-7 & Walid G. Aref & 63 & 33 & 0.947 \\
-8 & Ming-Chien Shan & 38 & 23 & 0.941 \\
-9 & Won Kim & 162 & 30 & 0.938 \\
-10 & Anastassia Ailamaki & 71 & 25 & 0.938 \\
+\textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{7}  \\
+2 & Nicola Onose & 6 & 7  \\
+3 & Larry Kerschberg & 10 & 7  \\
+4 & Ion Stoica & 10 & 5  \\
+5 & Yannis Vassiliou & 35 & 5  \\
+6 & Boon Thau Loo & 28 & 5  \\
+7 & Fatma ?zcan & 24 & 6  \\
+8 & Xin Dong & 21 & 6  \\
+9 & Abhijit Pol & 7 & 6  \\
+10 & Chun Zhang & 181 & 6  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
+\hline
+\textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{216}  \\
+2 & Jiawei Han & 665 & 168  \\
+3 & Christos Faloutsos & 634 & 127  \\
+4 & Hans-Peter Kriegel & 617 & 102  \\
+5 & Wei Wang & 135 & 83  \\
+6 & Rakesh Agrawal & 1511 & 105  \\
+7 & Divesh Srivastava & 464 & 103  \\
+8 & Beng Chin Ooi & 130 & 70  \\
+9 & Hector Garcia-Molina & 613 & 98  \\
+10 & Nick Koudas & 351 & 79  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
+\hline
+\textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{26}  \\
+2 & Jignesh M. Patel & 92 & 25  \\
+3 & Xuemin Lin & 53 & 25  \\
+4 & Balakrishna R. Iyer & 122 & 23  \\
+5 & Jayant R. Haritsa & 44 & 35  \\
+6 & Jun Yang & 93 & 34  \\
+7 & Walid G. Aref & 63 & 33  \\
+8 & Ming-Chien Shan & 38 & 23  \\
+9 & Won Kim & 162 & 30  \\
+10 & Anastassia Ailamaki & 71 & 25  \\
