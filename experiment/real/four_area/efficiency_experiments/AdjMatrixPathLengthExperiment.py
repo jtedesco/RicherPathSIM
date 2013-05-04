@@ -6,8 +6,8 @@ from collections import defaultdict
 
 import texttable
 
-from experiment.real.four_area.helper.Helper import getMetaPathAdjacencyData, findMostSimilarNodes, \
-    getNeighborSimScore
+from experiment.real.four_area.helper.MetaPathHelper import findMostSimilarNodes, getMetaPathAdjacencyData
+from experiment.real.four_area.helper.PathSimHelper import getNeighborSimScore
 
 
 __author__ = 'jontedesco'
