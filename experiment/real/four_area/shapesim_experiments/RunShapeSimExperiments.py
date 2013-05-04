@@ -1,11 +1,14 @@
 from experiment.real.four_area.shapesim_experiments import AuthorsShapeSimCPPAExperiment, \
-    AuthorsShapeSimCPPAOmitCPExperiment, ConferencesShapeSimTPPCExperiment, ConferencesShapeSimTPPCExperimentRelative
+    AuthorsShapeSimCPPAOmitCPExperiment, ConferencesShapeSimTPPCExperiment, ConferencesShapeSimTPPCExperimentRelative, \
+    AuthorsShapeSimCPPARelativeExperiment
 
 __author__ = 'jontedesco'
 
 # Standalone experiments
 print("Running ShapeSim CPPA experiment:")
 citationCounts, publicationCounts, conferenceCitations, conferencePublications = AuthorsShapeSimCPPAExperiment.run()
+print("Running ShapeSim (Relative) CPPA experiment (omit CPC):")
+AuthorsShapeSimCPPARelativeExperiment.run(citationCounts, publicationCounts)
 print("Running ShapeSim CPPA experiment (omit CPC):")
 AuthorsShapeSimCPPAOmitCPExperiment.run(citationCounts, publicationCounts)
 print("Running ShapeSim TPPC experiment:")
