@@ -1,0 +1,85 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{127} & \textbf{1} \\
+2 & Hans-Peter Kriegel & 617 & 102 & 0.990 \\
+3 & Rajeev Motwani & 542 & 36 & 0.984 \\
+4 & Ramakrishnan Srikant & 696 & 34 & 0.975 \\
+5 & H. V. Jagadish & 546 & 106 & 0.958 \\
+6 & Raghu Ramakrishnan & 652 & 95 & 0.957 \\
+7 & Philip S. Yu & 556 & 216 & 0.950 \\
+8 & Jennifer Widom & 726 & 64 & 0.944 \\
+9 & Divesh Srivastava & 464 & 103 & 0.937 \\
+10 & Yannis E. Ioannidis & 439 & 50 & 0.928 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{105} & \textbf{1} \\
+2 & Jiawei Han & 665 & 168 & 0.894 \\
+3 & Jeffrey F. Naughton & 801 & 85 & 0.858 \\
+4 & David J. DeWitt & 876 & 74 & 0.841 \\
+5 & Raghu Ramakrishnan & 652 & 95 & 0.817 \\
+6 & Philip S. Yu & 556 & 216 & 0.804 \\
+7 & Jennifer Widom & 726 & 64 & 0.769 \\
+8 & Christos Faloutsos & 634 & 127 & 0.764 \\
+9 & Ramakrishnan Srikant & 696 & 34 & 0.733 \\
+10 & H. V. Jagadish & 546 & 106 & 0.730 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{7} & \textbf{1} \\
+2 & Tian Zhang & 127 & 4 & 0.993 \\
+3 & Ming-Syan Chen & 116 & 61 & 0.982 \\
+4 & Wei Wang & 135 & 83 & 0.980 \\
+5 & Ke Wang & 114 & 55 & 0.980 \\
+6 & Prabhakar Raghavan & 195 & 24 & 0.972 \\
+7 & Xifeng Yan & 113 & 31 & 0.967 \\
+8 & Roberto J. Bayardo Jr. & 142 & 16 & 0.967 \\
+9 & Hannu Toivonen & 120 & 18 & 0.964 \\
+10 & Heikki Mannila & 131 & 63 & 0.958 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{216} & \textbf{1} \\
+2 & Jiawei Han & 665 & 168 & 0.973 \\
+3 & Ramakrishnan Srikant & 696 & 34 & 0.972 \\
+4 & Christos Faloutsos & 634 & 127 & 0.950 \\
+5 & Hans-Peter Kriegel & 617 & 102 & 0.936 \\
+6 & Rajeev Motwani & 542 & 36 & 0.903 \\
+7 & Raghu Ramakrishnan & 652 & 95 & 0.882 \\
+8 & H. V. Jagadish & 546 & 106 & 0.849 \\
+9 & Jennifer Widom & 726 & 64 & 0.842 \\
+10 & Divesh Srivastava & 464 & 103 & 0.806 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]& NeighborSim Score\\
+\hline
+\textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{26} & \textbf{1} \\
+2 & Henry F. Korth & 115 & 32 & 0.988 \\
+3 & Shaul Dar & 88 & 12 & 0.986 \\
+4 & Praveen Seshadri & 100 & 21 & 0.985 \\
+5 & Gultekin ?zsoyoglu & 79 & 21 & 0.985 \\
+6 & Jun Yang & 93 & 34 & 0.985 \\
+7 & Waqar Hasan & 85 & 8 & 0.984 \\
+8 & Ashraf Aboulnaga & 71 & 16 & 0.983 \\
+9 & Swarup Acharya & 102 & 10 & 0.983 \\
+10 & Wen-Chi Hou & 67 & 11 & 0.983 \\

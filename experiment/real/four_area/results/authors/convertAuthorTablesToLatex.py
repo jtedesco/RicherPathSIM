@@ -10,7 +10,8 @@ middleNoPubsTemplate = '%d & %s & %s &  %s \\\\\n'
 showPublications = True
 
 for filename in os.listdir('.'):
-    if 'PathSim' not in filename and 'NeighborSim' not in filename: continue
+    if 'PathSim' not in filename and 'NeighborSim' not in filename and 'ShapeSim' not in filename:
+        continue
     measure = 'PathSim' if 'PathSim' in filename else 'NeighborSim'
     content = open(filename).read()
     latexContent = ""
