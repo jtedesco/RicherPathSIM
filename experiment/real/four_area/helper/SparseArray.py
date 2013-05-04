@@ -37,6 +37,12 @@ class SparseArray(object):
             
 
     def __eq__(self, other):
+        print "__eq__"
+        print self.shape == other.shape
+        print self.dtype == other.dtype
+        print self.__default == other.__default
+        print self.__data == other.__data
+        print "end __eq__"
         return (self.shape == other.shape and self.dtype == other.dtype and self.__default == other.__default
                 and self.__data == other.__data)
 
