@@ -25,13 +25,13 @@ Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{105}  \\
 2 & Ramakrishnan Srikant & 696 & 34  \\
 3 & Dimitrios Gunopulos & 264 & 46  \\
-4 & Jiawei Han & 665 & 168  \\
-5 & Philip S. Yu & 556 & 216  \\
+4 & Philip S. Yu & 556 & 216  \\
+5 & Jiawei Han & 665 & 168  \\
 6 & Prabhakar Raghavan & 195 & 24  \\
 7 & Raghu Ramakrishnan & 652 & 95  \\
 8 & Arun N. Swami & 404 & 15  \\
 9 & Jian Pei & 270 & 70  \\
-10 & Johannes Gehrke & 320 & 56  \\
+10 & Rajeev Motwani & 542 & 36  \\
 \hline
 \end{tabular}
 
@@ -40,15 +40,15 @@ Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \hline
 \textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{7}  \\
-2 & Roberto J. Bayardo Jr. & 142 & 16  \\
-3 & King-Ip Lin & 102 & 7  \\
+2 & King-Ip Lin & 102 & 7  \\
+3 & Roberto J. Bayardo Jr. & 142 & 16  \\
 4 & Laks V. S. Lakshmanan & 214 & 54  \\
 5 & Harpreet S. Sawhney & 57 & 6  \\
-6 & Alex Pang & 57 & 2  \\
-7 & Giansalvatore Mecca & 68 & 14  \\
-8 & Paolo Merialdo & 66 & 10  \\
-9 & Peter Buneman & 161 & 24  \\
-10 & Shalom Tsur & 96 & 12  \\
+6 & Peter Buneman & 161 & 24  \\
+7 & Kevin Chen-Chuan Chang & 112 & 32  \\
+8 & Jeffrey D. Ullman & 438 & 43  \\
+9 & Svetlozar Nestorov & 60 & 5  \\
+10 & Alex Pang & 57 & 2  \\
 \hline
 \end{tabular}
 
@@ -58,14 +58,14 @@ Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \hline
 \textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{216}  \\
 2 & Raghu Ramakrishnan & 652 & 95  \\
-3 & Jiawei Han & 665 & 168  \\
-4 & Rakesh Agrawal & 1511 & 105  \\
+3 & Rakesh Agrawal & 1511 & 105  \\
+4 & Jiawei Han & 665 & 168  \\
 5 & Dimitrios Gunopulos & 264 & 46  \\
 6 & Christos Faloutsos & 634 & 127  \\
 7 & Pedro Domingos & 291 & 47  \\
-8 & Rajeev Motwani & 542 & 36  \\
-9 & Jian Pei & 270 & 70  \\
-10 & Arun N. Swami & 404 & 15  \\
+8 & Arun N. Swami & 404 & 15  \\
+9 & Rajeev Motwani & 542 & 36  \\
+10 & Jian Pei & 270 & 70  \\
 \hline
 \end{tabular}
 
@@ -74,12 +74,12 @@ Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
 \hline
 \textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{26}  \\
-2 & Jayant Madhavan & 98 & 10  \\
-3 & Alon Y. Halevy & 236 & 34  \\
-4 & Erhard Rahm & 89 & 16  \\
-5 & Daniel S. Weld & 145 & 40  \\
-6 & Amit P. Sheth & 61 & 37  \\
-7 & Jun Zhang & 24 & 12  \\
-8 & Daniela Florescu & 159 & 29  \\
-9 & Surajit Chaudhuri & 581 & 96  \\
+2 & Alon Y. Halevy & 236 & 34  \\
+3 & Erhard Rahm & 89 & 16  \\
+4 & Jayant Madhavan & 98 & 10  \\
+5 & Jun Zhang & 24 & 12  \\
+6 & Daniel S. Weld & 145 & 40  \\
+7 & Amit P. Sheth & 61 & 37  \\
+8 & Surajit Chaudhuri & 581 & 96  \\
+9 & Daniela Florescu & 159 & 29  \\
 10 & Dimitris Papadias & 114 & 42  \\

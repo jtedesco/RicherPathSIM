@@ -1,0 +1,85 @@
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
+\hline
+\textbf{1} & \textbf{Christos Faloutsos} & \textbf{634} & \textbf{127}  \\
+2 & Raghu Ramakrishnan & 652 & 95  \\
+3 & Philip S. Yu & 556 & 216  \\
+4 & Jennifer Widom & 726 & 64  \\
+5 & H. V. Jagadish & 546 & 106  \\
+6 & Hans-Peter Kriegel & 617 & 102  \\
+7 & Nick Koudas & 351 & 79  \\
+8 & Hector Garcia-Molina & 613 & 98  \\
+9 & Divesh Srivastava & 464 & 103  \\
+10 & Rajeev Motwani & 542 & 36  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
+\hline
+\textbf{1} & \textbf{Rakesh Agrawal} & \textbf{1511} & \textbf{105}  \\
+2 & Jiawei Han & 665 & 168  \\
+3 & Philip S. Yu & 556 & 216  \\
+4 & Raghu Ramakrishnan & 652 & 95  \\
+5 & Ramakrishnan Srikant & 696 & 34  \\
+6 & Christos Faloutsos & 634 & 127  \\
+7 & Hans-Peter Kriegel & 617 & 102  \\
+8 & Rajeev Motwani & 542 & 36  \\
+9 & Jennifer Widom & 726 & 64  \\
+10 & H. V. Jagadish & 546 & 106  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
+\hline
+\textbf{1} & \textbf{Sergey Brin} & \textbf{166} & \textbf{7}  \\
+2 & Roberto J. Bayardo Jr. & 142 & 16  \\
+3 & King-Ip Lin & 102 & 7  \\
+4 & Hannu Toivonen & 120 & 18  \\
+5 & Shalom Tsur & 96 & 12  \\
+6 & Ming-Syan Chen & 116 & 61  \\
+7 & Craig Silverstein & 84 & 5  \\
+8 & Piotr Indyk & 154 & 9  \\
+9 & Heikki Mannila & 131 & 63  \\
+10 & Shamkant B. Navathe & 114 & 38  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
+\hline
+\textbf{1} & \textbf{Philip S. Yu} & \textbf{556} & \textbf{216}  \\
+2 & Jiawei Han & 665 & 168  \\
+3 & Christos Faloutsos & 634 & 127  \\
+4 & Raghu Ramakrishnan & 652 & 95  \\
+5 & Rakesh Agrawal & 1511 & 105  \\
+6 & Rajeev Motwani & 542 & 36  \\
+7 & Hector Garcia-Molina & 613 & 98  \\
+8 & H. V. Jagadish & 546 & 106  \\
+9 & Hans-Peter Kriegel & 617 & 102  \\
+10 & Jian Pei & 270 & 70  \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rank & Author & Citations \footnotemark[1] & Publications \footnotemark[1]\\
+\hline
+\textbf{1} & \textbf{AnHai Doan} & \textbf{118} & \textbf{26}  \\
+2 & Erhard Rahm & 89 & 16  \\
+3 & Jayant Madhavan & 98 & 10  \\
+4 & Anant Jhingran & 92 & 14  \\
+5 & Daniel S. Weld & 145 & 40  \\
+6 & Daniela Florescu & 159 & 29  \\
+7 & Venkatesh Ganti & 124 & 21  \\
+8 & Dimitris Papadias & 114 & 42  \\
+9 & Alon Y. Halevy & 236 & 34  \\
+10 & Eric Simon & 81 & 19  \\
