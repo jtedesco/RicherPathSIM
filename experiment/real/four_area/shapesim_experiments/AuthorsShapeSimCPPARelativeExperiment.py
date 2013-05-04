@@ -19,7 +19,7 @@ class AuthorsShapeSimCPPARelativeExperiment(Experiment):
 
         # Find the top 10 most similar nodes to some given node
         mostSimilar, similarityScores = findMostSimilarNodes(
-            adjTensor, author, extraData, method=getShapeSimScore, alpha=0.0, omit=[]
+            adjTensor, author, extraData, method=getShapeSimScore, alpha=0.0, omit=[0]
         )
         self.output('Most Similar to "%s":' % author)
         mostSimilarTable = texttable.Texttable()
