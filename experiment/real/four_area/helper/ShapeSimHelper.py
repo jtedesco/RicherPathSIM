@@ -29,25 +29,17 @@ def getShapeSimScore(adjacencyTensor, xI, yI, alpha=1.0, omit=list()):
 
         # Calculate PathSim normalized cosine similarity on the original tensor
         dotProduct = sum([adjacencyTensor[row, xI, z] * adjacencyTensor[row, yI, z] for row in xrange(numTensorRows)])
-
-        # Abort if dot product is zero, since all similarity will then be zero
-        if dotProduct == 0:
-            return 0
-
         xProduct = sum([adjacencyTensor[row, xI, z] * adjacencyTensor[row, xI, z] for row in xrange(numTensorRows)])
         yProduct = sum([adjacencyTensor[row, yI, z] * adjacencyTensor[row, yI, z] for row in xrange(numTensorRows)])
         absSim *= (2 * dotProduct) / float(xProduct + yProduct)
 
-        # Calculate PathSim normalized cosine similarity on the normalized tensor (with unit vectors)
-        normDot, normXDot, normYDot = 0.0, 0.0, 0.0
-        for row in xrange(numTensorRows):
-            normProd = adjacencyTensor[row, xI, z] * adjacencyTensor[row, yI, z]
-            normDot += (0 if normProd == 0 else normProd / (xRowSums[row] * yRowSums[row]))
-            normXProd = adjacencyTensor[row, xI, z] ** 2
-            normXDot += (0 if normProd == 0 else normXProd / xRowSums[row] ** 2)
-            normYProd = adjacencyTensor[row, yI, z] ** 2
-            normYDot += (0 if normYProd == 0 else normYProd / yRowSums[row] ** 2)
-        relSim *= (2 * normDot) / float(xProduct + yProduct)
+        # Calculate relative / normalized dot cosine similarity
+        xNormalized = [0 if adjacencyTensor[row, xI, z] == 0 else adjacencyTensor[row, xI, z] / xRowSums[row] for row in xrange(numTensorRows)]
+        yNormalized = [0 if adjacencyTensor[row, yI, z] == 0 else adjacencyTensor[row, yI, z] / yRowSums[row] for row in xrange(numTensorRows)]
+        normalizedDotProduct = sum([xNormalized[row] * yNormalized[row] for row in xrange(numTensorRows)])
+        xDotProduct = sum([xNormalized[row] * xNormalized[row] for row in xrange(numTensorRows)])
+        yDotProduct = sum([yNormalized[row] * yNormalized[row] for row in xrange(numTensorRows)])
+        relSim *= (2 * normalizedDotProduct) / float(xDotProduct + yDotProduct)
 
     return (alpha * absSim) + ((1 - alpha) * relSim)
 
