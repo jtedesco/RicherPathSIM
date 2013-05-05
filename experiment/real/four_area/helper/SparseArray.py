@@ -13,9 +13,8 @@ class SparseArray(object):
     """ Class for n-dimensional sparse array objects using
         Python's dictionary structure.
     """
-    def __init__(self, shape, default=0, dtype=float):
+    def __init__(self, shape, dtype=float):
         
-        self.__default = default #default value of non-assigned elements
         self.shape = tuple(shape)
         self.ndim = len(shape)
         self.dtype = dtype
@@ -28,7 +27,8 @@ class SparseArray(object):
 
     def __getitem__(self, index):
         """ get value at position given in index, where index is a tuple. """
-        return self.__data.get(index, self.__default)
+        return self.__data[index] if index in self.__data else 0
+        # return self.__data.get(index, 0)
 
     def __delitem__(self, index):
         """ index is tuples of element to be deleted. """
@@ -40,11 +40,9 @@ class SparseArray(object):
         print "__eq__"
         print self.shape == other.shape
         print self.dtype == other.dtype
-        print self.__default == other.__default
         print self.__data == other.__data
         print "end __eq__"
-        return (self.shape == other.shape and self.dtype == other.dtype and self.__default == other.__default
-                and self.__data == other.__data)
+        return (self.shape == other.shape and self.dtype == other.dtype and self.__data == other.__data)
 
 
     def __add__(self, other):
@@ -55,9 +53,8 @@ class SparseArray(object):
             out.__data = self.__data.copy()
             for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                 out.__data[k] = out.__data[k] + other.__default
-            out.__default = self.__default + other.__default
             for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
+                old_val = out.__data.setdefault(k,0)
                 out.__data[k] = old_val + other.__data[k]        
             return out
         else:
@@ -71,9 +68,8 @@ class SparseArray(object):
             out.__data = self.__data.copy()
             for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                 out.__data[k] = out.__data[k] - other.__default
-            out.__default = self.__default - other.__default
             for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
+                old_val = out.__data.setdefault(k,0)
                 out.__data[k] = old_val - other.__data[k]        
             return out
         else:
@@ -87,9 +83,8 @@ class SparseArray(object):
             out.__data = self.__data.copy()
             for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                 out.__data[k] = out.__data[k] * other.__default
-            out.__default = self.__default * other.__default
             for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
+                old_val = out.__data.setdefault(k,0)
                 out.__data[k] = old_val * other.__data[k]        
             return out
         else:
@@ -104,9 +99,8 @@ class SparseArray(object):
             out.__data = self.__data.copy()
             for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                 out.__data[k] = out.__data[k] / other.__default
-            out.__default = self.__default / other.__default
             for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
+                old_val = out.__data.setdefault(k,0)
                 out.__data[k] = old_val / other.__data[k]        
             return out
         else:
@@ -121,9 +115,8 @@ class SparseArray(object):
             out.__data = self.__data.copy()
             for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                 out.__data[k] = out.__data[k] / other.__default
-            out.__default = self.__default / other.__default
             for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
+                old_val = out.__data.setdefault(k,0)
                 out.__data[k] = old_val / other.__data[k]        
             return out
         else:
@@ -137,9 +130,8 @@ class SparseArray(object):
             out.__data = self.__data.copy()
             for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                 out.__data[k] = out.__data[k] // other.__default
-            out.__default = self.__default // other.__default
             for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
+                old_val = out.__data.setdefault(k,0)
                 out.__data[k] = old_val // other.__data[k]        
             return out
         else:
@@ -153,9 +145,8 @@ class SparseArray(object):
             out.__data = self.__data.copy()
             for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                 out.__data[k] = out.__data[k] % other.__default
-            out.__default = self.__default % other.__default
             for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
+                old_val = out.__data.setdefault(k,0)
                 out.__data[k] = old_val % other.__data[k]        
             return out
         else:
@@ -169,9 +160,8 @@ class SparseArray(object):
             out.__data = self.__data.copy()
             for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                 out.__data[k] = out.__data[k] ** other.__default
-            out.__default = self.__default ** other.__default
             for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
+                old_val = out.__data.setdefault(k,0)
                 out.__data[k] = old_val ** other.__data[k]        
             return out
         else:
@@ -182,9 +172,8 @@ class SparseArray(object):
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] + other.__default
-            self.__default = self.__default + other.__default
             for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
+                old_val = self.__data.setdefault(k,0)
                 self.__data[k] = old_val + other.__data[k]        
             return self
         else:
@@ -195,9 +184,8 @@ class SparseArray(object):
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] - other.__default
-            self.__default = self.__default - other.__default
             for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
+                old_val = self.__data.setdefault(k,0)
                 self.__data[k] = old_val - other.__data[k]        
             return self
         else:
@@ -208,9 +196,8 @@ class SparseArray(object):
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] * other.__default
-            self.__default = self.__default * other.__default
             for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
+                old_val = self.__data.setdefault(k,0)
                 self.__data[k] = old_val * other.__data[k]        
             return self
         else:
@@ -221,9 +208,8 @@ class SparseArray(object):
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] / other.__default
-            self.__default = self.__default / other.__default
             for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
+                old_val = self.__data.setdefault(k,0)
                 self.__data[k] = old_val / other.__data[k]        
             return self
         else:
@@ -234,9 +220,8 @@ class SparseArray(object):
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] / other.__default
-            self.__default = self.__default / other.__default
             for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
+                old_val = self.__data.setdefault(k,0)
                 self.__data[k] = old_val / other.__data[k]        
             return self
         else:
@@ -247,9 +232,8 @@ class SparseArray(object):
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] // other.__default
-            self.__default = self.__default // other.__default
             for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
+                old_val = self.__data.setdefault(k,0)
                 self.__data[k] = old_val // other.__data[k]        
             return self
         else:
@@ -260,9 +244,8 @@ class SparseArray(object):
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] % other.__default
-            self.__default = self.__default % other.__default
             for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
+                old_val = self.__data.setdefault(k,0)
                 self.__data[k] = old_val % other.__data[k]        
             return self
         else:
@@ -273,9 +256,8 @@ class SparseArray(object):
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] ** other.__default
-            self.__default = self.__default ** other.__default
             for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
+                old_val = self.__data.setdefault(k,0)
                 self.__data[k] = old_val ** other.__data[k]        
             return self
         else:
@@ -286,86 +268,14 @@ class SparseArray(object):
 
     def dense(self):
         """ Convert to dense NumPy array. """
-        out = self.__default * numpy.ones(self.shape)
+        out = numpy.zeros(self.shape)
         for ind in self.__data:
             out[ind] = self.__data[ind]
         return out
 
     def sum(self):
         """ Sum of elements."""
-        s = self.__default * numpy.array(self.shape).prod()
+        s = 0 * numpy.array(self.shape).prod()
         for ind in self.__data:
-            s += (self.__data[ind] - self.__default)
+            s += (self.__data[ind] - 0)
         return s
-
-
-if __name__ == "__main__":
-    
-    #test cases
-
-    A = SparseArray((3,3,3))
-    A[2,2,0] = 10
-    print A.shape, A.ndim, A[2,2,1], A[2,2,0]
-
-    #create a sparse array
-    A = SparseArray((3,3))
-    print 'shape =', A.shape, 'ndim =', A.ndim
-    A[(1,1)] = 10
-    A[2,2] = 10
-    
-    #access an element
-    print A[2,2]
-    print A[:,1]
-
-    print 'remove an element...'
-    print A
-    del(A[2,2])
-    print A
-    
-    print 'array with different default value...'
-    B = SparseArray((3,3),default=3)
-    print B
-
-    print 'adding...'
-    print A+A
-    print A+B
-    print B+B
-    
-    print 'subtracting...'
-    print A-A
-    print A-B
-    print B-B
-    
-    print 'multiplication...'
-    print A*A
-    print A*B
-    print B*B
-    
-    print 'division...'
-    print A/B
-    print B/B
-    
-    print 'mod...'
-    print B%B
-    print A%B
-    
-    print 'power...'
-    print A**B
-    
-    print 'iadd...'
-    A+=B
-    print A
-    A+=A
-    print A
-    
-    print 'sum of elements...'
-    print A.sum()
-    
-    print 'mix with NumPy arrays...'
-    print A.dense() * numpy.ones((3,3))
-    
-    print 'Frobenius norm...'
-    print sum( (A.dense().flatten()-B.dense().flatten())**2 )
-    print ((A-B)*(A-B)).sum()
-
-    
