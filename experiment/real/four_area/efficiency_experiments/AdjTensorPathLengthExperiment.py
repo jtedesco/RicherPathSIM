@@ -57,15 +57,15 @@ def run():
     # Experiments to run with meta path lengths (map of length to trial paths)
     p, a, t, c = 'paper', 'author', 'term', 'conference'
     metaPathLengthExperiments = {
-        3: [
-            [a, p, a],
-        ],
+#        3: [
+#            [a, p, a],
+#        ],
         4: [
             [a, p, p, a]
         ],
-        5: [
-            [a, p, a, p, a],
-        ],
+#        5: [
+#            [a, p, a, p, a],
+#        ],
         7: [
             [a, p, p, a, p, p, a]
         ],
@@ -94,27 +94,29 @@ def run():
 
             # TODO: Change number back to 10
 
+            print "Meta path: %s" % metaPath
+            print "Getting partial tensor"
             # Find the partial meta path adjacency list
             adjTensors, adjTensor = getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions)
-            partialTime = timeit.timeit(
-                lambda: getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions),
-                number=1
-            )
+            # partialTime = timeit.timeit(
+            #    lambda: getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions),
+            #    number=1
+            #)
 
             # Get the number of bytes to store partial adj tensor
-            bytesForTensor = sys.getsizeof(adjTensor, None)
+            #bytesForTensor = sys.getsizeof(adjTensor, None)
 
             # Multiply for full adj tensor
-            multiplyTime = timeit.timeit(lambda: multiplyFullAdjTensor(adjTensors, repetitions), number=1)
+            # multiplyTime = timeit.timeit(lambda: multiplyFullAdjTensor(adjTensors, repetitions), number=1)
 
-            print "About to test equality"
+            print "Getting full tensor"
             directFullTensor, extraData = getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath)
+            print "Multiplying partial tensor"
             multipliedFullTensor = multiplyFullAdjTensor(adjTensors, repetitions)
             print adjTensors[0] == directFullTensor
             print "meta path: %s, meta path part: %s, len of adj tensors: %s, repetitions: %d" % (
                 metaPath, metaPathPart, len(adjTensors), repetitions
             )
-            print directFullTensor == multipliedFullTensor
 
             # Output results
             # metaPathLengthExperimentResults[pathLength].append((
