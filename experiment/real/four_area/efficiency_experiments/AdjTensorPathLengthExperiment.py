@@ -1,7 +1,6 @@
 import cPickle
 import cProfile
 import os
-import sys
 import timeit
 from collections import defaultdict
 
@@ -83,7 +82,7 @@ def run():
     # Map of experiment length to experiment, which contains a tuple of average times
     metaPathLengthExperimentResults = defaultdict(list)
 
-    trials = 3
+    trials = 1
 
     for pathLength in sorted(metaPathLengthExperiments.keys()):
         for metaPath in metaPathLengthExperiments[pathLength]:
@@ -102,9 +101,6 @@ def run():
             )
             partialTime /= float(trials)
 
-            # Get the number of bytes to store partial adj tensor
-            bytesForTensor = sys.getsizeof(adjTensor, None)
-
             # Multiply for full adj tensor
             multiplyTime = timeit.timeit(lambda: multiplyFullAdjTensor(adjTensors, repetitions), number=trials)
             multiplyTime /= float(trials)
@@ -118,11 +114,9 @@ def run():
             print adjTensors[0] == directFullTensor
 
             # Output results
-            metaPathLengthExperimentResults[pathLength].append((
-                fullTime, partialTime, multiplyTime, bytesForTensor
-            ))
-            print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f, Bytes: %d  [%s]" % (
-                fullTime, partialTime, multiplyTime, bytesForTensor, ', '.join(metaPath)
+            metaPathLengthExperimentResults[pathLength].append((fullTime, partialTime, multiplyTime))
+            print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f, [%s]" % (
+                fullTime, partialTime, multiplyTime, ', '.join(metaPath)
             )
 
     cPickle.dump(metaPathLengthExperimentResults, open('results', 'w'))
