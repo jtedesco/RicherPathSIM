@@ -111,7 +111,7 @@ def getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath):
     toNodesIndex = {toNodes[i]: i for i in xrange(0, len(toNodes))}
 
     # Build the adjacency tensor
-    adjacencyTensor = SparseArray((len(fromNodesIndex), len(toNodesIndex), len(metaPath)))  # M x N x K tensor
+    adjacencyTensor = SparseArray((len(fromNodesIndex), len(toNodesIndex), len(metaPath)-1))  # M x N x K tensor
     for startNode in pathsMap:
         for endNode in pathsMap[startNode]:
             pathInstances = pathsMap[startNode][endNode]
