@@ -42,7 +42,7 @@ class SparseArray(object):
         print self.dtype == other.dtype
         print self.__data == other.__data
         print "end __eq__"
-        return (self.shape == other.shape and self.dtype == other.dtype and self.__data == other.__data)
+        return self.shape == other.shape and self.dtype == other.dtype and self.__data == other.__data
 
 
     def __add__(self, other):
