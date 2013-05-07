@@ -34,8 +34,6 @@ def multiplyAdjTensors(tensor1, tensor2):
     # For (a x b x c) and (d x e x f), should be new size of (a x d x (c + f))
     newTensor = SparseArray((tensor1.shape[0], tensor2.shape[1], (tensor1.shape[2] + tensor2.shape[2])))
 
-    print tensor1.shape, tensor2.shape, newTensor.shape
-
     for newRow in xrange(tensor1.shape[0]):
         for newCol in xrange(tensor2.shape[1]):
             for i in xrange(tensor1.shape[1]):
