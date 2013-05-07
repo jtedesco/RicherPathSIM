@@ -103,14 +103,6 @@ def run():
             multiplyTime = timeit.timeit(lambda: multiplyFullAdjTensor(adjTensors, repetitions), number=trials)
             multiplyTime /= float(trials)
 
-            # print "Getting full tensor"
-            directFullTensor, extraData = getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath)
-            print "Multiplying partial tensor"
-            profiler = cProfile.Profile()
-            profiler.runcall(multiplyFullAdjTensor, adjTensors, repetitions)
-            profiler.print_stats()
-            print adjTensors[0] == directFullTensor
-
             # Output results
             metaPathLengthExperimentResults[pathLength].append((fullTime, partialTime, multiplyTime))
             print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f, [%s]" % (
