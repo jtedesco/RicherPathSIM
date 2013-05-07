@@ -121,5 +121,43 @@ def run():
 
     cPickle.dump(metaPathLengthExperimentResults, open('results', 'w'))
 
+
+def runTest():
+    """
+      Run a simple multiplication example to check the correctness of tensor multiplication
+    """
+
+    def formatTensorString(tensor):
+
+        tensorOutput = []
+        for i in xrange(tensor.shape[0]):
+            tensorRow = []
+            for j in xrange(tensor.shape[1]):
+                partialString = '(%s)' % (','.join([str(tensor[i, j, k]) for k in xrange(tensor.shape[2])]))
+                partialString += ' ' * (20 - len(partialString))
+                tensorRow.append(partialString)
+            tensorOutput.append(' '.join(tensorRow))
+        return '\n'.join(tensorOutput)
+
+    inputTensor = SparseArray((4, 4, 2))
+    inputTensor[0, 1, 0] = 10
+    inputTensor[0, 1, 1] = 10
+    inputTensor[1, 0, 0] = 10
+    inputTensor[1, 0, 1] = 10
+    inputTensor[1, 2, 0] = 5
+    inputTensor[1, 2, 1] = 5
+    inputTensor[2, 1, 0] = 5
+    inputTensor[2, 1, 1] = 5
+    inputTensor[3, 0, 0] = 100
+    inputTensor[3, 0, 1] = 100
+    inputTensor[0, 3, 0] = 100
+    inputTensor[0, 3, 1] = 100
+
+    print "Input:"
+    print formatTensorString(inputTensor)
+    print '\n'
+    print formatTensorString(multiplyAdjTensors(inputTensor, inputTensor))
+
 if __name__ == '__main__':
-    run()
+    # run()
+    runTest()
