@@ -61,18 +61,18 @@ def run():
     # Experiments to run with meta path lengths (map of length to trial paths)
     p, a, t, c = 'paper', 'author', 'term', 'conference'
     metaPathLengthExperiments = {
-        3: [
-           [c, p, c],
-        ],
+        # 3: [
+        #    [c, p, c],
+        # ],
         5: [
            [c, p, c, p, c],
         ],
-        7: [
-           [c, p, c, p, c, p, c],
-        ],
-        9: [
-           [c, p, c, p, c, p, c, p, c],
-        ],
+        # 7: [
+        #    [c, p, c, p, c, p, c],
+        # ],
+        # 9: [
+        #    [c, p, c, p, c, p, c, p, c],
+        # ],
     }
 
     graph, nodeIndex = cPickle.load(open(os.path.join('..', 'data', 'graphWithCitations')))
@@ -100,16 +100,16 @@ def run():
             # partialTime /= float(trials)
 
             # Multiply for full adj tensor
-            multiplyTime = timeit.timeit(lambda: multiplyFullAdjTensor(adjTensors, repetitions), number=trials)
-            multiplyTime /= float(trials)
+            # multiplyTime = timeit.timeit(lambda: multiplyFullAdjTensor(adjTensors, repetitions), number=trials)
+            # multiplyTime /= float(trials)
 
             # print "Getting full tensor"
             directFullTensor, extraData = getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath)
             print "Multiplying partial tensor"
             profiler = cProfile.Profile()
-            profiler.runcall(multiplyFullAdjTensor, adjTensors, repetitions)
+            multipliedFullTensor = profiler.runcall(multiplyFullAdjTensor, adjTensors, repetitions)
             profiler.print_stats()
-            equal = adjTensor == directFullTensor
+            equal = multipliedFullTensor == directFullTensor
             print equal
             if not equal:
                 with open('directcomp', 'w') as f:
