@@ -43,8 +43,8 @@ class SparseArray(object):
         for i in xrange(0, self.shape[0]):
             for j in xrange(0, self.shape[1]):
                 for k in xrange(0, self.shape[2]):
-                    if self.__data[i, j, k] != other.__data[i, j, k]:
-                        print "(%d, %d, %d) not equal. Self: %d, other: %d" % (i, j, k, self.__data[i, j, k], other.__data[i, j, k])
+                    if self[i, j, k] != other[i, j, k]:
+                        print "(%d, %d, %d) not equal. Self: %d, other: %d" % (i, j, k, self[i, j, k], other[i, j, k])
                         dataEqual = False
         print "end __eq__"
         return self.shape == other.shape and self.dtype == other.dtype and dataEqual
