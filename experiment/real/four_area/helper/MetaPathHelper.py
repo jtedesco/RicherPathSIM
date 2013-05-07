@@ -43,9 +43,7 @@ def buildPathsMap(graph, metaPath, nodeIndex):
         for startNode in pathsMap:
             for path in pathsMap[startNode]:
                 for neighbor in graph.successors(path[-1]):
-
-                    # Do not check for repeated nodes... (could result in infinite loop?)
-                    if neighbor in eligibleNodes:
+                    if neighbor in eligibleNodes:  # Do not check for repeated nodes
                         nextPathsMap[startNode].append(path + [neighbor])
 
         pathsMap = nextPathsMap
