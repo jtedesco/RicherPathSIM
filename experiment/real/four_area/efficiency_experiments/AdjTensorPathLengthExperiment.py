@@ -149,5 +149,5 @@ def runTest():
     print formatTensorString(multiplyAdjTensors(inputTensor, inputTensor))
 
 if __name__ == '__main__':
-    # run()
-    runTest()
+    run()
+    # runTest()
