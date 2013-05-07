@@ -86,18 +86,18 @@ def run():
         for metaPath in metaPathLengthExperiments[pathLength]:
 
             # Time getting adjacency tensor directly
-            fullTime = timeit.timeit(lambda: getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath), number=trials)
-            fullTime /= float(trials)
+            # fullTime = timeit.timeit(lambda: getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath), number=trials)
+            # fullTime /= float(trials)
 
             metaPathPart = [c, p, c] if metaPath[0] == c else [a, p, a]
             repetitions = ((len(metaPath) - 1) / 2)
 
             # Find the partial meta path adjacency list
             adjTensors, adjTensor = getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions)
-            partialTime = timeit.timeit(
-                lambda: getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions), number=trials
-            )
-            partialTime /= float(trials)
+            # partialTime = timeit.timeit(
+            #     lambda: getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions), number=trials
+            # )
+            # partialTime /= float(trials)
 
             # Multiply for full adj tensor
             multiplyTime = timeit.timeit(lambda: multiplyFullAdjTensor(adjTensors, repetitions), number=trials)
@@ -109,33 +109,39 @@ def run():
             profiler = cProfile.Profile()
             profiler.runcall(multiplyFullAdjTensor, adjTensors, repetitions)
             profiler.print_stats()
-            print adjTensors[0] == directFullTensor
+            equal = adjTensor == directFullTensor
+            print equal
+            if not equal:
+                with open('directcomp', 'w') as f:
+                    f.write(formatTensorString(directFullTensor))
+                with open('partialcomp', 'w') as f:
+                    f.write(formatTensorString(adjTensor))
 
             # Output results
-            metaPathLengthExperimentResults[pathLength].append((fullTime, partialTime, multiplyTime))
-            print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f, [%s]" % (
-                fullTime, partialTime, multiplyTime, ', '.join(metaPath)
-            )
+            # metaPathLengthExperimentResults[pathLength].append((fullTime, partialTime, multiplyTime))
+            # print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f, [%s]" % (
+            #     fullTime, partialTime, multiplyTime, ', '.join(metaPath)
+            # )
 
     cPickle.dump(metaPathLengthExperimentResults, open('results', 'w'))
 
+
+def formatTensorString(tensor):
+
+    tensorOutput = []
+    for i in xrange(tensor.shape[0]):
+        tensorRow = []
+        for j in xrange(tensor.shape[1]):
+            partialString = '(%s)' % (','.join([str(tensor[i, j, k]) for k in xrange(tensor.shape[2])]))
+            partialString += ' ' * (20 - len(partialString))
+            tensorRow.append(partialString)
+        tensorOutput.append(' '.join(tensorRow))
+    return '\n'.join(tensorOutput)
 
 def runTest():
     """
       Run a simple multiplication example to check the correctness of tensor multiplication
     """
-
-    def formatTensorString(tensor):
-
-        tensorOutput = []
-        for i in xrange(tensor.shape[0]):
-            tensorRow = []
-            for j in xrange(tensor.shape[1]):
-                partialString = '(%s)' % (','.join([str(tensor[i, j, k]) for k in xrange(tensor.shape[2])]))
-                partialString += ' ' * (20 - len(partialString))
-                tensorRow.append(partialString)
-            tensorOutput.append(' '.join(tensorRow))
-        return '\n'.join(tensorOutput)
 
     inputTensor = SparseArray((4, 4, 2))
     inputTensor[0, 1, 0] = 10
