@@ -115,7 +115,7 @@ def run():
                 with open('directcomp', 'w') as f:
                     f.write(formatTensorString(directFullTensor))
                 with open('partialcomp', 'w') as f:
-                    f.write(formatTensorString(adjTensor))
+                    f.write(formatTensorString(multipliedFullTensor))
 
             # Output results
             # metaPathLengthExperimentResults[pathLength].append((fullTime, partialTime, multiplyTime))
