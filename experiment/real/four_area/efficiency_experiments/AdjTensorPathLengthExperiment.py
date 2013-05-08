@@ -1,7 +1,6 @@
 import cPickle
 import cProfile
 import os
-import timeit
 from collections import defaultdict
 
 from experiment.real.four_area.helper.MetaPathHelper import getMetaPathAdjacencyTensorData
@@ -114,8 +113,10 @@ def run():
             if not equal:
                 with open('directcomp', 'w') as f:
                     f.write(formatTensorString(directFullTensor))
-                with open('partialcomp', 'w') as f:
+                with open('multcomp', 'w') as f:
                     f.write(formatTensorString(multipliedFullTensor))
+                with open('partialcomp', 'w') as f:
+                    f.write(formatTensorString(adjTensor))
 
             # Output results
             # metaPathLengthExperimentResults[pathLength].append((fullTime, partialTime, multiplyTime))
@@ -137,6 +138,7 @@ def formatTensorString(tensor):
             tensorRow.append(partialString)
         tensorOutput.append(' '.join(tensorRow))
     return '\n'.join(tensorOutput)
+
 
 def runTest():
     """
