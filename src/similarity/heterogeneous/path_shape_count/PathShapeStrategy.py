@@ -105,4 +105,7 @@ class PathShapeStrategy(MetaPathSimilarityStrategy):
         """
           Normalized cosine similarity as computed by PathSim
         """
-        return round(2 * vectorA.dot(vectorB) / float(vectorA.dot(vectorA) + vectorB.dot(vectorB)), 2)
+        num = 2 * vectorA.dot(vectorB)
+        if num == 0:
+            return 0
+        return round(num / float(vectorA.dot(vectorA) + vectorB.dot(vectorB)), 2)
