@@ -2,6 +2,7 @@ import cPickle
 import cProfile
 import os
 from collections import defaultdict
+import timeit
 
 from experiment.real.four_area.helper.MetaPathHelper import getMetaPathAdjacencyTensorData
 from experiment.real.four_area.helper.SparseArray import SparseArray
@@ -60,9 +61,9 @@ def run():
     # Experiments to run with meta path lengths (map of length to trial paths)
     p, a, t, c = 'paper', 'author', 'term', 'conference'
     metaPathLengthExperiments = {
-        # 3: [
-        #    [c, p, c],
-        # ],
+        3: [
+           [c, p, c],
+        ],
         5: [
            [c, p, c, p, c],
         ],
@@ -85,44 +86,28 @@ def run():
         for metaPath in metaPathLengthExperiments[pathLength]:
 
             # Time getting adjacency tensor directly
-            # fullTime = timeit.timeit(lambda: getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath), number=trials)
-            # fullTime /= float(trials)
+            fullTime = timeit.timeit(lambda: getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath), number=trials)
+            fullTime /= float(trials)
 
             metaPathPart = [c, p, c] if metaPath[0] == c else [a, p, a]
             repetitions = ((len(metaPath) - 1) / 2)
 
             # Find the partial meta path adjacency list
             adjTensors, adjTensor = getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions)
-            # partialTime = timeit.timeit(
-            #     lambda: getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions), number=trials
-            # )
-            # partialTime /= float(trials)
+            partialTime = timeit.timeit(
+                lambda: getPartialMetaPath(graph, metaPathPart, nodeIndex, repetitions), number=trials
+            )
+            partialTime /= float(trials)
 
             # Multiply for full adj tensor
-            # multiplyTime = timeit.timeit(lambda: multiplyFullAdjTensor(adjTensors, repetitions), number=trials)
-            # multiplyTime /= float(trials)
-
-            # print "Getting full tensor"
-            directFullTensor, extraData = getMetaPathAdjacencyTensorData(graph, nodeIndex, metaPath)
-            print "Multiplying partial tensor"
-            profiler = cProfile.Profile()
-            multipliedFullTensor = profiler.runcall(multiplyFullAdjTensor, adjTensors, repetitions)
-            profiler.print_stats()
-            equal = multipliedFullTensor == directFullTensor
-            print equal
-            if not equal:
-                with open('directcomp', 'w') as f:
-                    f.write(formatTensorString(directFullTensor))
-                with open('multcomp', 'w') as f:
-                    f.write(formatTensorString(multipliedFullTensor))
-                with open('partialcomp', 'w') as f:
-                    f.write(formatTensorString(adjTensor))
+            multiplyTime = timeit.timeit(lambda: multiplyFullAdjTensor(adjTensors, repetitions), number=trials)
+            multiplyTime /= float(trials)
 
             # Output results
-            # metaPathLengthExperimentResults[pathLength].append((fullTime, partialTime, multiplyTime))
-            # print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f, [%s]" % (
-            #     fullTime, partialTime, multiplyTime, ', '.join(metaPath)
-            # )
+            metaPathLengthExperimentResults[pathLength].append((fullTime, partialTime, multiplyTime))
+            print "Full Path: %.3f seconds, Partial Paths: %.3f seconds, Multiplication Only: %.3f, [%s]" % (
+                fullTime, partialTime, multiplyTime, ', '.join(metaPath)
+            )
 
     cPickle.dump(metaPathLengthExperimentResults, open('results', 'w'))
 
