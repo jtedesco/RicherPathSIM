@@ -80,7 +80,7 @@ def run():
     # Map of experiment length to experiment, which contains a tuple of average times
     metaPathLengthExperimentResults = defaultdict(list)
 
-    trials = 1
+    trials = 3
 
     for pathLength in sorted(metaPathLengthExperiments.keys()):
         for metaPath in metaPathLengthExperiments[pathLength]:
