@@ -20,7 +20,7 @@ class SampleGraphUtility(object):
     __nextId = 0
 
     @staticmethod
-    def constructSkewedCitationPublicationExample(introduceRandomness=True):
+    def constructSkewedCitationPublicationExample(introduceRandomness=True, citationsPublicationsParameter=None):
         """
           Build the graph for an example with skewed citation / publication count ratios
 
@@ -42,14 +42,17 @@ class SampleGraphUtility(object):
         conference = Conference(SampleGraphUtility.__getNextId(), 'KDD')
 
         # Citation & publication count configuration
-        citationsPublications = {
-            'Alice': (100, 10),
-            'Bob': (80, 10),
-            'Carol': (100, 100),
-            'Dave': (50, 10),
-            'Ed': (10, 10),
-            'Frank': (1000, 100)
-        }
+        if citationsPublicationsParameter is not None:
+            citationsPublications = citationsPublicationsParameter
+        else:
+            citationsPublications = {
+                'Alice': (100, 10),
+                'Bob': (80, 10),
+                'Carol': (100, 100),
+                'Dave': (50, 10),
+                'Ed': (10, 10),
+                'Frank': (1000, 100)
+            }
 
         actualCitationsPublications = defaultdict(lambda: (0, 0))
 
@@ -99,8 +102,12 @@ class SampleGraphUtility(object):
             # Add citations & publications to author
             authorPapers = addPapersToAuthor(publicationCount, authorMap[authorName])
             citationsPerPaper = citationCount / publicationCount
+            remainingCitationsPerPaper = citationCount % publicationCount
             for paper in authorPapers:
                 addCitationsToPaper(citationsPerPaper, paper, authorMap[authorName])
+                if actualCitationsPublications[authorMap[authorName]][0] < citationsPublications[authorName][0] \
+                        and remainingCitationsPerPaper > 0:
+                    addCitationsToPaper(remainingCitationsPerPaper, paper, authorMap[authorName])
 
         return graph, authorMap, conference, actualCitationsPublications
 
