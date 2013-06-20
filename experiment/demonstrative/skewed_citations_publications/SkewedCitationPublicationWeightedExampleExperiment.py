@@ -68,7 +68,7 @@ class SkewedCitationPublicationWeightedExampleExperiment(Experiment):
         self.outputSimilarityScores(authorMap, authors, pathSimStrategyPubs, 'APCPA PathSim')
         pathSimStrategyCits = NeighborSimStrategy(self.graph, [Conference, Paper, Paper, Author])
         self.outputSimilarityScores(authorMap, authors, pathSimStrategyCits, 'APPCPPA PathSim')
-        for w1, w2 in [(0.5, 0.5), (0.6, 0.4), (0.4, 0.6)]:
+        for w1, w2 in [(0.5, 0.5), (0.6, 0.4), (0.4, 0.6), (0.7, 0.3), (0.3, 0.7)]:
             combinedPathSimStrategy = AggregateSimilarityStrategy(
                 self.graph, [pathSimStrategyPubs, pathSimStrategyCits], [w1, w2]
             )
